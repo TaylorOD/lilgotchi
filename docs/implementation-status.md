@@ -4,8 +4,8 @@ Each stage gets its own branch and PR. Later branches may build on earlier work,
 
 | Stage | Status | Evidence and handoff |
 | --- | --- | --- |
-| 1. Standalone foundation | Implemented, browser review pending | 20 tests pass. Source hash, inventory, contact sheet and module handoff included |
-| 2. Widget and storage | Pending | Establish public element, frame channel and portable save interfaces |
+| 1. Standalone foundation | Implemented and browser checked | [PR 1](https://github.com/TaylorOD/lilgotchi/pull/1). Desktop and phone screenshots included |
+| 2. Widget and storage | Implemented and initial browser checks passed | 30 tests pass. Custom element, private channel, host saves, static build and three install examples |
 | 3. Default parity | Pending | Compare original actions and restore original presentation |
 | 4. Bounds and animation | Pending | Establish full frame and anchor contract |
 | 5. Slice family | Pending | Complete dough through secret adult artwork |
@@ -24,4 +24,10 @@ The demo and reference pages are ready for browser review. Screenshots and a PR 
 
 ## Remaining release limits
 
-The foundation is not the finished widget. Complete behavior parity, full custom art, bounds fixes, portable storage and the optional dialogue adapter remain pending. No live AI provider or personal site deployment is configured by this stage.
+The current build is not the finished widget. Complete behavior parity, full custom art, bounds fixes, shell polish and the optional dialogue adapter remain pending. No live AI provider or personal site deployment is configured by this stage.
+
+## Widget evidence
+
+The parent browser review verified opening, character switching, persisted selection after reload, two independent inline games under hostile CSS, separate origin loading and saving, and a duplicate key showing a read only notice. Export downloaded a valid save envelope. Progress survived navigation and reload. The 320 pixel drawer is usable, with nested scrolling left for shell polish. Full import interaction remains part of final integration review.
+
+Storage tests cover family isolation, writer ownership, stale revision rejection, expired leases, quota failure followed by further saves and reopen, blocked storage, preserved corrupt data and invalid imports. The build copies the static runtime and install examples without package dependencies.
