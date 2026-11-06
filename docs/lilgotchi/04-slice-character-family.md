@@ -46,3 +46,24 @@ Map every original frame key and composed reaction before coding. No missing key
 ## Acceptance
 
 Show all 12 identities together in a labeled contact sheet, then preview every frame at native and enlarged integer scale. All forms must be distinguishable by silhouette. Run the same evolution fixtures as Default and exercise each reaction in the widget. Inspect the dough hatch and secret adult at phone size. No frame loses toppings, limbs or outline pixels when it moves.
+
+## Implemented frame map
+
+The proposed names above are now display names. `pets/slice-sprites.js` supplies all 12 identities and 68 complete frozen matrices. Bodies use a 12 by 12 canvas and dough uses 12 by 10. The two idle poses keep their canvas and foot anchor while the foot stance and mouth change. Dough rises within its fixed canvas. The secret form keeps the full chef hat and mustache.
+
+| Reaction | Body and composition |
+| --- | --- |
+| Idle | idle1 and idle2 at the original cadence |
+| Happy, game win, cleaning | happy |
+| Sad, refusal, game loss | sad |
+| Eat | eat plus the shared meal at the original cadence |
+| Sleep | sleep with closed eyes plus shared zzz |
+| Sick and attention | idle plus shared skull or attention mark |
+| Discipline and medicine | eat plus the original action mark |
+| Evolve | eat with the original blank flash interval |
+| Death | Shared grave and angel |
+| Restart | Dough idle frames |
+
+The source IDs, branch conditions, clocks and save data remain unchanged. The status line, stats and evolution toast display Slice names. The egg indicator says DOUGH.
+
+The separate `/qa/slice.html` contact sheet labels every identity and frame at native and six times scale. `/qa/?pet=pizza` covers composed reactions. The automated art contract checks all keys, frozen matrices, palette values, distinct opaque silhouettes, different idle frames and stable anchors. The shared bounds suite checks every identity across 90 positions and 15 reactions, including four waste piles with sickness and attention. Browser acceptance is recorded in implementation-status.md after review.
