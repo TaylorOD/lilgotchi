@@ -31,7 +31,7 @@ These checks use a fixed clock and random sequence. They do not prove hardware p
 | Area | Work remaining |
 | --- | --- |
 | Original clipping | Corrected. EGG and needs are readable below the LCD. Complete bodies and effects remain on the 32 by 16 display |
-| Custom families | Slice dough, all distinct forms and reactions are implemented. Cyberpunk binary seed and full family are still pending |
+| Custom families | Slice and Cyberpunk provide all 12 identities and complete reaction frames. Original identity keys, evolution rules and shared effects remain unchanged |
 | Dialogue | The original optional AI feature is still awaiting its adapter |
 
 ## Review surface
@@ -41,3 +41,4 @@ Open `/qa/` locally to compare the pinned source with the fork at the same chara
 Parent browser review confirmed idle, lights off and stats layouts against the source and inspected the actual drawer in both themes. Desktop and phone screenshots are included under `pr-screenshots/default-*`.
 
 Do not change the reference file or weaken pixel checks to hide an unexpected difference. For a justified bounds fix, retain source comparisons and add a narrow documented exception with a zero clipping test.
+

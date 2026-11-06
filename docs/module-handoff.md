@@ -49,3 +49,9 @@ Keep source reference captures and final browser proof under `pr-screenshots/`. 
 `skins.js` selects the family and exports `characterName` for display labels. The game uses a family's optional sleep frame before the original idle fallback. Default has no sleep override and continues to match the source. Cyberpunk can follow these interfaces with its own art module, palette and names. Its existing placeholder remains unchanged in behavior.
 
 Review all Slice art at `/qa/slice.html`, then use `/qa/?pet=pizza` for composed reactions. QA files stay outside the release. Do not mutate published matrices because layout metadata caches by identity.
+
+## Cyberpunk integration
+
+`pets/cyberpunk-sprites.js` exports frozen `cyberpunkSprites`, `cyberpunkPalette` and `cyberpunkNames`. Binary Seed has two 12 by 10 boot frames with readable 01 glyphs. Every other identity has six 12 by 12 frames, including a closed visor sleep pose. Original identities, effects, care logic and evolution remain unchanged. Reduced motion retains the current stable boot frame through the existing render gate.
+
+Open `/qa/cyberpunk.html` for all 68 matrices at native and six times scale. Use `/qa/?pet=cyberpunk` to inspect composed reactions. Mainframe antennae and Wire cable are included in the full padded bounds. All art and rows are immutable. The robot placeholder is removed and Default and Slice keep their existing artwork.
