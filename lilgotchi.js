@@ -1,3 +1,6 @@
+import { visibleControl } from './widget/focus.js';
+import { lockPage, unlockPage } from './widget/scroll-lock.js';
+import { launcherArt } from './widget/launcher.js';
 import { SaveStore, families, legacyFamily, parseImport } from './widget/save-store.js';
 
 const asset = path => new URL(path,import.meta.url).href;
@@ -17,15 +20,15 @@ class LilGotchi extends HTMLElement {
     this.family=families.includes(requested)?requested:'default';
     this.inline=this.getAttribute('mode')==='inline';
     this.shadowRoot.innerHTML=`<link rel="stylesheet" href="${asset('./widget/shell.css')}">
-      <button class="launcher" aria-label="Open lilgotchi" aria-haspopup="dialog">🍕</button>
+      <button class="launcher" aria-label="Open lilgotchi" aria-haspopup="dialog">${launcherArt(this.family)}</button>
       <${this.inline?'section class="inline"':'dialog'} aria-label="lilgotchi">
-      <header><h2>lilgotchi</h2><button class="close" aria-label="Close lilgotchi">×</button></header>
-      <label class="chooser">Your pet <select aria-label="Character"><option value="default">Default</option><option value="slice">Slice</option><option value="cyberpunk">Cyberpunk</option></select></label>
+      <header><h2>lilgotchi</h2><button class="close" aria-label="Close lilgotchi">×</button>
+      <label class="chooser">Your pet <select aria-label="Character"><option value="default">Default</option><option value="slice">Slice</option><option value="cyberpunk">Cyberpunk</option></select></label></header>
       <div class="frame"></div><p class="status" role="status"></p>
-      <div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button><button class="retry" hidden>Try again</button></div>
+      <button class="retry" hidden>Try again</button><details><summary>Save and help</summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
-      <footer>Progress stays in this browser. <a href="${asset('./pets/NOTICE.md')}" target="_blank" rel="noopener">Credits</a></footer>
+      <footer>Progress stays in this browser. <a href="${asset('./pets/NOTICE.md')}" target="_blank" rel="noopener">Credits</a></footer></details>
       </${this.inline?'section':'dialog'}>`;
     this.panel=this.shadowRoot.querySelector(this.inline?'section':'dialog');
     this.select=this.shadowRoot.querySelector('select');
@@ -33,6 +36,12 @@ class LilGotchi extends HTMLElement {
     this.bind('.launcher','click',()=>this.open());
     this.bind('.close','click',()=>this.close());
     this.select.addEventListener('change',()=>this.setCharacter(this.select.value));
+    this.panel.addEventListener('keydown',event=>{
+      if(this.inline || event.key!=='Tab')return;
+      const controls=[...this.panel.querySelectorAll('button,select,summary,a,iframe')].filter(visibleControl);
+      if(event.shiftKey && this.shadowRoot.activeElement===controls[0]){event.preventDefault();controls.at(-1)?.focus();}
+      else if(!event.shiftKey && this.shadowRoot.activeElement===controls.at(-1)){event.preventDefault();controls[0]?.focus();}
+    });
     this.panel.addEventListener('cancel',event=>{event.preventDefault();this.close();});
     this.bind('.retry','click',()=>this.serial(async()=>{await this.unload();await this.mount();}));
     this.bind('.export','click',()=>this.exportSave());
@@ -42,20 +51,21 @@ class LilGotchi extends HTMLElement {
     this.bind('.confirm-import','click',()=>this.confirmImport());
     if(this.inline){this.shadowRoot.querySelector('.launcher').hidden=true;this.shadowRoot.querySelector('.close').hidden=true;this.open();}
   }
+  updateLauncher(){this.shadowRoot.querySelector('.launcher').innerHTML=launcherArt(this.family);}
   bind(selector,event,callback){this.shadowRoot.querySelector(selector).addEventListener(event,callback);}
   emit(name,detail={}){this.dispatchEvent(new CustomEvent(`lilgotchi:${name}`,{detail,bubbles:true,composed:true}));}
   serial(callback){this.queue=this.queue.then(callback).catch(error=>this.fail(error));return this.queue;}
-  status(text,error=false){const node=this.shadowRoot.querySelector('.status');node.textContent=text;node.classList.toggle('error',error);this.port?.postMessage({type:'save-status',text});}
+  status(text,error=false){const node=this.shadowRoot.querySelector('.status');if(node.textContent!==text)node.textContent=text;node.classList.toggle('error',error);}
   fail(error){this.select.value=this.family;this.status(error.message||'Could not load lilgotchi.',true);this.shadowRoot.querySelector('.retry').hidden=false;this.emit('error',{message:error.message||'Unknown error'});}
   open(){return this.serial(async()=>{
     if(!this.isConnected)return;
-    if(!this.inline && !this.panel.open)this.panel.showModal();
+    if(!this.inline && !this.panel.open){this.panel.showModal();lockPage(this);this.shadowRoot.querySelector('.close').focus();}
     if(!this.frame)await this.mount();
     this.emit('open',{character:this.family});
   });}
   close(){return this.serial(async()=>{
     await this.unload();
-    if(!this.inline){this.panel.close();this.shadowRoot.querySelector('.launcher').focus();}
+    if(!this.inline){this.panel.close();unlockPage(this);this.shadowRoot.querySelector('.launcher').focus();}
     this.emit('close',{character:this.family});
   });}
   setCharacter(family){
@@ -64,7 +74,7 @@ class LilGotchi extends HTMLElement {
       if(this.family===family)return;
       const visible=this.inline||this.panel.open;
       await this.unload();
-      this.family=family;this.select.value=family;this.store.preference('character',family);
+      this.family=family;this.updateLauncher();this.select.value=family;this.store.preference('character',family);
       this.shadowRoot.querySelector('.import').hidden=true;
       if(visible)await this.mount();
       this.emit('characterchange',{character:family});
@@ -85,6 +95,7 @@ class LilGotchi extends HTMLElement {
     if(!this.isConnected){this.store.release(this.family);return;}
     const frame=document.createElement('iframe');
     this.frame=frame;
+    frame.style.height='340px';
     frame.title=`${this.family} virtual pet game`;
     const url=new URL('./pets/game.html',import.meta.url);
     const nonce=crypto.randomUUID();
@@ -105,6 +116,10 @@ class LilGotchi extends HTMLElement {
   }
   receive(message,family){
     if(!message || family!==this.family || typeof message.type!=='string')return;
+    if(message.type==='scroll' && Number.isFinite(message.delta) && Math.abs(message.delta)<=1000){
+      if(this.inline)window.scrollBy(0,message.delta);else this.panel.scrollBy(0,message.delta);
+    }
+    if(message.type==='resize' && Number.isSafeInteger(message.height) && message.height>=100 && message.height<=1200 && this.frame)this.frame.style.height=`${message.height}px`;
     if(message.type==='save'){
       try{this.store.save(family,message.state);this.status(this.store.persistent?'Saved in this browser':'Progress lasts for this visit');}
       catch(error){this.fail(error);this.detachFrame();this.store.release(family);}
@@ -134,7 +149,7 @@ class LilGotchi extends HTMLElement {
   async unload(){await this.snapshot(true);this.detachFrame();this.store.release(this.family);}
   disconnectedCallback(){
     // Removal keeps the latest action save. The close method waits for its final snapshot.
-    this.detachFrame();this.store?.dispose();this.initialized=false;
+    unlockPage(this);this.detachFrame();this.store?.dispose();this.initialized=false;
   }
   exportSave(){return this.serial(async()=>{
     await this.snapshot();
@@ -160,7 +175,7 @@ class LilGotchi extends HTMLElement {
     if(!await this.store.acquire(data.family))throw new Error('Close this pet in the other window before importing.');
     try{
       this.store.replace(data.family,data.state);
-      this.family=data.family;this.select.value=data.family;this.store.preference('character',data.family);
+      this.family=data.family;this.updateLauncher();this.select.value=data.family;this.store.preference('character',data.family);
       this.shadowRoot.querySelector('.import').hidden=true;this.importData=null;
     }finally{this.store.release(data.family);}
     await this.mount();

@@ -24,7 +24,7 @@ The demo and reference pages are ready for browser review. Screenshots and a PR 
 
 ## Remaining release limits
 
-The current build is not the finished widget. Documented offline and embedding differences remain. Shell polish and the optional dialogue adapter are pending. No live AI provider or personal site deployment is configured by this stage.
+Documented offline and embedding differences remain. Shell browser review and the optional dialogue adapter are pending. No live AI provider or personal site deployment is configured by this stage.
 
 ## Widget evidence
 
@@ -49,3 +49,7 @@ The Default task adds exact source CSS and restored settings, palette and lights
 51 tests pass and the static build succeeds. Cyberpunk supplies 68 frozen complete frames across all 12 original identities. Coverage checks distinct silhouettes and expressions, readable binary glyphs in both boot frames, unchanged reaction feet and complete palette entries. Existing full composition sweeps and Default source comparisons pass without changed expectations. The contact sheet at /qa/cyberpunk.html shows every frame at native and six times scale. Parent browser review inspected every identity and frame, readable Binary Seed, and Wire and Mainframe with combined care indicators at desktop and 390 pixel phone sizes. Five screenshots are saved under pr-screenshots/cyberpunk*.jpg. The final display label update will be checked again during shell polish.
 
 
+
+## Shell polish
+
+The launcher uses actual family pixel art. A sticky drawer header, content sized frame and expandable save tools reduce clutter. Only the outer shell announces save status. Reset names the selected family. The demo introduces the playable pet and static install. 56 tests pass and the static build succeeds. Parent browser review checked Default, Slice, stats, Escape ordering, phone fit, reduced motion and landscape scrolling. It found and fixed page scroll locking and closed disclosure focus wrapping. Final keyboard review passed in both directions across the frame and collapsed save disclosure, and closing restores launcher focus. Desktop, launcher, phone and landscape screenshots are included. Import validation is tested, but browser upload remains unverified because local file access is blocked.

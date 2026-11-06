@@ -11,7 +11,7 @@ Ship a versioned static distribution that can be hosted anywhere. The first rele
 <lil-gotchi character="slice" storage-key="site-pet"></lil-gotchi>
 ```
 
-This is the target API, not a working install snippet yet. `character` accepts `default`, `slice` or `cyberpunk`. The selector includes all three by default. The default character is `default` when omitted.
+This is the supported API after copying the complete static build to that location. `character` accepts `default`, `slice` or `cyberpunk`. The selector includes all three by default. The default character is `default` when omitted.
 
 ## Widget structure
 
