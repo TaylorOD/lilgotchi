@@ -1,6 +1,7 @@
 import { C } from './constants.js';
 import { PF } from './font.js';
 import { SP, palette } from './skins.js';
+import { petType } from './storage.js';
 
 export class Renderer {
   constructor(canvas){
@@ -45,13 +46,13 @@ export class Renderer {
   }
   render(invert=false){
     const s=C.SCALE;
-    this.ctx.fillStyle=invert?'#030504':this.bg;
+    this.ctx.fillStyle=invert?(petType==='classic'?this.fg:'#030504'):this.bg;
     this.ctx.fillRect(0,0,this.w*s,this.h*s);
     this.ctx.fillStyle=invert?this.bg:this.fg;
     for(let y=0;y<this.h;y++)
       for(let x=0;x<this.w;x++)
         if(this.buf[y][x]) {
-          this.ctx.fillStyle = invert ? '#334038' : (palette[this.buf[y][x]] || this.fg);
+          this.ctx.fillStyle = invert ? (petType==='classic'?this.bg:'#334038') : (palette[this.buf[y][x]] || this.fg);
           this.ctx.fillRect(x*s+1,y*s+1,s-1,s-1);
         }
   }

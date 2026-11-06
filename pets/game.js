@@ -6,9 +6,10 @@ import { SoundManager } from './sound.js';
 import { Renderer } from './renderer.js';
 import { SP } from './skins.js';
 import { updateStatus } from './status.js';
+import { petType } from './storage.js';
 
 export class TamagotchiApp {
-  constructor(){
+  constructor(options={}){
     this.renderer=new Renderer(document.getElementById('lcd'));
     this.sound=new SoundManager();
     this.state=new GameState();
@@ -21,10 +22,18 @@ export class TamagotchiApp {
     this.gameDir=0;
     this.gamePhase='idle';
     this.toastTimer=null;
+    this.eink=options.eink===true;
+    this.onThemeChange=options.onThemeChange||(()=>{});
     this.init();
   }
 
-  applyTheme(){ this.renderer.updateColors(); }
+  applyTheme(){
+    document.documentElement.classList.toggle('eink',this.eink);
+    const toggle=document.getElementById('eink-toggle');
+    toggle.classList.toggle('on',this.eink);
+    toggle.setAttribute('aria-checked',String(this.eink));
+    this.renderer.updateColors();
+  }
 
   init(){
     this.applyTheme();
@@ -67,6 +76,10 @@ export class TamagotchiApp {
     document.getElementById('guess-right').addEventListener('click',()=>this.gameGuess(1));
 
     document.getElementById('settings-btn').addEventListener('click',()=>this.openOverlay('settings-overlay'));
+    document.getElementById('eink-toggle').addEventListener('click',()=>{
+      this.eink=!this.eink; this.applyTheme(); this.onThemeChange(this.eink);
+      this.toast(this.eink?'E-ink theme on':'Default theme');
+    });
     document.getElementById('reset-game-btn').addEventListener('click',()=>{
       if(confirm('Reset your Tamagotchi? This cannot be undone.')){
         this.state.clearSave(); this.state.reset(); this.animState=null; this.state.save();
@@ -129,7 +142,7 @@ export class TamagotchiApp {
         case 'medicine': disabled=!st.isSick; break;
         case 'clean': disabled=st.poopCount===0; break;
         case 'discipline': disabled=!st.isMisbehaving; break;
-        case 'stats': disabled=false; break;
+        case 'stats': disabled=st.stage==='egg'; break;
       }
       btn.classList.toggle('disabled',disabled);
       btn.disabled=disabled;
@@ -517,6 +530,7 @@ export class TamagotchiApp {
       // Show hatching progress bar
       const frac=(now-st.stageStartTime)/C.EGG_MS;
       R.drawBar(6,12,20,frac);
+      if(petType==='classic')R.drawText('EGG',11,14);
       R.render(); return;
     }
 
@@ -557,8 +571,10 @@ export class TamagotchiApp {
     if(st.isMisbehaving&&this.frame%40<20) R.drawText('!',1,8);
 
     // Mini hunger/happy indicators at bottom
-
-
+    if(petType==='classic') {
+      R.drawHearts(st.hunger,4,1,13);
+      R.drawHearts(st.happiness,4,1,8);
+    }
     R.render();
   }
 

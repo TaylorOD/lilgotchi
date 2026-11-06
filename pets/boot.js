@@ -7,13 +7,24 @@ let channel=null;
 let saved=null;
 let saveId=0;
 document.documentElement.dataset.pet=petType;
-function start(initial, muted=true) {
+document.documentElement.dataset.embedded=String(embedded);
+if(petType!=='classic') {
+  const style=document.createElement('link');
+  style.rel='stylesheet'; style.href=new URL('./custom-themes.css',import.meta.url).href;
+  const loaded=new Promise(resolve=>{style.onload=resolve;style.onerror=resolve;});
+  document.head.append(style); await loaded;
+  document.getElementById('eink-row').hidden=true;
+}
+function start(initial, muted=true, eink=false) {
   saved=initial;
   if(embedded) configureStorage({load:()=>saved,save:state=>{
     saved=state;
     channel.postMessage({type:'save',id:++saveId,state});
   }});
-  window.app=new TamagotchiApp();
+  window.app=new TamagotchiApp({eink:petType==='classic'&&eink,onThemeChange:value=>{
+    if(channel)channel.postMessage({type:'preference',name:'eink',value});
+    else try{localStorage.setItem('lilgotchi:eink',String(value));}catch{}
+  }});
   if(!muted) window.app.handleAction('mute');
   document.getElementById('mute-btn').addEventListener('click',()=>channel?.postMessage({type:'preference',name:'muted',value:window.app.sound.muted}));
   window.app.state.save();
@@ -36,10 +47,14 @@ if(embedded) {
       if(message.type==='save-status') document.getElementById('save-status').textContent=String(message.text||'').slice(0,160);
     };
     const initial=event.data.state;
-    start(validState(initial)?initial:null,event.data.muted!==false);
+    start(validState(initial)?initial:null,event.data.muted!==false,event.data.eink===true);
   };
   window.addEventListener('message',connect);
-} else start(null);
+} else {
+  let eink=false;
+  try{eink=localStorage.getItem('lilgotchi:eink')==='true';}catch{}
+  start(null,true,eink);
+}
 window.addEventListener('pagehide',()=>window.app?.state.save());
 window.restorePetSession=data=>{
   if(!window.app || !validState(data)) return;

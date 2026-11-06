@@ -24,6 +24,10 @@ The public entry is `lilgotchi.js`. It defines `<lil-gotchi>` and imports `widge
 
 `pets/boot.js` delays app creation until the host connection arrives. It handles `snapshot` requests, sends `save`, `ready`, `close` and sound `preference` messages, and receives `save-status`. Later dialogue support can extend this private protocol with validated message types. Public families map to the existing internal `classic`, `pizza` and `cyberpunk` values.
 
+Default also sends the boolean `eink` preference through that channel. `TamagotchiApp` accepts optional `{eink, onThemeChange}` constructor options. The host passes both sound and E ink preferences at connection. Direct game pages use a guarded local theme preference instead.
+
+`pets/game.css` is the complete original stylesheet and is checked against the pinned source. Keep embedding and accessible control differences in `pets/embed.css`. Custom families additionally load `pets/custom-themes.css` before starting the game. Do not put custom palette overrides back into the original stylesheet.
+
 The host owns all embedded persistence. Do not read parent DOM or parent localStorage from the iframe. `SaveStore` handles validation, locks, leases, revisions, export data and confirmed replacement backups. A later site migration should use this adapter instead of changing frame storage.
 
 Run `npm run build` to create the static distribution. `examples/nested/`, `examples/cross-origin.html` and `examples/duplicate.html` are the widget QA surfaces. Shell polish owns further accessibility and responsive improvements.
@@ -31,5 +35,9 @@ Run `npm run build` to create the static distribution. `examples/nested/`, `exam
 The source harness in `tests/upstream-harness.mjs` evaluates the original without booting the browser or performing network calls. It supplies a controlled Date and repeatable random sequence. Extend action comparisons there while keeping `reference/upstream.html` untouched.
 
 `reference/contact-sheet.html` is the initial original art review surface. Extend a separate QA page for family and stage selection, fixed animation frames and reaction fixtures. Production controls must not expose test time or state mutation.
+
+`qa/index.html` now supplies that separate review surface. Its controls select all original identities, reactions, frame and theme. `qa/fixtures.js` is shared with a frozen source view. `qa/frame.js` mounts the current game markup without production boot and uses a no save adapter. These files do not enter the release build. Later art agents can use the family selector directly.
+
+The exact Default screen comparison currently includes the original clipped EGG label and overlapping heart indicators. The bounds agent should correct those deliberately and record narrow comparison exceptions rather than deleting the parity suite. The raw sprite, font, paint and sound comparisons remain strict.
 
 Keep source reference captures and final browser proof under `pr-screenshots/`. Capture actual game areas at desktop and phone sizes before pushing visual work.
