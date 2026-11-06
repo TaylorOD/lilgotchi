@@ -37,3 +37,23 @@ Closing waits for a final state snapshot before removing the frame. Disconnectin
 Default retains the original presentation, with documented accessibility and bounds corrections. Slice and Cyberpunk include every life stage. Optional dialogue and personal site migration remain separate tasks. Browser file upload verification is limited by the test browser file access setting.
 
 The drawer keeps its header reachable while the game and save tools scroll together. The private frame channel reports bounded content heights, including open overlays. Save and help contains export and import. Escape closes a game overlay before closing the drawer. Closing returns focus to the launcher. Inline mode does not trap focus in the host page. Reduced motion removes the drawer entrance and decorative game movement.
+
+## Optional dialogue
+
+Set a callback before opening the widget. The callback returns plain text, at most 280 characters. The player then turns on personality dialogue in settings. With no callback, care works normally and no dialogue requests are made.
+
+```js
+const pet = document.querySelector('lil-gotchi');
+pet.dialogueAdapter = async (context, { signal }) => {
+  const response = await fetch('/api/pet-dialogue', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(context),
+    signal
+  });
+  if (!response.ok) throw new Error('Dialogue unavailable');
+  return (await response.json()).text;
+};
+```
+
+Set the property before adding an inline element to the document. Adapter changes apply on the next open. Never put provider keys in this callback. The endpoint is your own authenticated server and is not included or deployed by the widget. Follow `server-example/README.md` before implementing it. The public `examples/dialogue.html` uses local fake replies for review and needs no server API.

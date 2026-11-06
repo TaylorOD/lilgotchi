@@ -26,13 +26,16 @@ These checks use a fixed clock and random sequence. They do not prove hardware p
 | Screen HUD | EGG text begins at y 14, hunger hearts extend below the screen and hearts overlap the body | EGG countdown and labeled needs appear below the LCD | Explicit clipping exception. Screen comparisons omit only the old EGG and heart draw operations, while body and effect buffers stay exact |
 | Display scale | Canvas stretches to the frame width | Whole device pixel cells fit inside the frame without stretching | Crisp rendering at phone sizes and browser zoom. Logical resolution and original raster colors stay unchanged |
 
+| Dialogue configuration | Raw local provider key | Host callback and saved player opt in | Credentials stay on the host server. Validated minimal context and cancellation tests |
+| Dialogue presentation | Fixed bubble with silent failures | Flowing bubble, thinking and retry states, reduced motion | Fits the frame and exposes retryable failures without blocking care |
+
 ## Remaining differences
 
 | Area | Work remaining |
 | --- | --- |
 | Original clipping | Corrected. EGG and needs are readable below the LCD. Complete bodies and effects remain on the 32 by 16 display |
 | Custom families | Slice and Cyberpunk provide all 12 identities and complete reaction frames. Original identity keys, evolution rules and shared effects remain unchanged |
-| Dialogue | The original optional AI feature is still awaiting its adapter |
+| Dialogue | Optional host callback and original triggers are implemented. Browser review passed. A separately configured live provider check remains |
 
 ## Review surface
 

@@ -63,3 +63,9 @@ Open `/qa/cyberpunk.html` for all 68 matrices at native and six times scale. Use
 Save tools use a native disclosure. The modal dialog provides host inertness, with explicit outer keyboard wrapping and launcher focus restoration. Inner overlay focus handling remains in boot and game modules. Inline widgets do not apply the outer focus loop. Closing waits for the final snapshot and cancels unfinished rounds without rewards.
 
 Wheel and single touch drags inside the frame send a bounded `scroll` delta. The host scrolls its drawer, or the page for inline mode. Ctrl wheel and multiple touch gestures stay native. `widget/scroll-lock.js` restores the original host overflow after the last modal closes or disconnects.
+
+## Dialogue handoff
+
+`pets/dialogue.js` owns the exact context allowlist, trigger list, original personality map and frame request lifecycle. `widget/dialogue-host.js` validates again before invoking `element.dialogueAdapter(context, {signal})`. Boot carries dialogue requests, results, cancellation and the saved opt in preference over the existing private channel. No provider code or secret is in the game. Set callbacks before opening or before connecting an inline element.
+
+`examples/dialogue.html` has deterministic success, delayed, failure, malformed and timeout modes plus all trigger controls. Prepare adult after opening, enable dialogue in settings, then try triggers. This review page uses direct same origin access for fixtures only. Production has no fixture controls. Reset and close should cancel delayed requests. The entire examples folder enters dist, so it contains no server code. `server-example/` stays outside dist and needs hosting, authentication, durable budget counters and a real provider test before deployment.
