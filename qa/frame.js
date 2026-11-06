@@ -13,8 +13,12 @@ if(petType!=='classic'){
 configureStorage({load:()=>null,save:()=>{}});
 setSimulationTime(time);
 // A frozen QA view never advances time, writes saves or plays delayed audio.
+const animate=window.requestAnimationFrame.bind(window);
 window.setInterval=()=>0;window.setTimeout=()=>0;window.requestAnimationFrame=()=>0;
 window.matchMedia=()=>({matches:false});
 const app=new TamagotchiApp();
 applyFixture(app,Object.fromEntries(new URLSearchParams(location.search)),time);
+if(new URLSearchParams(location.search).get('animate')==='1') {
+  const loop=()=>{app.render();animate(loop);};animate(loop);
+}
 document.body.dataset.qaReady='true';

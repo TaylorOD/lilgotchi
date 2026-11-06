@@ -116,12 +116,18 @@ test('all five guessing rounds preserve outcomes and weight for wins and losses'
 });
 
 function drawing(prototype){return Object.assign(Object.create(prototype),{w:32,h:16,buf:Array.from({length:16},()=>new Uint8Array(32)),render(){}});}
-test('Default screen buffers match every original body and reaction composition',()=>{
+test('Default compositions match source apart from the relocated clipped HUD',()=>{
   for(const character of Object.keys(classicSprites).filter(key=>!Array.isArray(classicSprites[key]))){
     for(const frame of [0,14,29,44,59,89])for(const reaction of ['idle','eat','happy','sad','evolve','discipline','medicine','clean','sleep','waste','sick','death']){
       const p=pair({character,stage:character==='egg'?'egg':'adult'});
       const make=(app,prototype)=>{
         app.renderer=drawing(prototype);app.frame=frame;
+        if(app===p.expected) {
+          // Only the source HUD operations move outside the LCD. All bodies,
+          // effects and progress pixels remain part of the source comparison.
+          app.renderer.drawHearts=()=>{};
+          app.renderer.drawText=function(text,x,y){if(text!=='EGG')prototype.drawText.call(this,text,x,y);};
+        }
         app.animState=['idle','sleep','waste','sick','death'].includes(reaction)?null:reaction;app.animTimer=noon;
         app.state.isSleeping=reaction==='sleep';app.state.poopCount=reaction==='waste'?4:0;app.state.isSick=reaction==='sick';app.state.isDead=reaction==='death';
         app.render();

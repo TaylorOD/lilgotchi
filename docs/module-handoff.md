@@ -38,6 +38,6 @@ The source harness in `tests/upstream-harness.mjs` evaluates the original withou
 
 `qa/index.html` now supplies that separate review surface. Its controls select all original identities, reactions, frame and theme. `qa/fixtures.js` is shared with a frozen source view. `qa/frame.js` mounts the current game markup without production boot and uses a no save adapter. These files do not enter the release build. Later art agents can use the family selector directly.
 
-The exact Default screen comparison currently includes the original clipped EGG label and overlapping heart indicators. The bounds agent should correct those deliberately and record narrow comparison exceptions rather than deleting the parity suite. The raw sprite, font, paint and sound comparisons remain strict.
+The Default screen comparison now omits only the original EGG label and heart draw operations, because those indicators moved below the LCD. All body and effect buffers still compare against the source. Raw sprites, font, paint and sound remain strict. Read [frame-contract.md](frame-contract.md) before adding art. The layout module derives opaque bounds and places complete matrices without overlaps. Custom bodies use equally padded frames up to 16 by 12, and eggs up to 16 by 10. The combined QA fixture and Animate fork checkbox cover the tightest live compositions.
 
 Keep source reference captures and final browser proof under `pr-screenshots/`. Capture actual game areas at desktop and phone sizes before pushing visual work.

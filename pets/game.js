@@ -6,6 +6,8 @@ import { SoundManager } from './sound.js';
 import { Renderer } from './renderer.js';
 import { SP } from './skins.js';
 import { updateStatus } from './status.js';
+import { drawScene, centeredBody } from './layout.js';
+import { PF } from './font.js';
 import { petType } from './storage.js';
 
 export class TamagotchiApp {
@@ -510,8 +512,9 @@ export class TamagotchiApp {
     if(!matchMedia('(prefers-reduced-motion: reduce)').matches) this.frame++;
 
     if(st.isDead){
-      R.drawSprite(SP.grave,13,8);
-      if(this.frame%90<45) R.drawSprite(SP.angel,13,1);
+      const items=[{name:'grave',pixels:SP.grave,x:13,y:8}];
+      if(this.frame%90<45) items.push({name:'angel',pixels:SP.angel,x:13,y:1});
+      drawScene(R,items);
       R.render(); return;
     }
 
@@ -526,55 +529,53 @@ export class TamagotchiApp {
 
     if(st.stage==='egg'){
       const sp=this.frame%90<45?SP.egg.idle1:SP.egg.idle2;
-      R.drawSprite(sp,12,2);
+      drawScene(R,[{name:'egg',pixels:sp,x:Math.floor((32-sp[0].length)/2),y:2}],[{left:6,top:12,right:25,bottom:14}]);
       // Show hatching progress bar
       const frac=(now-st.stageStartTime)/C.EGG_MS;
       R.drawBar(6,12,20,frac);
-      if(petType==='classic')R.drawText('EGG',11,14);
       R.render(); return;
     }
 
     if(st.isSleeping){
+      const items=[];
       const sp=SP[st.character];
       if(sp){
         const f=sp.idle1;
         const cx=Math.floor((32-f[0].length)/2);
         const cy=Math.floor((16-f.length)/2)+1;
-        R.drawSprite(f,cx,cy);
+        items.push({name:'sleeping body',pixels:f,x:cx,y:cy});
       }
-      if(this.frame%60<30) R.drawSprite(SP.zzz,23,1);
-      else R.drawSprite(SP.zzz,24,2);
+      items.push({name:'sleep mark',pixels:SP.zzz,x:this.frame%60<30?23:24,y:this.frame%60<30?1:2});
+      drawScene(R,items);
       R.render(!st.lightOn); return;
     }
 
     // Normal idle
     const sp=SP[st.character];
+    const items=[];
     if(sp){
       const fk=this.frame%90<45?'idle1':'idle2';
       const f=sp[fk]||sp.idle1;
       const cx=Math.floor((32-f[0].length)/2);
       const cy=Math.floor((16-f.length)/2)+1;
-      R.drawSprite(f,cx,cy);
+      items.push({name:`${st.character}.${fk}`,pixels:f,x:cx,y:cy});
     }
 
     // Poop
     for(let i=0;i<st.poopCount;i++){
       const px=27-(i%2)*5;
       const py=11-Math.floor(i/2)*5;
-      R.drawSprite(SP.poop,px,py);
+      items.push({name:`waste ${i+1}`,pixels:SP.poop,x:px,y:py});
     }
 
     // Skull if sick
-    if(st.isSick&&this.frame%60<40) R.drawSprite(SP.skull,1,1);
+    if(st.isSick&&this.frame%60<40) items.push({name:'sickness',pixels:SP.skull,x:1,y:1});
 
     // Misbehaving
-    if(st.isMisbehaving&&this.frame%40<20) R.drawText('!',1,8);
+    if(st.isMisbehaving&&this.frame%40<20) items.push({name:'attention',pixels:PF['!'],x:1,y:8});
 
-    // Mini hunger/happy indicators at bottom
-    if(petType==='classic') {
-      R.drawHearts(st.hunger,4,1,13);
-      R.drawHearts(st.happiness,4,1,8);
-    }
+    // Needs live below the LCD so they cannot overwrite the character.
+    drawScene(R,items);
     R.render();
   }
 
@@ -584,28 +585,27 @@ export class TamagotchiApp {
     const frame=sp[this.animState]||sp.eat||sp.idle1;
     const cx=Math.floor((32-frame[0].length)/2);
     const cy=Math.floor((16-frame.length)/2)+1;
+    const items=[{name:`${st.character}.${this.animState}`,pixels:frame,x:cx,y:cy}];
     switch(this.animState){
       case 'eat':
-        R.drawSprite(frame,cx,cy);
-        if(this.frame%30<15) R.drawSprite(SP.meal,cx-6,cy+2);
+        if(this.frame%30<15) items.push({name:'meal',pixels:SP.meal,x:cx-6,y:cy+2});
         break;
       case 'evolve':
-        if(this.frame%20<10) R.drawSprite(frame,cx,cy);
+        if(this.frame%20>=10) items.length=0;
         break;
       case 'discipline':
-        R.drawSprite(frame,cx,cy);
-        if(this.frame%20<10) R.drawText('!',cx+frame[0].length+1,cy);
+        if(this.frame%20<10) items.push({name:'discipline',pixels:PF['!'],x:cx+frame[0].length+1,y:cy});
         break;
       case 'medicine':
-        R.drawSprite(frame,cx,cy);
-        R.drawText('+',cx-4,cy);
+        if(PF['+']) items.push({name:'medicine',pixels:PF['+'],x:cx-4,y:cy});
         break;
       case 'clean':
-        R.drawSprite(sp.happy||sp.idle1,cx,cy);
+        items[0]=centeredBody(sp.happy||sp.idle1,`${st.character}.happy`);
         break;
       default:
-        R.drawSprite(frame,cx,cy);
+        break;
     }
+    drawScene(R,items);
   }
 
   // -- UI --

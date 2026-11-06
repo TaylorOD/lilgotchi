@@ -21,6 +21,7 @@ if (petType !== 'classic') {
     happy[4][4] = 5;
     const sad = structuredClone(art);
     sad[4][4] = 1;
-    SP[name] = { idle1: art, idle2: art.map(row => [0, ...row.slice(0, -1)]), happy, sad, eat: happy };
+    const padded=matrix=>matrix.map(row=>[...row,0]);
+    SP[name] = { idle1: padded(art), idle2: art.map(row => [0, ...row]), happy:padded(happy), sad:padded(sad), eat:padded(happy) };
   });
 }
