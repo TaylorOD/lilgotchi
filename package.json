@@ -1,0 +1,12 @@
+{
+  "name": "lilgotchi",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A small embeddable virtual pet based on plateaukao/tamagochi",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test pets/game.test.mjs tests/*.test.mjs",
+    "inventory": "node scripts/inventory.mjs"
+  }
+}

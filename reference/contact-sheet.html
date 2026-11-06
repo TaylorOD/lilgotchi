@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lilgotchi original sprite inventory</title>
+<style>
+  body { background: #101219; color: #eee; font-family: system-ui; padding: 24px; }
+  main { display: flex; flex-wrap: wrap; gap: 16px; }
+  article { padding: 12px; border: 1px solid #444; }
+  canvas { width: 128px; height: 64px; image-rendering: pixelated; display: block; }
+  h2 { font-size: 14px; }
+  p { color: #bbb; }
+</style>
+<h1>Original sprite inventory</h1>
+<p>Complete matrices from the pinned original. Each card is a 32 by 16 logical display.</p>
+<main></main>
+<script type="module">
+  import { classicSprites } from '../pets/classic-sprites.js';
+  for (const [name, entry] of Object.entries(classicSprites)) {
+    for (const [frame, pixels] of Object.entries(Array.isArray(entry) ? { shared: entry } : entry)) {
+      const article = document.createElement('article');
+      const title = document.createElement('h2'); title.textContent = `${name} / ${frame}`;
+      const canvas = document.createElement('canvas'); canvas.width = 32; canvas.height = 16;
+      const ctx = canvas.getContext('2d'); ctx.fillStyle = '#c4cfa1'; ctx.fillRect(0, 0, 32, 16); ctx.fillStyle = '#0f380f';
+      const left = Math.floor((32 - pixels[0].length) / 2), top = Math.floor((16 - pixels.length) / 2);
+      pixels.forEach((row, y) => row.forEach((value, x) => { if (value) ctx.fillRect(left + x, top + y, 1, 1); }));
+      article.append(title, canvas); document.querySelector('main').append(article);
+    }
+  }
+</script>
+</html>

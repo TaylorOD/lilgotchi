@@ -1,0 +1,510 @@
+{
+  "logicalScreen": {
+    "width": 32,
+    "height": 16,
+    "scale": 8
+  },
+  "sprites": [
+    {
+      "name": "egg",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 22
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 23
+        }
+      ]
+    },
+    {
+      "name": "babytchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 24
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 22
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 26
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 24
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 26
+        }
+      ]
+    },
+    {
+      "name": "marutchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 44
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 36
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 46
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 46
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 46
+        }
+      ]
+    },
+    {
+      "name": "tamatchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 26
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 24
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 28
+        }
+      ]
+    },
+    {
+      "name": "kuchitamatchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 26
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 24
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 24
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 24
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 8,
+          "opaquePixels": 26
+        }
+      ]
+    },
+    {
+      "name": "mametchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 10,
+          "height": 9,
+          "opaquePixels": 27
+        },
+        {
+          "frame": "idle2",
+          "width": 10,
+          "height": 9,
+          "opaquePixels": 25
+        },
+        {
+          "frame": "happy",
+          "width": 10,
+          "height": 9,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "sad",
+          "width": 10,
+          "height": 9,
+          "opaquePixels": 26
+        },
+        {
+          "frame": "eat",
+          "width": 10,
+          "height": 9,
+          "opaquePixels": 28
+        }
+      ]
+    },
+    {
+      "name": "ginjirotchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 44
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 38
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 44
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 44
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 46
+        }
+      ]
+    },
+    {
+      "name": "maskutchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 30
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 30
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 30
+        }
+      ]
+    },
+    {
+      "name": "kuchipatchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 26
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 26
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 28
+        }
+      ]
+    },
+    {
+      "name": "nyorotchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 25
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 24
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 24
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 24
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 26
+        }
+      ]
+    },
+    {
+      "name": "tarakotchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 26
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 26
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 26
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 28
+        }
+      ]
+    },
+    {
+      "name": "oyajitchi",
+      "frames": [
+        {
+          "frame": "idle1",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 30
+        },
+        {
+          "frame": "idle2",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "happy",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 32
+        },
+        {
+          "frame": "sad",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 28
+        },
+        {
+          "frame": "eat",
+          "width": 8,
+          "height": 9,
+          "opaquePixels": 32
+        }
+      ]
+    },
+    {
+      "name": "poop",
+      "frames": [
+        {
+          "frame": "shared",
+          "width": 4,
+          "height": 4,
+          "opaquePixels": 9
+        }
+      ]
+    },
+    {
+      "name": "skull",
+      "frames": [
+        {
+          "frame": "shared",
+          "width": 5,
+          "height": 5,
+          "opaquePixels": 14
+        }
+      ]
+    },
+    {
+      "name": "zzz",
+      "frames": [
+        {
+          "frame": "shared",
+          "width": 3,
+          "height": 3,
+          "opaquePixels": 5
+        }
+      ]
+    },
+    {
+      "name": "heart",
+      "frames": [
+        {
+          "frame": "shared",
+          "width": 5,
+          "height": 5,
+          "opaquePixels": 16
+        }
+      ]
+    },
+    {
+      "name": "heartEmpty",
+      "frames": [
+        {
+          "frame": "shared",
+          "width": 5,
+          "height": 5,
+          "opaquePixels": 10
+        }
+      ]
+    },
+    {
+      "name": "meal",
+      "frames": [
+        {
+          "frame": "shared",
+          "width": 5,
+          "height": 5,
+          "opaquePixels": 13
+        }
+      ]
+    },
+    {
+      "name": "snack",
+      "frames": [
+        {
+          "frame": "shared",
+          "width": 5,
+          "height": 5,
+          "opaquePixels": 7
+        }
+      ]
+    },
+    {
+      "name": "grave",
+      "frames": [
+        {
+          "frame": "shared",
+          "width": 7,
+          "height": 7,
+          "opaquePixels": 25
+        }
+      ]
+    },
+    {
+      "name": "angel",
+      "frames": [
+        {
+          "frame": "shared",
+          "width": 7,
+          "height": 6,
+          "opaquePixels": 16
+        }
+      ]
+    }
+  ]
+}
