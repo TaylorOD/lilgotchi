@@ -19,16 +19,17 @@ export function upstreamAt(initialTime = new Date(2026, 0, 5, 12).getTime(), ran
   const math = Object.create(Math);
   math.random = () => randomValues[randomIndex++ % randomValues.length];
   const values = new Map();
+  const timers = [];
   const context = vm.createContext({
     Date: ClockDate, Math: math, console,
     document: { addEventListener() {}, getElementById: element, querySelectorAll: () => [] },
     window: {},
     localStorage: { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value), removeItem: key => values.delete(key) },
-    setTimeout() {}, clearTimeout() {}, setInterval() {}, clearInterval() {},
+    setTimeout(callback) { timers.push(callback); return timers.length; }, clearTimeout() {}, setInterval() {}, clearInterval() {},
     getComputedStyle: () => ({ getPropertyValue: name => name === '--lcd-bg' ? '#c4cfa1' : '#0f380f' }),
   });
-  vm.runInContext(source + '\nglobalThis.reference = { C, PF, SP, Evo, GameState, Renderer, TamagotchiApp, AIManager };', context);
-  return { ...context.reference, setTime(value) { time = value; }, element };
+  vm.runInContext(source + '\nglobalThis.reference = { C, PF, SP, Evo, GameState, Renderer, TamagotchiApp, AIManager, SoundManager };', context);
+  return { ...context.reference, setTime(value) { time = value; }, element, runTimers() { const pending=timers.splice(0); pending.forEach(callback=>callback()); } };
 }
 
 export const plain = value => JSON.parse(JSON.stringify(value));

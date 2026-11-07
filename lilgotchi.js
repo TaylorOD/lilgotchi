@@ -95,7 +95,7 @@ class LilGotchi extends HTMLElement {
     this.port.onmessage=event=>{if(this.frame===frame)this.receive(event.data,activeFamily);};
     frame.addEventListener('load',()=>{
       if(this.frame!==frame)return;
-      frame.contentWindow.postMessage({type:'lilgotchi:connect',nonce,state:saved?.state||null,muted:this.hasAttribute('muted') || this.store.preference('muted')!=='false'},url.origin,[channel.port2]);
+      frame.contentWindow.postMessage({type:'lilgotchi:connect',nonce,state:saved?.state||null,muted:this.hasAttribute('muted') || this.store.preference('muted')!=='false',eink:this.store.preference('eink')==='true'},url.origin,[channel.port2]);
     },{once:true});
     frame.src=url.href;container.append(frame);
     this.loadTimeout=setTimeout(()=>{if(this.frame===frame && !this.ready)this.fail(new Error('The game did not load. Check that all widget files are available.'));},12000);
@@ -112,7 +112,7 @@ class LilGotchi extends HTMLElement {
     if(message.type==='ready'){this.ready=true;clearTimeout(this.loadTimeout);this.emit('ready',{character:family});}
     if(message.type==='snapshot' && Number.isSafeInteger(message.id))this.pending.get(message.id)?.(message.state);
     if(message.type==='close')this.close();
-    if(message.type==='preference' && message.name==='muted' && typeof message.value==='boolean')this.store.preference('muted',message.value);
+    if(message.type==='preference' && ['muted','eink'].includes(message.name) && typeof message.value==='boolean')this.store.preference(message.name,message.value);
   }
   async snapshot(closing=false){
     if(!this.port || !this.ready)return;

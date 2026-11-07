@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pocket pet</title>
+<title>lilgotchi</title>
 <link rel="stylesheet" href="game.css">
+<link rel="stylesheet" href="embed.css">
 <script type="module" src="boot.js"></script>
 </head>
 <body>
@@ -95,6 +96,7 @@
 <!-- Settings overlay -->
 <div role="dialog" aria-modal="true" class="overlay" id="settings-overlay">
   <div class="overlay-title">SETTINGS</div>
+  <div class="settings-row" id="eink-row"><span>E-ink Theme</span><button class="toggle" id="eink-toggle" role="switch" aria-checked="false" aria-label="Toggle E-ink theme"></button></div>
   <p class="settings-info">Reset starts a new egg for this pet only.</p>
   <button class="overlay-btn" id="reset-game-btn" style="margin-top:20px">&#9888; Reset Game</button>
   <button type="button" class="overlay-close" data-close="settings-overlay">Close</button>
