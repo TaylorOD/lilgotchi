@@ -28,7 +28,7 @@ class LilGotchi extends HTMLElement {
     this.family=initialCharacter(this.store.preference('character'),this.getAttribute('character'),this.allowed);
     this.inline=this.getAttribute('mode')==='inline';
     this.shadowRoot.innerHTML=`<link rel="stylesheet" href="${asset('./widget/shell.css')}">
-      <button class="launcher" aria-label="Open lilgotchi" aria-haspopup="dialog">${launcherArt(this.family)}</button>
+      <button class="launcher" part="launcher" aria-label="Open lilgotchi" aria-haspopup="dialog">${launcherArt(this.family)}</button>
       <${this.inline?'section class="inline"':'dialog'} aria-label="lilgotchi">
       <header><h2><img src="${asset('./widget/egg.svg')}" width="20" height="24" alt="" style="vertical-align:middle"> lilgotchi</h2><button class="close" aria-label="Close lilgotchi">×</button>
       <label class="chooser"><span class="pet-identity"></span><select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
@@ -80,7 +80,7 @@ class LilGotchi extends HTMLElement {
     if(!state){try{state=this.store.load(this.family)?.state;}catch{ /* Recovery stays in the normal open flow. */ }}
     this.shadowRoot.querySelector('.pet-identity').textContent=petLabel(this.family,state);
     const button=this.shadowRoot.querySelector('.launcher'),care=savedCare(state);
-    button.innerHTML=launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family))+(care?'<span class="care-dot" aria-hidden="true"></span>':'');
+    button.innerHTML=launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family),{shell:this.getAttribute('launcher')!=='pet',eink:this.store.preference('eink')==='true'})+(care?'<span class="care-dot" aria-hidden="true"></span>':'');
     const label=`Open lilgotchi${state?`, ${state.stage}`:''}${state?.vacationAt?'. Vacation paused':care?`. ${this.ready?'Live care':'Last saved'}: ${care}`:''}`;
     button.setAttribute('aria-label',label);button.title=label;
   }
@@ -219,7 +219,7 @@ class LilGotchi extends HTMLElement {
     }
     if(message.type==='snapshot' && Number.isSafeInteger(message.id))this.pending.get(message.id)?.(message.state);
     if(message.type==='close')this.close();
-    if(message.type==='preference' && ['muted','eink','scanlines'].includes(message.name) && typeof message.value==='boolean')this.store.preference(message.name,message.value);
+    if(message.type==='preference' && ['muted','eink','scanlines'].includes(message.name) && typeof message.value==='boolean'){this.store.preference(message.name,message.value);if(message.name==='eink')this.updateLauncher();}
   }
   async snapshot(closing=false){
     if(!this.port || !this.ready)return;
