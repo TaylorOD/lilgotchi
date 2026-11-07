@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Corner preview</title>
+<style>body{background:#101219;color:#ececf4;font:16px system-ui;margin:110px 24px}select{font:inherit;padding:12px}main{max-width:600px;margin:auto}</style>
+<main><h1>Pick a corner</h1><label>Placement <select><option>top-right</option><option>top-left</option><option>bottom-right</option><option>bottom-left</option></select></label><p>Open the pet, scroll through settings, then close it.</p></main>
+<script type="module" src="../lilgotchi.js"></script>
+<lil-gotchi placement="top-right" character="slice" storage-key="corners-preview"></lil-gotchi>
+<script>document.querySelector('select').addEventListener('change',event=>document.querySelector('lil-gotchi').setAttribute('placement',event.target.value));</script>
+</html>
