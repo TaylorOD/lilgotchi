@@ -88,6 +88,15 @@ test('sleep follows the local clock and feeding is blocked while asleep', () => 
   assert.equal(app.state.lightOn,true);
 });
 
+test('turning off lights leaves an awake pet able to eat',()=>{
+  const app=baby(appAt());
+  app.handleAction('light');
+  assert.equal(app.state.lightOn,false);
+  assert.equal(app.state.isSleeping,false);
+  app.doFeed('meal');
+  assert.equal(app.state.hunger,4);
+});
+
 test('unanswered care calls count as mistakes and adults die at the limit', () => {
   const app = baby(appAt());
   app.state.hunger=0;
