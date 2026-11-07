@@ -74,11 +74,22 @@ test('snack sickness, random discipline calls and care mistakes match original',
   both(q,'tick');
 });
 
-test('hatch, evolution and adult mortality match original while awake',()=>{
+test('evolution keeps original identities with explicit newborn and needs exceptions',()=>{
   mock.method(Math,'random',()=>.5);
   for(const [stage,character,delay] of [['egg','egg',C.EGG_MS],['baby','babytchi',C.BABY_MS],['child','marutchi',C.CHILD_MS],['teen','tamatchi',C.TEEN_MS]]){
     const p=pair({stage,character,stageStartTime:noon-Math.max(delay,stage==='egg'?300000:0),discipline:100});
-    both(p,'tick');
+    p.actual.tick();p.expected.tick();
+    if(stage==='egg'){
+      assert.equal(p.actual.state.hunger,0);assert.equal(p.actual.state.happiness,0);
+      assert.equal(p.actual.state.attentionReason,'hungry');
+      p.expected.state.attentionCallTime=p.actual.state.attentionCallTime;
+      p.expected.state.attentionReason='hungry';
+    } else {
+      assert.equal(p.actual.state.hunger,3);assert.equal(p.actual.state.happiness,2);
+    }
+    p.expected.state.hunger=p.actual.state.hunger;
+    p.expected.state.happiness=p.actual.state.happiness;
+    same(p.actual,p.expected);
   }
   for(const reason of [{careMistakes:5},{age:25}]){
     const p=pair({stage:'adult',character:'mametchi',...reason});both(p,'tick');

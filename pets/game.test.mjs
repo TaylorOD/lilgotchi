@@ -41,7 +41,9 @@ test('egg hatches after 90 seconds, then becomes a child after an hour', () => {
   assert.equal(app.state.stage,'egg');
   setSimulationTime(noon+C.EGG_MS); app.tick();
   assert.equal(app.state.character,'babytchi');
-  assert.equal(app.state.hunger,4);
+  assert.equal(app.state.hunger,0);
+  assert.equal(app.state.happiness,0);
+  assert.equal(app.state.attentionReason,'hungry');
   setSimulationTime(noon+C.EGG_MS+C.BABY_MS); app.tick();
   assert.equal(app.state.character,'marutchi');
 });
@@ -122,7 +124,7 @@ test('offline catch up hatches eggs and preserves elapsed fractions across repea
   const hungerClock = app.state.lastHungerDecay;
   app.processMissedTime();
   assert.equal(app.state.lastHungerDecay,hungerClock);
-  assert.equal(app.state.hunger,4);
+  assert.equal(app.state.hunger,0);
 });
 
 test('offline sleep does not drain food and advances age', () => {
@@ -205,4 +207,19 @@ test('all character skins supply a renderable idle frame at each evolution', asy
     assert.ok(SP[character].idle1.length > 0,character);
     assert.ok(SP[character].idle1.every(row=>row.length===SP[character].idle1[0].length),character);
   }
+});
+
+test('later evolution preserves needs rather than feeding the pet automatically',()=>{
+  const app=baby(appAt());
+  app.doEvolve();
+  assert.equal(app.state.stage,'child');
+  assert.equal(app.state.hunger,3);assert.equal(app.state.happiness,2);
+});
+
+test('new illnesses can require three doses without rewriting existing prescriptions',()=>{
+  const app=baby(appAt());mock.method(Math,'random',()=>.99);app.makeSick();
+  assert.equal(app.state.medDoses,3);
+  app.handleAction('medicine');assert.equal(app.state.isSick,true);
+  app.handleAction('medicine');assert.equal(app.state.isSick,true);
+  app.handleAction('medicine');assert.equal(app.state.isSick,false);
 });

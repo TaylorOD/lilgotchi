@@ -302,7 +302,7 @@ export class TamagotchiApp {
   makeSick(){
     const st=this.state;
     st.isSick=true;
-    st.medDoses=1+Math.floor(Math.random()*2);
+    st.medDoses=1+Math.floor(Math.random()*3);
     st.sickCount++;
   }
 
@@ -313,7 +313,10 @@ export class TamagotchiApp {
     const oldStage=st.stage;
     st.stage=r.stage; st.character=r.character; st.weight=r.weight;
     st.stageStartTime=clockNow();
-    if(r.stage!=='adult'){ st.hunger=C.MAX_HUNGER; st.happiness=C.MAX_HAPPY; }
+    if(oldStage==='egg'){
+      st.hunger=0; st.happiness=0;
+      this.checkAttention();
+    }
     if(r.stage==='teen') st.prevTeen=r.character;
     this.sound.hatch();
     this.animState='evolve'; this.animTimer=clockNow();
