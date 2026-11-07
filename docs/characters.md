@@ -23,6 +23,26 @@ Cypunk keeps the `cyberpunk` configuration ID, asset paths and save keys for com
 
 Named original choices are starting presets. They use the actual original sprites and begin at the pictured stage. Age and care history start at zero, with the minimum weight from the stage constants. Growth and care rules still apply. A teen can grow into another character. Choosing Mametchi does not lock every future life to Mametchi. Reset returns that save to its selected preset. The original egg still follows the normal full evolution path.
 
+## Full family lineups
+
+Each image shows every growth stage, the six adult branches and the special elder. Open an image to see it at full size.
+
+### Original
+
+![Original stages and evolution paths](images/original-family.jpg)
+
+### Slice
+
+![Slice stages and evolution paths](images/slice-family.jpg)
+
+### Cypunk
+
+![Cypunk stages and evolution paths](images/cypunk-family.jpg)
+
+### Lilgotchi
+
+![Lilgotchi stages and evolution paths](images/lilgotchi-family.jpg)
+
 ## Choose what your site offers
 
 ```html
