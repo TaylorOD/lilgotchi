@@ -14,7 +14,7 @@ The URL stays on this release. Change the version to upgrade. Keep `data-storage
 <script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.0/embed.js" data-character="cyberpunk" data-characters="default,slice,cyberpunk" data-placement="bottom-left" data-storage-key="my-pets"></script>
 ```
 
-Supported script settings are `data-character`, `data-characters`, `data-placement`, `data-appearance`, `data-storage-key`, `data-mode` and `data-muted`. They map to the custom element settings below. `data-muted` is a presence flag. Inline widgets appear immediately after a script in the body; a script in the head places its inline widget at the end of the body. Put the script where you want an inline widget. Each script creates one widget. Give multiple widgets separate storage keys. Module loading failures emit `lilgotchi:loaderror` on the script.
+Supported script settings are `data-character`, `data-characters`, `data-placement`, `data-appearance`, `data-storage-key`, `data-mode`, `data-launcher` and `data-muted`. They map to the custom element settings below. `data-muted` is a presence flag. Inline widgets appear immediately after a script in the body; a script in the head places its inline widget at the end of the body. Put the script where you want an inline widget. Each script creates one widget. Give multiple widgets separate storage keys. Module loading failures emit `lilgotchi:loaderror` on the script.
 
 Use the landing page to generate a customized one line snippet. The release includes `examples/one-line.html` to try the same loader with your own copy.
 

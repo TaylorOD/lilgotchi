@@ -39,7 +39,7 @@ class LilGotchi extends HTMLElement {
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
       <div class="guide-host"></div>
       <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
-      <footer>Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed. <a href="${asset('./pets/NOTICE.md')}" target="_blank" rel="noopener">Credits</a></footer><button class="settings-close">Close settings</button></details>
+      <footer>Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed. <a href="${asset('./docs/credits.md')}" target="_blank" rel="noopener">Credits</a></footer><button class="settings-close">Close settings</button></details>
       </${this.inline?'section':'dialog'}>`;
     this.panel=this.shadowRoot.querySelector(this.inline?'section':'dialog');
     this.select=this.shadowRoot.querySelector('select');
