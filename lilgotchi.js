@@ -3,6 +3,7 @@ import { visibleControl } from './widget/focus.js';
 import { lockPage, unlockPage } from './widget/scroll-lock.js';
 import { launcherIcon as launcherArt, savedCare } from './widget/launcher.js';
 import { SaveStore, legacyFamily, parseImport } from './widget/save-store.js';
+import { PetHistory } from './widget/pet-history.js';
 
 const asset = path => new URL(path,import.meta.url).href;
 class LilGotchi extends HTMLElement {
@@ -17,6 +18,7 @@ class LilGotchi extends HTMLElement {
     if(this.initialized) return;
     this.initialized=true;
     this.store=new SaveStore(this.getAttribute('storage-key')||'default');
+    this.history=new PetHistory(this.store);
     try { this.allowed=allowedCharacters(this.getAttribute('characters')); }
     catch(error){this.shadowRoot.innerHTML='<p role="alert"></p>';this.shadowRoot.querySelector('p').textContent=error.message;this.emit('error',{message:error.message});return;}
     this.family=initialCharacter(this.store.preference('character'),this.getAttribute('character'),this.allowed);
@@ -31,6 +33,7 @@ class LilGotchi extends HTMLElement {
       <button class="retry" hidden>Try again</button><details><summary>Save and help</summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
+      <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
       <footer>Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed. <a href="${asset('./pets/NOTICE.md')}" target="_blank" rel="noopener">Credits</a></footer></details>
       </${this.inline?'section':'dialog'}>`;
     this.panel=this.shadowRoot.querySelector(this.inline?'section':'dialog');
@@ -39,6 +42,7 @@ class LilGotchi extends HTMLElement {
     this.shadowRoot.querySelector('.welcome').hidden=this.store.preference('introduced')==='true';
     this.bind('.welcome-close','click',()=>{this.shadowRoot.querySelector('.welcome').hidden=true;this.store.preference('introduced',true);});
     this.updateLauncher();
+    this.renderHistory();
     this.bind('.launcher','click',()=>this.open());
     this.bind('.close','click',()=>this.close());
     this.select.addEventListener('change',()=>this.setCharacter(this.select.value));
@@ -63,6 +67,28 @@ class LilGotchi extends HTMLElement {
     button.innerHTML=launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family))+(care?'<span class="care-dot" aria-hidden="true"></span>':'');
     const label=`Open lilgotchi${state?`, ${state.stage}`:''}${care?`. Last saved: ${care}`:''}`;
     button.setAttribute('aria-label',label);button.title=label;
+  }
+  renderHistory(){
+    const list=this.shadowRoot.querySelector('.history-list'),status=this.shadowRoot.querySelector('.history-status');
+    list.replaceChildren();
+    try{
+      const entries=this.allowed.flatMap(family=>this.history.list(family)).sort((a,b)=>b.recordedAt-a.recordedAt);
+      for(const entry of entries){const item=document.createElement('li');item.textContent=this.history.describe(entry);list.append(item);}
+      status.textContent=this.historyError||(!entries.length?'Pets who pass away will be remembered here.':this.store.persistent?'Remembered in this browser.':'These memories last for this visit.');
+    }catch(error){status.textContent=error.message;}
+  }
+  rememberDeath(family,state){
+    if(!state?.isDead)return;
+    try{this.history.recordDeath(family,state);}catch(error){this.historyError=error.message;}
+  }
+  savePet(family,state){
+    // Preserve a dead lifetime before a restart replaces the active save.
+    let previous;
+    try{previous=JSON.parse(this.store.raw(family)||'null')?.state;}catch{ /* The save store reports damaged active data. */ }
+    this.rememberDeath(family,previous);
+    this.store.save(family,state);
+    this.rememberDeath(family,state);
+    this.renderHistory();
   }
   savedFeedback(state){
     this.updateLauncher(state);
@@ -152,7 +178,7 @@ class LilGotchi extends HTMLElement {
     }
     if(message.type==='resize' && Number.isSafeInteger(message.height) && message.height>=100 && message.height<=1200 && this.frame)this.frame.style.height=`${message.height}px`;
     if(message.type==='save'){
-      try{this.store.save(family,message.state);this.status(this.store.persistent?'Saved in this browser':'Progress lasts for this visit');this.savedFeedback(message.state);}
+      try{this.savePet(family,message.state);this.status(this.store.persistent?'Saved in this browser':'Progress lasts for this visit');this.savedFeedback(message.state);}
       catch(error){this.fail(error);this.detachFrame();this.store.release(family);}
     }
     if(message.type==='ready'){this.ready=true;clearTimeout(this.loadTimeout);this.emit('ready',{character:family});}
@@ -168,7 +194,7 @@ class LilGotchi extends HTMLElement {
       this.pending.set(id,state=>{clearTimeout(timer);this.pending.delete(id);resolve(state);});
       this.port.postMessage({type:'snapshot',id,closing});
     });
-    if(state){this.store.save(this.family,state);this.updateLauncher(state);}
+    if(state){this.savePet(this.family,state);this.updateLauncher(state);}
   }
   detachFrame(){
     
