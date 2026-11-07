@@ -39,3 +39,30 @@ test('canceling an in flight file leaves no confirmation',async()=>{
   finish(backup());await pending;
   assert.equal(widget.importData,null);assert.equal(preview.hidden,true);
 });
+
+test('cancel focus returns to its visible import trigger or the character picker',()=>{
+  const calls=[];
+  const trigger={getClientRects:()=>[{}],closest:()=>null,focus:()=>calls.push('trigger')};
+  const widget={importFocus:trigger,select:{focus:()=>calls.push('picker')}};
+  LilGotchi.prototype.restoreImportFocus.call(widget);
+  assert.deepEqual(calls,['trigger']);assert.equal(widget.importFocus,null);
+  widget.importFocus={...trigger,getClientRects:()=>[]};
+  LilGotchi.prototype.restoreImportFocus.call(widget);
+  assert.deepEqual(calls,['trigger','picker']);
+});
+test('import remembers a different target pet before replacement and restores visible focus',async()=>{
+  const target={...new GameState(getCharacter('cyberpunk')),isDead:true,stage:'dead',bornAt:1000};
+  const replacement=new GameState(getCharacter('cyberpunk'));
+  const calls=[],nodes={'.import':{hidden:false},'#save-text':{value:'backup'}};
+  const widget={
+    family:'slice',allowed:['slice','cyberpunk'],importData:{family:'cyberpunk',state:replacement},
+    serial:callback=>callback(),unload:async()=>calls.push('unload'),mount:async()=>calls.push('mount'),
+    store:{acquire:async()=>true,raw:()=>JSON.stringify({state:target}),replace:()=>calls.push('replace'),preference:()=>{},release:()=>calls.push('release')},
+    rememberDeath:(family,state)=>{assert.equal(family,'cyberpunk');calls.push(state.bornAt===1000?'remember old target':'remember replacement');},
+    renderHistory:()=>{},updateLauncher:()=>{},select:{focus:()=>calls.push('focus picker')},
+    shadowRoot:{querySelector:selector=>nodes[selector]}
+  };
+  await LilGotchi.prototype.confirmImport.call(widget);
+  assert.deepEqual(calls,['unload','remember old target','replace','remember replacement','release','mount','focus picker']);
+  assert.equal(widget.family,'cyberpunk');assert.equal(widget.importData,null);assert.equal(nodes['#save-text'].value,'');
+});
