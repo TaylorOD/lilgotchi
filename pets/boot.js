@@ -87,6 +87,7 @@ if(embedded) {
 window.addEventListener('pagehide',()=>window.app?.state.save());
 window.restorePetSession=data=>{
   if(!window.app || !validState(data)) return;
+  window.app.state.vacationAt=data.vacationAt||0;
   for(const key of Object.keys(window.app.state)) if(Object.hasOwn(data,key)) window.app.state[key]=data[key];
   window.app.processMissedTime(); window.app.updateButtons();
 };
