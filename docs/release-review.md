@@ -1,5 +1,11 @@
 # Release review
 
+## 0.2.1 mobile fixes
+
+132 automated tests pass. Settings has a visible top Close button and accurate natural overlay height, including flex gaps. The scanline explanation describes its decorative effect. Save status shares the Save and help row. Pet switching keeps a dark, stable frame area until the next game is painted and ready. Cypunk replaces the displayed Cyberpunk name while internal IDs preserve existing saves.
+
+Chrome checks covered Settings close and focus return, desktop and 320/390 pixel widths, inline save status, and delayed network pet switching. These are browser checks, not a claim of physical iPhone verification. The personal site roster is restricted to Original egg, Slice and Cypunk.
+
 ## 0.2.0 hosted install
 
 127 automated tests pass. The added loader checks cover loading before the body is ready, captured script configuration, inline placement, head placement and failed module imports. Chrome review checked separate host and asset origins, two independent widgets, the restricted character picker, drawer and inline rendering, and the updated copy button at desktop and 390 pixel widths. Screenshots are named hosted-install and hosted-snippet under pr-screenshots.
@@ -38,4 +44,4 @@ Screenshots are under pr-screenshots, including release-slice-mobile, release-cy
 
 ## Release contents
 
-The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site uses the 0.1.0 game copy. The standalone demo and hosted loader include the newer packaging changes; see the current installation guide for their version.
+The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site, standalone demo and hosted loader use 0.2.1; see the current installation guide for their version.
