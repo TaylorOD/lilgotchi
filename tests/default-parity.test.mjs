@@ -77,7 +77,7 @@ test('snack sickness, random discipline calls and care mistakes match original',
 test('hatch, evolution and adult mortality match original while awake',()=>{
   mock.method(Math,'random',()=>.5);
   for(const [stage,character,delay] of [['egg','egg',C.EGG_MS],['baby','babytchi',C.BABY_MS],['child','marutchi',C.CHILD_MS],['teen','tamatchi',C.TEEN_MS]]){
-    const p=pair({stage,character,stageStartTime:noon-delay,discipline:100});
+    const p=pair({stage,character,stageStartTime:noon-Math.max(delay,stage==='egg'?300000:0),discipline:100});
     both(p,'tick');
   }
   for(const reason of [{careMistakes:5},{age:25}]){

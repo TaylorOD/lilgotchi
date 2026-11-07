@@ -25,7 +25,7 @@ test('local scenery boundaries and contextual care remain predictable',()=>{
   assert.equal(careAction({poopCount:0,isSleeping:true}),'wake');
   assert.equal(careAction({poopCount:0,isSleeping:false}),'sleep');
   assert.match(careHint({isSick:true,health:100}),/medicine/);
-  assert.match(careHint({stage:'egg'}),/five minutes/);
+  assert.match(careHint({stage:'egg'}),/90 seconds/);
 });
 
 test('motion keeps complete bodies separate from simultaneous care indicators',()=>{

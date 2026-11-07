@@ -23,7 +23,7 @@ export function createPanel(launcher) {
     </div>
     <div class="pet-game-host"></div>
     <details class="pet-help"><summary>how this works</summary>
-      <p>Eggs hatch in five minutes. Feed meals and snacks, play five rounds, clean up, give medicine when sick and scold when misbehaving. Turn off the light at bedtime.</p>
+      <p>Eggs hatch in 90 seconds. Feed meals and snacks, play five rounds, clean up, give medicine when sick and scold when misbehaving. Turn off the light at bedtime.</p>
       <p>Care and discipline shape evolution. Needs continue while you’re away. Pets can die. Sound starts muted.</p>
       <p>This uses the P1 clone game. Each pet saves separately. The earlier simplified saves are kept, but this game starts with new eggs.</p>
     </details>
