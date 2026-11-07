@@ -3,6 +3,16 @@ import assert from 'node:assert/strict';
 import { SoundManager } from '../pets/sound.js';
 import { TamagotchiApp } from '../pets/game.js';
 
+test('closed drawer silences audio without changing the saved mute choice',()=>{
+  let oscillators=0;
+  const sound=new SoundManager();
+  sound.ctx={currentTime:0,destination:{},createOscillator(){oscillators++;return {frequency:{},connect(){},start(){},stop(){}};},createGain(){return {gain:{},connect(){}};}};
+  sound.beep(800,50);assert.equal(oscillators,0);
+  sound.toggleMute();sound.suspended=true;sound.beep(800,50);
+  assert.equal(oscillators,0);assert.equal(sound.muted,false);
+  sound.suspended=false;sound.beep(800,50);assert.equal(oscillators,1);
+});
+
 test('sound unlock retries a suspended context without creating another one',()=>{
   let resumed=0,created=0;
   globalThis.window={AudioContext:class{constructor(){created++;this.state='suspended';}resume(){resumed++;this.state='running';return Promise.resolve();}}};
