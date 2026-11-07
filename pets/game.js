@@ -147,7 +147,7 @@ export class TamagotchiApp {
     if(this.catchingUp) return;
     const st=this.state;
     updateStatus(st);
-    if(document.getElementById('stats-overlay')?.classList.contains?.('active')) this.renderStats();
+    if(document.getElementById('stats-overlay')?.classList.contains?.('show')) this.renderStats();
     const btns=document.querySelectorAll('.ctrl-btn');
     btns.forEach(btn=>{
       const action=btn.dataset.action;

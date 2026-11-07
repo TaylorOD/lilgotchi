@@ -12,7 +12,7 @@ test('sound unlock retries a suspended context without creating another one',()=
 });
 
 test('an open stats panel refreshes from the same needs as the main display',()=>{
-  const nodes={ 'pet-status':{},'pet-needs':{},lcd:{setAttribute(){}},'stats-overlay':{classList:{contains:()=>true}},'stats-content':{},'mute-btn':{classList:{toggle(){}}} };
+  const nodes={ 'pet-status':{},'pet-needs':{},lcd:{setAttribute(){}},'stats-overlay':{classList:{contains:name=>name==='show'}},'stats-content':{},'mute-btn':{classList:{toggle(){}}} };
   globalThis.document={getElementById:id=>nodes[id],querySelectorAll:()=>[]};
   const app=Object.create(TamagotchiApp.prototype);
   app.state={stage:'child',character:'marutchi',age:1,weight:10,hunger:3,happiness:2,discipline:25};
