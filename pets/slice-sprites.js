@@ -1,6 +1,6 @@
 // Each silhouette is drawn by hand. Face stamps are placed on complete canvases.
-export const slicePalette = ['', '#fff0c2', '#b96b32', '#ffd15a', '#cf432f', '#38271f', '#347743'];
-export const sliceNames = {egg:'Dough',babytchi:'Dough Drop',marutchi:'Pizza Round',tamatchi:'Little Slice',kuchitamatchi:'Folded Slice',mametchi:'Margherita',ginjirotchi:'Pepperoni',maskutchi:'Calzone',kuchipatchi:'Deep Dish',nyorotchi:'Cheese Pull',tarakotchi:'Crispy Slice',oyajitchi:'Pizza Chef'};
+export const slicePalette = ['', '#fff0c2', '#b96b32', '#ffd15a', '#cf432f', '#38271f', '#347743', '#9cab67'];
+export const sliceNames = {egg:'Dough',babytchi:'Dough Drop',marutchi:'Pizza Round',tamatchi:'Little Slice',kuchitamatchi:'Folded Slice',mametchi:'Margherita',ginjirotchi:'Pepperoni',maskutchi:'Calzone',kuchipatchi:'Deep Dish',nyorotchi:'Cheese Pull',tarakotchi:'Crispy Slice',oyajitchi:'Spoiled Slice'};
 const freeze = matrix => Object.freeze(matrix.map(row=>Object.freeze(row)));
 const canvas = (rows,height=12) => {
   if(rows.length>height || rows.some(row=>row.length>12)) throw new Error('Slice art exceeds its canvas');
@@ -18,7 +18,7 @@ const drawings = {
   kuchipatchi: {face:[4,6], rows:['005555555500','052444444250','523333333325','523333333325','523333333325','052222222250','005222222500','000555055500']},
   nyorotchi: {face:[4,4], rows:['000555555000','000522225000','000533335000','000533335000','000533335000','000053350000','000053350000','000005350000','000005350000','000053500000','000053550000','000005555000']},
   tarakotchi: {face:[4,5], rows:['005550555000','052225222550','523333333225','053443333350','005333333350','005333333500','000533335000','000052350000','000052250000','000555055500']},
-  oyajitchi: {face:[4,6], rows:['000055555000','000511111500','000511111500','000051115000','000552225500','005211111250','005111111250','005111111250','005155555250','000522222500','000055555000','000055005500']}
+  oyajitchi: {face:[4,5], rows:['005555555500','052222222250','051177111150','005176611500','005111111500','005111111500','000511115000','000517615000','000051150000','000051150000','000005155000','000055055000']}
 };
 const faces = {idle1:['50005','00000','00500'],idle2:['50005','00000','05550'],happy:['05050','50005','05550'],sad:['00000','50005','05550'],eat:['50005','00500','05550'],sleep:['00000','55055','00000']};
 function body({rows,face:[x,y]},key) {
