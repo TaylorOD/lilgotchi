@@ -1,71 +1,88 @@
-# lilgotchi
+# 🥚 lilgotchi
 
-A small virtual pet for your website, based on [plateaukao/tamagochi](https://github.com/plateaukao/tamagochi).
+A little pixel pet for your website. Feed it, play with it, and watch it grow.
 
-The widget runs without a backend or dependencies. Choose the original egg, any of the 11 original characters, Slice or Cypunk. Each choice has its own saved progress.
+**[Try it live](https://www.taylordorsett.com/lilgotchi/)** · **[Install guide](docs/install.md)** · **[Releases](https://github.com/TaylorOD/lilgotchi/releases)**
 
-## Add it to a website
+<p align="center">
+  <a href="https://www.taylordorsett.com/lilgotchi/">
+    <img src="https://raw.githubusercontent.com/TaylorOD/lilgotchi/main/pr-screenshots/release-030-mobile.jpg" alt="lilgotchi running in its compact pet widget" width="320">
+  </a>
+</p>
 
-Paste this into your page. It creates the widget and loads the hosted files. No upload or build needed.
+## Meet the pets
+
+| Family | Starts as | Character ID |
+| --- | --- | --- |
+| Original | The classic egg | `default` |
+| Slice | A little ball of dough | `slice` |
+| Cypunk | A binary egg | `cyberpunk` |
+| Lilgotchi | Its own pixel egg | `lilgotchi` |
+
+Each family has its own growth stages and saved progress. You can also start with any of the 11 original characters. Show everyone or pick your favorites with the [character guide](docs/characters.md).
+
+## What it does
+
+* **Raise a pet.** Feeding, games, sleep, cleaning, health, care grades, and evolution. Eggs hatch after 90 seconds.
+* **Keep it close.** A small launcher opens the drawer. Or put the whole game directly in your page.
+* **Make it yours.** Four families, day and night scenery, optional sound, LCD scanlines, and an E ink look for the original pets.
+* **Come back later.** Progress saves in the browser. Vacation pauses care and growth. Download a save file to keep a backup or move it elsewhere.
+* **Drop it in.** Plain JavaScript with no dependencies, account, or backend. Each visitor gets their own pet.
+
+## Add it to your site
+
+Paste this into your HTML:
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.2.1/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.0/embed.js"></script>
 ```
 
-Use `data-character="cyberpunk"` to start with Cypunk or `data-characters="default,slice,cyberpunk"` to limit the lineup. All element settings below work on the script with a `data-` prefix. The default is Slice with all characters available. Use one script per page unless you give each widget a different `data-storage-key`.
+That opens with Slice, all characters available, and sound off. Your site needs to allow custom JavaScript. Saves belong to your site and stay in the visitor's browser.
 
-## Host your own copy
-
-Download the [built zip or npm package](https://github.com/TaylorOD/lilgotchi/releases/tag/v0.2.1). The package can be installed directly from GitHub:
-
-```sh
-npm install https://github.com/TaylorOD/lilgotchi/releases/download/v0.2.1/lilgotchi-0.2.1.tgz
-```
-
-Copy `node_modules/lilgotchi/dist` to your public `/assets/lilgotchi/0.2.1/` directory, or extract the zip there. Keep the entire folder together. This is a static browser package, not a server component or a single bundled import. It is available from GitHub; an npm registry listing is separate.
+Want just the four families and a pet without the egg shell as your launcher?
 
 ```html
-<script defer src="/assets/lilgotchi/0.2.1/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.0/embed.js" data-character="lilgotchi" data-characters="default,slice,cyberpunk,lilgotchi" data-launcher="pet"></script>
 ```
 
-For direct control of the custom element, load the module and add the element yourself:
+### Options
 
-```html
-<script type="module" src="/assets/lilgotchi/0.2.1/lilgotchi.js"></script>
-<lil-gotchi character="slice" storage-key="site-pet"></lil-gotchi>
-```
+| Script setting | What it changes |
+| --- | --- |
+| `data-character="slice"` | Starting pet. An existing saved selection takes priority. |
+| `data-characters="all"` | Available pets. Use a comma separated list to limit the picker. |
+| `data-launcher="pet"` | Show the pet without its egg shell. The shell is shown by default. |
+| `data-placement="bottom-left"` | Move the launcher from the bottom right. |
+| `data-mode="inline"` | Keep the game visible in the page instead of a drawer. |
+| `data-appearance="light"` | Use a light outer panel. |
+| `data-storage-key="my-pets"` | Separate this widget's saves. Keep the key stable between updates. |
+| `data-muted` | Start muted even if sound was previously enabled. |
 
-Use `characters="all"` for the full lineup, or limit the picker with `characters="default,mametchi,slice"`. `character` chooses the starting selection. See the [character guide](docs/characters.md) for every ID and starting stage. Add `mode="inline"` for an always visible game, or `placement="bottom-left"` to move the launcher. Each storage key has independent saves. Reusing the same key keeps a single active player.
+Use one script per page, or give each widget its own storage key. The custom element accepts the same options without `data-`. Its launcher can be styled with `lil-gotchi::part(launcher)`.
 
-The element exposes async `open()`, `close()` and `setCharacter(name)` methods. Events are `lilgotchi:ready`, `lilgotchi:open`, `lilgotchi:close`, `lilgotchi:characterchange` and `lilgotchi:error`. Details include only the selected character or error message, never a save.
+The [install guide](docs/install.md) covers hosting your own copy, the GitHub package, custom styles, JavaScript methods, events, and save recovery. The [live demo](https://www.taylordorsett.com/lilgotchi/) also builds a snippet for you.
 
-See [installation and storage](docs/install.md) for hosting, styles, browser limits and recovery.
+## Run it locally
 
-## Run it
-
-Node.js is the only local tool needed. There are no package dependencies.
+Node.js is the only tool needed. There are no dependencies to install.
 
 ```sh
 npm start
-npm test
 ```
 
-Open `http://localhost:4176`. To choose another port, use `npm start -- --port 4177`.
+Open [localhost:4176](http://localhost:4176). Then run the checks or build the static package:
 
-The demo opens the game from a pixel pet launcher. The untouched original is at `/reference/upstream.html` for source review. See [the reference review](docs/reference-review.md) for its known limits. The original sprite contact sheet is at `/reference/contact-sheet.html`. These source review pages are not part of the release.
+```sh
+npm test
+npm run build
+```
 
-After building, open `http://localhost:4176/dist/examples/install.html` to try a plain page using only the built files. The release includes version metadata and license notices. See the [migration instructions](docs/install.md#migrate-the-earlier-personal-site-pets) for the explicit legacy save option.
+The build goes into `dist`. Keep that whole folder together when hosting it. Preview the built example at [localhost:4176/dist/examples/install.html](http://localhost:4176/dist/examples/install.html).
 
-## Source and checks
+For deeper work, see the [module map](docs/module-handoff.md), [gameplay comparisons](docs/parity-status.md), and [release review](docs/release-review.md).
 
-The pinned upstream HTML is kept intact under `reference/`. Its exact revision and file hash are in [source.json](reference/source.json). Credits and license terms are in [NOTICE](pets/NOTICE.md).
+## License
 
-lilgotchi is public and [MIT licensed](LICENSE.md). Keep the license and upstream notice with redistributed copies.
+[MIT licensed](LICENSE.md). Free to use, change and share. Keep the license and [required notices](pets/NOTICE.md) with redistributed copies.
 
-`npm test` runs the existing gameplay checks plus original source integrity, constants, sprite matrices, font, evolution boundary and logical rendering comparisons. These checks establish a baseline. They do not yet prove complete behavioral or browser pixel parity.
-
-`npm run inventory` regenerates the original frame inventory from the pinned source.
-
-See the [difference register](docs/parity-status.md) and [module map](docs/module-handoff.md) for implementation context. Outstanding verification is listed in the [release review](docs/release-review.md).
-
-The landing page includes a setup configurator and a named release download. Use `appearance="light"` for a light outer widget. The pet display keeps its family colors. See the [release packaging instructions](docs/install.md#download-and-release-packaging) for a versioned built archive.
+[Credits](docs/credits.md) · [Release notes](docs/release-review.md)
