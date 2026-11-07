@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Elder pet preview</title><style>body{font:16px/1.5 system-ui;background:#121619;color:#eef1ed;margin:24px}main{display:flex;flex-wrap:wrap;gap:20px}h1{font-size:24px}p{color:#bdc8be}lil-gotchi{max-width:100%}</style></head><body><h1>Special elder pets</h1><p>Local test pets showing the shared elder path.</p><main></main>
+<script type="module">
+import { GameState } from '../pets/engine.js';
+import { getCharacter } from '../pets/catalog.js';
+import { SaveStore } from '../widget/save-store.js';
+import '../lilgotchi.js';
+for(const family of ['slice','cyberpunk','lilgotchi']){
+ const key='elder-preview-'+family+'-'+Date.now();
+ const store=new SaveStore(key);await store.acquire(family);store.load(family);
+ const state=new GameState(getCharacter(family));
+ Object.assign(state,{stage:'adult',character:'oyajitchi',age:10,discipline:100,hunger:4,happiness:4,weight:30,bornAt:Date.now()-864000000,sleepOverride:'wake',sleepOverrideUntil:Date.now()+7200000});
+ store.save(family,state);store.preference('introduced',true);store.release(family);await store.pendingReleases.get(family);
+ const pet=document.createElement('lil-gotchi');pet.setAttribute('character',family);pet.setAttribute('storage-key',key);pet.setAttribute('mode','inline');pet.setAttribute('muted','');document.querySelector('main').append(pet);
+}
+</script></body></html>
