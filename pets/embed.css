@@ -88,4 +88,13 @@ html[data-embedded="true"],html[data-embedded="true"] body { background:#121619;
 .stat-row,.game-score,.game-result { font:14px/1.5 system-ui,sans-serif; color:#eef1ed; }
 .toggle { flex-shrink:0; min-width:48px; min-height:28px; }
 html[data-embedded="true"] .overlay { padding:20px 12px; }
+/* Let the host size and scroll the entire dialog without squeezing its controls. */
+html[data-embedded="true"] .overlay { position:absolute; height:auto; min-height:100%; box-sizing:border-box; justify-content:flex-start; }
+html[data-embedded="true"] .overlay > * { flex-shrink:0; }
+.settings-header { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; max-width:280px; }
+.settings-header .overlay-title { margin:0; }
+.settings-header .overlay-close { margin:0; }
+#settings-overlay .settings-row { max-width:280px; width:100%; margin:0; padding:6px 0; }
+#settings-overlay .settings-info { max-width:280px; width:100%; margin:0 0 6px; text-align:left; }
+#settings-overlay #reset-game-btn { margin:8px 0 0; max-width:100%; }
 @media(forced-colors:active) { .overlay,.overlay-btn,.overlay-close { forced-color-adjust:auto; } .toggle { border:2px solid ButtonText; } }

@@ -1,5 +1,6 @@
 import { TamagotchiApp } from './game.js';
 import { overlayControls } from './focus.js';
+import { overlayContentHeight } from './overlay-size.js';
 import { petType, validState, configureStorage } from './storage.js';
 
 const params=new URLSearchParams(location.search);
@@ -37,6 +38,7 @@ function start(initial, muted=true, eink=false,scanlines=false) {
   document.getElementById('mute-btn').addEventListener('click',()=>channel?.postMessage({type:'preference',name:'muted',value:window.app.sound.muted}));
   window.app.state.save();
   if(channel) {
+    window.app.render();
     channel.postMessage({type:'ready'});
     setInterval(()=>channel.postMessage({type:'care-status',state:JSON.parse(JSON.stringify(window.app.state))}),5000);
     let lastHeight=0;
@@ -45,18 +47,18 @@ function start(initial, muted=true, eink=false,scanlines=false) {
       const overlay=document.querySelector('.overlay.show');
       let height=Math.ceil(device.getBoundingClientRect().height+24);
       if(overlay) {
-        const style=getComputedStyle(overlay);
-        const content=[...overlay.children].reduce((total,node)=>{
-          const css=getComputedStyle(node);
-          return total+node.getBoundingClientRect().height+parseFloat(css.marginTop)+parseFloat(css.marginBottom);
-        },0);
-        height=Math.max(height,Math.ceil(content+parseFloat(style.paddingTop)+parseFloat(style.paddingBottom)+12));
+        height=Math.max(height,overlayContentHeight(overlay)+12);
       }
       height=Math.min(1200,Math.max(100,height));
       if(height!==lastHeight){lastHeight=height;channel.postMessage({type:'resize',height});}
     };
-    new ResizeObserver(resize).observe(document.getElementById('device'));
-    new MutationObserver(resize).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+    const sizes=new ResizeObserver(resize);
+    sizes.observe(document.getElementById('device'));
+    for(const overlay of document.querySelectorAll('.overlay')) {
+      sizes.observe(overlay);
+      for(const child of overlay.children)sizes.observe(child);
+    }
+    new MutationObserver(resize).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','hidden']});
     resize();
   }
 }
