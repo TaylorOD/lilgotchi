@@ -41,3 +41,7 @@ An allowed saved selection wins over `character` on a later visit. If it is no l
 The public choice ID is the save identity, not the current evolved character. A Babytchi save remains in the `babytchi` slot after growing up. `default`, `slice` and `cyberpunk` retain their existing keys and import format. Named originals get distinct keys in the same versioned format. Legacy migration applies only to those original three slots, so an old classic save is never copied into every original character.
 
 The shared catalog maps public IDs to the internal classic, pizza or cyberpunk skin. The frame validates that pair. All named originals use the classic skin and its normal evolution engine. This keeps appearance, picker choices, reset behavior and save identity consistent without separate game implementations.
+
+## Lilgotchi
+
+Use `lilgotchi` to start the logo egg family. It begins as a small egg and grows eyes, then a larger body. Its elder form has a crack. Each choice has its own saved progress.

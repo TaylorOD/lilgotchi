@@ -53,7 +53,7 @@ test('every choice has independent progress, portable imports and no duplicated 
       assert.equal(parseImport(store.raw(choice.id)).family,choice.id);
       if(choice.skin==='classic' && choice.id!=='default')assert.equal(store.migrateLegacy(choice.id),false);
     }
-    assert.equal(new Set(catalog.map(c=>saveKey('lineup',c.id))).size,14);
+    assert.equal(new Set(catalog.map(c=>saveKey('lineup',c.id))).size,catalog.length);
     assert.equal(saveKey('lineup','default'),'lilgotchi:v1:lineup:default');
     const original=store.raw('mametchi');
     assert.throws(()=>parseImport(original,['default','slice']),/not available/);

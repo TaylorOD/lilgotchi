@@ -1,11 +1,12 @@
 import { getCharacter } from '../pets/catalog.js';
 import { sliceSprites, slicePalette } from '../pets/slice-sprites.js';
 import { cyberpunkSprites, cyberpunkPalette } from '../pets/cyberpunk-sprites.js';
+import { lilgotchiSprites, lilgotchiPalette } from '../pets/lilgotchi-sprites.js';
 import { classicSprites } from '../pets/classic-sprites.js';
 
 export function launcherArt(family, state) {
-  const sprites=family==='slice'?sliceSprites:family==='cyberpunk'?cyberpunkSprites:classicSprites;
-  const palette=family==='slice'?slicePalette:family==='cyberpunk'?cyberpunkPalette:['','#b4ce83'];
+  const sprites=family==='lilgotchi'?lilgotchiSprites:family==='slice'?sliceSprites:family==='cyberpunk'?cyberpunkSprites:classicSprites;
+  const palette=family==='lilgotchi'?lilgotchiPalette:family==='slice'?slicePalette:family==='cyberpunk'?cyberpunkPalette:['','#b4ce83'];
   const preview=family==='slice'||family==='cyberpunk'?'tamatchi':getCharacter(family)?.character||'egg';
   const identity=state?.character && Object.hasOwn(sprites,state.character)?state.character:preview;
   const pixels=sprites[identity].idle1;

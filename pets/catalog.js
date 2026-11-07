@@ -5,6 +5,7 @@ export const catalog=Object.freeze([
   ...Object.entries(originalStages).map(([id,stage])=>({id,name:id[0].toUpperCase()+id.slice(1),skin:'classic',character:id,stage})),
   {id:'slice',name:'Slice',skin:'pizza',character:'egg',stage:'egg'},
   {id:'cyberpunk',name:'Cypunk',skin:'cyberpunk',character:'egg',stage:'egg'},
+  {id:'lilgotchi',name:'Lilgotchi',skin:'lilgotchi',character:'egg',stage:'egg'},
 ].map(Object.freeze));
 export const families=Object.freeze(catalog.map(choice=>choice.id));
 export const legacyFamily=Object.freeze(Object.fromEntries(catalog.map(choice=>[choice.id,choice.skin])));
@@ -28,5 +29,5 @@ export function frameCharacter(params){
     if(!choice || (params.has('pet') && params.get('pet')!==choice.skin))throw new TypeError('Invalid game character configuration');
     return choice;
   }
-  return getCharacter({classic:'default',pizza:'slice',cyberpunk:'cyberpunk'}[params.get('pet')]||'slice');
+  return getCharacter({classic:'default',pizza:'slice',cyberpunk:'cyberpunk',lilgotchi:'lilgotchi'}[params.get('pet')]||'slice');
 }
