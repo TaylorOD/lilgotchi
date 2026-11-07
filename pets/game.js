@@ -4,6 +4,7 @@ import { C } from './constants.js';
 import { initializeWellbeing, advanceWellbeing, applyWellbeingAction, setManualSleep, sleepDecision, careGrade } from './wellbeing.js';
 import { updatePresentation, careAction, motionOffset } from './presentation.js';
 import { overlayControls } from './focus.js';
+import { limitAbsence, resumeVacation } from './away.js';
 import { GameState, Evo } from './engine.js';
 import { SoundManager } from './sound.js';
 import { Renderer } from './renderer.js';
@@ -52,6 +53,7 @@ export class TamagotchiApp {
       this.state.reset();
     }
     initializeWellbeing(this.state,clockNow());
+    document.getElementById('vacation-toggle')?.addEventListener('click',()=>this.toggleVacation());
     const scanlineToggle=document.getElementById('scanline-toggle');
     document.documentElement.classList.toggle('scanlines',this.scanlines);
     scanlineToggle?.setAttribute('aria-checked',String(this.scanlines));
@@ -149,6 +151,9 @@ export class TamagotchiApp {
   updateButtons(){
     if(this.catchingUp) return;
     const st=this.state;
+    const vacation=document.getElementById('vacation-toggle');
+    vacation?.setAttribute?.('aria-checked',String(st.vacationAt>0));
+    vacation?.classList.toggle('on',st.vacationAt>0);
     updateStatus(st);
     updatePresentation(st,clockNow(),this.renderer);
     if(document.getElementById('stats-overlay')?.classList.contains?.('show')) this.renderStats();
@@ -156,7 +161,8 @@ export class TamagotchiApp {
     btns.forEach(btn=>{
       const action=btn.dataset.action;
       let disabled=false;
-      if(st.isDead&&action!=='mute') disabled=true;
+      if(st.vacationAt>0&&!['mute','stats'].includes(action)) disabled=true;
+      else if(st.isDead&&action!=='mute') disabled=true;
       else switch(action){
         case 'feed': disabled=st.stage==='egg'||st.isSleeping; break;
         case 'light': disabled=st.stage==='egg'; break;
@@ -169,15 +175,17 @@ export class TamagotchiApp {
       }
       btn.classList.toggle('disabled',disabled);
       btn.disabled=disabled;
-      btn.title=disabled?(st.stage==='egg'?'Available after hatching':st.isSleeping?'Wake your pet first':action==='play'&&st.isSick?'Needs medicine before playing':action==='medicine'?'Medicine is only needed when sick':action==='discipline'?'No misbehavior to correct':action==='clean'?'Already clean':'Unavailable right now'):'';
+      btn.title=disabled?(st.vacationAt>0?'Resume Vacation in Settings':st.stage==='egg'?'Available after hatching':st.isSleeping?'Wake your pet first':action==='play'&&st.isSick?'Needs medicine before playing':action==='medicine'?'Medicine is only needed when sick':action==='discipline'?'No misbehavior to correct':action==='clean'?'Already clean':'Unavailable right now'):'';
     });
   }
 
   // -- TIME CATCH-UP --
   processMissedTime(){
     const end=clockNow(), st=this.state;
+    if(st.vacationAt>0)return;
     if(st.isDead) { this.showDeath(); return; }
-    const start=Math.max(st.lastProcessed, end-25*86400000);
+    const skipped=limitAbsence(st,end);
+    const start=st.lastProcessed;
     if(end<=start) return;
     if(st.wellbeingUpdatedAt<start)st.wellbeingUpdatedAt=start;
     const sound=this.sound;
@@ -200,11 +208,30 @@ export class TamagotchiApp {
     this.state.save();
     if(st.isDead) this.showDeath();
     this.updateButtons();
+    if(skipped>0)this.toast('Welcome back. Only eight hours passed for your pet.');
+  }
+
+  toggleVacation(){
+    const st=this.state, now=clockNow();
+    if(st.vacationAt>0){
+      resumeVacation(st,now);
+      this.toast('Vacation ended. Your pet is ready.');
+    } else {
+      if(st.isDead){this.toast('Start again to care for a new pet.');return;}
+      this.processMissedTime();
+      if(st.isDead)return;
+      st.vacationAt=now;
+      this.gameActive=false;this.gameId=(this.gameId||0)+1;this.animState=null;
+      this.closeOverlay('game-overlay');this.closeOverlay('feed-overlay');
+      this.toast('Vacation on. Care and growth are paused.');
+    }
+    st.save();this.updateButtons();
   }
 
   // -- GAME TICK --
   tick(){
     const st=this.state, now=clockNow();
+    if(st.vacationAt>0)return;
     advanceWellbeing(st,now);
     st.lastProcessed=now;
     if(st.isDead) return;
@@ -328,6 +355,7 @@ export class TamagotchiApp {
 
   maybeMisbehave(){
     const st=this.state;
+    if(st.vacationAt>0)return;
     if(st.isDead||st.isSleeping||st.stage==='egg'||st.stage==='baby') return;
     if(Math.random()<.05&&!st.isMisbehaving&&st.hunger>0&&st.happiness>0){
       st.isMisbehaving=true;
@@ -355,7 +383,8 @@ export class TamagotchiApp {
 
     if(st.isDead){ this.toast('Your pet has passed away...'); return; }
 
-    advanceWellbeing(st,clockNow());
+    if(st.vacationAt>0&&action!=='stats'){this.toast('Vacation is on. Resume in Settings.');return;}
+    if(!st.vacationAt)advanceWellbeing(st,clockNow());
     switch(action){
       case 'care': {
         if(st.stage==='egg')return;
@@ -435,6 +464,7 @@ export class TamagotchiApp {
 
   doFeed(type){
     const st=this.state;
+    if(st.vacationAt>0)return;
     if(st.isSleeping||st.isDead) return;
     advanceWellbeing(st,clockNow());
     if(type==='meal'){
@@ -488,6 +518,7 @@ export class TamagotchiApp {
 
   // -- MINI-GAME --
   startGame(){
+    if(this.state.vacationAt>0)return;
     applyWellbeingAction(this.state,'play',clockNow());
     this.gameId=(this.gameId||0)+1;
     this.gameActive=true; this.gameRound=0; this.gameWins=0;
@@ -509,6 +540,7 @@ export class TamagotchiApp {
   }
 
   gameGuess(dir){
+    if(this.state.vacationAt>0)return;
     if(this.gamePhase!=='waiting'||!this.gameActive) return;
     this.gamePhase='reveal';
     document.getElementById('guess-left').classList.add('disabled');
@@ -535,6 +567,7 @@ export class TamagotchiApp {
   }
 
   finishGame(){
+    if(this.state.vacationAt>0)return;
     this.gameActive=false;
     const won=this.gameWins>=3;
     if(won){
@@ -557,7 +590,7 @@ export class TamagotchiApp {
   render(){
     const R=this.renderer, st=this.state;
     R.clear();
-    if(!this.eink&&!matchMedia('(prefers-reduced-motion: reduce)').matches) this.frame++;
+    if(!st.vacationAt&&!this.eink&&!matchMedia('(prefers-reduced-motion: reduce)').matches) this.frame++;
 
     if(st.isDead){
       const items=[{name:'grave',pixels:SP.grave,x:13,y:8}];
@@ -566,7 +599,7 @@ export class TamagotchiApp {
       R.render(); return;
     }
 
-    const now=clockNow();
+    const now=st.vacationAt||clockNow();
 
     // Animation override
     if(this.animState&&now-this.animTimer<2000){
@@ -630,7 +663,7 @@ export class TamagotchiApp {
   }
 
   petMotion(kind='idle'){
-    if(!this.presentationEnabled||this.eink||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return {x:0,y:0};
+    if(this.state.vacationAt>0||!this.presentationEnabled||this.eink||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return {x:0,y:0};
     return motionOffset(clockNow(),kind);
   }
 

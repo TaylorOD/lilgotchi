@@ -223,3 +223,37 @@ test('new illnesses can require three doses without rewriting existing prescript
   app.handleAction('medicine');assert.equal(app.state.isSick,true);
   app.handleAction('medicine');assert.equal(app.state.isSick,false);
 });
+
+test('vacation freezes live ticks, catchup and every care action until explicit resume',()=>{
+  const app=baby(appAt());app.toggleVacation();
+  const frozen=JSON.parse(JSON.stringify(app.state));
+  setSimulationTime(noon+30*86400000);app.tick();app.processMissedTime();app.maybeMisbehave();
+  for(const action of ['feed','play','medicine','clean','discipline','light','care'])app.handleAction(action);
+  app.doFeed('meal');app.startGame();app.gameGuess(0);app.finishGame();
+  assert.deepEqual(JSON.parse(JSON.stringify(app.state)),frozen);
+  app.toggleVacation();assert.equal(app.state.vacationAt,0);
+  assert.equal(app.state.hunger,frozen.hunger);assert.equal(app.state.age,frozen.age);
+  assert.equal(app.state.lastProcessed,noon+30*86400000);
+  assert.equal(app.state.wellbeingUpdatedAt,app.state.lastProcessed);
+});
+
+test('a paused save reloads paused and an old save remains active',()=>{
+  const app=baby(appAt());app.toggleVacation();
+  const state=new GameState();assert.equal(state.load(),true);assert.equal(state.vacationAt,noon);
+  const raw=JSON.parse(saves.get(saveKey));delete raw.vacationAt;saves.set(saveKey,JSON.stringify(raw));
+  const old=new GameState();assert.equal(old.load(),true);assert.equal(old.vacationAt,0);
+});
+
+test('long absences simulate only eight hours and retain prior timer fractions',()=>{
+  const app=baby(appAt());app.state.lastHungerDecay=noon-1000;
+  setSimulationTime(noon+30*86400000);app.processMissedTime();
+  assert.ok(app.state.age<=1);
+  assert.equal(app.state.lastProcessed,noon+30*86400000);
+  assert.ok(app.state.careDuration<=8*3600000);
+});
+
+test('vacation timestamps reject malformed imported pauses',()=>{
+  const app=baby(appAt());
+  for(const vacationAt of [-1,Infinity,NaN,noon+300001])assert.equal(validState({...app.state,vacationAt}),false);
+  assert.equal(validState({...app.state,vacationAt:noon}),true);
+});

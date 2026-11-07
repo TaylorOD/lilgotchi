@@ -37,7 +37,7 @@ function same(actual,expected){
   const state=plain(actual.state);
   // Additive wellbeing has its own migration and elapsed time tests.
   // Keep every original care field in this upstream comparison.
-  for(const key of ['lastProcessed','energy','health','wellbeingUpdatedAt','careTotal','careDuration','sleepOverride','sleepOverrideUntil'])delete state[key];
+  for(const key of ['lastProcessed','energy','health','wellbeingUpdatedAt','careTotal','careDuration','sleepOverride','sleepOverrideUntil','vacationAt'])delete state[key];
   assert.deepEqual(state,plain(expected.state));
 }
 function both(pair,method,...args){pair.actual[method](...args);pair.expected[method](...args);same(pair.actual,pair.expected);}
@@ -175,3 +175,4 @@ test('all sound cues retain source frequencies, durations and volumes',()=>{
     assert.deepEqual(actual,plain(expected),name);
   }
 });
+
