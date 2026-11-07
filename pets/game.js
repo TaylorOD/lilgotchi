@@ -21,6 +21,7 @@ export class TamagotchiApp {
     this.state=new GameState();
     this.frame=0;
     this.presentationEnabled=true;
+    this.panelVisible=true;
     this.animState=null;
     this.animTimer=0;
     this.gameActive=false;
@@ -123,7 +124,7 @@ export class TamagotchiApp {
 
     // Start loops
     setInterval(()=>this.tick(),1000);
-    const renderLoop=()=>{ if(!document.hidden) this.render(); requestAnimationFrame(renderLoop); };
+    const renderLoop=()=>{ if(!document.hidden&&this.panelVisible!==false) this.render(); requestAnimationFrame(renderLoop); };
     requestAnimationFrame(renderLoop);
     setInterval(()=>this.state.save(),30000);
     setInterval(()=>this.maybeMisbehave(),600000);
@@ -139,7 +140,7 @@ export class TamagotchiApp {
 
   // -- TOAST NOTIFICATIONS --
   toast(msg){
-    if(this.catchingUp) return;
+    if(this.catchingUp||this.panelVisible===false) return;
     const el=document.getElementById('toast');
     el.textContent=msg;
     el.classList.add('show');
@@ -273,6 +274,7 @@ export class TamagotchiApp {
     if(st.stage==='adult'){
       if(st.careMistakes>=C.ADULT_MAX_MISTAKES||st.age>=C.MAX_AGE){
         st.isDead=true; st.stage='dead';
+        st.save();
         this.sound.death(); this.showDeath();
       }
       if(!st.isDead&&Evo.checkOyajitchi(st)&&st.character!=='oyajitchi'&&Math.random()<.05){

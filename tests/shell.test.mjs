@@ -32,6 +32,13 @@ test('closing waits for snapshot before tearing down the active frame',async()=>
   saved();await closing;
   assert.deepEqual(events,['detach','slice']);
 });
+test('closing a drawer saves and suspends presentation without unloading its live pet',async()=>{
+  globalThis.document={documentElement:{style:{overflow:''}}};
+  const events=[];
+  const widget={serial:fn=>fn(),snapshot:async closing=>events.push(['save',closing]),port:{postMessage:value=>events.push(value)},inline:false,panel:{close:()=>events.push('close')},shadowRoot:{querySelector:()=>({focus(){}})},emit:name=>events.push(name)};
+  await LilGotchi.prototype.close.call(widget);
+  assert.deepEqual(events,[['save',true],{type:'visibility',visible:false},'close','close']);
+});
 test('frame scroll rejects nonnumeric and excessive requests',()=>{
   const scrolls=[];
   const widget={family:'slice',inline:false,panel:{scrollBy:(x,y)=>scrolls.push(y)}};

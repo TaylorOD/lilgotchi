@@ -10,6 +10,7 @@ test('launcher follows saved evolution while keeping the selected family palette
   assert.equal(savedCare({stage:'egg',hunger:0}), '');
   assert.equal(savedCare({stage:'baby',isSick:true,hunger:0,poopCount:1}), 'Needs medicine, cleaning, food');
   assert.equal(savedCare({isDead:true}), 'Your pet passed away');
+  assert.equal(savedCare({vacationAt:123,hunger:0,isSick:true}), '');
 });
 test('install snippets constrain selected character and reject empty or injected configuration',()=>{
   const snippet=installSnippet({characters:'mametchi,cyberpunk',character:'slice',placement:'inline',appearance:'light'});
