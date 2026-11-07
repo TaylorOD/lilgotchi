@@ -10,4 +10,4 @@ Use stable relative asset paths in examples. A download link offers the current 
 
 ## Acceptance
 
-All and subset snippets validate through the actual catalog. Default choices stay inside the subset. Copy failures leave selectable code and a useful message. Labels, focus, contrast and 320 pixel layout remain usable. Remove redundant standalone install navigation but preserve examples in documentation. No account or provider credential is needed.
+All and subset snippets validate through the actual catalog. Default choices stay inside the subset. Copy failures leave selectable code and a useful message. Labels, focus, contrast and 320 pixel layout remain usable. Remove redundant standalone install navigation but preserve examples in documentation. No account or service credential is needed.

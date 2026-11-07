@@ -2,7 +2,7 @@
 
 Build with `npm run build` and copy all of `dist` into a versioned folder on your website. Keep the files together. The loader resolves its styles, modules and iframe relative to its own URL, so the install works below a nested path.
 
-The [README](../README.md) has the install snippet. The game needs no backend or account. The optional dialogue adapter is a separate feature.
+The [README](../README.md) has the install snippet. The game needs no backend or account.
 
 ## Hosting
 
@@ -34,29 +34,9 @@ Closing waits for a final state snapshot before removing the frame. Disconnectin
 
 ## Current limits
 
-The original sprites and character branches are retained inside a redesigned compact interface. Slice and Cyberpunk include every life stage. The presentation and wellbeing additions are lilgotchi choices, not verified original hardware behavior. Optional dialogue needs a host callback for live replies. Import validation and replacement are covered by automated tests. See the current implementation status for browser upload verification.
+The original sprites and character branches are retained inside a redesigned compact interface. Slice and Cyberpunk include every life stage. The presentation and wellbeing additions are lilgotchi choices, not verified original hardware behavior. Import validation and replacement are covered by automated tests. See the current implementation status for browser upload verification.
 
 The drawer keeps its header reachable while the game and save tools scroll together. The private frame channel reports bounded content heights, including open overlays. Save and help contains export and import. Escape closes a game overlay before closing the drawer. Closing returns focus to the launcher. Inline mode does not trap focus in the host page. Reduced motion removes the drawer entrance and decorative game movement.
-
-## Optional dialogue
-
-Set a callback before opening the widget. The callback returns plain text, at most 280 characters. The player then turns on personality dialogue in settings. With no callback, care works normally and no dialogue requests are made.
-
-```js
-const pet = document.querySelector('lil-gotchi');
-pet.dialogueAdapter = async (context, { signal }) => {
-  const response = await fetch('/api/pet-dialogue', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(context),
-    signal
-  });
-  if (!response.ok) throw new Error('Dialogue unavailable');
-  return (await response.json()).text;
-};
-```
-
-Set the property before adding an inline element to the document. Adapter changes apply on the next open. Never put provider keys in this callback. The endpoint is your own authenticated server and is not included or deployed by the widget. Follow `server-example/README.md` before implementing it. The public `examples/dialogue.html` uses local fake replies for review and needs no server API.
 
 ## Migrate the earlier personal site pets
 
@@ -89,4 +69,4 @@ The launcher shows the last saved character. Its care dot describes the last sav
 
 For a reviewed source checkout on Windows, run `pwsh -File scripts/package-release.ps1`. It rebuilds the distribution and creates a zip in the temporary `lilgotchi-releases` folder named with the package version and source commit. Commit reviewed source before packaging so the filename identifies the actual source. Existing archives are never overwritten. Publish that zip as a release asset after reviewing the source and browser checks. A GitHub source archive is not the built distribution.
 
-Real iPhone Safari, Android browser, assistive technology and a configured live dialogue provider still require explicit verification. Browser viewport emulation does not establish those results.
+Real iPhone Safari, Android browser, assistive technology still require explicit verification. Browser viewport emulation does not establish those results.

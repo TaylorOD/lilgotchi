@@ -11,11 +11,11 @@ import { overlayControls } from '../pets/focus.js';
 test('overlay focus skips hidden rows, disabled toggles and closed disclosures',()=>{
   const make=extra=>({disabled:false,getClientRects:()=>[{}],closest:()=>null,...extra});
   const hiddenTheme=make({closest:selector=>selector==='[hidden], [inert]'?{}:null});
-  const unavailableDialogue=make({disabled:true});
+  const disabledSetting=make({disabled:true});
   const scanlines=make({id:'scanlines'}),close=make({id:'close'});
   const concealed=make({getClientRects:()=>[]});
   const closed=make({closest:selector=>selector==='details:not([open])'?{}:null,tagName:'BUTTON'});
-  const overlay={querySelectorAll:()=>[hiddenTheme,unavailableDialogue,scanlines,concealed,closed,close]};
+  const overlay={querySelectorAll:()=>[hiddenTheme,disabledSetting,scanlines,concealed,closed,close]};
   assert.deepEqual(overlayControls(overlay),[scanlines,close]);
 });
 

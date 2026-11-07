@@ -42,9 +42,9 @@ function same(actual,expected){
 }
 function both(pair,method,...args){pair.actual[method](...args);pair.expected[method](...args);same(pair.actual,pair.expected);}
 
-test('Default stylesheet is the complete pinned original',()=>{
-  const source=readFileSync(new URL('../reference/upstream.html',import.meta.url),'utf8').match(/<style>([\s\S]*?)<\/style>/)[1].trim();
-  assert.equal(readFileSync(new URL('../pets/game.css',import.meta.url),'utf8').trim(),source);
+test('Default stylesheet preserves original rules apart from removed dialogue styling',()=>{
+  const source=readFileSync(new URL('../reference/upstream.html',import.meta.url),'utf8').match(/<style>([\s\S]*?)<\/style>/)[1].split('/* Dialogue bubble */')[0].split('\n').filter(line=>!line.includes('--dialogue-')).join('\n').trim();
+  assert.equal(readFileSync(new URL('../pets/game.css',import.meta.url),'utf8').replace(/\r\n/g,'\n').trim(),source.replace(/\r\n/g,'\n'));
 });
 
 test('care actions and refusals match original state transitions',()=>{
