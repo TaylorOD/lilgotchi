@@ -1,5 +1,7 @@
 # Credits
 
+[lilgotchi website](https://www.taylordorsett.com/lilgotchi/)
+
 ## Inspiration
 
 [Three Pet](https://github.com/ocinpp/three-pet)

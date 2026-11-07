@@ -2,7 +2,7 @@
 
 A little pixel pet for your website. Feed it, play with it, and watch it grow.
 
-**[Try it live](https://www.taylordorsett.com/lilgotchi/)** · **[Install guide](docs/install.md)** · **[Releases](https://github.com/TaylorOD/lilgotchi/releases)**
+**[lilgotchi website](https://www.taylordorsett.com/lilgotchi/)** · **[Install guide](docs/install.md)** · **[Releases](https://github.com/TaylorOD/lilgotchi/releases)**
 
 <p align="center">
   <a href="https://www.taylordorsett.com/lilgotchi/">
