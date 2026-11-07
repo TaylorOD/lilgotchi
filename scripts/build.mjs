@@ -8,7 +8,7 @@ const existing=await lstat(out).catch(error=>{if(error.code!=='ENOENT')throw err
 if(existing?.isSymbolicLink())throw new Error('Build output must not be a link');
 await rm(out,{recursive:true,force:true});
 await mkdir(out,{recursive:true});
-for(const name of ['lilgotchi.js','index.html','README.md'])await copyFile(resolve(root,name),resolve(out,name));
+for(const name of ['lilgotchi.js','embed.js','index.html','README.md','LICENSE.md'])await copyFile(resolve(root,name),resolve(out,name));
 for(const folder of ['widget','pets']){
   await mkdir(resolve(out,folder),{recursive:true});
   for(const item of await readdir(resolve(root,folder),{withFileTypes:true})){
@@ -19,7 +19,6 @@ await cp(resolve(root,'docs'),resolve(out,'docs'),{recursive:true});
 await cp(resolve(root,'examples'),resolve(out,'examples'),{recursive:true});
 await mkdir(resolve(out,'reference'));
 await copyFile(resolve(root,'reference/source.json'),resolve(out,'reference/source.json'));
-await copyFile(resolve(root,'pets/NOTICE.md'),resolve(out,'LICENSE.md'));
 const {name,version}=JSON.parse(await readFile(resolve(root,'package.json'),'utf8'));
 await writeFile(resolve(out,'version.json'),JSON.stringify({name,version,schema:1},null,2)+'\n');
 console.log(`Static ${name} ${version} ready in dist. Copy the whole folder to your site.`);

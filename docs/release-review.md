@@ -1,5 +1,11 @@
 # Release review
 
+## 0.2.0 hosted install
+
+127 automated tests pass. The added loader checks cover loading before the body is ready, captured script configuration, inline placement, head placement and failed module imports. Chrome review checked separate host and asset origins, two independent widgets, the restricted character picker, drawer and inline rendering, and the updated copy button at desktop and 390 pixel widths. Screenshots are named hosted-install and hosted-snippet under pr-screenshots.
+
+The npm tarball was installed into a fresh temporary folder without lifecycle scripts. It includes the full static runtime, root MIT license and upstream notice. The package is distributed through GitHub releases; publishing a registry listing requires an authorized npm login. The hosted loader is pinned under releases/0.2.0. Earlier verification limits below still apply.
+
 Reviewed November 6, 2026 for the first named 0.1.0 built release.
 
 ## Completed

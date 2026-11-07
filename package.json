@@ -1,13 +1,20 @@
 {
   "name": "lilgotchi",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.2.0",
+  "license": "MIT",
+  "author": "Taylor Dorsett",
+  "repository": { "type": "git", "url": "https://github.com/TaylorOD/lilgotchi.git" },
+  "homepage": "https://www.taylordorsett.com/lilgotchi/",
+  "files": ["dist", "LICENSE.md", "README.md"],
+  "exports": { ".": "./dist/lilgotchi.js", "./embed.js": "./dist/embed.js", "./dist/*": "./dist/*" },
+  "publishConfig": { "access": "public" },
   "type": "module",
   "description": "A small embeddable virtual pet based on plateaukao/tamagochi",
   "scripts": {
     "start": "node scripts/serve.mjs",
     "test": "node --test pets/game.test.mjs tests/*.test.mjs",
     "inventory": "node scripts/inventory.mjs",
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "prepack": "npm run build"
   }
 }

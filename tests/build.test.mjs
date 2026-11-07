@@ -11,7 +11,7 @@ test('release rebuild removes stale files and contains all local runtime imports
   const output=await files(dist);
   assert.ok(output.length>30);
   assert.equal(output.some(file=>/[/\\](qa|tests|server-example)[/\\]|\.test\.|[/\\](panel|widget)\.(js|css)$|stale\.txt$/.test(file)),false);
-  const version=JSON.parse(await readFile(resolve(dist,'version.json')));assert.equal(version.version,'0.1.0');
+  const version=JSON.parse(await readFile(resolve(dist,'version.json')));assert.equal(version.version,JSON.parse(await readFile(resolve(root,'package.json'))).version);
   await access(resolve(dist,'LICENSE.md'));await access(resolve(dist,'examples/install.html'));
   for(const file of output.filter(name=>/\.(js|css|html)$/.test(name))){
     const text=await readFile(file,'utf8');
