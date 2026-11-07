@@ -33,6 +33,7 @@ class LilGotchi extends HTMLElement {
       <p class="return-summary" hidden></p><div class="frame"></div><p class="status" role="status"></p>
       <button class="retry" hidden>Try again</button><details class="save-help"><summary>Save and help</summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
+      <details class="paste-save"><summary>Paste a save instead</summary><label for="save-text">Exported save text</label><p id="paste-hint">Open your exported JSON file as text and paste its contents here. Nothing is uploaded.</p><textarea id="save-text" rows="5" maxlength="32768" spellcheck="false" aria-describedby="paste-hint"></textarea><button class="preview-paste">Preview pasted save</button></details>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
       <div class="guide-host"></div>
       <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
@@ -56,7 +57,7 @@ class LilGotchi extends HTMLElement {
     this.select.addEventListener('change',()=>this.setCharacter(this.select.value));
     this.panel.addEventListener('keydown',event=>{
       if(this.inline || event.key!=='Tab')return;
-      const controls=[...this.panel.querySelectorAll('button,select,summary,a,iframe')].filter(visibleControl);
+      const controls=[...this.panel.querySelectorAll('button,select,textarea,summary,a,iframe')].filter(visibleControl);
       if(event.shiftKey && this.shadowRoot.activeElement===controls[0]){event.preventDefault();controls.at(-1)?.focus();}
       else if(!event.shiftKey && this.shadowRoot.activeElement===controls.at(-1)){event.preventDefault();controls[0]?.focus();}
     });
@@ -65,7 +66,8 @@ class LilGotchi extends HTMLElement {
     this.bind('.export','click',()=>this.exportSave());
     this.bind('.import-button','click',()=>this.shadowRoot.querySelector('.file').click());
     this.bind('.file','change',event=>this.previewImport(event.target.files[0]));
-    this.bind('.cancel-import','click',()=>{this.shadowRoot.querySelector('.import').hidden=true;this.importData=null;});
+    this.bind('.preview-paste','click',()=>this.previewImportText(this.shadowRoot.querySelector('#save-text').value));
+    this.bind('.cancel-import','click',()=>{this.importPreviewId=(this.importPreviewId||0)+1;this.shadowRoot.querySelector('.import').hidden=true;this.importData=null;});
     this.bind('.confirm-import','click',()=>this.confirmImport());
     if(this.inline){this.shadowRoot.querySelector('.launcher').hidden=true;this.shadowRoot.querySelector('.close').hidden=true;this.open();}
   }
@@ -226,16 +228,27 @@ class LilGotchi extends HTMLElement {
   });}
   async previewImport(file){
     if(!file)return;
+    const request=this.importPreviewId=(this.importPreviewId||0)+1;
     this.importData=null;
     this.shadowRoot.querySelector('.import').hidden=true;
     try{
       if(file.size>32768)throw new Error('This save file is too large.');
-      this.importData=parseImport(await file.text(),this.allowed);
+      const text=await file.text();
+      if(request!==this.importPreviewId)return;
+      this.previewImportText(text);
+    }catch(error){if(request===this.importPreviewId)this.fail(error);}
+    finally{this.shadowRoot.querySelector('.file').value='';}
+  }
+  previewImportText(text){
+    this.importPreviewId=(this.importPreviewId||0)+1;
+    this.importData=null;
+    this.shadowRoot.querySelector('.import').hidden=true;
+    try{
+      this.importData=parseImport(text,this.allowed);
       const panel=this.shadowRoot.querySelector('.import');
       panel.querySelector('p').textContent=`Replace ${catalog.find(choice=>choice.id===this.importData.family).name} with this ${this.importData.state.stage}, age ${this.importData.state.age}? Your previous save will be kept as a recovery copy.`;
       panel.hidden=false;panel.querySelector('button').focus();
     }catch(error){this.fail(error);}
-    this.shadowRoot.querySelector('.file').value='';
   }
   confirmImport(){return this.serial(async()=>{
     const data=this.importData;if(!data)return;
@@ -246,6 +259,7 @@ class LilGotchi extends HTMLElement {
       this.store.replace(data.family,data.state);
       this.family=data.family;this.updateLauncher();this.select.value=data.family;this.store.preference('character',data.family);
       this.shadowRoot.querySelector('.import').hidden=true;this.importData=null;
+      this.shadowRoot.querySelector('#save-text').value='';
     }finally{this.store.release(data.family);}
     await this.mount();
   });}
