@@ -66,7 +66,7 @@ Closing waits for a final state snapshot, keeps care active and suppresses rende
 
 ## Current limits
 
-The original sprites and character branches are retained inside a redesigned compact interface. Slice and Cyberpunk include every life stage. The presentation and wellbeing additions are lilgotchi choices, not verified original hardware behavior. Import validation and replacement are covered by automated tests. See the current implementation status for browser upload verification.
+The original sprites and character branches are retained inside a redesigned compact interface. Slice and Cypunk include every life stage. The presentation and wellbeing additions are lilgotchi choices, not verified original hardware behavior. Import validation and replacement are covered by automated tests. See the current implementation status for browser upload verification.
 
 The drawer keeps its header reachable while the game and save tools scroll together. The private frame channel reports bounded content heights, including open overlays. Save and help contains export and import. Escape closes a game overlay before closing the drawer. Closing returns focus to the launcher. Inline mode does not trap focus in the host page. Reduced motion removes the drawer entrance and decorative game movement.
 
@@ -79,7 +79,7 @@ Migration is off by default. Only sites that used the earlier full game should a
 <lil-gotchi storage-key="taylor-pocket-pets" migrate-legacy></lil-gotchi>
 ```
 
-Use that same storage key on home and projects. The selected family is copied when first opened. `classic`, `pizza` and `cyberpunk` from `taylor-pocket-pets-p1-v1-{type}` become Default, Slice and Cyberpunk. The host checks writer ownership and validates the full state and clocks. Any existing destination, including damaged data, prevents migration. Original keys and the simplified `taylor-pocket-pets-v1` save stay untouched.
+Use that same storage key on home and projects. The selected family is copied when first opened. `classic`, `pizza` and `cyberpunk` from `taylor-pocket-pets-p1-v1-{type}` become Default, Slice and Cypunk. The host checks writer ownership and validates the full state and clocks. Any existing destination, including damaged data, prevents migration. Original keys and the simplified `taylor-pocket-pets-v1` save stay untouched.
 
 A migration receipt is recorded only after the destination can be read back from browser storage. The destination itself prevents duplicate copies if writing the receipt fails. Quota failures leave migration available to retry with Try again. Invalid legacy data shows a recovery error instead of starting over. If storage cannot be read at all, the widget can play in session mode without copying the old pet. Restore storage access and reload to retry. Export session progress before reloading if you want to retain that visit.
 

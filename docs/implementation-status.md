@@ -6,9 +6,9 @@ The public GitHub release includes a built zip and npm installable tarball. The 
 
 The game update is deployed on the personal site using its 0.1.0 asset copy. The standalone demo and hosted loader include the newer packaging changes. See [installation](install.md) for the current download and snippet.
 
-The standalone widget, all original starting characters, complete Slice and Cyberpunk lifecycles, local saves, curated installs and personal site integration are implemented. Original sprites remain intact. This is an adapted pixel game, not verified hardware emulation.
+The standalone widget, all original starting characters, complete Slice and Cypunk lifecycles, local saves, curated installs and personal site integration are implemented. Original sprites remain intact. This is an adapted pixel game, not verified hardware emulation.
 
-The landing page features Original egg, Slice and Cyberpunk with a dropdown for the other originals. Eggs hatch in 90 seconds. Newly hatched pets need food and play. Later evolution preserves existing needs. New illnesses can require one through three doses.
+The landing page features Original egg, Slice and Cypunk with a dropdown for the other originals. Eggs hatch in 90 seconds. Newly hatched pets need food and play. Later evolution preserves existing needs. New illnesses can require one through three doses.
 
 Clock, time icon, scenery, stage, care grade and four numeric meters are implemented. Information and growth notices sit outside the pet canvas. Three primary controls retain secondary actions in More care. Lighting and sleep are separate. Integer sway, breathing, bounce, tilt and landing respect reduced motion, E ink, busy scenes and Vacation.
 

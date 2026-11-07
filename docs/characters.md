@@ -2,6 +2,8 @@
 
 The full lineup is available by default. Each selection has its own save under your stable `storage-key`.
 
+Cypunk keeps the `cyberpunk` configuration ID, asset paths and save keys for compatibility. Existing installs, exported backups and saved progress continue to work without migration. The name shown to players is Cypunk.
+
 | ID | Starting stage |
 | --- | --- |
 | `default` | Original egg |
@@ -17,7 +19,7 @@ The full lineup is available by default. Each selection has its own save under y
 | `tarakotchi` | Adult |
 | `oyajitchi` | Adult |
 | `slice` | Slice egg |
-| `cyberpunk` | Cyberpunk egg |
+| `cyberpunk` | Cypunk egg |
 
 Named original choices are starting presets. They use the actual original sprites and begin at the pictured stage. Age and care history start at zero, with the minimum weight from the stage constants. Growth and care rules still apply. A teen can grow into another character. Choosing Mametchi does not lock every future life to Mametchi. Reset returns that save to its selected preset. The original egg still follows the normal full evolution path.
 
