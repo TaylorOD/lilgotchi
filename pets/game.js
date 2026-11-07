@@ -157,6 +157,8 @@ export class TamagotchiApp {
     if(this.catchingUp) return;
     const st=this.state;
     const vacation=document.getElementById('vacation-toggle');
+    const attention=document.getElementById('attention-bar');
+    if(attention?.style)attention.style.animationName=this.motionDisabled()?'none':'';
     vacation?.setAttribute?.('aria-checked',String(st.vacationAt>0));
     vacation?.classList.toggle('on',st.vacationAt>0);
     updateStatus(st);
@@ -280,6 +282,7 @@ export class TamagotchiApp {
     if(st.stage==='adult'){
       if(st.careMistakes>=C.ADULT_MAX_MISTAKES||st.age>=C.MAX_AGE){
         st.isDead=true; st.stage='dead';
+        this.cancelGame();
         st.save();
         this.sound.death(); this.showDeath();
       }
@@ -530,7 +533,7 @@ export class TamagotchiApp {
 
   // -- MINI-GAME --
   startGame(){
-    if(this.state.vacationAt>0)return;
+    if(this.state.vacationAt>0||this.state.isDead)return;
     applyWellbeingAction(this.state,'play',clockNow());
     this.gameId=(this.gameId||0)+1;
     this.gameActive=true; this.gameRound=0; this.gameWins=0;
@@ -540,6 +543,7 @@ export class TamagotchiApp {
   }
 
   nextGameRound(){
+    if(this.state.isDead||this.state.vacationAt>0)return;
     if(this.gameRound>=5){ this.finishGame(); return; }
     this.gameDir=Math.random()<.5?0:1;
     this.gamePhase='waiting';
@@ -552,7 +556,7 @@ export class TamagotchiApp {
   }
 
   gameGuess(dir){
-    if(this.state.vacationAt>0)return;
+    if(this.state.vacationAt>0||this.state.isDead)return;
     if(this.gamePhase!=='waiting'||!this.gameActive) return;
     this.gamePhase='reveal';
     document.getElementById('guess-left').classList.add('disabled');
@@ -579,7 +583,7 @@ export class TamagotchiApp {
   }
 
   finishGame(){
-    if(this.state.vacationAt>0)return;
+    if(this.state.vacationAt>0||this.state.isDead)return;
     this.gameActive=false;
     const won=this.gameWins>=3;
     if(won){
@@ -602,11 +606,12 @@ export class TamagotchiApp {
   render(){
     const R=this.renderer, st=this.state;
     R.clear();
-    if(!st.vacationAt&&!this.eink&&!matchMedia('(prefers-reduced-motion: reduce)').matches) this.frame++;
+    const still=this.motionDisabled();
+    if(!still) this.frame++;
 
     if(st.isDead){
       const items=[{name:'grave',pixels:SP.grave,x:13,y:8}];
-      if(this.frame%90<45) items.push({name:'angel',pixels:SP.angel,x:13,y:1});
+      if(still||this.frame%90<45) items.push({name:'angel',pixels:SP.angel,x:13,y:1});
       drawScene(R,items);
       R.render(); return;
     }
@@ -665,10 +670,10 @@ export class TamagotchiApp {
     }
 
     // Skull if sick
-    if(st.isSick&&this.frame%60<40) items.push({name:'sickness',pixels:SP.skull,x:1,y:1});
+    if(st.isSick&&(still||this.frame%60<40)) items.push({name:'sickness',pixels:SP.skull,x:1,y:1});
 
     // Misbehaving
-    if(st.isMisbehaving&&this.frame%40<20) items.push({name:'attention',pixels:PF['!'],x:1,y:8});
+    if(st.isMisbehaving&&(still||this.frame%40<20)) items.push({name:'attention',pixels:PF['!'],x:1,y:8});
 
     // Needs live below the LCD so they cannot overwrite the character.
     drawScene(R,items);
@@ -676,7 +681,7 @@ export class TamagotchiApp {
   }
 
   petMotion(kind='idle'){
-    if(this.state.vacationAt>0||!this.presentationEnabled||this.eink||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return {x:0,y:0};
+    if(!this.presentationEnabled||this.motionDisabled())return {x:0,y:0};
     const elapsed=clockNow()-this.landingAt;
     if(this.landingAt&&elapsed>=0&&elapsed<650)return motionOffset(elapsed,'land');
     return motionOffset(clockNow(),kind);
@@ -684,8 +689,12 @@ export class TamagotchiApp {
 
   canTilt(){
     const st=this.state;
-    return this.presentationEnabled&&!this.eink&&!st.vacationAt&&!st.poopCount&&!st.isSick&&!st.isMisbehaving&&!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    return this.presentationEnabled&&!this.motionDisabled()&&!st.poopCount&&!st.isSick&&!st.isMisbehaving;
   }
+
+  motionDisabled(){return this.state.vacationAt>0||this.eink||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;}
+
+  cancelGame(){this.gameActive=false;this.gamePhase='idle';this.gameId=(this.gameId||0)+1;}
 
   renderAnim(R,st){
     const sp=SP[st.character];
@@ -697,13 +706,13 @@ export class TamagotchiApp {
     const items=[{name:`${st.character}.${this.animState}`,pixels:frame,x:cx+offset.x,y:cy+offset.y}];
     switch(this.animState){
       case 'eat':
-        if(this.frame%30<15) items.push({name:'meal',pixels:SP.meal,x:cx-6,y:cy+2});
+        if(this.motionDisabled()||this.frame%30<15) items.push({name:'meal',pixels:SP.meal,x:cx-6,y:cy+2});
         break;
       case 'evolve':
         if(!this.presentationEnabled&&this.frame%20>=10) items.length=0;
         break;
       case 'discipline':
-        if(this.frame%20<10) items.push({name:'discipline',pixels:PF['!'],x:cx+frame[0].length+1,y:cy});
+        if(this.motionDisabled()||this.frame%20<10) items.push({name:'discipline',pixels:PF['!'],x:cx+frame[0].length+1,y:cy});
         break;
       case 'medicine':
         if(PF['+']) items.push({name:'medicine',pixels:PF['+'],x:cx-4,y:cy});
@@ -720,18 +729,26 @@ export class TamagotchiApp {
   // -- UI --
   openOverlay(id){
     const overlay=document.getElementById(id);
-    this.returnFocus=document.activeElement;
+    if(overlay.classList.contains?.('show'))return;
+    const active=[...document.querySelectorAll('.overlay.show')];
+    if(!active.length)this.returnFocus=document.activeElement;
+    for(const previous of active)previous.classList.remove('show');
     overlay.classList.add('show');
     document.getElementById('device').inert=true;
     overlayControls(overlay)[0]?.focus();
   }
   closeOverlay(id){
-    document.getElementById(id).classList.remove('show');
-    document.getElementById('device').inert=false;
-    this.returnFocus?.focus();
+    const overlay=document.getElementById(id);
+    if(!overlay?.classList.contains?.('show'))return;
+    overlay.classList.remove('show');
+    const remaining=[...document.querySelectorAll('.overlay.show')].at(-1);
+    document.getElementById('device').inert=!!remaining;
+    if(remaining)overlayControls(remaining)[0]?.focus();
+    else this.returnFocus?.focus();
   }
 
   showDeath(){
+    this.cancelGame();
     if(this.catchingUp) return;
     document.getElementById('death-msg').textContent=
       `Your ${this.state.character} lived for ${this.state.age} days.`;
