@@ -6,7 +6,7 @@ Each website keeps its own pets in that browser. Default, Slice and Cyberpunk ha
 
 The host shell owns storage on the website's origin. This keeps hosted frame storage restrictions from determining whether the pet can save. The game frame requests load and save through the private channel described in the [widget design](01-embeddable-widget.md).
 
-Use a versioned envelope containing schema version, instance key, family, revision, saved time and validated game state. A proposed key is `lilgotchi:v1:{instance}:{family}`. Keep selected family and sound preference separate from lifecycle state.
+Use a versioned envelope containing schema version, instance key, family, revision, saved time and validated game state. The key is `lilgotchi:v1:{instance}:{family}`. Keep selected family and sound preference separate from lifecycle state.
 
 Persist after meaningful actions and during normal play, not only on unload. A close operation waits for the latest state acknowledgement before destroying the frame. A missed final unload event must not lose an entire visit.
 
@@ -34,7 +34,7 @@ Map current identifiers to the public family names:
 | `pizza` | `slice` |
 | `cyberpunk` | `cyberpunk` |
 
-Read existing full game saves from `taylor-pocket-pets-p1-v1-{type}` only when no valid lilgotchi save exists for that family. Validate and copy the state, retaining original gameplay identities. Record migration completion only after the new save succeeds. Keep the old data as a recovery copy.
+Read existing full game saves from `taylor-pocket-pets-p1-v1-{type}` only with the explicit `migrate-legacy` attribute and when no lilgotchi destination data exists for that family. Damaged destination data requires recovery and is never overwritten. Validate and copy the state, retaining original gameplay identities. Record migration completion only after the new save succeeds. Keep the old data as a recovery copy.
 
 Leave the earlier simplified `taylor-pocket-pets-v1` data untouched. It lacks the full care and discipline history. Do not invent that history or overwrite a full game save with it.
 

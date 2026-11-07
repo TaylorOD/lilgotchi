@@ -87,12 +87,15 @@ class LilGotchi extends HTMLElement {
     this.shadowRoot.querySelector('.retry').hidden=true;
     this.status('Loading your pet…');
     let saved;
-    try {saved=this.store.load(this.family);} catch(error){this.fail(error);return;}
     if(!await this.store.acquire(this.family)){
       container.innerHTML='<p class="loading">This pet is active in another window. Close it there, then try again here.</p>';
       this.status('Read only while another window is playing.');
       this.shadowRoot.querySelector('.retry').hidden=false;return;
     }
+    try {
+      if(this.hasAttribute('migrate-legacy'))this.store.migrateLegacy(this.family);
+      saved=this.store.load(this.family);
+    } catch(error){this.store.release(this.family);this.fail(error);return;}
     if(!this.isConnected){this.store.release(this.family);return;}
     const frame=document.createElement('iframe');
     this.frame=frame;

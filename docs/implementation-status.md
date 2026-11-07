@@ -12,7 +12,7 @@ Each stage gets its own branch and PR. Later branches may build on earlier work,
 | 6. Cyberpunk family | Implemented and browser checked | Complete binary seed through secret adult artwork and labeled frame review |
 | 7. Shell polish | Implemented and browser checked | PR 7. Responsive, keyboard and accessibility checks with screenshots |
 | 8. Dialogue adapter | Implemented and browser checked | Optional callback, original triggers, retry and cancellation checks with desktop and phone screenshots |
-| 9. Integration and site migration | Pending | Release install checks and legacy save migration |
+| 9. Integration and site migration | Implemented and browser checked | Opt in legacy migration, clean release build, copied install example and local personal site migration verified. Production rollout is separate |
 
 ## Foundation evidence
 
@@ -20,7 +20,7 @@ Each stage gets its own branch and PR. Later branches may build on earlier work,
 
 `npm run inventory` records 21 sprite entries from the pinned original. The source integrity test checks the preserved file against its recorded SHA256.
 
-The demo and reference pages are ready for browser review. Screenshots and a PR link should be recorded here after the owning agent finishes that review.
+Foundation browser review passed and screenshots are included in PR 1. Test counts in the sections below describe each stage at its completion.
 
 ## Remaining release limits
 
@@ -28,13 +28,13 @@ Documented offline and embedding differences remain. Shell and dialogue browser 
 
 ## Widget evidence
 
-The parent browser review verified opening, character switching, persisted selection after reload, two independent inline games under hostile CSS, separate origin loading and saving, and a duplicate key showing a read only notice. Export downloaded a valid save envelope. Progress survived navigation and reload. The 320 pixel drawer is usable, with nested scrolling left for shell polish. Full import interaction remains part of final integration review.
+The parent browser review verified opening, character switching, persisted selection after reload, two independent inline games under hostile CSS, separate origin loading and saving, and a duplicate key showing a read only notice. Export downloaded a valid save envelope. Progress survived navigation and reload. The 320 pixel drawer is usable, with nested scrolling subsequently completed in shell polish. Browser file upload remains unverified because the Chrome extension disallows local file URLs.
 
 Storage tests cover family isolation, writer ownership, stale revision rejection, expired leases, quota failure followed by further saves and reopen, blocked storage, preserved corrupt data and invalid imports. The build copies the static runtime and install examples without package dependencies.
 
 ## Default evidence
 
-The Default task adds exact source CSS and restored settings, palette and lights off colors. Tests compare the original and fork under controlled time and randomness, including 864 logical screen compositions, both raster themes and all sound cues. The local `/qa/` page provides frozen source and fork views. Parent browser review confirmed idle, lights off and stats layouts against the source, inspected the phone layout, and checked E ink in the actual drawer. Screenshots are included. See `parity-status.md` for intentional behavior differences and remaining bounds work.
+The Default task adds exact source CSS and restored settings, palette and lights off colors. Tests compare the original and fork under controlled time and randomness, including 864 logical screen compositions, both raster themes and all sound cues. The local `/qa/` page provides frozen source and fork views. Parent browser review confirmed idle, lights off and stats layouts against the source, inspected the phone layout, and checked E ink in the actual drawer. Screenshots are included. See `parity-status.md` for intentional behavior differences and completed bounds corrections.
 
 ## Bounds evidence
 
@@ -46,7 +46,7 @@ The Default task adds exact source CSS and restored settings, palette and lights
 
 ## Cyberpunk evidence
 
-51 tests pass and the static build succeeds. Cyberpunk supplies 68 frozen complete frames across all 12 original identities. Coverage checks distinct silhouettes and expressions, readable binary glyphs in both boot frames, unchanged reaction feet and complete palette entries. Existing full composition sweeps and Default source comparisons pass without changed expectations. The contact sheet at /qa/cyberpunk.html shows every frame at native and six times scale. Parent browser review inspected every identity and frame, readable Binary Seed, and Wire and Mainframe with combined care indicators at desktop and 390 pixel phone sizes. Five screenshots are saved under pr-screenshots/cyberpunk*.jpg. The final display label update will be checked again during shell polish.
+51 tests pass and the static build succeeds. Cyberpunk supplies 68 frozen complete frames across all 12 original identities. Coverage checks distinct silhouettes and expressions, readable binary glyphs in both boot frames, unchanged reaction feet and complete palette entries. Existing full composition sweeps and Default source comparisons pass without changed expectations. The contact sheet at /qa/cyberpunk.html shows every frame at native and six times scale. Parent browser review inspected every identity and frame, readable Binary Seed, and Wire and Mainframe with combined care indicators at desktop and 390 pixel phone sizes. Five screenshots are saved under pr-screenshots/cyberpunk*.jpg. The final display labels were included in the completed shell polish review.
 
 
 
@@ -57,3 +57,9 @@ The launcher uses actual family pixel art. A sticky drawer header, content sized
 ## Dialogue evidence
 
 63 tests pass and the static build succeeds. Parent browser review checked the Default reply bubble, saved opt in after reload, failure and malformed reply states, successful retry and cancellation when a delayed Default reply was followed by a switch to Slice. The new egg stayed clear of the old reply. Phone review checked the Slice adult error panel. Screenshots are saved as `pr-screenshots/dialogue-desktop.jpg` and `pr-screenshots/dialogue-mobile.jpg`. No live provider or paid call was used.
+
+## Integration evidence
+
+72 tests pass and the static build succeeds. Migration tests cover absent sources, all family mappings, repeated copies, existing and damaged destinations, invalid identities, future clocks, quota retry, failed receipts and competing owners. The release check plants stale files, rebuilds, verifies their removal and checks local module and asset references. Source comparisons still pass with the documented timing, accessibility and HUD exceptions. The plain install page uses the built distribution. Parent browser review inspected Slice dough at desktop size and Cyberpunk Binary Seed at phone size on `/dist/examples/install.html`. Screenshots are `pr-screenshots/install-desktop.jpg` and `pr-screenshots/install-mobile.jpg`.
+
+The personal site integration was also checked locally on home and projects at desktop and 390 pixel phone widths. A synthetic legacy pizza child with hunger 2 migrated successfully. Feeding raised hunger to 3, which survived navigation and reload. The original save remained at hunger 2 and the migration receipt existed. Screenshots are saved as `pr-screenshots/site-home-desktop.jpg`, `site-home-mobile.jpg`, `site-projects-desktop.jpg` and `site-projects-mobile.jpg`. This verifies the copied package and migration locally, not a production deployment. Browser file upload remains unverified because the Chrome extension disallows local file URLs.

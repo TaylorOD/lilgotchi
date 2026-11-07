@@ -2,12 +2,12 @@
 
 lilgotchi should work on an ordinary website with a script and one element. It must not depend on Taylor's site, its styles, its paths or its build tools.
 
-## Proposed install
+## Static install
 
 Ship a versioned static distribution that can be hosted anywhere. The first release should support copying the distribution into a site's assets. A public package or CDN can be added once its actual publishing location exists.
 
 ```html
-<script type="module" src="/assets/lilgotchi/v1/lilgotchi.js"></script>
+<script type="module" src="/assets/lilgotchi/0.1.0/lilgotchi.js"></script>
 <lil-gotchi character="slice" storage-key="site-pet"></lil-gotchi>
 ```
 
@@ -29,6 +29,7 @@ Use a private MessageChannel for the shell and its own frame. Establish the chan
 | `storage-key` | Stable instance identity within the host origin. Defaults to `default` |
 | `placement` | `bottom-right` by default, or `bottom-left` |
 | `mode` | `drawer` by default, or `inline` for a permanently mounted game |
+| `migrate-legacy` | Opt in to validated full game legacy copies on first family open. Existing destination data always wins |
 | `muted` | Sound begins muted. Sound can only start after user interaction |
 
 Expose `open()`, `close()` and `setCharacter(name)`. Emit `lilgotchi:ready`, `lilgotchi:open`, `lilgotchi:close`, `lilgotchi:characterchange` and `lilgotchi:error` from the element. Public events carry simple documented values, never the entire private save. Reset stays behind an explicit confirmation in the game UI.
