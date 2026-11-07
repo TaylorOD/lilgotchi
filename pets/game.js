@@ -7,6 +7,7 @@ import { Renderer } from './renderer.js';
 import { SP, characterName } from './skins.js';
 import { updateStatus } from './status.js';
 import { drawScene, centeredBody } from './layout.js';
+import { Dialogue, contextFor } from './dialogue.js';
 import { PF } from './font.js';
 import { petType } from './storage.js';
 
@@ -26,6 +27,9 @@ export class TamagotchiApp {
     this.toastTimer=null;
     this.eink=options.eink===true;
     this.onThemeChange=options.onThemeChange||(()=>{});
+    this.dialogue=new Dialogue(options.dialogueSend||(()=>{}),options.dialogueAvailable===true,(text,status)=>this.showDialogue(text,status));
+    this.dialogue.enabled=options.dialogueEnabled===true;
+    this.onDialogueChange=options.onDialogueChange||(()=>{});
     this.init();
   }
 
@@ -60,6 +64,15 @@ export class TamagotchiApp {
       });
     });
 
+    const toggle=document.getElementById('dialogue-toggle');
+    toggle.disabled=!this.dialogue.available;
+    toggle.setAttribute('aria-checked',String(this.dialogue.on));toggle.classList.toggle('on',this.dialogue.on);
+    document.getElementById('dialogue-info').textContent=this.dialogue.available?'Optional personality replies from this site.':'Dialogue is unavailable. This site has no adapter configured.';
+    toggle.addEventListener('click',()=>{
+      this.dialogue.enabled=!this.dialogue.enabled;this.dialogue.cancel();this.onDialogueChange(this.dialogue.enabled);
+      toggle.setAttribute('aria-checked',String(this.dialogue.enabled));toggle.classList.toggle('on',this.dialogue.enabled);
+    });
+    document.getElementById('dialogue-retry').addEventListener('click',()=>this.dialogue.retry());
     // Feed overlay buttons
     document.getElementById('feed-meal-btn').addEventListener('click',e=>{
       e.preventDefault(); this.doFeed('meal'); this.state.save(); this.closeOverlay('feed-overlay');
@@ -84,13 +97,13 @@ export class TamagotchiApp {
     });
     document.getElementById('reset-game-btn').addEventListener('click',()=>{
       if(confirm(`Restart ${petType==='pizza'?'Slice':petType==='cyberpunk'?'Cyberpunk':'Default'}? This cannot be undone.`)){
-        this.state.clearSave(); this.state.reset(); this.animState=null; this.state.save();
+        this.dialogue?.cancel(); this.state.clearSave(); this.state.reset(); this.animState=null; this.state.save();
         this.closeOverlay('settings-overlay'); this.closeOverlay('death-overlay');
         this.toast('New egg started!');
       }
     });
     document.getElementById('restart-btn').addEventListener('click',()=>{
-      this.state.clearSave(); this.state.reset();
+      this.dialogue?.cancel(); this.state.clearSave(); this.state.reset();
       this.animState=null; this.state.save(); this.updateButtons();
       this.closeOverlay('death-overlay');
       this.toast('New egg started!');
@@ -108,6 +121,8 @@ export class TamagotchiApp {
     requestAnimationFrame(renderLoop);
     setInterval(()=>this.state.save(),30000);
     setInterval(()=>this.maybeMisbehave(),600000);
+
+    setInterval(()=>{if(this.dialogue.on&&!this.state.isDead&&!this.state.isSleeping&&this.state.stage!=='egg'&&Math.random()<.2)this.talk('idle');},300000);
 
     // Update button states immediately and periodically
     this.updateButtons();
@@ -228,6 +243,7 @@ export class TamagotchiApp {
         st.character='oyajitchi';
         this.sound.hatch();
         this.animState='evolve'; this.animTimer=clockNow();
+        this.talk('evolved');
       }
     }
 
@@ -247,9 +263,11 @@ export class TamagotchiApp {
     const shouldSleep=(h>=sch.s||h<sch.w);
     if(shouldSleep&&!st.isSleeping){
       st.isSleeping=true;
+      this.talk('going_sleep');
     }
     if(!shouldSleep&&st.isSleeping){
       st.isSleeping=false; st.lightOn=true;
+      this.talk('woke_up');
       st.lastHungerDecay=clockNow(); st.lastHappyDecay=clockNow(); st.lastPoopTime=clockNow();
     }
   }
@@ -261,10 +279,12 @@ export class TamagotchiApp {
     }
     if(st.hunger===0&&!st.attentionCallTime&&!st.isMisbehaving){
       st.attentionCallTime=clockNow(); st.attentionReason='hungry';
+      this.talk('hungry');
       return;
     }
     if(st.happiness===0&&!st.attentionCallTime&&!st.isMisbehaving){
       st.attentionCallTime=clockNow(); st.attentionReason='sad';
+      this.talk('sad');
       return;
     }
     if(!st.attentionCallTime&&st.isMisbehaving){
@@ -280,6 +300,7 @@ export class TamagotchiApp {
     st.isSick=true;
     st.medDoses=1+Math.floor(Math.random()*2);
     st.sickCount++;
+    this.talk('sick');
   }
 
   doEvolve(){
@@ -293,6 +314,7 @@ export class TamagotchiApp {
     if(r.stage==='teen') st.prevTeen=r.character;
     this.sound.hatch();
     this.animState='evolve'; this.animTimer=clockNow();
+    this.talk('evolved');
     const name=characterName(r.character);
     this.toast(`Evolved into ${name}!`);
     if(!this.catchingUp) this.state.save();
@@ -304,6 +326,7 @@ export class TamagotchiApp {
     if(st.isDead||st.isSleeping||st.stage==='egg'||st.stage==='baby') return;
     if(Math.random()<.05&&!st.isMisbehaving&&st.hunger>0&&st.happiness>0){
       st.isMisbehaving=true;
+      this.talk('misbehave');
       this.updateButtons();
     }
   }
@@ -370,6 +393,7 @@ export class TamagotchiApp {
         this.sound.clean();
         this.animState='clean'; this.animTimer=clockNow();
         this.toast('Cleaned up!');
+        this.talk('cleaned');
         this.updateButtons();
         break;
 
@@ -390,6 +414,7 @@ export class TamagotchiApp {
         this.sound.discipline();
         this.animState='discipline'; this.animTimer=clockNow();
         this.toast(`Discipline: ${st.discipline}%`);
+        this.talk('discipline');
         this.updateButtons();
         break;
     }
@@ -413,6 +438,7 @@ export class TamagotchiApp {
       if(st.snacksInWindow>=C.SNACK_SICK) this.makeSick();
       this.toast('Yum! Happy +1');
     }
+    this.talk(type==='meal'?'fed_meal':'fed_snack');
     this.sound.eat();
     this.animState='eat'; this.animTimer=clockNow();
     if(st.hunger>0&&st.happiness>0&&!st.isMisbehaving&&!st.isSick){
@@ -497,6 +523,7 @@ export class TamagotchiApp {
       this.sound.gameLose();
       document.getElementById('game-result').textContent=`You lost ${this.gameWins}/5. Try again!`;
     }
+    this.talk(won?'played_won':'played_lost');
     document.getElementById('game-score').textContent='Game Over!';
     document.getElementById('guess-left').classList.add('disabled');
     document.getElementById('guess-right').classList.add('disabled');
@@ -623,11 +650,29 @@ export class TamagotchiApp {
   }
 
   showDeath(){
+    this.dialogue?.cancel();
     if(this.catchingUp) return;
     document.getElementById('death-msg').textContent=
       `Your ${this.state.character} lived for ${this.state.age} days.`;
     this.openOverlay('death-overlay');
     document.getElementById('attention-bar').classList.remove('active');
+  }
+
+  talk(event){
+    if(this.catchingUp || this.state.isDead)return;
+    this.dialogue?.talk(contextFor(this.state,event,{classic:'default',pizza:'slice',cyberpunk:'cyberpunk'}[petType],characterName(this.state.character)));
+  }
+  showDialogue(text,status){
+    const el=document.getElementById('dialogue');
+    if(!el)return;
+    clearInterval(this.dialogueTyping);clearTimeout(this.dialogueHide);
+    const content=document.getElementById('dialogue-text');
+    document.getElementById('dialogue-retry').hidden=status!=='error';
+    el.classList.toggle('show',!!text);el.setAttribute('aria-busy',String(status==='busy'));
+    content.textContent='';
+    if(status!=='reply' || globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches){content.textContent=text;}
+    else {let i=0;this.dialogueTyping=setInterval(()=>{content.textContent=text.slice(0,++i);if(i>=text.length){clearInterval(this.dialogueTyping);this.dialogueHide=setTimeout(()=>el.classList.remove('show'),4000);}},40);}
+    if(status==='reply' && content.textContent)this.dialogueHide=setTimeout(()=>el.classList.remove('show'),4000);
   }
 
 }

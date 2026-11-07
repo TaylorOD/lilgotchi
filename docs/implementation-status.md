@@ -10,8 +10,8 @@ Each stage gets its own branch and PR. Later branches may build on earlier work,
 | 4. Bounds and animation | Implemented and browser checked | Complete frame placement, separate needs row, crisp sizing and exhaustive composition checks |
 | 5. Slice family | Implemented and browser checked | Complete dough through secret adult artwork and labeled frame review |
 | 6. Cyberpunk family | Implemented and browser checked | Complete binary seed through secret adult artwork and labeled frame review |
-| 7. Shell polish | Pending | Responsive, keyboard and accessibility checks |
-| 8. Dialogue adapter | Pending | Original trigger coverage with deterministic fake provider |
+| 7. Shell polish | Implemented and browser checked | PR 7. Responsive, keyboard and accessibility checks with screenshots |
+| 8. Dialogue adapter | Implemented and browser checked | Optional callback, original triggers, retry and cancellation checks with desktop and phone screenshots |
 | 9. Integration and site migration | Pending | Release install checks and legacy save migration |
 
 ## Foundation evidence
@@ -24,7 +24,7 @@ The demo and reference pages are ready for browser review. Screenshots and a PR 
 
 ## Remaining release limits
 
-Documented offline and embedding differences remain. Shell browser review and the optional dialogue adapter are pending. No live AI provider or personal site deployment is configured by this stage.
+Documented offline and embedding differences remain. Shell and dialogue browser reviews are complete. A configured live provider check remains pending. No live AI provider or personal site deployment is configured by this stage.
 
 ## Widget evidence
 
@@ -53,3 +53,7 @@ The Default task adds exact source CSS and restored settings, palette and lights
 ## Shell polish
 
 The launcher uses actual family pixel art. A sticky drawer header, content sized frame and expandable save tools reduce clutter. Only the outer shell announces save status. Reset names the selected family. The demo introduces the playable pet and static install. 56 tests pass and the static build succeeds. Parent browser review checked Default, Slice, stats, Escape ordering, phone fit, reduced motion and landscape scrolling. It found and fixed page scroll locking and closed disclosure focus wrapping. Final keyboard review passed in both directions across the frame and collapsed save disclosure, and closing restores launcher focus. Desktop, launcher, phone and landscape screenshots are included. Import validation is tested, but browser upload remains unverified because local file access is blocked.
+
+## Dialogue evidence
+
+63 tests pass and the static build succeeds. Parent browser review checked the Default reply bubble, saved opt in after reload, failure and malformed reply states, successful retry and cancellation when a delayed Default reply was followed by a switch to Slice. The new egg stayed clear of the old reply. Phone review checked the Slice adult error panel. Screenshots are saved as `pr-screenshots/dialogue-desktop.jpg` and `pr-screenshots/dialogue-mobile.jpg`. No live provider or paid call was used.

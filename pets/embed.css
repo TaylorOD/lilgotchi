@@ -27,3 +27,7 @@ html[data-embedded="true"] #device { flex-shrink:0; }
 html[data-embedded="true"] .overlay { overflow:hidden; }
 html[data-embedded="true"] #save-status { display:none; }
 html[data-embedded="true"] #settings-btn { width:44px; height:44px; top:0; }
+
+/* Let the frame report the full speech bubble height. */
+#dialogue { position:relative; bottom:auto; left:auto; transform:none; box-sizing:border-box; margin:18px auto 0; overflow-wrap:anywhere; }
+#dialogue-retry { font:inherit; padding:6px; }

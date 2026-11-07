@@ -15,7 +15,7 @@ if(petType!=='classic') {
   document.head.append(style); await loaded;
   document.getElementById('eink-row').hidden=true;
 }
-function start(initial, muted=true, eink=false) {
+function start(initial, muted=true, eink=false,dialogueAvailable=false,dialogueEnabled=false) {
   for(const overlay of document.querySelectorAll('.overlay')) {
     const title=overlay.querySelector('.overlay-title');
     title.id=`${overlay.id}-title`;overlay.setAttribute('aria-labelledby',title.id);
@@ -25,7 +25,7 @@ function start(initial, muted=true, eink=false) {
     saved=state;
     channel.postMessage({type:'save',id:++saveId,state});
   }});
-  window.app=new TamagotchiApp({eink:petType==='classic'&&eink,onThemeChange:value=>{
+  window.app=new TamagotchiApp({dialogueAvailable,dialogueEnabled,onDialogueChange:value=>channel?.postMessage({type:'preference',name:'dialogue',value}),dialogueSend:message=>channel?.postMessage(message),eink:petType==='classic'&&eink,onThemeChange:value=>{
     if(channel)channel.postMessage({type:'preference',name:'eink',value});
     else try{localStorage.setItem('lilgotchi:eink',String(value));}catch{}
   }});
@@ -66,13 +66,14 @@ if(embedded) {
       const message=event.data;
       if(!message || typeof message.type!=='string') return;
       if(message.type==='snapshot' && Number.isSafeInteger(message.id) && window.app) {
-        if(message.closing)window.app.gameActive=false;
+        if(message.closing){window.app.gameActive=false;window.app.dialogue.cancel();}
         channel.postMessage({type:'snapshot',id:message.id,state:JSON.parse(JSON.stringify(window.app.state))});
       }
+      if(message.type==='dialogue-result')window.app?.dialogue.receive(message);
       if(message.type==='save-status') document.getElementById('save-status').textContent=String(message.text||'').slice(0,160);
     };
     const initial=event.data.state;
-    start(validState(initial)?initial:null,event.data.muted!==false,event.data.eink===true);
+    start(validState(initial)?initial:null,event.data.muted!==false,event.data.eink===true,event.data.dialogueAvailable===true,event.data.dialogueEnabled===true);
   };
   window.addEventListener('message',connect);
 } else {

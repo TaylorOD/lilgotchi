@@ -27,3 +27,17 @@ Network errors show a small retryable state and leave pet care playable. Do not 
 Use a deterministic fake adapter to test every original trigger and visible state. Test delayed replies, timeouts, cancellation, malformed replies and family changes. Run a separately configured provider integration once credentials and hosting exist. Core gameplay must pass with the adapter absent.
 
 Full feature parity remains incomplete until the adapter and original trigger coverage are implemented. Installing the core widget must never require paid dialogue.
+
+## Stage 8 implementation
+
+The pinned source has 14 events: `fed_meal`, `fed_snack`, `played_won`, `played_lost`, `cleaned`, `woke_up`, `going_sleep`, `hungry`, `sad`, `sick`, `evolved`, `discipline`, `idle` and `misbehave`. Evolution includes hatching and the secret adult. Care refusals do not request dialogue. Snack sickness fires before the snack reaction, so the busy gate drops the snack request. Idle checks every five minutes with a 20 percent chance while awake, alive and past egg stage. Offline catch up does not request dialogue.
+
+The source maps all 11 living identities to personality text. The adapter preserves those descriptions and identity keys. Slice and Cyberpunk send their family and displayed name with that personality, so a host can phrase replies as the matching food or robot. It sends event, family, identity, name, personality, hunger, happiness, discipline, age and weight only. It never sends a save, timestamps, page content or storage keys.
+
+Original settings used an optional password input saved as `openai_api_key`, with save and clear controls. The source called OpenAI chat completions using `gpt-4o-mini`, temperature 0.8 and max_tokens 60. Those are historical source settings, not a recommendation or an available integration. The new host callback replaces the key field. The player switches personality dialogue on in settings. That preference persists per widget instance. With no callback the switch is unavailable and no requests are made.
+
+Only one request runs at a time. Busy events are dropped, matching the source. Replies use textContent, a 280 character limit, original 40 ms typing and four second dismissal. Reduced motion shows the whole reply. The bubble keeps original styling but flows below the controls so it can resize the iframe. Thinking and retry states are new. Failures do not expose server details. The host times out at nine seconds and the frame at ten seconds. Close, removal, family change, reset, death and turning dialogue off cancel pending work and hide the bubble. Old replies cannot appear on another pet.
+
+The separate `server-example` folder is not copied into the public build. It contains a provider neutral route core, validation, authenticated user rate limiting, timeout and conservative cost reservations. Its README lists the required deployment controls and durable budget work. No live provider has been configured or tested.
+
+Parent browser review passed the reply bubble, saved opt in, failure and malformed reply retry, successful retry, delayed reply cancellation on family switch and the phone error panel. Desktop and phone screenshots are in `pr-screenshots/dialogue-desktop.jpg` and `pr-screenshots/dialogue-mobile.jpg`. The 63 passing tests include source hook sequence comparisons, minimal context, busy gating, stale replies, timeout, validation and server rate and budget guards. A live provider check still requires separate hosting and credentials.
