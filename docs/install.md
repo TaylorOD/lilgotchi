@@ -102,3 +102,15 @@ Before first opening, the launcher shows last saved care. After opening, closing
 For a reviewed source checkout on Windows, run `pwsh -File scripts/package-release.ps1`. It rebuilds the distribution and creates a zip in the temporary `lilgotchi-releases` folder named with the package version and source commit. Commit reviewed source before packaging so the filename identifies the actual source. Existing archives are never overwritten. Publish that zip as a release asset after reviewing the source and browser checks. A GitHub source archive is not the built distribution.
 
 Real iPhone Safari, Android browser, assistive technology still require explicit verification. Browser viewport emulation does not establish those results.
+
+## Launcher appearance
+
+The launcher uses the selected family's shell color and current pet. Original pets also follow the E ink preference. Use `launcher="pet"` on the element or `data-launcher="pet"` on the script for the pet icon and lilgotchi text without an egg background.
+
+The launcher exposes a CSS part. This example moves it left on mobile while leaving desktop placement unchanged:
+
+```css
+@media (max-width: 600px) {
+  lil-gotchi::part(launcher) { left: 18px; right: auto; }
+}
+```

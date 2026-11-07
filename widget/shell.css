@@ -39,3 +39,6 @@ iframe{background:#121619;color-scheme:dark}
 .settings-reset{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0 4px}.settings-reset p{margin:0;max-width:21ch}.settings-reset button{flex:none;font-size:12px}
 .settings-close{width:100%;margin:8px 0 0;font-size:13px}
 :host([appearance=light]) .setting-copy p,:host([appearance=light]) .settings-reset p{color:#354736}
+
+:host([launcher=pet]) .launcher{width:auto;display:flex;align-items:center;gap:9px;padding:10px 14px}
+:host([launcher=pet]) .launcher svg{width:32px;height:36px;flex:none}.launcher-label{font-size:14px;font-weight:600}
