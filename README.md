@@ -21,7 +21,7 @@ A little pixel pet for your website. Feed it, play with it, and watch it grow.
 
 Every family starts small and follows its own growth paths. Each keeps a separate save.
 
-Feed, play, clean up and settle down for a nap. Turn on Vacation when you need a break. Sound is optional. Progress stays in your browser, with file backups in Settings.
+Feed, play, clean up and settle down for a nap. Progress stays in your browser, with file backups in Settings.
 
 ## Put one on your website
 
@@ -31,7 +31,7 @@ Feed, play, clean up and settle down for a nap. Turn on Vacation when you need a
 
 That’s it. No account, backend or dependencies.
 
-Use the [setup tool](https://www.taylordorsett.com/lilgotchi/) to pick your pets and placement. The [install guide](docs/install.md) covers settings and hosting your own copy.
+Use the [setup tool](https://www.taylordorsett.com/lilgotchi/) to pick your pets and placement. The [install guide](docs/install.md) covers hosting your own copy.
 
 ## Work on it
 
