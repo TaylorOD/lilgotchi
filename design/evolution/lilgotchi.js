@@ -41,6 +41,11 @@ function draw(design,expression){
     else if(expression==='idle2'){pixel(5,2);pixel(6,2);}
     else pixel(5,2);
   }
+  if(design.id==='oyajitchi'){
+    // A missing side shard opens into a long jagged crack beside the face.
+    for(const [x,y] of [[8,2],[8,3],[7,3],[8,4],[9,4],[8,5]])frame[y][x]=0;
+    for(const [x,y] of [[7,4],[7,5],[8,6],[9,7],[8,8],[9,9],[8,10]])frame[y][x]=3;
+  }
   return frame;
 }
 export const proposal={

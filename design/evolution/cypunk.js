@@ -14,7 +14,7 @@ const drawings = [
   {id:'kuchitamatchi',name:'Syntax Error',stage:'teen',face:[4,5],rows:['000440000000','000030330000','000333223000','043222222300','003222222300','003222222340','003222222300','003222222300','000334433000','003220030000','000330233000','000030003000']},
   {id:'mametchi',name:'JavaScript',stage:'adult',face:[4,3],faceWidth:5,rows:['000070070000','000333333300','003222222230','003222222230','003222222230','003333333330','073032230370','033037730330','000032230000','000032230000','000032023000','000333033300']},
   {id:'ginjirotchi',name:'Sentinel',stage:'adult',original:true},
-  {id:'maskutchi',name:'Matrix',stage:'adult',face:[4,3],faceWidth:5,rows:['000006600000','000063360000','000632236000','006222222600','006222222600','006222222600','066666666660','061262261160','006126216600','006216126000','006600066000','006000006600']},
+  {id:'maskutchi',name:'Matrix',stage:'adult',face:[4,3],faceWidth:5,rows:['000060060000','000666666600','006222222260','006222222260','006222222260','066666666660','062062260260','066061160660','000062260000','000061260000','000062026000','000666066600']},
   {id:'kuchipatchi',name:'404',stage:'adult',face:[4,3],faceWidth:5,rows:['000440000000','000033333300','003222222230','003222222230','003222222230','003333333330','003032230300','043032230340','003034430300','000032230000','000032023000','000333033300']},
   {id:'nyorotchi',name:'MissingNumber',stage:'adult',face:[4,5],rows:['033000000000','032300040000','033330033000','032233322300','043222222330','003222222230','033222222300','032222222330','033444333030','000322233000','000033003300','000330000030']},
   {id:'tarakotchi',name:'Blue Screen',stage:'adult',face:[3,3],faceWidth:5,background:9,rows:['055555555550','559999999955','599999999995','599999999995','599999999995','599999999995','559999999955','055555555550','033053350330','000052250000','000032023000','000333033300']},
@@ -25,6 +25,7 @@ function canvas(rows) {
   return [...Array(12-rows.length).fill(''),...rows].map(row=>[...row.padEnd(12,'0')].map(Number));
 }
 function draw(definition,expression) {
+  if(definition.id==='egg')return cyberpunkSprites.egg[expression];
   if(definition.original)return cyberpunkSprites.mametchi[expression];
   const pixels=canvas(definition.rows);
   if(definition.face){
@@ -38,7 +39,7 @@ function draw(definition,expression) {
   // Small antenna and code movements keep the face and silhouette steady.
   if(expression==='idle2'){
     if(definition.id==='egg')pixels[9][7]=4;
-    else if(definition.id==='maskutchi'){pixels[1][2]=1;pixels[2][2]=6;}
+    else if(definition.id==='maskutchi'){pixels[8][5]=1;pixels[9][5]=2;}
     else if(definition.id==='oyajitchi'){pixels[0][8]=0;pixels[0][9]=4;}
     else if(definition.id==='nyorotchi'){pixels[1][7]=0;pixels[1][8]=4;}
   }

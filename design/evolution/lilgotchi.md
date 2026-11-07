@@ -53,3 +53,5 @@ This exactly maps the current original Maskutchi to Oyajitchi rule. No new age, 
 ## Sprite contract
 
 All proposed canvases are 12 by 12 pixels. Each hatched pet has idle1, idle2, happy, sad, eat and sleep frames. The unhatched egg has two idle frames. Expressions stay inside the shell and retain each egg's defining silhouette or markings. Existing renderer bounds and reduced motion behavior would still apply if this proposal is approved later.
+
+Cracked Elder has a missing shard on its upper right side, with a deep jagged crack running down that side beside its face.
