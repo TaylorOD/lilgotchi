@@ -1,14 +1,6 @@
-# Slice evolution paths
+# Slice artwork
 
-These paths and sprites ship in lilgotchi 1.0.0. The preview reads the same artwork modules as the live game. Each type covers the original evolution branches while retaining its own appearance.
-
-## Growing up
-
-Dough becomes Dough Drop, then Pizza Puff. At the child evolution check, zero or one care mistake produces Little Slice. Two or more produces Folded Slice.
-
-Both teens can become different adult pizzas. Care mistakes and discipline are evaluated at the adult evolution check, in the order below. The internal original IDs are listed so the mapping can be reviewed without changing save compatibility.
-
-## Little Slice adult paths
+Dough grows into a little pizza. Keep the face clear and the toppings easy to see.
 
 | Original ID | Proposed pizza | Condition |
 | --- | --- | --- |
@@ -19,26 +11,4 @@ Both teens can become different adult pizzas. Care mistakes and discipline are e
 | nyorotchi | Anchovy | 25% to 49% discipline |
 | tarakotchi | Pineapple | Below 25% discipline |
 
-The BBQ Chicken branch therefore includes 0 to 2 care mistakes with 50% to 74% discipline, or 3 to 4 care mistakes with any discipline from 50% to 100%. Meat Lovers from Little Slice requires more than 4 care mistakes with at least 50% discipline.
-
-## Folded Slice adult paths
-
-| Original ID | Proposed pizza | Condition |
-| --- | --- | --- |
-| kuchipatchi | Meat Lovers | At least 75% discipline |
-| nyorotchi | Anchovy | 50% to 74% discipline |
-| tarakotchi | Pineapple | Below 50% discipline |
-
-## Special elder
-
-BBQ Chicken uses the original Maskutchi identity. It becomes eligible for Spoiled Slice at age 10 or older with 100% discipline. Each eligible simulation tick has a 5% chance to change it. The pet must still be alive. Other adult pizzas do not use this elder route.
-
-This matches the cracked egg path. BBQ Chicken replaces the former Calzone name on the Maskutchi branch. Spoiled Slice keeps its pale cheese, green mold patches and drooping tip.
-
-## Art direction
-
-All sprites fit 12 by 12 pixels. Every hatched form has idle, alternate idle, happy, sad, eating and sleeping expressions. The dough has two idle poses. Toppings sit above or beside the small face so expressions do not erase what identifies the pizza.
-
-Dough Drop is a slightly larger, rounder baby. Pizza Puff is a taller rounded child with a raised crust. Margherita is a broad triangular slice with separate mozzarella patches, red tomato and green basil. Pepperoni uses red discs on a broad wedge. BBQ Chicken uses tan chicken chunks, purple onion and brown sauce stripes. Meat Lovers is a thick square pan slice with red pepperoni, chunky brown sausage and dark red bacon. Anchovy has silvery blue fish marks on a narrow slice. Pineapple uses pale mozzarella around bright yellow pineapple chunks for contrast, with dark red bacon strips beside them. Spoiled Slice has a bent tip and mold patches.
-
-The runtime uses these sprites and names in 1.0.0. Save identities and evolution rules remain unchanged.
+See the [family trees](../../docs/characters.md) for growth paths and the [sprite rules](../../docs/frame-contract.md) for sizes and expressions. The preview reads the same art as the game.
