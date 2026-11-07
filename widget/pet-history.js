@@ -1,4 +1,5 @@
 import { lilgotchiNames } from '../pets/lilgotchi-sprites.js';
+import { characters } from '../pets/valid-state.js';
 import { catalog, families } from '../pets/catalog.js';
 import { validEnvelope } from './save-store.js';
 import { sliceNames } from '../pets/slice-sprites.js';
@@ -7,7 +8,7 @@ import { cyberpunkNames } from '../pets/cyberpunk-sprites.js';
 export const HISTORY_LIMIT=12;
 export const historyKey=(instance,family)=>`lilgotchi:history:v1:${encodeURIComponent(instance)}:${family}`;
 const fields=['age','bornAt','character','family','recordedAt'];
-const identities=new Set(catalog.map(choice=>choice.character));
+const identities=new Set(characters);
 const time=value=>Number.isSafeInteger(value)&&value>=0;
 export function validHistoryEntry(entry,family){
   return !!entry && typeof entry==='object' && !Array.isArray(entry) &&
@@ -50,7 +51,7 @@ export class PetHistory {
   describe(entry){
     if(!validHistoryEntry(entry))throw new Error('Invalid pet history.');
     const choice=catalog.find(choice=>choice.id===entry.family);
-    const identity=entry.family==='slice'?sliceNames[entry.character]:entry.family==='cyberpunk'?cyberpunkNames[entry.character]:entry.family==='lilgotchi'?lilgotchiNames[entry.character]:catalog.find(choice=>choice.character===entry.character)?.name||entry.character;
+    const identity=entry.family==='slice'?sliceNames[entry.character]:entry.family==='cyberpunk'?cyberpunkNames[entry.character]:entry.family==='lilgotchi'?lilgotchiNames[entry.character]:entry.character[0].toUpperCase()+entry.character.slice(1);
     return `${choice.name} · ${identity} · ${entry.age} ${entry.age===1?'day':'days'} old`;
   }
 }
