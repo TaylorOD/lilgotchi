@@ -18,7 +18,7 @@ function update(){
 }
 form.addEventListener('change',update);
 copy.addEventListener('click',async()=>{
-  try{await navigator.clipboard.writeText(code.textContent);status.textContent='Copied. Paste this into your page after uploading the built folder.';}
+  try{await navigator.clipboard.writeText(code.textContent);status.textContent='Copied. Paste this into your page. No upload needed.';}
   catch{status.textContent='Copy is unavailable here. Select the code above and copy it manually.';}
 });
 update();

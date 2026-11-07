@@ -6,10 +6,32 @@ The widget runs without a backend or dependencies. Choose the original egg, any 
 
 ## Add it to a website
 
-Run `npm run build`, then copy the whole `dist` folder to your site's `/assets/lilgotchi/0.1.0/` directory.
+Paste this into your page. It creates the widget and loads the hosted files. No upload or build needed.
 
 ```html
-<script type="module" src="/assets/lilgotchi/0.1.0/lilgotchi.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.2.0/embed.js"></script>
+```
+
+Use `data-character="cyberpunk"` to change the starting pet or `data-characters="default,slice,cyberpunk"` to limit the lineup. All element settings below work on the script with a `data-` prefix. The default is Slice with all characters available. Use one script per page unless you give each widget a different `data-storage-key`.
+
+## Host your own copy
+
+Download the [built zip or npm package](https://github.com/TaylorOD/lilgotchi/releases/tag/v0.2.0). The package can be installed directly from GitHub:
+
+```sh
+npm install https://github.com/TaylorOD/lilgotchi/releases/download/v0.2.0/lilgotchi-0.2.0.tgz
+```
+
+Copy `node_modules/lilgotchi/dist` to your public `/assets/lilgotchi/0.2.0/` directory, or extract the zip there. Keep the entire folder together. This is a static browser package, not a server component or a single bundled import. It is available from GitHub; an npm registry listing is separate.
+
+```html
+<script defer src="/assets/lilgotchi/0.2.0/embed.js"></script>
+```
+
+For direct control of the custom element, load the module and add the element yourself:
+
+```html
+<script type="module" src="/assets/lilgotchi/0.2.0/lilgotchi.js"></script>
 <lil-gotchi character="slice" storage-key="site-pet"></lil-gotchi>
 ```
 
@@ -37,6 +59,8 @@ After building, open `http://localhost:4176/dist/examples/install.html` to try a
 ## Source and checks
 
 The pinned upstream HTML is kept intact under `reference/`. Its exact revision and file hash are in [source.json](reference/source.json). Credits and license terms are in [NOTICE](pets/NOTICE.md).
+
+lilgotchi is public and [MIT licensed](LICENSE.md). Keep the license and upstream notice with redistributed copies.
 
 `npm test` runs the existing gameplay checks plus original source integrity, constants, sprite matrices, font, evolution boundary and logical rendering comparisons. These checks establish a baseline. They do not yet prove complete behavioral or browser pixel parity.
 
