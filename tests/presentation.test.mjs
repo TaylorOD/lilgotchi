@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { periodAt, careAction, careHint, motionOffset } from '../pets/presentation.js';
+import { periodAt, careAction, careHint, motionOffset, sceneFor } from '../pets/presentation.js';
 import { TamagotchiApp } from '../pets/game.js';
 import { Renderer } from '../pets/renderer.js';
 import { SP } from '../pets/skins.js';
@@ -20,6 +20,10 @@ test('overlay focus skips hidden rows, disabled toggles and closed disclosures',
 });
 
 test('local scenery boundaries and contextual care remain predictable',()=>{
+  const awake={lightOn:false,isSleeping:false};
+  assert.equal(sceneFor(awake,'afternoon'),'dark');
+  assert.equal(awake.isSleeping,false);
+  assert.equal(sceneFor({...awake,lightOn:true},'afternoon'),'afternoon');
   for(const [hour,expected] of [[0,'night'],[5,'night'],[6,'morning'],[10,'morning'],[11,'afternoon'],[15,'afternoon'],[16,'evening'],[18,'evening'],[19,'night']])assert.equal(periodAt(new Date(2026,0,1,hour)),expected);
   assert.equal(careAction({poopCount:2,isSleeping:true}),'clean');
   assert.equal(careAction({poopCount:0,isSleeping:true}),'wake');

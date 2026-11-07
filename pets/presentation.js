@@ -8,6 +8,7 @@ export function periodAt(date) {
 export function careAction(state) {
   return state.poopCount>0?'clean':state.isSleeping?'wake':'sleep';
 }
+export const sceneFor=(state,period)=>!state.lightOn?'dark':state.isSleeping?'sleep':period;
 export function careHint(state) {
   if(state.isDead)return 'Your pet has passed away. Start again when you are ready.';
   if(state.stage==='egg')return 'Your egg takes 90 seconds to hatch. Care starts after hatching.';
@@ -28,7 +29,7 @@ export function updatePresentation(state,now,renderer) {
   const clock=document.getElementById('pet-clock');
   clock.textContent=`${icons[period]} ${date.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}`;
   clock.setAttribute('aria-label',`${period}, ${date.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})} local time`);
-  const scene=state.isSleeping?'sleep':period;
+  const scene=sceneFor(state,period);
   if(document.documentElement.dataset.scene!==scene){document.documentElement.dataset.scene=scene;renderer?.updateColors();}
   identity.textContent=`${characterName(state.character)} · ${state.stage}`;
   identity.title=`Starting character and current identity are independent. Care: ${grade.label}.`;
