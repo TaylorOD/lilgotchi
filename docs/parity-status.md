@@ -31,7 +31,7 @@ These checks use a fixed clock and random sequence. They do not prove hardware p
 | Area | Work remaining |
 | --- | --- |
 | Original clipping | Corrected. EGG and needs are readable below the LCD. Complete bodies and effects remain on the 32 by 16 display |
-| Custom families | Complete dough and binary eggs, distinct silhouettes and reactions are still pending |
+| Custom families | Slice dough, all distinct forms and reactions are implemented. Cyberpunk binary seed and full family are still pending |
 | Dialogue | The original optional AI feature is still awaiting its adapter |
 
 ## Review surface

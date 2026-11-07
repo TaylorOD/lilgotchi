@@ -41,3 +41,11 @@ The source harness in `tests/upstream-harness.mjs` evaluates the original withou
 The Default screen comparison now omits only the original EGG label and heart draw operations, because those indicators moved below the LCD. All body and effect buffers still compare against the source. Raw sprites, font, paint and sound remain strict. Read [frame-contract.md](frame-contract.md) before adding art. The layout module derives opaque bounds and places complete matrices without overlaps. Custom bodies use equally padded frames up to 16 by 12, and eggs up to 16 by 10. The combined QA fixture and Animate fork checkbox cover the tightest live compositions.
 
 Keep source reference captures and final browser proof under `pr-screenshots/`. Capture actual game areas at desktop and phone sizes before pushing visual work.
+
+## Slice integration
+
+`pets/slice-sprites.js` exports `sliceSprites`, `slicePalette` and `sliceNames`. Every body has a frozen 12 by 12 canvas for idle1, idle2, happy, sad, eat and sleep. Dough has two frozen 12 by 10 proofing frames. The drawings preserve original identity keys and all evolution logic. Palette index 6 is basil green. Shared effects stay in `classic-sprites.js`.
+
+`skins.js` selects the family and exports `characterName` for display labels. The game uses a family's optional sleep frame before the original idle fallback. Default has no sleep override and continues to match the source. Cyberpunk can follow these interfaces with its own art module, palette and names. Its existing placeholder remains unchanged in behavior.
+
+Review all Slice art at `/qa/slice.html`, then use `/qa/?pet=pizza` for composed reactions. QA files stay outside the release. Do not mutate published matrices because layout metadata caches by identity.

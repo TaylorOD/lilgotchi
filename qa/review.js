@@ -3,6 +3,7 @@ const form=document.querySelector('form');
 for(const name of identities)form.elements.identity.add(new Option(name,name));
 for(const name of reactions)form.elements.reaction.add(new Option(name,name));
 form.elements.identity.value='mametchi';
+for(const [key,value] of new URLSearchParams(location.search))if(form.elements[key])form.elements[key].value=value;
 const source=await (await fetch('../reference/upstream.html')).text();
 function show(){
   const settings=Object.fromEntries(new FormData(form));

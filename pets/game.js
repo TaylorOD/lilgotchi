@@ -4,7 +4,7 @@ import { C } from './constants.js';
 import { GameState, Evo } from './engine.js';
 import { SoundManager } from './sound.js';
 import { Renderer } from './renderer.js';
-import { SP } from './skins.js';
+import { SP, characterName } from './skins.js';
 import { updateStatus } from './status.js';
 import { drawScene, centeredBody } from './layout.js';
 import { PF } from './font.js';
@@ -293,7 +293,7 @@ export class TamagotchiApp {
     if(r.stage==='teen') st.prevTeen=r.character;
     this.sound.hatch();
     this.animState='evolve'; this.animTimer=clockNow();
-    const name=r.character.charAt(0).toUpperCase()+r.character.slice(1);
+    const name=characterName(r.character);
     this.toast(`Evolved into ${name}!`);
     if(!this.catchingUp) this.state.save();
     this.updateButtons();
@@ -426,7 +426,7 @@ export class TamagotchiApp {
     const hF='\u2665', hE='\u2661';
     const hungerH=hF.repeat(st.hunger)+hE.repeat(C.MAX_HUNGER-st.hunger);
     const happyH=hF.repeat(st.happiness)+hE.repeat(C.MAX_HAPPY-st.happiness);
-    const name=st.character.charAt(0).toUpperCase()+st.character.slice(1);
+    const name=characterName(st.character);
     document.getElementById('stats-content').innerHTML=`
       <div class="stat-row"><span>Name</span><span>${name}</span></div>
       <div class="stat-row"><span>Stage</span><span>${st.stage}</span></div>
@@ -540,7 +540,7 @@ export class TamagotchiApp {
       const items=[];
       const sp=SP[st.character];
       if(sp){
-        const f=sp.idle1;
+        const f=sp.sleep||sp.idle1;
         const cx=Math.floor((32-f[0].length)/2);
         const cy=Math.floor((16-f.length)/2)+1;
         items.push({name:'sleeping body',pixels:f,x:cx,y:cy});
@@ -631,5 +631,3 @@ export class TamagotchiApp {
   }
 
 }
-
-

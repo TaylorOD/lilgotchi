@@ -1,18 +1,21 @@
+import { sliceSprites, slicePalette, sliceNames } from './slice-sprites.js';
 import { classicSprites } from './classic-sprites.js';
 import { petType } from './storage.js';
 
 export const SP = structuredClone(classicSprites);
 export const palette = petType === 'pizza'
-  ? ['', '#e6c79d', '#d78b43', '#ffce62', '#d95a45', '#49352b']
+  ? slicePalette
   : petType === 'cyberpunk' ? ['', '#8cebdc', '#285262', '#ff78bf', '#8fffe3', '#ffe191'] : [];
 const pixels = rows => rows.map(row => [...row].map(Number));
-const pizza = pixels(['0111111110','1222222221','0133443310','0135335310','0013333100','0013553100','0001341000','0001331000','0000110000','0005005000']);
 const robot = pixels(['0003300000','0111111110','1222222221','1244144421','1244144421','1222552221','0111111110','3032230300','0012210000','0010010000']);
 
-if (petType !== 'classic') {
+if (petType === 'pizza') Object.assign(SP, sliceSprites);
+export const characterName = name => petType === 'pizza' ? sliceNames[name] : name.charAt(0).toUpperCase()+name.slice(1);
+
+if (petType === 'cyberpunk') {
   const names = ['babytchi','marutchi','tamatchi','kuchitamatchi','mametchi','ginjirotchi','maskutchi','kuchipatchi','nyorotchi','tarakotchi','oyajitchi'];
   names.forEach((name, index) => {
-    const art = structuredClone(petType === 'pizza' ? pizza : robot);
+    const art = structuredClone(robot);
     // Different evolutions keep their own toppings or antenna and body markings.
     if (index > 0) art[2][2 + index % 5] = petType === 'pizza' ? 4 : 3;
     if (index > 2) art[0][1 + index % 7] = petType === 'pizza' ? 2 : 5;

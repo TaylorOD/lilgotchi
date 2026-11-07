@@ -8,7 +8,7 @@ Each stage gets its own branch and PR. Later branches may build on earlier work,
 | 2. Widget and storage | Implemented and initial browser checks passed | [PR 2](https://github.com/TaylorOD/lilgotchi/pull/2). Custom element, private channel, host saves, static build and three install examples |
 | 3. Default parity | Implemented and browser checked | Original presentation and E ink restored. Controlled actions, screen buffers, raster colors and sound cues compared |
 | 4. Bounds and animation | Implemented and browser checked | Complete frame placement, separate needs row, crisp sizing and exhaustive composition checks |
-| 5. Slice family | Pending | Complete dough through secret adult artwork |
+| 5. Slice family | Implemented and browser checked | Complete dough through secret adult artwork and labeled frame review |
 | 6. Cyberpunk family | Pending | Complete binary seed through secret adult artwork |
 | 7. Shell polish | Pending | Responsive, keyboard and accessibility checks |
 | 8. Dialogue adapter | Pending | Original trigger coverage with deterministic fake provider |
@@ -24,7 +24,7 @@ The demo and reference pages are ready for browser review. Screenshots and a PR 
 
 ## Remaining release limits
 
-The current build is not the finished widget. Documented offline and embedding differences remain. Full custom art, shell polish and the optional dialogue adapter are pending. No live AI provider or personal site deployment is configured by this stage.
+The current build is not the finished widget. Documented offline and embedding differences remain. Cyberpunk art, shell polish and the optional dialogue adapter are pending. No live AI provider or personal site deployment is configured by this stage.
 
 ## Widget evidence
 
@@ -39,3 +39,7 @@ The Default task adds exact source CSS and restored settings, palette and lights
 ## Bounds evidence
 
 47 tests pass. The bounds suite covers every family and identity across 90 frame positions and 15 reactions, including combined maximum care indicators. Source sprite and raster comparisons remain strict. Only the clipped source HUD is intentionally relocated below the screen. See frame-contract.md for the art handoff. Parent inspected the animated combined scene at desktop and 320 pixel phone sizes, verified readable needs text and saved bounds screenshots.
+
+## Slice evidence
+
+48 tests pass and the static build succeeds. Slice supplies 68 frozen complete frames across all 12 original identities. The art contract checks unique silhouettes, both idle poses, palette validity and stable anchors. Existing full composition sweeps and source comparisons pass without changed expectations. All lifecycle IDs, evolution conditions and saves are preserved. The contact sheet at /qa/slice.html shows every matrix at native and six times scale. Parent browser review inspected all 12 identities and every contact sheet frame, animated dough, and Pizza Chef with combined care indicators at desktop and 390 pixel phone sizes. All passed visual review. Screenshots are saved under pr-screenshots/slice*.jpg.
