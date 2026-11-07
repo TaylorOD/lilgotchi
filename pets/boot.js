@@ -38,6 +38,7 @@ function start(initial, muted=true, eink=false,scanlines=false) {
   window.app.state.save();
   if(channel) {
     channel.postMessage({type:'ready'});
+    setInterval(()=>channel.postMessage({type:'care-status',state:JSON.parse(JSON.stringify(window.app.state))}),5000);
     let lastHeight=0;
     const resize=()=>{
       const device=document.getElementById('device');
@@ -70,8 +71,19 @@ if(embedded) {
       const message=event.data;
       if(!message || typeof message.type!=='string') return;
       if(message.type==='snapshot' && Number.isSafeInteger(message.id) && window.app) {
-        if(message.closing){window.app.gameActive=false;}
+        if(message.closing){window.app.gameActive=false;window.app.gameId=(window.app.gameId||0)+1;}
         channel.postMessage({type:'snapshot',id:message.id,state:JSON.parse(JSON.stringify(window.app.state))});
+      }
+      if(message.type==='visibility' && typeof message.visible==='boolean' && window.app){
+        window.app.panelVisible=message.visible;
+        window.app.sound.suspended=!message.visible;
+        if(message.visible){window.app.processMissedTime();window.app.updateButtons();}
+        else {
+          window.app.gameActive=false;window.app.gameId=(window.app.gameId||0)+1;
+          const overlay=document.querySelector('.overlay.show');
+          if(overlay && overlay.id!=='death-overlay')window.app.closeOverlay(overlay.id);
+          window.app.state.save();
+        }
       }
       if(message.type==='save-status') document.getElementById('save-status').textContent=String(message.text||'').slice(0,160);
     };

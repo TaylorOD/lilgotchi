@@ -3,6 +3,7 @@ import { visibleControl } from './widget/focus.js';
 import { lockPage, unlockPage } from './widget/scroll-lock.js';
 import { launcherIcon as launcherArt, savedCare } from './widget/launcher.js';
 import { SaveStore, legacyFamily, parseImport } from './widget/save-store.js';
+import { validState } from './pets/valid-state.js';
 import { PetHistory } from './widget/pet-history.js';
 import { mountCareGuide } from './widget/care-guide.js';
 
@@ -75,7 +76,7 @@ class LilGotchi extends HTMLElement {
     if(!state){try{state=this.store.load(this.family)?.state;}catch{ /* Recovery stays in the normal open flow. */ }}
     const button=this.shadowRoot.querySelector('.launcher'),care=savedCare(state);
     button.innerHTML=launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family))+(care?'<span class="care-dot" aria-hidden="true"></span>':'');
-    const label=`Open lilgotchi${state?`, ${state.stage}`:''}${care?`. Last saved: ${care}`:''}`;
+    const label=`Open lilgotchi${state?`, ${state.stage}`:''}${state?.vacationAt?'. Vacation paused':care?`. ${this.ready?'Live care':'Last saved'}: ${care}`:''}`;
     button.setAttribute('aria-label',label);button.title=label;
   }
   renderHistory(){
@@ -123,10 +124,12 @@ class LilGotchi extends HTMLElement {
     if(!this.isConnected)return;
     if(!this.inline && !this.panel.open){this.panel.showModal();lockPage(this);this.shadowRoot.querySelector('.close').focus();}
     if(!this.frame)await this.mount();
+    this.port?.postMessage({type:'visibility',visible:true});
     this.emit('open',{character:this.family});
   });}
   close(){return this.serial(async()=>{
-    await this.unload();
+    await this.snapshot(true);
+    this.port?.postMessage({type:'visibility',visible:false});
     if(!this.inline){this.panel.close();unlockPage(this);this.shadowRoot.querySelector('.launcher').focus();}
     this.emit('close',{character:this.family});
   });}
@@ -183,6 +186,7 @@ class LilGotchi extends HTMLElement {
   }
   receive(message,family){
     if(!message || family!==this.family || typeof message.type!=='string')return;
+    if(message.type==='care-status' && validState(message.state))this.updateLauncher(message.state);
     if(message.type==='scroll' && Number.isFinite(message.delta) && Math.abs(message.delta)<=1000){
       if(this.inline)window.scrollBy(0,message.delta);else this.panel.scrollBy(0,message.delta);
     }
