@@ -1,5 +1,7 @@
 # lilgotchi animation and screen bounds
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 Every visible character pixel must stay on the logical screen. Movement must translate a complete character instead of deleting part of its artwork.
 
 ## Current failure paths

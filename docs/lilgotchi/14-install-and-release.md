@@ -1,5 +1,7 @@
 # Landing setup and release
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 The landing page is the install experience. Keep playable gallery and a compact configurator together. Detailed deployment instructions remain linked for advanced hosts.
 
 ## Configurator

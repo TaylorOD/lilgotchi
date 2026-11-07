@@ -1,5 +1,7 @@
 # lilgotchi widget polish and accessibility
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 The widget should feel like a small finished game. Use a dark outer shell that fits Taylor's site while keeping the original game presentation intact inside Default mode.
 
 ## Launcher and drawer

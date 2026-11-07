@@ -1,5 +1,7 @@
 # lilgotchi original clone parity
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 This is the historical baseline specification. The requested care and presentation update intentionally replaces the exact visual contract with the compact layout in documents 10 through 15. AI dialogue is intentionally removed by the current product scope. The reference is a regression baseline, not proof of original hardware behavior.
 
 Use [plateaukao/tamagochi at commit 74c7a45](https://github.com/plateaukao/tamagochi/tree/74c7a45c8ef03ac43a500db18d19b8fa7cd4ec62) as the source of truth. Preserve the complete commit ID in the source manifest and keep an untouched copy for comparison. Do not compare against a moving upstream branch.

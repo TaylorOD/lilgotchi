@@ -20,7 +20,7 @@ The 16 by 12 body allocation has a dedicated test with four waste piles, sicknes
 
 `renderer.lastComposition` records the final rectangles and matrices. `renderer.rejectedPixels` records any rejected opaque writes with family, frame name and coordinates. Set `strictBounds` in tests to fail on the first rejected pixel. The final drawing guard remains active in production.
 
-The game does not currently translate the body along a separate wandering path. Its authored idle frames supply motion. Any future path must use the union of all frame bounds before selecting travel limits, and must pass the full position sweep tests.
+Authored idle frames combine with bounded whole pixel sway, breathing, bounce and landing. Pixel tilt preserves the sprite cells rather than rotating a smooth image. Placement still contains the complete composition. Motion respects reduced motion, E ink, busy scenes and Vacation. Any future wandering path must use the union of all frame bounds and pass the full position sweep tests.
 
 ## Pixel display
 

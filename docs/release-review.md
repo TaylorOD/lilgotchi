@@ -6,9 +6,11 @@
 
 The npm tarball was installed into a fresh temporary folder without lifecycle scripts. It includes the full static runtime, root MIT license and upstream notice. The package is distributed through GitHub releases; publishing a registry listing requires an authorized npm login. The hosted loader is pinned under releases/0.2.0. Earlier verification limits below still apply.
 
-Reviewed November 6, 2026 for the first named 0.1.0 built release.
+## 0.1.0 baseline review
 
-## Completed
+Reviewed November 6, 2026 for the first named 0.1.0 built release. The 124 test count below is historical; 0.2.0 has 127 passing tests.
+
+### Completed in 0.1.0
 
 124 automated tests pass. Coverage includes original source integrity, preserved sprite matrices, every family and reaction placement, care and evolution exceptions, vacation migration and clock correction, invalid imports, delayed callbacks after death, modal isolation, static care indicators, ownership, history and storage failures.
 
@@ -36,4 +38,4 @@ Screenshots are under pr-screenshots, including release-slice-mobile, release-cy
 
 ## Release contents
 
-The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. The release download is immutable; the hosted demo and personal site receive the same build after merging each focused PR.
+The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site uses the 0.1.0 game copy. The standalone demo and hosted loader include the newer packaging changes; see the current installation guide for their version.

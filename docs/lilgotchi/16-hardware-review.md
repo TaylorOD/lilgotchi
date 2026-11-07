@@ -1,5 +1,7 @@
 # Hardware review
 
+> Hardware evidence review. The documented needs and medicine corrections are implemented. Exact device schedules and thresholds remain unverified. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 Reviewed November 7, 2026 against current constants and engine. This is a source based behavior review, not firmware verification.
 
 ## Primary references
@@ -15,13 +17,13 @@ The official manual hosted at https://tamagotchi-official.com/manual/toy/origina
 | Rule | Primary evidence | Current behavior | Decision |
 | --- | --- | --- | --- |
 | Hatching | A p1 and B care question1 describe roughly five minutes | EGG_MS is 90 seconds | Deliberate user requested faster hatch. Keep it and document the difference |
-| First care | A p1 describes attention and food/play needs after hatching | doEvolve fills both needs | Change newly hatched babies to empty needs and issue attention |
+| First care | A p1 describes attention and food/play needs after hatching | Newly hatched babies have empty needs and attention | Implemented; later evolution preserves needs |
 | Feeding | A p2 offers meals and snacks, including refusal when full | Separate meal/snack actions with caps | Consistent at this level |
 | Sleeping lights | A p2 asks players to switch lights off and describes automatic light on at waking | Light control and wake light on exist | Consistent. Scheduled sleep and manual naps remain our implementation choices |
 | Waste | A p2 connects unattended waste with illness | Waste accumulation can cause sickness | Consistent at this level; exact probabilities unverified |
 | Health screen | A p2 includes age, weight, discipline, hunger, happiness | These exist; energy and numeric health added | New metrics are lilgotchi additions |
 | Game | A p2 describes five direction guesses | Five round guessing game exists | Consistent structure; precise reward formula unknown |
-| Medicine | A p2 allows multiple doses including three | makeSick currently chooses only one or two | Allow one through three on newly created illnesses |
+| Medicine | A p2 allows multiple doses including three | New illnesses choose one through three doses | Implemented; existing doses are preserved |
 | Discipline | B care question3 lists unnecessary calls and refusal behavior | Misbehavior and discipline exist | Consistent concept; probabilities unknown |
 | Restart | B care question4 describes a new egg | Preset restart can create a named adult | Intentional starting preset difference. Clearly name the restart destination |
 | Sound | B device question6 provides a mute toggle | Mute toggle exists | Consistent capability; waveform and timing not verified |
@@ -30,11 +32,11 @@ The official manual hosted at https://tamagotchi-official.com/manual/toy/origina
 
 The sources reviewed do not establish the exact original hunger/happiness decay intervals, waste rates, sleep times per identity, stage durations, base weights, care mistake window, discipline increments, snack sickness threshold, mortality age, or adult branch thresholds. Existing values remain clone assumptions, not verified hardware constants. The identity branches are tested against the archived clone; that is regression evidence only.
 
-The instructions do not establish an automatic refill at child or teen evolution. Preserving food and happiness across these transitions is a recommended lilgotchi care consistency fix, not a proven reproduction of firmware. Existing saves should retain their current needs; apply the new behavior only on future transitions. Do not retroactively deduct needs, change birthdays, force evolution, or rewrite medicine doses already assigned.
+The instructions do not establish an automatic refill at child or teen evolution. Preserving food and happiness across these transitions is an implemented lilgotchi care consistency fix, not a proven reproduction of firmware. Existing saves should retain their current needs; apply the new behavior only on future transitions. Do not retroactively deduct needs, change birthdays, force evolution, or rewrite medicine doses already assigned.
 
 The numeric health meter is advisory. It must not add a new death condition or claim that 100 means the pet cannot be sick. Energy and care grades must not silently replace original evolution logic. The persistent care grade is calculated by our new elapsed time model.
 
-## Concrete implementation and validation
+## Implemented changes and regression coverage
 
 1. In doEvolve, identify the previous egg stage. For that transition set food and happiness to zero and initiate the normal attention path. Do not refill other stages.
 2. In makeSick, expand the new illness dose range to one through three. Keep imported and existing medDoses values intact.
