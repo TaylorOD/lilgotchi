@@ -1,6 +1,6 @@
-# Lilgotchi egg evolution proposal
+# Lilgotchi egg evolution paths
 
-This is a review proposal only. These sprites and names are not connected to the live game. The current live logo egg progression remains unchanged.
+These paths and sprites ship in lilgotchi 1.0.0. The preview reads the same artwork modules as the live game. Each type covers the original evolution branches while retaining its own appearance.
 
 ## Character direction
 
@@ -52,6 +52,6 @@ This exactly maps the current original Maskutchi to Oyajitchi rule. No new age, 
 
 ## Sprite contract
 
-All proposed canvases are 12 by 12 pixels. Each hatched pet has idle1, idle2, happy, sad, eat and sleep frames. The unhatched egg has two idle frames. Expressions stay inside the shell and retain each egg's defining silhouette or markings. Existing renderer bounds and reduced motion behavior would still apply if this proposal is approved later.
+All canvases fit inside 12 by 12 pixels. Each hatched pet has idle1, idle2, happy, sad, eat and sleep frames. The unhatched egg has two idle frames. Expressions stay inside the shell and retain each egg's defining silhouette or markings. The live renderer applies its bounds and reduced motion behavior to these frames.
 
 Cracked Elder has a missing shard on its upper right side, with a deep jagged crack running down that side beside its face.

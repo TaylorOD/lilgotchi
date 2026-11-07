@@ -1,6 +1,6 @@
-# Slice evolution proposal
+# Slice evolution paths
 
-Review only. These sprites and names are not connected to the game. The proposal preserves every original evolution branch, with pizza types replacing the original adult identities. Names describe appearances, not the quality of those foods.
+These paths and sprites ship in lilgotchi 1.0.0. The preview reads the same artwork modules as the live game. Each type covers the original evolution branches while retaining its own appearance.
 
 ## Growing up
 
@@ -33,7 +33,7 @@ The BBQ Chicken branch therefore includes 0 to 2 care mistakes with 50% to 74% d
 
 BBQ Chicken uses the original Maskutchi identity. It becomes eligible for Spoiled Slice at age 10 or older with 100% discipline. Each eligible simulation tick has a 5% chance to change it. The pet must still be alive. Other adult pizzas do not use this elder route.
 
-This matches the cracked egg path. The live game currently calls the Maskutchi pizza Calzone. Renaming that branch to BBQ Chicken is part of this proposal and is not wired yet. The proposed elder artwork keeps the pale cheese, green mold patches and drooping tip already requested for Spoiled Slice.
+This matches the cracked egg path. BBQ Chicken replaces the former Calzone name on the Maskutchi branch. Spoiled Slice keeps its pale cheese, green mold patches and drooping tip.
 
 ## Art direction
 
@@ -41,4 +41,4 @@ All sprites fit 12 by 12 pixels. Every hatched form has idle, alternate idle, ha
 
 Dough Drop is a slightly larger, rounder baby. Pizza Puff is a taller rounded child with a raised crust. Margherita is a broad triangular slice with separate mozzarella patches, red tomato and green basil. Pepperoni uses red discs on a broad wedge. BBQ Chicken uses tan chicken chunks, purple onion and brown sauce stripes. Meat Lovers is a thick square pan slice with red pepperoni, chunky brown sausage and dark red bacon. Anchovy has silvery blue fish marks on a narrow slice. Pineapple uses pale mozzarella around bright yellow pineapple chunks for contrast, with dark red bacon strips beside them. Spoiled Slice has a bent tip and mold patches.
 
-Only the proposal module and this document are added. Runtime sprites, catalog entries, saves and evolution logic stay unchanged until approved.
+The runtime uses these sprites and names in 1.0.0. Save identities and evolution rules remain unchanged.
