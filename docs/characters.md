@@ -39,14 +39,4 @@ The special elder path starts from BBQ Chicken, Matrix, Goose Egg or Maskutchi. 
 
 Spoiled Slice and Cracked Elder are special older forms. They don’t mean you neglected your pet.
 
-## Pick your favorites
-
-Use `data-characters="all"` for all four, or list the families you want:
-
-```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.0.2/embed.js" data-characters="slice,cyberpunk" data-character="slice"></script>
-```
-
-The starting family must be in the list. A saved selection opens first if it’s still available.
-
 [Install guide](install.md) · [Care guide](care.md)
