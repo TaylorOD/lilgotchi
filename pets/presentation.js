@@ -32,11 +32,11 @@ export function updatePresentation(state,now,renderer) {
   clock.setAttribute('aria-label',`${period}, ${date.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})} local time`);
   const scene=sceneFor(state,period);
   if(document.documentElement.dataset.scene!==scene){document.documentElement.dataset.scene=scene;renderer?.updateColors();}
-  identity.textContent=`${characterName(state.character)} · ${state.stage}${state.vacationAt>0?' · paused':''}`;
-  identity.title=`Starting character and current identity are independent. Care: ${grade.label}.`;
+  identity.textContent=`Care: ${state.vacationAt>0?'Paused':state.isDead?'Remembered':grade.label}`;
+  identity.title='Care quality reflects your pet’s recent needs.';
   const meters=document.getElementById('care-meters');
   meters.hidden=state.stage==='egg'||state.isDead;
-  if(!meters.hidden)meters.innerHTML=[['Food',`${state.hunger*25}%`],['Happy',`${state.happiness*25}%`],['Energy',`${Math.round(state.energy??100)}%`],['Health',`${Math.round(state.health??100)}%`]].map(([label,value])=>`<span class="need"><span>${label}</span><strong>${value}</strong></span>`).join('')+`<span class="care-grade">Care: ${grade.label}</span>`;
+  if(!meters.hidden)meters.innerHTML=[['Food',`${state.hunger*25}%`],['Happy',`${state.happiness*25}%`],['Energy',`${Math.round(state.energy??100)}%`],['Health',`${Math.round(state.health??100)}%`]].map(([label,value])=>`<span class="need"><span>${label}</span><strong>${value}</strong></span>`).join('');
   const needs=document.getElementById('pet-needs');
   needs.hidden=state.stage!=='egg';
   document.getElementById('care-hint').textContent=careHint(state);
