@@ -2,6 +2,10 @@
 
 Pasted save import was removed at the user's request after 0.2.1. Historical pasted import checks below describe the earlier releases, not an available feature. File import, validation, confirmation and recovery remain.
 
+## 0.3.4 original label
+
+The original pet type is labeled Original in the picker, lineup and documentation. Adult preview artwork and all saved identities stay the same.
+
 ## 0.3.3 adult lineup
 
 The landing page shows adult representatives for all four pet types, with matching visual scale. The original pet type is labeled Tamagotchi. New games still begin as eggs and existing saves keep their identities. The README features adult Slice. The landing footer keeps only Credits and Code on GitHub.
@@ -68,4 +72,4 @@ Screenshots are under pr-screenshots, including release-slice-mobile, release-cy
 
 ## Release contents
 
-The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site, standalone demo and hosted loader use 0.3.3; see the current installation guide for their version.
+The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site, standalone demo and hosted loader use 0.3.4; see the current installation guide for their version.
