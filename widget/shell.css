@@ -24,3 +24,9 @@ header{display:grid;grid-template-columns:1fr 44px;align-items:center;gap:5px 12
 .frame{position:relative;background:#121619}
 iframe{background:#121619;color-scheme:dark}
 .frame.is-loading::after{content:'Loading your pet…';position:absolute;inset:0;display:grid;place-content:center;color:#bdc8be;font-size:13px;pointer-events:none}
+.save-help>summary{display:flex;align-items:baseline;justify-content:space-between;gap:8px;list-style:none}
+.save-help>summary::-webkit-details-marker{display:none}
+.save-label{white-space:nowrap}
+.save-label::before{content:'▸';display:inline-block;width:12px}
+.save-help[open]>summary .save-label::before{content:'▾'}
+.save-help>summary .status{margin:0;text-align:right;font-size:11px;min-width:0;overflow-wrap:anywhere}
