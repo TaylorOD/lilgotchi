@@ -1,41 +1,58 @@
-// Complete padded canvases keep antennae, wheels and cables inside every pose.
-export const cyberpunkPalette = Object.freeze(['', '#d9fcff', '#102238', '#22dbe7', '#ec4cb4', '#53718c']);
-export const cyberpunkNames = Object.freeze({egg:'Binary Seed',babytchi:'Bit',marutchi:'Byte',tamatchi:'Runner',kuchitamatchi:'Glitch',mametchi:'Sentinel',ginjirotchi:'Courier',maskutchi:'Ghost',kuchipatchi:'Tank',nyorotchi:'Wire',tarakotchi:'Scrap',oyajitchi:'Glitch Elder'});
-const freeze = matrix => Object.freeze(matrix.map(row=>Object.freeze(row)));
-const canvas = (rows,height=12) => {
-  if(rows.length>height || rows.some(row=>row.length>12)) throw new Error('Cypunk art exceeds its canvas');
-  return [...Array(height-rows.length).fill(''),...rows].map(row=>[...row.padEnd(12,'0')].map(Number));
+import { originalCypunk } from './cypunk-original.js';
+const palette = ['', '#d9fcff', '#102238', '#22dbe7', '#ec4cb4', '#53718c', '#70f79a', '#f4d45b', '#a97ef5', '#3569c8'];
+const expressions = {
+  idle1:['101','000','010'], idle2:['101','000','111'],
+  happy:['101','000','101'], sad:['000','101','010'],
+  eat:['101','010','111'], sleep:['000','101','000'],
 };
-// Each face lives inside a five by three dark panel on its own silhouette.
-const drawings = {
-  babytchi:{face:[4,6],rows:['000333333300','000322222300','000322222300','000322222300','000333333300','000032023000','000033033000']},
-  marutchi:{face:[4,6],rows:['000004000000','000003000000','003333333330','032222222223','032222222223','032222222223','033335333333','000320023000','000330033000']},
-  tamatchi:{face:[4,3],rows:['000033333000','000322222300','000322222300','000322222300','000033333000','004032230400','003332233300','000032230000','000032230000','000032023000','000033033000']},
-  kuchitamatchi:{face:[4,4],rows:['000440000000','000030000000','000333333000','003222222300','003222222300','003222222300','004333333330','003032222030','000032233000','000032030000','000333033300']},
-  mametchi:{face:[4,3],rows:['000030030000','000333333300','003222222230','003222222230','003222222230','333333333333','322032230223','033032230330','000034430000','000032230000','000032023000','000333033300']},
-  ginjirotchi:{face:[4,5],rows:['000333333000','003222222300','032222222230','032222222230','032222222230','003344443300','003222222300','003330333000','032230322300','003330333000']},
-  maskutchi:{face:[4,4],rows:['000003300000','000033330000','000332233000','003322223300','033222222330','032222222230','032222222230','032222222230','032222222230','032444444230','033300003330','003300003300']},
-  kuchipatchi:{face:[4,6],rows:['000004400000','000003300000','033333333330','322222222223','322222222223','322222222223','033344443330','332332332333','323223223223','333333333333']},
-  nyorotchi:{face:[4,1],rows:['000333333300','000322222300','000322222300','000322222300','000333333300','000000430000','000003430000','000034300000','000043000000','000034300000','000003430000','000033333000']},
-  tarakotchi:{face:[4,4],rows:['003333333300','003244222300','003244222300','003222222300','443222222333','233222222323','003333333323','003225222330','003333333000','000320023000','003330033330']},
-  oyajitchi:{face:[4,4],rows:['003000004000','004033330000','000322223300','043222222300','003222222340','003222222300','003222222300','000334443330','043222230000','000322223040','003330033000','000300003300']}
-};
-const faces = {idle1:['30003','00000','00100'],idle2:['30003','00000','01110'],happy:['03030','30003','01110'],sad:['00000','30003','04440'],eat:['30003','00100','01310'],sleep:['00000','55055','00000']};
-function body({rows,face:[x,y]},key) {
-  const matrix=canvas(rows);
-  faces[key].forEach((row,dy)=>[...row].forEach((value,dx)=>{matrix[y+dy][x+dx]=value==='0'?2:Number(value);}));
-  if(key==='idle2') {
-    const foot=matrix[11].findIndex(value=>value===3);
-    if(foot>0) {matrix[11][foot]=0;matrix[11][foot-1]=3;}
-  }
-  return freeze(matrix);
+const drawings = [
+  {id:'egg',name:'Binary Seed',stage:'egg',rows:['000033330000','000322223000','003212122300','032112122230','032212112230','032212122230','032111122230','003222222300','000333333000','000000000000']},
+  {id:'babytchi',name:'Bit',stage:'baby',face:[4,6],rows:['000000000000','000000000000','000000000000','000333330000','003222223000','003222223000','003222223000','003222223000','003222223000','000333330000','000320230000','000330330000']},
+  {id:'marutchi',name:'Byte',stage:'child',face:[4,5],rows:['000004000000','000003000000','003333333000','032222222300','032222222300','332222222330','322222222230','332222222330','032222222300','003333333000','000320230000','000330330000']},
+  {id:'tamatchi',name:'Compiler',stage:'teen',face:[4,5],rows:['000033330000','000322223000','003222222300','003333333300','003222222300','033222222330','032222222230','003222222300','000344430000','000322230000','003300033000','003000003000']},
+  {id:'kuchitamatchi',name:'Syntax Error',stage:'teen',face:[4,5],rows:['000440000000','000030330000','000333223000','043222222300','003222222300','003222222340','003222222300','003222222300','000334433000','003220030000','000330233000','000030003000']},
+  {id:'mametchi',name:'JavaScript',stage:'adult',face:[4,3],faceWidth:5,rows:['000070070000','000333333300','003222222230','003222222230','003222222230','003333333330','073032230370','033037730330','000032230000','000032230000','000032023000','000333033300']},
+  {id:'ginjirotchi',name:'Sentinel',stage:'adult',original:true},
+  {id:'maskutchi',name:'Matrix',stage:'adult',face:[4,3],faceWidth:5,rows:['000060060000','000666666600','006222222260','006222222260','006222222260','066666666660','062062260260','066061160660','000062260000','000061260000','000062026000','000666066600']},
+  {id:'kuchipatchi',name:'404',stage:'adult',face:[4,3],faceWidth:5,rows:['000440000000','000033333300','003222222230','003222222230','003222222230','003333333330','003032230300','043032230340','003034430300','000032230000','000032023000','000333033300']},
+  {id:'nyorotchi',name:'MissingNumber',stage:'adult',face:[4,5],rows:['033000000000','032300040000','033330033000','032233322300','043222222330','003222222230','033222222300','032222222330','033444333030','000322233000','000033003300','000330000030']},
+  {id:'tarakotchi',name:'Blue Screen',stage:'adult',face:[3,3],faceWidth:5,background:9,rows:['055555555550','559999999955','599999999995','599999999995','599999999995','599999999995','559999999955','055555555550','033053350330','000052250000','000032023000','000333033300']},
+  {id:'oyajitchi',name:'Glitch Elder',stage:'adult',face:[4,4],rows:['003000004000','004033330000','000322223300','043222222300','003222222340','003222222300','003222222300','000334443330','043222230000','000322223040','003330033000','000300003300']},
+];
+function canvas(rows) {
+  if(rows.length>12||rows.some(row=>row.length>12))throw new Error('Proposal exceeds 12 by 12');
+  return [...Array(12-rows.length).fill(''),...rows].map(row=>[...row.padEnd(12,'0')].map(Number));
 }
-// Both boot poses retain the readable three by five 0 and 1 glyphs.
-const seed = ['000333333000','003222222300','032111221230','032121211230','032121221230','032121221230','032111211130','003222222300','000333333000'];
-const boot=canvas(seed,10);
-const boot2=boot.map(row=>[...row]);
-boot2[8][4]=4;boot2[8][7]=3;
-export const cyberpunkSprites = Object.freeze({
-  egg:Object.freeze({idle1:freeze(boot),idle2:freeze(boot2)}),
-  ...Object.fromEntries(Object.entries(drawings).map(([name,drawing])=>[name,Object.freeze(Object.fromEntries(Object.keys(faces).map(key=>[key,body(drawing,key)])))]))
-});
+function draw(definition,expression) {
+  if(definition.id==='egg')return originalCypunk.egg[expression];
+  if(definition.original)return originalCypunk.mametchi[expression];
+  const pixels=canvas(definition.rows);
+  if(definition.face){
+    const [x,y]=definition.face;
+    const wide={idle1:['10001','00000','00100'],idle2:['10001','00000','01110'],happy:['01010','10001','01110'],sad:['00000','10001','01110'],eat:['10001','00100','01110'],sleep:['00000','11011','00000']};
+    const face=definition.faceWidth===5?wide[expression]:expressions[expression];
+    face.forEach((row,dy)=>[...row].forEach((pixel,dx)=>{
+      pixels[y+dy][x+dx]=pixel==='1'?(definition.ink||1):(definition.background||2);
+    }));
+  }
+  // Small antenna and code movements keep the face and silhouette steady.
+  if(expression==='idle2'){
+    if(definition.id==='egg')pixels[9][7]=4;
+    else if(definition.id==='maskutchi'){pixels[8][5]=1;pixels[9][5]=2;}
+    else if(definition.id==='oyajitchi'){pixels[0][8]=0;pixels[0][9]=4;}
+    else if(definition.id==='nyorotchi'){pixels[1][7]=0;pixels[1][8]=4;}
+  }
+  return pixels.map(Object.freeze);
+}
+const artwork = {
+  type:'Cypunk', palette,
+  pets:drawings.map(definition=>({
+    id:definition.id,name:definition.name,stage:definition.stage,
+    frames:Object.fromEntries((definition.stage==='egg'?['idle1','idle2']:Object.keys(expressions)).map(expression=>[expression,draw(definition,expression)])),
+  })),
+};
+
+const freezeFrame=frame=>Object.freeze(frame.map(row=>Object.freeze([...row])));
+export const cyberpunkPalette=Object.freeze(artwork.palette);
+export const cyberpunkNames=Object.freeze(Object.fromEntries(artwork.pets.map(pet=>[pet.id,pet.name])));
+export const cyberpunkSprites=Object.freeze(Object.fromEntries(artwork.pets.map(pet=>[pet.id,Object.freeze(Object.fromEntries(Object.entries(pet.frames).map(([key,frame])=>[key,freezeFrame(frame)])))])));
