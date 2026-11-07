@@ -17,7 +17,8 @@ test('pinned reference has not changed', () => {
 
 test('constants, original sprites and font equal pinned upstream', () => {
   const upstream = upstreamAt();
-  assert.deepEqual(C, plain(upstream.C));
+  assert.deepEqual({...C,EGG_MS:upstream.C.EGG_MS}, plain(upstream.C));
+  assert.equal(C.EGG_MS,90000);
   assert.deepEqual(classicSprites, plain(upstream.SP));
   assert.deepEqual(PF, plain(upstream.PF));
 });
@@ -55,6 +56,7 @@ test('reference clock and randomness are repeatable without booting UI', () => {
   const a = upstreamAt(1000, [0.1]);
   const b = upstreamAt(1000, [0.1]);
   assert.deepEqual(plain(new a.GameState()), plain(new b.GameState()));
-  a.setTime(1000 + C.EGG_MS);
+  a.setTime(1000 + a.C.EGG_MS);
   assert.equal(a.Evo.shouldEvolve({ stage: 'egg', stageStartTime: 1000 }), true);
 });
+

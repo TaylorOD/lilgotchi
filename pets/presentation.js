@@ -10,7 +10,7 @@ export function careAction(state) {
 }
 export function careHint(state) {
   if(state.isDead)return 'Your pet has passed away. Start again when you are ready.';
-  if(state.stage==='egg')return 'Your egg takes five minutes to hatch. Care starts after hatching.';
+  if(state.stage==='egg')return 'Your egg takes 90 seconds to hatch. Care starts after hatching.';
   if(state.isSick)return 'Needs medicine. Open More care to help.';
   if(state.poopCount)return 'A little cleanup will help your pet feel better.';
   if(state.isSleeping)return 'Resting. Wake your pet before feeding or playing.';

@@ -35,7 +35,7 @@ function baby(app) {
 }
 afterEach(() => { setSimulationTime(null); mock.restoreAll(); saves = new Map(); });
 
-test('egg hatches after five minutes, then becomes a child after an hour', () => {
+test('egg hatches after 90 seconds, then becomes a child after an hour', () => {
   const app = appAt();
   setSimulationTime(noon+C.EGG_MS-1); app.tick();
   assert.equal(app.state.stage,'egg');
