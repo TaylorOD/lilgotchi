@@ -9,7 +9,7 @@ Each stage gets its own branch and PR. Later branches may build on earlier work,
 | 3. Default parity | Implemented and browser checked | Original presentation and E ink restored. Controlled actions, screen buffers, raster colors and sound cues compared |
 | 4. Bounds and animation | Implemented and browser checked | Complete frame placement, separate needs row, crisp sizing and exhaustive composition checks |
 | 5. Slice family | Implemented and browser checked | Complete dough through secret adult artwork and labeled frame review |
-| 6. Cyberpunk family | Pending | Complete binary seed through secret adult artwork |
+| 6. Cyberpunk family | Implemented and browser checked | Complete binary seed through secret adult artwork and labeled frame review |
 | 7. Shell polish | Pending | Responsive, keyboard and accessibility checks |
 | 8. Dialogue adapter | Pending | Original trigger coverage with deterministic fake provider |
 | 9. Integration and site migration | Pending | Release install checks and legacy save migration |
@@ -24,7 +24,7 @@ The demo and reference pages are ready for browser review. Screenshots and a PR 
 
 ## Remaining release limits
 
-The current build is not the finished widget. Documented offline and embedding differences remain. Cyberpunk art, shell polish and the optional dialogue adapter are pending. No live AI provider or personal site deployment is configured by this stage.
+The current build is not the finished widget. Documented offline and embedding differences remain. Shell polish and the optional dialogue adapter are pending. No live AI provider or personal site deployment is configured by this stage.
 
 ## Widget evidence
 
@@ -43,3 +43,9 @@ The Default task adds exact source CSS and restored settings, palette and lights
 ## Slice evidence
 
 48 tests pass and the static build succeeds. Slice supplies 68 frozen complete frames across all 12 original identities. The art contract checks unique silhouettes, both idle poses, palette validity and stable anchors. Existing full composition sweeps and source comparisons pass without changed expectations. All lifecycle IDs, evolution conditions and saves are preserved. The contact sheet at /qa/slice.html shows every matrix at native and six times scale. Parent browser review inspected all 12 identities and every contact sheet frame, animated dough, and Pizza Chef with combined care indicators at desktop and 390 pixel phone sizes. All passed visual review. Screenshots are saved under pr-screenshots/slice*.jpg.
+
+## Cyberpunk evidence
+
+51 tests pass and the static build succeeds. Cyberpunk supplies 68 frozen complete frames across all 12 original identities. Coverage checks distinct silhouettes and expressions, readable binary glyphs in both boot frames, unchanged reaction feet and complete palette entries. Existing full composition sweeps and Default source comparisons pass without changed expectations. The contact sheet at /qa/cyberpunk.html shows every frame at native and six times scale. Parent browser review inspected every identity and frame, readable Binary Seed, and Wire and Mainframe with combined care indicators at desktop and 390 pixel phone sizes. Five screenshots are saved under pr-screenshots/cyberpunk*.jpg. The final display label update will be checked again during shell polish.
+
+
