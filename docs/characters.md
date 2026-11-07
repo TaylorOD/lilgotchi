@@ -6,7 +6,7 @@ Cypunk keeps the `cyberpunk` configuration ID, asset paths and save keys for com
 
 | ID | Starting stage |
 | --- | --- |
-| `default` | Original egg |
+| `default` | Tamagotchi |
 | `babytchi` | Baby |
 | `marutchi` | Child |
 | `tamatchi` | Teen |

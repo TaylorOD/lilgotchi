@@ -14,7 +14,7 @@ A little pixel pet for your website. Feed it, play with it, and watch it grow.
 
 | Pet type | Starts as | Character ID |
 | --- | --- | --- |
-| Original | The classic egg | `default` |
+| Tamagotchi | The classic egg | `default` |
 | Slice | A little ball of dough | `slice` |
 | Cypunk | A binary egg | `cyberpunk` |
 | Lilgotchi | Its own pixel egg | `lilgotchi` |
@@ -34,15 +34,15 @@ Each pet type has its own growth stages and saved progress. Original pets grow i
 Paste this into your HTML:
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.2/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.3/embed.js"></script>
 ```
 
 That opens with Slice, all characters available, and sound off. Your site needs to allow custom JavaScript. Saves belong to your site and stay in the visitor's browser.
 
-This example offers only Original, Slice, Cypunk and Lilgotchi. The button that opens the widget shows a pet icon and the word lilgotchi, without an egg behind it. The game display still keeps its egg shape.
+This example offers only Tamagotchi, Slice, Cypunk and Lilgotchi. The button that opens the widget shows a pet icon and the word lilgotchi, without an egg behind it. The game display still keeps its egg shape.
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.2/embed.js" data-character="lilgotchi" data-characters="default,slice,cyberpunk,lilgotchi" data-launcher="pet"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.3/embed.js" data-character="lilgotchi" data-characters="default,slice,cyberpunk,lilgotchi" data-launcher="pet"></script>
 ```
 
 ### Options
