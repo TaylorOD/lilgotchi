@@ -67,12 +67,40 @@ export class SaveStore {
   load(family) {
     const key = saveKey(this.instance,family);
     const raw = this.read(key);
-    if (!raw) { this.revisions.set(family,0); return null; }
+    if (raw===null) { this.revisions.set(family,0); return null; }
     let data;
     try { data=JSON.parse(raw); } catch { throw new Error('Saved progress is damaged. Export it before starting again.'); }
     if (!validEnvelope(data,this.instance,family)) throw new Error('Saved progress needs recovery. It has not been replaced.');
     this.revisions.set(family,data.revision);
     return clone(data);
+  }
+  migrateLegacy(family) {
+    if (!families.includes(family)) throw new Error('Unknown character');
+    if (!this.owns(family)) throw new Error('This pet is active in another window.');
+    const key=saveKey(this.instance,family);
+    // Check durable storage directly. A failed migration must remain retryable.
+    if (this.read(key)!==null) return false;
+    if (!this.storage) return false;
+    let destination;
+    try { destination=this.storage.getItem(key); } catch { this.persistent=false;return false; }
+    if (destination!==null) return false;
+    const source=`taylor-pocket-pets-p1-v1-${legacyFamily[family]}`;
+    const raw=this.storage.getItem(source);
+    if (raw===null) return false;
+    let state;
+    try { state=JSON.parse(raw); } catch { throw new Error('Your old pet needs recovery. Its save has not been changed.'); }
+    const envelope={schema:1,instance:this.instance,family,revision:1,savedAt:this.now(),state};
+    parseImport(JSON.stringify(envelope));
+    const serialized=JSON.stringify(envelope);
+    if (!this.owns(family)) throw new Error('This pet is active in another window.');
+    this.storage.setItem(key,serialized);
+    if (this.storage.getItem(key)!==serialized) throw new Error('Your old pet could not be copied. Try again.');
+    memory.set(key,serialized);
+    sessionOnly.delete(key);
+    this.revisions.set(family,1);
+    // The destination itself prevents repeat copies, even if this receipt fails.
+    try { this.storage.setItem(`${key}:migration`,JSON.stringify({source,completedAt:this.now()})); } catch {}
+    return true;
   }
   preference(name, value) {
     const key=`lilgotchi:preferences:${encodeURIComponent(this.instance)}:${name}`;
@@ -121,7 +149,7 @@ export class SaveStore {
     const key=saveKey(this.instance,family);
     const expected=this.revisions.get(family) || 0;
     const current=this.read(key);
-    if (current) {
+    if (current!==null) {
       let data;
       try { data=JSON.parse(current); } catch { throw new Error('Saved progress needs recovery.'); }
       if (!validEnvelope(data,this.instance,family) || data.revision!==expected) throw new Error('Newer progress exists. Reopen this pet to continue.');
@@ -137,7 +165,7 @@ export class SaveStore {
     if(!this.owns(family))throw new Error('This pet is active in another window.');
     const key=saveKey(this.instance,family);
     const raw=this.read(key);
-    if(raw)this.write(`${key}:recovery`,raw);
+    if(raw!==null)this.write(`${key}:recovery`,raw);
     const envelope={schema:1,instance:this.instance,family,revision:1,savedAt:this.now(),state:clone(state)};
     if(!validEnvelope(envelope,this.instance,family))throw new Error('Invalid imported state.');
     this.write(key,JSON.stringify(envelope));this.revisions.set(family,1);return envelope;

@@ -34,7 +34,7 @@ Closing waits for a final state snapshot before removing the frame. Disconnectin
 
 ## Current limits
 
-Default retains the original presentation, with documented accessibility and bounds corrections. Slice and Cyberpunk include every life stage. Optional dialogue and personal site migration remain separate tasks. Browser file upload verification is limited by the test browser file access setting.
+Default retains the original presentation, with documented accessibility and bounds corrections. Slice and Cyberpunk include every life stage. Optional dialogue is implemented and needs a host callback for live replies. Browser file upload remains unverified because the Chrome extension disallows local file URLs. Import validation and replacement are covered by automated tests.
 
 The drawer keeps its header reachable while the game and save tools scroll together. The private frame channel reports bounded content heights, including open overlays. Save and help contains export and import. Escape closes a game overlay before closing the drawer. Closing returns focus to the launcher. Inline mode does not trap focus in the host page. Reduced motion removes the drawer entrance and decorative game movement.
 
@@ -57,3 +57,22 @@ pet.dialogueAdapter = async (context, { signal }) => {
 ```
 
 Set the property before adding an inline element to the document. Adapter changes apply on the next open. Never put provider keys in this callback. The endpoint is your own authenticated server and is not included or deployed by the widget. Follow `server-example/README.md` before implementing it. The public `examples/dialogue.html` uses local fake replies for review and needs no server API.
+
+## Migrate the earlier personal site pets
+
+Migration is off by default. Only sites that used the earlier full game should add `migrate-legacy` before connecting the element:
+
+```html
+<script type="module" src="/assets/lilgotchi/0.1.0/lilgotchi.js"></script>
+<lil-gotchi storage-key="taylor-pocket-pets" migrate-legacy></lil-gotchi>
+```
+
+Use that same storage key on home and projects. The selected family is copied when first opened. `classic`, `pizza` and `cyberpunk` from `taylor-pocket-pets-p1-v1-{type}` become Default, Slice and Cyberpunk. The host checks writer ownership and validates the full state and clocks. Any existing destination, including damaged data, prevents migration. Original keys and the simplified `taylor-pocket-pets-v1` save stay untouched.
+
+A migration receipt is recorded only after the destination can be read back from browser storage. The destination itself prevents duplicate copies if writing the receipt fails. Quota failures leave migration available to retry with Try again. Invalid legacy data shows a recovery error instead of starting over. If storage cannot be read at all, the widget can play in session mode without copying the old pet. Restore storage access and reload to retry. Export session progress before reloading if you want to retain that visit.
+
+The lower level `SaveStore.migrateLegacy(family)` method requires ownership acquired with `acquire(family)`. Normal installations never call it automatically.
+
+## Check a copied release
+
+Open `dist/examples/install.html` through your local HTTP server after building. At the default development server that is `http://localhost:4176/dist/examples/install.html`. This page imports the built loader, not the source checkout. The other built examples resolve their modules relative to the same copied folder, including the separate origin example. `version.json`, `LICENSE.md` and `reference/source.json` identify the release and its source. Tests, visual QA fixtures, the original runnable reference and server example are excluded.

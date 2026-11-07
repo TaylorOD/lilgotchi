@@ -28,7 +28,7 @@ Default also sends the boolean `eink` preference through that channel. `Tamagotc
 
 `pets/game.css` is the complete original stylesheet and is checked against the pinned source. Keep embedding and accessible control differences in `pets/embed.css`. Custom families additionally load `pets/custom-themes.css` before starting the game. Do not put custom palette overrides back into the original stylesheet.
 
-The host owns all embedded persistence. Do not read parent DOM or parent localStorage from the iframe. `SaveStore` handles validation, locks, leases, revisions, export data and confirmed replacement backups. A later site migration should use this adapter instead of changing frame storage.
+The host owns all embedded persistence. Do not read parent DOM or parent localStorage from the iframe. `SaveStore` handles validation, locks, leases, revisions, export data and confirmed replacement backups. The opt in site migration uses this adapter after acquiring ownership. See docs/install.md for migrate-legacy.
 
 Run `npm run build` to create the static distribution. `examples/nested/`, `examples/cross-origin.html` and `examples/duplicate.html` are the widget QA surfaces. Shell polish owns further accessibility and responsive improvements.
 
@@ -46,7 +46,7 @@ Keep source reference captures and final browser proof under `pr-screenshots/`. 
 
 `pets/slice-sprites.js` exports `sliceSprites`, `slicePalette` and `sliceNames`. Every body has a frozen 12 by 12 canvas for idle1, idle2, happy, sad, eat and sleep. Dough has two frozen 12 by 10 proofing frames. The drawings preserve original identity keys and all evolution logic. Palette index 6 is basil green. Shared effects stay in `classic-sprites.js`.
 
-`skins.js` selects the family and exports `characterName` for display labels. The game uses a family's optional sleep frame before the original idle fallback. Default has no sleep override and continues to match the source. Cyberpunk can follow these interfaces with its own art module, palette and names. Its existing placeholder remains unchanged in behavior.
+`skins.js` selects the family and exports `characterName` for display labels. The game uses a family's optional sleep frame before the original idle fallback. Default has no sleep override and continues to match the source. Cyberpunk now follows these interfaces with its own art module, palette and names.
 
 Review all Slice art at `/qa/slice.html`, then use `/qa/?pet=pizza` for composed reactions. QA files stay outside the release. Do not mutate published matrices because layout metadata caches by identity.
 
@@ -68,4 +68,4 @@ Wheel and single touch drags inside the frame send a bounded `scroll` delta. The
 
 `pets/dialogue.js` owns the exact context allowlist, trigger list, original personality map and frame request lifecycle. `widget/dialogue-host.js` validates again before invoking `element.dialogueAdapter(context, {signal})`. Boot carries dialogue requests, results, cancellation and the saved opt in preference over the existing private channel. No provider code or secret is in the game. Set callbacks before opening or before connecting an inline element.
 
-`examples/dialogue.html` has deterministic success, delayed, failure, malformed and timeout modes plus all trigger controls. Prepare adult after opening, enable dialogue in settings, then try triggers. This review page uses direct same origin access for fixtures only. Production has no fixture controls. Reset and close should cancel delayed requests. The entire examples folder enters dist, so it contains no server code. `server-example/` stays outside dist and needs hosting, authentication, durable budget counters and a real provider test before deployment.
+`examples/dialogue.html` has deterministic success, delayed, failure, malformed and timeout modes plus all trigger controls. Prepare adult after opening, enable dialogue in settings, then try triggers. This review page uses direct same origin access for fixtures only. Production has no fixture controls. Reset and close should cancel delayed requests. The examples folder enters dist and contains no server code. `server-example/` stays outside dist and needs hosting, authentication, durable budget counters and a real provider test before deployment.

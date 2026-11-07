@@ -30,7 +30,9 @@ npm test
 
 Open `http://localhost:4176`. To choose another port, use `npm start -- --port 4177`.
 
-The demo opens the game from a pixel pet launcher. The untouched original is at `/reference/upstream.html`. The original sprite contact sheet is at `/reference/contact-sheet.html`.
+The demo opens the game from a pixel pet launcher. The untouched original is at `/reference/upstream.html`. The original sprite contact sheet is at `/reference/contact-sheet.html`. These source review pages are not part of the release.
+
+After building, open `http://localhost:4176/dist/examples/install.html` to try a plain page using only the built files. The release includes version metadata and license notices. See the [migration instructions](docs/install.md#migrate-the-earlier-personal-site-pets) for the explicit legacy save option.
 
 ## Source and checks
 
