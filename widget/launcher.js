@@ -12,14 +12,25 @@ const shellColors={
   lilgotchi:{edge:'#e7c88d',face:'#fff0cc',screen:'#20281d'},
 };
 
-export function launcherArt(family, state) {
+export function launcherArt(family, state, { fit = false } = {}) {
   const sprites=family==='lilgotchi'?lilgotchiSprites:family==='slice'?sliceSprites:family==='cyberpunk'?cyberpunkSprites:classicSprites;
   const palette=family==='lilgotchi'?lilgotchiPalette:family==='slice'?slicePalette:family==='cyberpunk'?cyberpunkPalette:['','#b4ce83'];
   const preview=family==='slice'||family==='cyberpunk'?'tamatchi':getCharacter(family)?.character||'egg';
   const identity=state?.character && Object.hasOwn(sprites,state.character)?state.character:preview;
   const pixels=sprites[identity].idle1;
   const rects=pixels.flatMap((row,y)=>row.flatMap((color,x)=>color?[`<rect x="${x}" y="${y}" width="1" height="1" fill="${palette[color]||palette[1]}"/>`]:[])).join('');
-  return `<svg aria-hidden="true" viewBox="0 0 ${pixels[0].length} ${pixels.length}" shape-rendering="crispEdges">${rects}</svg>`;
+  let viewBox=`0 0 ${pixels[0].length} ${pixels.length}`;
+  if(fit){
+    const occupied=pixels.flatMap((row,y)=>row.flatMap((color,x)=>color?[[x,y]]:[]));
+    if(occupied.length){
+      const xs=occupied.map(([x])=>x),ys=occupied.map(([,y])=>y);
+      const left=Math.min(...xs),top=Math.min(...ys);
+      const width=Math.max(...xs)-left+1,height=Math.max(...ys)-top+1;
+      const side=Math.max(width,height)+2;
+      viewBox=`${left-(side-width)/2} ${top-(side-height)/2} ${side} ${side}`;
+    }
+  }
+  return `<svg aria-hidden="true" viewBox="${viewBox}" shape-rendering="crispEdges">${rects}</svg>`;
 }
 export function savedCare(state) {
   if(!state)return '';

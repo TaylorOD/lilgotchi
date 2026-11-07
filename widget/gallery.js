@@ -11,7 +11,7 @@ const open=async id=>{
 for(const choice of catalog.filter(choice=>featured.includes(choice.id))){
   const button=document.createElement('button');
   button.type='button';
-  button.innerHTML=`${launcherArt(choice.id)}<strong>${choice.name}</strong><span>${choice.stage==='egg'?'Starts as an egg':`Starts as ${choice.stage==='adult'?'an':'a'} ${choice.stage}`}</span>`;
+  button.innerHTML=`${launcherArt(choice.id,{character:'mametchi'},{fit:true})}<strong>${choice.name}</strong><span>${choice.stage==='egg'?'Starts as an egg':`Starts as ${choice.stage==='adult'?'an':'a'} ${choice.stage}`}</span>`;
   button.addEventListener('click',async()=>{
     await open(choice.id);
   });
