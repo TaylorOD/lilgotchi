@@ -519,7 +519,7 @@ export class TamagotchiApp {
     const name=characterName(st.character);
     document.getElementById('stats-content').innerHTML=`
       <div class="stat-row"><span>Name</span><span>${name}</span></div>
-      <div class="stat-row"><span>Stage</span><span>${st.stage}</span></div>
+      <div class="stat-row"><span>Stage</span><span>${st.stage[0].toUpperCase()+st.stage.slice(1)}</span></div>
       <div class="stat-row"><span>Age</span><span>${st.age} days</span></div>
       <div class="stat-row"><span>Weight</span><span>${st.weight} lb</span></div>
       <div class="stat-row"><span>Food</span><span class="hearts">${hungerH} ${st.hunger}/4</span></div>
