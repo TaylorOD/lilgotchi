@@ -12,9 +12,10 @@ function host(){
   const message={textContent:''},button={focus(){this.focused=true;}},file={value:'old.json'};
   const preview={hidden:true,querySelector:selector=>selector==='p'?message:button};
   const errors=[];
-  const widget={allowed:['slice','cyberpunk'],shadowRoot:{querySelector:selector=>selector==='.file'?file:preview},fail:error=>errors.push(error.message),unload:()=>assert.fail('Preview must not unload a pet')};
+  const retry={hidden:false};
+  const widget={allowed:['slice','cyberpunk'],status(text){this.statusText=text;this.statusError=false;},shadowRoot:{querySelector:selector=>selector==='.file'?file:selector==='.retry'?retry:preview},fail:error=>{errors.push(error.message);widget.statusError=true;retry.hidden=false;},unload:()=>assert.fail('Preview must not unload a pet')};
   widget.previewImportText=text=>LilGotchi.prototype.previewImportText.call(widget,text);
-  return {widget,preview,message,button,file,errors};
+  return {widget,preview,message,button,file,errors,retry};
 }
 test('pasted backup previews safely and invalid replacements clear stale confirmation',()=>{
   const {widget,preview,message,button,errors}=host();
@@ -24,6 +25,9 @@ test('pasted backup previews safely and invalid replacements clear stale confirm
     widget.previewImportText(text);assert.equal(widget.importData,null);assert.equal(preview.hidden,true);
   }
   assert.equal(errors.length,3);
+  widget.previewImportText(backup());
+  assert.equal(widget.statusError,false);assert.match(widget.statusText,/Review/);
+  assert.equal(widget.shadowRoot.querySelector('.retry').hidden,true);
 });
 test('slow file reads cannot replace a newer pasted preview',async()=>{
   const {widget,file}=host();let finish;
