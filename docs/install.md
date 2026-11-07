@@ -3,7 +3,7 @@
 ## One line hosted install
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.0/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.1/embed.js"></script>
 ```
 
 Paste this into the head or body of an HTML page. The versioned URL loads all required files and creates one widget. No account, upload, API key or package manager is needed. The widget starts with Slice, all characters available and sound off. The hosted files come from Taylor's GitHub Pages site. Saves stay in the visitor's browser on your website.
@@ -11,7 +11,7 @@ Paste this into the head or body of an HTML page. The versioned URL loads all re
 The URL stays on this release. Change the version to upgrade. Keep `data-storage-key` stable to preserve saves. Loading third party scripts requires a website that allows custom JavaScript; a CMS that strips script tags needs its custom code feature.
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.0/embed.js" data-character="cyberpunk" data-characters="default,slice,cyberpunk" data-placement="bottom-left" data-storage-key="my-pets"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.1/embed.js" data-character="cyberpunk" data-characters="default,slice,cyberpunk" data-placement="bottom-left" data-storage-key="my-pets"></script>
 ```
 
 Supported script settings are `data-character`, `data-characters`, `data-placement`, `data-appearance`, `data-storage-key`, `data-mode`, `data-launcher` and `data-muted`. They map to the custom element settings below. `data-muted` is a presence flag. Inline widgets appear immediately after a script in the body; a script in the head places its inline widget at the end of the body. Put the script where you want an inline widget. Each script creates one widget. Give multiple widgets separate storage keys. Module loading failures emit `lilgotchi:loaderror` on the script.
@@ -20,10 +20,10 @@ Use the landing page to generate a customized one line snippet. The release incl
 
 ## Public package
 
-The [0.3.0 release](https://github.com/TaylorOD/lilgotchi/releases/tag/v0.3.0) includes a built zip and an npm installable tarball under MIT. The npm registry listing is separate from this GitHub package.
+The [0.3.1 release](https://github.com/TaylorOD/lilgotchi/releases/tag/v0.3.1) includes a built zip and an npm installable tarball under MIT. The npm registry listing is separate from this GitHub package.
 
 ```sh
-npm install https://github.com/TaylorOD/lilgotchi/releases/download/v0.3.0/lilgotchi-0.3.0.tgz
+npm install https://github.com/TaylorOD/lilgotchi/releases/download/v0.3.1/lilgotchi-0.3.1.tgz
 ```
 
 Copy the entire `node_modules/lilgotchi/dist` directory into your public assets. Do not bundle just the main JavaScript file: its sibling modules, styles and game iframe must stay together. The export is browser only. Server rendered frameworks should use a script in the rendered page and serve the full static folder.
@@ -97,7 +97,7 @@ Before first opening, the launcher shows last saved care. After opening, closing
 
 ## Download and release packaging
 
-[Download lilgotchi 0.3.0](https://github.com/TaylorOD/lilgotchi/releases/download/v0.3.0/lilgotchi-0.3.0.zip). This is the named built distribution. Extract its contents directly into your asset directory.
+[Download lilgotchi 0.3.1](https://github.com/TaylorOD/lilgotchi/releases/download/v0.3.1/lilgotchi-0.3.1.zip). This is the named built distribution. Extract its contents directly into your asset directory.
 
 For a reviewed source checkout on Windows, run `pwsh -File scripts/package-release.ps1`. It rebuilds the distribution and creates a zip in the temporary `lilgotchi-releases` folder named with the package version and source commit. Commit reviewed source before packaging so the filename identifies the actual source. Existing archives are never overwritten. Publish that zip as a release asset after reviewing the source and browser checks. A GitHub source archive is not the built distribution.
 

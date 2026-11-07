@@ -2,6 +2,12 @@
 
 Pasted save import was removed at the user's request after 0.2.1. Historical pasted import checks below describe the earlier releases, not an available feature. File import, validation, confirmation and recovery remain.
 
+## 0.3.1 special elders
+
+144 automated tests pass. Spoiled Slice replaces Pizza Chef and Glitch Elder replaces Mainframe at the existing special elder identity. Existing saves and evolution rules stay compatible. Both use the same Maskutchi, age 10, 100% discipline eligibility and 5% per tick trigger as the cracked Lilgotchi egg.
+
+Chrome review checked all three elder appearances in real game frames at desktop and mobile sizes using local test pets. Tests cover eligibility boundaries, every expression and full screen bounds. README wording now explains pet types and the launcher button separately.
+
 ## 0.3.0 egg family and widget layout
 
 142 automated tests pass. Lilgotchi adds a complete logo egg family, including a cracked elder form, with screen bounds checks for every stage and reaction. The landing page has four featured pets and the personal site allows Original egg, Slice, Cypunk and Lilgotchi.
@@ -54,4 +60,4 @@ Screenshots are under pr-screenshots, including release-slice-mobile, release-cy
 
 ## Release contents
 
-The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site, standalone demo and hosted loader use 0.3.0; see the current installation guide for their version.
+The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site, standalone demo and hosted loader use 0.3.1; see the current installation guide for their version.

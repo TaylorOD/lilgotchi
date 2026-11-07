@@ -1,6 +1,6 @@
 // Complete padded canvases keep antennae, wheels and cables inside every pose.
 export const cyberpunkPalette = Object.freeze(['', '#d9fcff', '#102238', '#22dbe7', '#ec4cb4', '#53718c']);
-export const cyberpunkNames = Object.freeze({egg:'Binary Seed',babytchi:'Bit',marutchi:'Byte',tamatchi:'Runner',kuchitamatchi:'Glitch',mametchi:'Sentinel',ginjirotchi:'Courier',maskutchi:'Ghost',kuchipatchi:'Tank',nyorotchi:'Wire',tarakotchi:'Scrap',oyajitchi:'Mainframe'});
+export const cyberpunkNames = Object.freeze({egg:'Binary Seed',babytchi:'Bit',marutchi:'Byte',tamatchi:'Runner',kuchitamatchi:'Glitch',mametchi:'Sentinel',ginjirotchi:'Courier',maskutchi:'Ghost',kuchipatchi:'Tank',nyorotchi:'Wire',tarakotchi:'Scrap',oyajitchi:'Glitch Elder'});
 const freeze = matrix => Object.freeze(matrix.map(row=>Object.freeze(row)));
 const canvas = (rows,height=12) => {
   if(rows.length>height || rows.some(row=>row.length>12)) throw new Error('Cypunk art exceeds its canvas');
@@ -18,7 +18,7 @@ const drawings = {
   kuchipatchi:{face:[4,6],rows:['000004400000','000003300000','033333333330','322222222223','322222222223','322222222223','033344443330','332332332333','323223223223','333333333333']},
   nyorotchi:{face:[4,1],rows:['000333333300','000322222300','000322222300','000322222300','000333333300','000000430000','000003430000','000034300000','000043000000','000034300000','000003430000','000033333000']},
   tarakotchi:{face:[4,4],rows:['003333333300','003244222300','003244222300','003222222300','443222222333','233222222323','003333333323','003225222330','003333333000','000320023000','003330033330']},
-  oyajitchi:{face:[4,5],rows:['003003003000','004004004000','003333333300','003222222300','033222222330','032222222230','032222222230','032222222230','033344443330','003225222300','003333333300','000333033300']}
+  oyajitchi:{face:[4,4],rows:['003000004000','004033330000','000322223300','043222222300','003222222340','003222222300','003222222300','000334443330','043222230000','000322223040','003330033000','000300003300']}
 };
 const faces = {idle1:['30003','00000','00100'],idle2:['30003','00000','01110'],happy:['03030','30003','01110'],sad:['00000','30003','04440'],eat:['30003','00100','01310'],sleep:['00000','55055','00000']};
 function body({rows,face:[x,y]},key) {

@@ -45,3 +45,19 @@ The shared catalog maps public IDs to the internal classic, pizza or cyberpunk s
 ## Lilgotchi
 
 Use `lilgotchi` to start the logo egg family. It begins as a small egg and grows eyes, then a larger body. Its elder form has a crack. Each choice has its own saved progress.
+
+## Special elder path
+
+Pet types never change into another type. Care and discipline choose the adult branch within that type.
+
+The special elder path is shared by the custom pet types. Reach the Maskutchi branch, then reach at least age 10 with 100% discipline:
+
+| Pet type | Adult on this path | Elder appearance |
+| --- | --- | --- |
+| Slice | Calzone | Spoiled Slice, with mold spots and drooping cheese |
+| Cypunk | Ghost | Glitch Elder, with broken cyan and magenta pixels |
+| Lilgotchi | Lilgotchi on the Maskutchi branch | Elder Lilgotchi, with a cracked egg |
+
+To reach this branch from an egg, make at most one care mistake as a child to reach the Tamatchi teen. At adult evolution, at most four care mistakes and at least 50% discipline lead to Maskutchi unless the better care branches take priority. With at most two care mistakes, 75% or higher discipline selects a different adult. With three or four mistakes, the Maskutchi branch accepts any discipline from 50% through 100%.
+
+After reaching that adult, raise discipline to 100% and keep the pet alive until age 10. Once eligible, each simulation tick has a 5% chance to trigger the change, so it does not happen at an exact birthday moment. The cracked egg, spoiled pizza and glitch look are special elder appearances, not automatic neglect outcomes. Other adults do not enter this path. Existing saves keep their progress and gain the new artwork when they use this elder form.
