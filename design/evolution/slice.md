@@ -4,7 +4,7 @@ Review only. These sprites and names are not connected to the game. The proposal
 
 ## Growing up
 
-Dough becomes Dough Drop, then Pizza Round. At the child evolution check, zero or one care mistake produces Little Slice. Two or more produces Folded Slice.
+Dough becomes Dough Drop, then Pizza Puff. At the child evolution check, zero or one care mistake produces Little Slice. Two or more produces Folded Slice.
 
 Both teens can become different adult pizzas. Care mistakes and discipline are evaluated at the adult evolution check, in the order below. The internal original IDs are listed so the mapping can be reviewed without changing save compatibility.
 
@@ -39,6 +39,6 @@ This matches the cracked egg path. The live game currently calls the Maskutchi p
 
 All sprites fit 12 by 12 pixels. Every hatched form has idle, alternate idle, happy, sad, eating and sleeping expressions. The dough has two idle poses. Toppings sit above or beside the small face so expressions do not erase what identifies the pizza.
 
-Margherita has pale mozzarella, red tomato and green basil. Pepperoni uses red discs on a broad wedge. BBQ Chicken uses tan chunks and dark sauce stripes. Meat Lovers is a thick square pan slice with alternating red and brown toppings. Anchovy has silvery blue fish marks on a narrow slice. Pineapple uses bright yellow chunks on a wide cheese wedge. Spoiled Slice has a bent tip and mold patches.
+Dough Drop is a slightly larger, rounder baby. Pizza Puff is a taller rounded child with a raised crust. Margherita is a broad triangular slice with separate mozzarella patches, red tomato and green basil. Pepperoni uses red discs on a broad wedge. BBQ Chicken uses tan chicken chunks, purple onion and brown sauce stripes. Meat Lovers is a thick square pan slice with red pepperoni, chunky brown sausage and dark red bacon. Anchovy has silvery blue fish marks on a narrow slice. Pineapple uses pale mozzarella around bright yellow pineapple chunks for contrast, with dark red bacon strips beside them. Spoiled Slice has a bent tip and mold patches.
 
 Only the proposal module and this document are added. Runtime sprites, catalog entries, saves and evolution logic stay unchanged until approved.
