@@ -12,7 +12,7 @@ Use [implementation status](../implementation-status.md) for shipped behavior, [
 | [02 Original clone parity](02-original-clone-parity.md) | Original regression baseline captured. The compact UI deliberately supersedes exact presentation parity |
 | [03 Default family](03-default-character-family.md) | Original egg and all original starting characters implemented |
 | [04 Slice family](04-slice-character-family.md) | Dough egg, full lifecycle and reaction art implemented |
-| [05 Cyberpunk family](05-cyberpunk-character-family.md) | Binary egg, full lifecycle and reaction art implemented |
+| [05 Cypunk family](05-cyberpunk-character-family.md) | Binary egg, full lifecycle and reaction art implemented |
 | [06 Screen bounds](06-animation-and-screen-bounds.md) | Complete bodies and effects contained, with regression coverage |
 | [07 Widget accessibility](07-widget-polish-and-accessibility.md) | Responsive shell and keyboard behavior implemented. External checks remain open |
 | [08 Saves and migration](08-saves-and-site-migration.md) | Host owned saves, migration, recovery and personal site integration implemented |

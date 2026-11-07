@@ -45,11 +45,11 @@ Keep source reference captures and final browser proof under `pr-screenshots/`. 
 
 `pets/slice-sprites.js` exports `sliceSprites`, `slicePalette` and `sliceNames`. Every body has a frozen 12 by 12 canvas for idle1, idle2, happy, sad, eat and sleep. Dough has two frozen 12 by 10 proofing frames. The drawings preserve original identity keys and all evolution logic. Palette index 6 is basil green. Shared effects stay in `classic-sprites.js`.
 
-`skins.js` selects the family and exports `characterName` for display labels. The game uses a family's optional sleep frame before the original idle fallback. Default has no sleep override and continues to match the source. Cyberpunk now follows these interfaces with its own art module, palette and names.
+`skins.js` selects the family and exports `characterName` for display labels. The game uses a family's optional sleep frame before the original idle fallback. Default has no sleep override and continues to match the source. Cypunk now follows these interfaces with its own art module, palette and names.
 
 Review all Slice art at `/qa/slice.html`, then use `/qa/?pet=pizza` for composed reactions. QA files stay outside the release. Do not mutate published matrices because layout metadata caches by identity.
 
-## Cyberpunk integration
+## Cypunk integration
 
 `pets/cyberpunk-sprites.js` exports frozen `cyberpunkSprites`, `cyberpunkPalette` and `cyberpunkNames`. Binary Seed has two 12 by 10 boot frames with readable 01 glyphs. Every other identity has six 12 by 12 frames, including a closed visor sleep pose. Original identities, effects, care logic and evolution remain unchanged. Reduced motion retains the current stable boot frame through the existing render gate.
 

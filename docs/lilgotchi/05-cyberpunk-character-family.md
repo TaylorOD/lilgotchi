@@ -1,12 +1,12 @@
-# lilgotchi Cyberpunk character family
+# lilgotchi Cypunk character family
 
 > Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
 
-Cyberpunk starts as a binary seed and grows into a small neon machine. Its lifecycle should feel like a system booting, developing a body and taking a different adult form based on care.
+Cypunk starts as a binary seed and grows into a small neon machine. Its lifecycle should feel like a system booting, developing a body and taking a different adult form based on care.
 
 ## Proposed forms
 
-| Original identity | Cyberpunk form | Shape and distinguishing detail |
+| Original identity | Cypunk form | Shape and distinguishing detail |
 | --- | --- | --- |
 | `egg` | Binary Seed | Rounded capsule outline containing a few readable 0 and 1 pixels. Two stable boot frames |
 | `babytchi` | Bit | Tiny square core with two bright eyes and short feet |
@@ -31,7 +31,7 @@ Use hard pixel edges. Avoid blur and glow filters on the logical display. If a g
 
 ## Reactions
 
-| State | Cyberpunk treatment |
+| State | Cypunk treatment |
 | --- | --- |
 | Egg idle and hatch | A few binary cells alternate, then the shell opens into Bit at the original hatch moment |
 | Idle | Small leg or body motion. Antennae remain attached |
