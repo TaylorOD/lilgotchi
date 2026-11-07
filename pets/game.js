@@ -83,7 +83,7 @@ export class TamagotchiApp {
       this.toast(this.eink?'E-ink theme on':'Default theme');
     });
     document.getElementById('reset-game-btn').addEventListener('click',()=>{
-      if(confirm('Reset your Tamagotchi? This cannot be undone.')){
+      if(confirm(`Restart ${petType==='pizza'?'Slice':petType==='cyberpunk'?'Cyberpunk':'Default'}? This cannot be undone.`)){
         this.state.clearSave(); this.state.reset(); this.animState=null; this.state.save();
         this.closeOverlay('settings-overlay'); this.closeOverlay('death-overlay');
         this.toast('New egg started!');

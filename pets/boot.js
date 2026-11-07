@@ -16,6 +16,10 @@ if(petType!=='classic') {
   document.getElementById('eink-row').hidden=true;
 }
 function start(initial, muted=true, eink=false) {
+  for(const overlay of document.querySelectorAll('.overlay')) {
+    const title=overlay.querySelector('.overlay-title');
+    title.id=`${overlay.id}-title`;overlay.setAttribute('aria-labelledby',title.id);
+  }
   saved=initial;
   if(embedded) configureStorage({load:()=>saved,save:state=>{
     saved=state;
@@ -28,7 +32,28 @@ function start(initial, muted=true, eink=false) {
   if(!muted) window.app.handleAction('mute');
   document.getElementById('mute-btn').addEventListener('click',()=>channel?.postMessage({type:'preference',name:'muted',value:window.app.sound.muted}));
   window.app.state.save();
-  if(channel) channel.postMessage({type:'ready'});
+  if(channel) {
+    channel.postMessage({type:'ready'});
+    let lastHeight=0;
+    const resize=()=>{
+      const device=document.getElementById('device');
+      const overlay=document.querySelector('.overlay.show');
+      let height=Math.ceil(device.getBoundingClientRect().height+24);
+      if(overlay) {
+        const style=getComputedStyle(overlay);
+        const content=[...overlay.children].reduce((total,node)=>{
+          const css=getComputedStyle(node);
+          return total+node.getBoundingClientRect().height+parseFloat(css.marginTop)+parseFloat(css.marginBottom);
+        },0);
+        height=Math.max(height,Math.ceil(content+parseFloat(style.paddingTop)+parseFloat(style.paddingBottom)+12));
+      }
+      height=Math.min(1200,Math.max(100,height));
+      if(height!==lastHeight){lastHeight=height;channel.postMessage({type:'resize',height});}
+    };
+    new ResizeObserver(resize).observe(document.getElementById('device'));
+    new MutationObserver(resize).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+    resize();
+  }
 }
 if(embedded) {
   const expectedOrigin=params.get('parentOrigin');
@@ -76,3 +101,18 @@ document.addEventListener('keydown',event=>{
     else if(!event.shiftKey && document.activeElement===last) {event.preventDefault();first?.focus();}
   }
 });
+
+// Frames cannot naturally chain a gesture to their containing drawer.
+const scrollHost=delta=>channel?.postMessage({type:'scroll',delta:Math.max(-1000,Math.min(1000,delta))});
+document.addEventListener('wheel',event=>{
+  if(!channel || event.ctrlKey)return;
+  event.preventDefault();
+  scrollHost(event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1));
+},{passive:false});
+let touchY=null;
+document.addEventListener('touchstart',event=>{touchY=event.touches.length===1?event.touches[0].clientY:null;},{passive:true});
+document.addEventListener('touchmove',event=>{
+  if(!channel || touchY===null || event.touches.length!==1)return;
+  const next=event.touches[0].clientY;
+  event.preventDefault();scrollHost(touchY-next);touchY=next;
+},{passive:false});

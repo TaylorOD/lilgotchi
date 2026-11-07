@@ -21,3 +21,9 @@ html[data-embedded="true"] #settings-btn { top:8px; right:10px; }
 }
 @media(max-height:400px) { .overlay { justify-content:flex-start; padding:12px 8px; } }
 @media(prefers-reduced-motion:reduce) { * { animation:none!important; transition:none!important; } }
+/* The host owns scrolling. Height comes from the private frame channel. */
+html[data-embedded="true"], html[data-embedded="true"] body { height:auto; overflow:hidden; }
+html[data-embedded="true"] #device { flex-shrink:0; }
+html[data-embedded="true"] .overlay { overflow:hidden; }
+html[data-embedded="true"] #save-status { display:none; }
+html[data-embedded="true"] #settings-btn { width:44px; height:44px; top:0; }

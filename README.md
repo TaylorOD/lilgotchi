@@ -2,7 +2,7 @@
 
 A small virtual pet for your website, based on [plateaukao/tamagochi](https://github.com/plateaukao/tamagochi).
 
-The reusable widget runs without a backend or dependencies. Complete character artwork and original presentation parity are still being implemented from the [design docs](docs/lilgotchi/README.md).
+The widget runs without a backend or dependencies. Choose Default, Slice or Cyberpunk, each with a full set of life stages and its own saved progress.
 
 ## Add it to a website
 
@@ -30,7 +30,7 @@ npm test
 
 Open `http://localhost:4176`. To choose another port, use `npm start -- --port 4177`.
 
-The demo opens the current game from the pizza launcher. The untouched original is at `/reference/upstream.html`. The original sprite contact sheet is at `/reference/contact-sheet.html`.
+The demo opens the game from a pixel pet launcher. The untouched original is at `/reference/upstream.html`. The original sprite contact sheet is at `/reference/contact-sheet.html`.
 
 ## Source and checks
 

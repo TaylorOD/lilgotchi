@@ -4,7 +4,7 @@ The foundation intentionally preserves the existing game modules. Later tasks ca
 
 | Area | Current files | Next owner |
 | --- | --- | --- |
-| Shell and lifecycle | `pets/widget.js`, `panel.js`, `widget.css` | Widget, then shell polish |
+| Shell and lifecycle | `lilgotchi.js`, `widget/shell.css` | Integration |
 | State persistence | `pets/storage.js`, `boot.js` | Widget |
 | Rules and timing | `pets/game.js`, `engine.js`, `constants.js`, `clock.js` | Default parity |
 | Logical drawing | `pets/renderer.js` and render methods in `game.js` | Rendering |
@@ -55,3 +55,11 @@ Review all Slice art at `/qa/slice.html`, then use `/qa/?pet=pizza` for composed
 `pets/cyberpunk-sprites.js` exports frozen `cyberpunkSprites`, `cyberpunkPalette` and `cyberpunkNames`. Binary Seed has two 12 by 10 boot frames with readable 01 glyphs. Every other identity has six 12 by 12 frames, including a closed visor sleep pose. Original identities, effects, care logic and evolution remain unchanged. Reduced motion retains the current stable boot frame through the existing render gate.
 
 Open `/qa/cyberpunk.html` for all 68 matrices at native and six times scale. Use `/qa/?pet=cyberpunk` to inspect composed reactions. Mainframe antennae and Wire cable are included in the full padded bounds. All art and rows are immutable. The robot placeholder is removed and Default and Slice keep their existing artwork.
+
+## Shell polish handoff
+
+`widget/launcher.js` renders a fixed portrait from existing sprite matrices. `pets/boot.js` reports `resize` over the private channel after device resize or overlay changes. The host accepts integer heights from 100 to 1200 only, from the current frame and family. Overlays contribute their natural child heights so the outer drawer owns scrolling. Keep the original stylesheet unchanged.
+
+Save tools use a native disclosure. The modal dialog provides host inertness, with explicit outer keyboard wrapping and launcher focus restoration. Inner overlay focus handling remains in boot and game modules. Inline widgets do not apply the outer focus loop. Closing waits for the final snapshot and cancels unfinished rounds without rewards.
+
+Wheel and single touch drags inside the frame send a bounded `scroll` delta. The host scrolls its drawer, or the page for inline mode. Ctrl wheel and multiple touch gestures stay native. `widget/scroll-lock.js` restores the original host overflow after the last modal closes or disconnects.

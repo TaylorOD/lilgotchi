@@ -14,25 +14,31 @@
     nav { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 32px; }
     .label { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: #9de4ce; }
     pre { background:#171c24; padding:18px; border:1px solid #343c48; border-radius:12px; overflow:auto; font-size:12px; line-height:1.8; }
+    .try { cursor:pointer; font:inherit; color:#101219; background:#d9bc83; border:0; border-radius:12px; padding:14px 22px; min-height:48px; margin:12px 0 36px; }
+    h2 { font-size:21px; letter-spacing:-.03em; }
+    button:focus-visible,a:focus-visible { outline:2px solid #9de4ce; outline-offset:5px; }
+    @media(max-width:500px) { body { padding:24px 20px 100px; } main { margin:4vh auto; } }
   </style>
 </head>
 <body>
   <main>
     <p class="label">a little company</p>
     <h1>lilgotchi</h1>
-    <p>A small virtual pet for your website. Open the pizza button to try the current game.</p>
-    <p>One script, one little roommate. Choose Default, Slice or Cyberpunk. Progress stays in this browser.</p>
-    <pre><code>&lt;script type="module" src="/lilgotchi/lilgotchi.js"&gt;&lt;/script&gt;
+    <p>A tiny roommate for your corner of the internet. Feed it, play a round, and see who it grows into.</p>
+    <p>Choose the original pocket pet, a little slice of pizza, or a neon companion. Each has its own life and its own saved progress.</p>
+    <button class="try" type="button">Meet your pet</button>
+    <h2>Make a little room</h2>
+    <p>Copy the built folder to your site, then add these two lines. No account needed. Sound starts off.</p>
+    <pre><code>&lt;script type="module" src="/assets/lilgotchi/0.1.0/lilgotchi.js"&gt;&lt;/script&gt;
 &lt;lil-gotchi character="slice"&gt;&lt;/lil-gotchi&gt;</code></pre>
     <nav aria-label="Project links">
-      <a href="./reference/upstream.html">Original clone</a>
-      <a href="./reference/contact-sheet.html">Original sprite inventory</a>
-      <a href="./docs/lilgotchi/README.md">Design docs</a>
+      <a href="./docs/install.md">Install guide</a>
       <a href="./pets/NOTICE.md">Credits</a>
       <a href="./examples/nested/">Install examples</a>
     </nav>
   </main>
   <script type="module" src="./lilgotchi.js"></script>
   <lil-gotchi character="slice" storage-key="demo"></lil-gotchi>
+<script>document.querySelector(".try").addEventListener("click",()=>document.querySelector("lil-gotchi").open());</script>
 </body>
 </html>
