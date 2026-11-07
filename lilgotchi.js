@@ -31,8 +31,8 @@ class LilGotchi extends HTMLElement {
       <header><h2><img src="${asset('./widget/egg.svg')}" width="20" height="24" alt="" style="vertical-align:middle"> lilgotchi</h2><button class="close" aria-label="Close lilgotchi">×</button>
       <label class="chooser">Your pet <select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
       <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-tour">Quick tour</button> <button class="welcome-close">Got it</button></aside>
-      <p class="return-summary" hidden></p><div class="frame"></div><p class="status" role="status"></p>
-      <button class="retry" hidden>Try again</button><details class="save-help"><summary>Save and help</summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
+      <p class="return-summary" hidden></p><div class="frame"></div>
+      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Save and help</span><span class="status" role="status"></span></summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
       <details class="paste-save"><summary>Paste a save instead</summary><label for="save-text">Exported save text</label><p id="paste-hint">Open your exported JSON file as text and paste its contents here. Nothing is uploaded.</p><textarea id="save-text" rows="5" maxlength="32768" spellcheck="false" aria-describedby="paste-hint"></textarea><button class="preview-paste">Preview pasted save</button></details>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
