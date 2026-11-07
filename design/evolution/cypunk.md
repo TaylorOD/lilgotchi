@@ -11,15 +11,15 @@ These are review proposals only. They are not imported by the live game, include
 | marutchi | Byte | Wider chip with an antenna and side contacts |
 | tamatchi | Compiler | Upright terminal character with a neat head and body |
 | kuchitamatchi | Syntax Error | Uneven terminal with detached magenta pixels |
-| mametchi | JavaScript | Yellow square with a readable JS mark and a small face |
-| ginjirotchi | C# | Purple medallion with a readable C# mark and a small face |
-| maskutchi | Matrix | Three green code streams gathering into a face |
-| kuchipatchi | 404 | Wide floating error panel with three readable digits |
+| mametchi | JavaScript | Cyan robot with yellow antenna tips, scarf, hands and feet |
+| ginjirotchi | Sentinel | The original Cypunk adult, with its exact sprite and expressions |
+| maskutchi | Matrix | Green hooded companion with a face, code cloak and feet |
+| kuchipatchi | 404 | Lost little robot with a bent magenta antenna and lowered arms |
 | nyorotchi | MissingNumber | Original asymmetric block creature with broken edges and magenta fragments |
-| tarakotchi | Blue Screen | Blue monitor with a face, status lines and a stand |
+| tarakotchi | Blue Screen | Wide blue monitor companion with a face, arms and feet |
 | oyajitchi | Glitch Elder | Cyan elder made of separated chunks and magenta fragments |
 
-MissingNumber is an original abstract design, not a copied game sprite. Language marks and error numbers stay readable during care reactions. Matrix advances two accent pixels between idle poses. Glitch Elder shifts one detached pixel. Neither uses flashing or rapid color changes.
+MissingNumber is an original abstract design, not a copied game sprite. Faces stay readable during care reactions. Matrix advances two accent pixels between idle poses. Glitch Elder shifts one detached pixel. Neither uses flashing or rapid color changes.
 
 ## Pathways
 
@@ -30,7 +30,7 @@ Compiler adult routes are evaluated in this order. The first matching condition 
 | Priority | Requirement at adult evolution | Result |
 | --- | --- | --- |
 | 1 | At most two care mistakes and 100% discipline | JavaScript |
-| 2 | At most two care mistakes and at least 75% discipline | C# |
+| 2 | At most two care mistakes and at least 75% discipline | Sentinel |
 | 3 | At most four care mistakes and at least 50% discipline | Matrix |
 | 4 | At least 50% discipline, with earlier conditions not met | 404 |
 | 5 | At least 25% discipline, with earlier conditions not met | MissingNumber |
@@ -42,4 +42,11 @@ Matrix is the special elder route. Once it reaches age 10 or older with 100% dis
 
 ## Review questions
 
-Check that JS, C# and 404 remain legible at the actual game scale. Compare the three streams of Matrix against the irregular silhouette of MissingNumber. Keep Glitch Elder visibly older and more fragmented than Syntax Error. The preview should show all six expressions so the names are not the only distinguishing feature.
+Check that JavaScript, Sentinel and 404 feel like individual companions at the actual game scale. Compare the hooded Matrix against the irregular silhouette of MissingNumber. Keep Glitch Elder visibly older and more fragmented than Syntax Error. The preview should show all six expressions so the names are not the only distinguishing feature.
+
+
+## Character revision
+
+The C# badge is replaced by Sentinel, the exact original Cypunk adult sprite and expressions. Sentinel occupies the Ginjirotchi branch in this proposal. JavaScript is a friendly cyan robot with yellow antenna tips and a yellow scarf, not a lettering tile. 404 is a lost little robot with a bent magenta antenna and lowered arms, keeping the original Cypunk proportions. Neither wears a word or number across its face.
+
+Matrix has a visible face inside a green hood, a short cloak with falling code accents, and feet. Blue Screen is a wider monitor companion with a face, little arms and sturdy feet. MissingNumber and Glitch Elder retain their existing proposed shapes.

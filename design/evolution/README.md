@@ -7,7 +7,7 @@ Each new pet type covers all 12 original identities: egg, baby, child, two teens
 | Original adult | Slice | Cypunk | Lilgotchi |
 | --- | --- | --- | --- |
 | Mametchi | Margherita | JavaScript | Duck Egg |
-| Ginjirotchi | Pepperoni | C# | Quail Egg |
+| Ginjirotchi | Pepperoni | Sentinel | Quail Egg |
 | Maskutchi | BBQ Chicken | Matrix | Goose Egg |
 | Kuchipatchi | Meat Lovers | 404 | Jumbo Egg |
 | Nyorotchi | Anchovy | MissingNumber | Golden Egg |
