@@ -4,6 +4,7 @@ import { lockPage, unlockPage } from './widget/scroll-lock.js';
 import { launcherIcon as launcherArt, savedCare } from './widget/launcher.js';
 import { SaveStore, legacyFamily, parseImport } from './widget/save-store.js';
 import { PetHistory } from './widget/pet-history.js';
+import { mountCareGuide } from './widget/care-guide.js';
 
 const asset = path => new URL(path,import.meta.url).href;
 class LilGotchi extends HTMLElement {
@@ -28,11 +29,12 @@ class LilGotchi extends HTMLElement {
       <${this.inline?'section class="inline"':'dialog'} aria-label="lilgotchi">
       <header><h2><img src="${asset('./widget/egg.svg')}" width="20" height="24" alt="" style="vertical-align:middle"> lilgotchi</h2><button class="close" aria-label="Close lilgotchi">×</button>
       <label class="chooser">Your pet <select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
-      <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-close">Got it</button></aside>
+      <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-tour">Quick tour</button> <button class="welcome-close">Got it</button></aside>
       <p class="return-summary" hidden></p><div class="frame"></div><p class="status" role="status"></p>
-      <button class="retry" hidden>Try again</button><details><summary>Save and help</summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
+      <button class="retry" hidden>Try again</button><details class="save-help"><summary>Save and help</summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
+      <div class="guide-host"></div>
       <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
       <footer>Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed. <a href="${asset('./pets/NOTICE.md')}" target="_blank" rel="noopener">Credits</a></footer></details>
       </${this.inline?'section':'dialog'}>`;
@@ -43,6 +45,12 @@ class LilGotchi extends HTMLElement {
     this.bind('.welcome-close','click',()=>{this.shadowRoot.querySelector('.welcome').hidden=true;this.store.preference('introduced',true);});
     this.updateLauncher();
     this.renderHistory();
+    this.careGuide=mountCareGuide(this.shadowRoot.querySelector('.guide-host'));
+    this.bind('.welcome-tour','click',()=>{
+      this.shadowRoot.querySelector('.welcome').hidden=true;this.store.preference('introduced',true);
+      this.shadowRoot.querySelector('.save-help').open=true;this.careGuide.reset();this.careGuide.element.open=true;
+      this.careGuide.element.querySelector('summary').focus();
+    });
     this.bind('.launcher','click',()=>this.open());
     this.bind('.close','click',()=>this.close());
     this.select.addEventListener('change',()=>this.setCharacter(this.select.value));
