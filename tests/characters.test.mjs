@@ -6,9 +6,9 @@ import { GameState, Evo } from '../pets/engine.js';
 import { C } from '../pets/constants.js';
 import { SaveStore, saveKey, parseImport } from '../widget/save-store.js';
 
-test('catalog exposes every original sprite identity and validates frame identity pairs',()=>{
-  assert.deepEqual(catalog.filter(c=>c.skin==='classic').map(c=>c.character).sort(),Object.keys(classicSprites).filter(id=>id==='egg'||getCharacter(id)).sort());
-  assert.equal(catalog.filter(c=>c.skin==='classic').length,12);
+test('catalog exposes only four egg families and validates frame identity pairs',()=>{
+  assert.deepEqual(families,['slice','cyberpunk','lilgotchi','default']);
+  assert.ok(catalog.every(choice=>choice.character==='egg'&&choice.stage==='egg'));
   for(const choice of catalog){
     assert.ok(classicSprites[choice.character].idle1);
     assert.equal(frameCharacter(new URLSearchParams({character:choice.id,pet:choice.skin})),choice);
@@ -20,15 +20,15 @@ test('catalog exposes every original sprite identity and validates frame identit
 test('allowlists preserve order, reject invalid configuration and fall back without erasing a choice',()=>{
   assert.deepEqual(allowedCharacters(),families);
   assert.deepEqual(allowedCharacters('all'),families);
-  assert.deepEqual(allowedCharacters('mametchi, default slice mametchi'),['mametchi','default','slice']);
-  for(const value of ['', '  ', ',', 'default,unknown','all,slice'])assert.throws(()=>allowedCharacters(value),/Invalid/);
+  assert.deepEqual(allowedCharacters('cyberpunk, default slice cyberpunk'),['cyberpunk','default','slice']);
+  for(const value of ['', '  ', ',', 'default,unknown','all,slice','mametchi'])assert.throws(()=>allowedCharacters(value),/Invalid/);
   const allowed=['default','slice'];
   assert.equal(initialCharacter('mametchi','slice',allowed),'default');
   assert.equal(initialCharacter('slice','default',allowed),'slice');
   assert.equal(initialCharacter(null,'slice',allowed),'slice');
 });
 
-test('original presets start fresh at their pictured stage, reset consistently and keep normal evolution',()=>{
+test('every family starts and resets as an egg and keeps normal evolution',()=>{
   for(const choice of catalog){
     const state=new GameState(choice);
     assert.equal(state.stage,choice.stage);assert.equal(state.character,choice.character);
@@ -37,12 +37,12 @@ test('original presets start fresh at their pictured stage, reset consistently a
     state.age=9;state.character='tarakotchi';state.reset();
     assert.equal(state.character,choice.character);assert.equal(state.age,0);
   }
-  assert.equal(Evo.evolve(new GameState(getCharacter('babytchi'))).character,'marutchi');
-  assert.equal(Evo.evolve(new GameState(getCharacter('tamatchi'))).character,'tarakotchi');
+  assert.equal(Evo.evolve({stage:'baby',character:'babytchi'}).character,'marutchi');
+  assert.equal(Evo.evolve({stage:'teen',character:'tamatchi',careMistakes:0,discipline:0}).character,'tarakotchi');
   assert.equal(Evo.evolve(new GameState(getCharacter('default'))).character,'babytchi');
 });
 
-test('every choice has independent progress, portable imports and no duplicated legacy migration',async()=>{
+test('every family has independent progress and portable imports',async()=>{
   const values=new Map();const storage={getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value)};
   const store=new SaveStore('lineup',{storage,locks:null});
   try{
@@ -51,13 +51,12 @@ test('every choice has independent progress, portable imports and no duplicated 
       store.save(choice.id,new GameState(choice));
       assert.equal(store.load(choice.id).state.character,choice.character);
       assert.equal(parseImport(store.raw(choice.id)).family,choice.id);
-      if(choice.skin==='classic' && choice.id!=='default')assert.equal(store.migrateLegacy(choice.id),false);
     }
     assert.equal(new Set(catalog.map(c=>saveKey('lineup',c.id))).size,catalog.length);
     assert.equal(saveKey('lineup','default'),'lilgotchi:v1:lineup:default');
-    const original=store.raw('mametchi');
+    const original=store.raw('cyberpunk');
     assert.throws(()=>parseImport(original,['default','slice']),/not available/);
-    assert.equal(store.raw('mametchi'),original);
+    assert.equal(store.raw('cyberpunk'),original);
   }finally{store.dispose();}
 });
 
@@ -65,8 +64,8 @@ globalThis.HTMLElement=class{};
 globalThis.customElements={get:()=>true};
 const { LilGotchi }=await import('../lilgotchi.js');
 test('public selection and confirmed imports reject choices outside the site list before changing state',async()=>{
-  const widget={allowed:['default'],serial:callback=>callback(),importData:{family:'mametchi'},unload:()=>assert.fail('must not unload')};
-  await assert.rejects(LilGotchi.prototype.setCharacter.call(widget,'mametchi'),/not available/);
+  const widget={allowed:['default'],serial:callback=>callback(),importData:{family:'cyberpunk'},unload:()=>assert.fail('must not unload')};
+  await assert.rejects(LilGotchi.prototype.setCharacter.call(widget,'cyberpunk'),/not available/);
   await assert.rejects(LilGotchi.prototype.confirmImport.call(widget),/not available/);
 });
 

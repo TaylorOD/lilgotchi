@@ -10,7 +10,7 @@ function setup(instance){
   const store=new SaveStore(instance,{storage,locks:null,now:()=>2000000000000});
   return {values,storage,store,history:new PetHistory(store)};
 }
-function dead(bornAt=1000){const state=new GameState(getCharacter('mametchi'));return {...state,bornAt,age:8,stage:'dead',isDead:true};}
+function dead(bornAt=1000){const state=new GameState(getCharacter('default'));return {...state,character:'mametchi',bornAt,age:8,stage:'dead',isDead:true};}
 test('death records deduplicate per lifetime and persist before a new pet replaces it',async()=>{
   const {store,history,storage}=setup('history-lifetimes');
   await store.acquire('slice');

@@ -6,15 +6,15 @@ import { installSnippet } from '../widget/install-snippet.js';
 test('launcher follows saved evolution while keeping the selected family palette',()=>{
   assert.notEqual(launcherArt('slice',{character:'egg'}),launcherArt('slice',{character:'mametchi'}));
   assert.notEqual(launcherArt('slice',{character:'mametchi'}),launcherArt('cyberpunk',{character:'mametchi'}));
-  assert.equal(launcherArt('mametchi',{character:'tarakotchi'}),launcherArt('tarakotchi'));
+  assert.notEqual(launcherArt('default',{character:'tarakotchi'}),launcherArt('default',{character:'egg'}));
   assert.equal(savedCare({stage:'egg',hunger:0}), '');
   assert.equal(savedCare({stage:'baby',isSick:true,hunger:0,poopCount:1}), 'Needs medicine, cleaning, food');
   assert.equal(savedCare({isDead:true}), 'Your pet passed away');
   assert.equal(savedCare({vacationAt:123,hunger:0,isSick:true}), '');
 });
 test('install snippets constrain selected character and reject empty or injected configuration',()=>{
-  const snippet=installSnippet({characters:'mametchi,cyberpunk',character:'slice',placement:'inline',appearance:'light'});
-  assert.match(snippet,/character="mametchi"/);assert.match(snippet,/mode="inline"/);assert.match(snippet,/appearance="light"/);
+  const snippet=installSnippet({characters:'default,cyberpunk',character:'slice',placement:'inline',appearance:'light'});
+  assert.match(snippet,/character="default"/);assert.match(snippet,/mode="inline"/);assert.match(snippet,/appearance="light"/);
   assert.throws(()=>installSnippet({characters:''}));
   assert.throws(()=>installSnippet({characters:'slice" onclick="bad'}));
   assert.throws(()=>installSnippet({placement:'elsewhere'}));
