@@ -9,7 +9,7 @@ import { updateStatus } from './status.js';
 import { drawScene, centeredBody } from './layout.js';
 import { Dialogue, contextFor } from './dialogue.js';
 import { PF } from './font.js';
-import { petType } from './storage.js';
+import { petType, selectedCharacter } from './storage.js';
 
 export class TamagotchiApp {
   constructor(options={}){
@@ -96,7 +96,7 @@ export class TamagotchiApp {
       this.toast(this.eink?'E-ink theme on':'Default theme');
     });
     document.getElementById('reset-game-btn').addEventListener('click',()=>{
-      if(confirm(`Restart ${petType==='pizza'?'Slice':petType==='cyberpunk'?'Cyberpunk':'Default'}? This cannot be undone.`)){
+      if(confirm(`Restart ${selectedCharacter.name}? This cannot be undone.`)){
         this.dialogue?.cancel(); this.state.clearSave(); this.state.reset(); this.animState=null; this.state.save();
         this.closeOverlay('settings-overlay'); this.closeOverlay('death-overlay');
         this.toast('New egg started!');
@@ -665,7 +665,7 @@ export class TamagotchiApp {
 
   talk(event){
     if(this.catchingUp || this.state.isDead)return;
-    this.dialogue?.talk(contextFor(this.state,event,{classic:'default',pizza:'slice',cyberpunk:'cyberpunk'}[petType],characterName(this.state.character)));
+    this.dialogue?.talk(contextFor(this.state,event,selectedCharacter.id,characterName(this.state.character)));
   }
   showDialogue(text,status){
     const el=document.getElementById('dialogue');
