@@ -44,7 +44,7 @@ Spoiled Slice and Cracked Elder are special older forms. They don’t mean you n
 Use `data-characters="all"` for all four, or list the families you want:
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.0.1/embed.js" data-characters="slice,cyberpunk" data-character="slice"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.0.2/embed.js" data-characters="slice,cyberpunk" data-character="slice"></script>
 ```
 
 The starting family must be in the list. A saved selection opens first if it’s still available.
