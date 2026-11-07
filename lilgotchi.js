@@ -68,7 +68,7 @@ class LilGotchi extends HTMLElement {
     this.bind('.import-button','click',()=>this.shadowRoot.querySelector('.file').click());
     this.bind('.file','change',event=>this.previewImport(event.target.files[0]));
     this.bind('.preview-paste','click',()=>this.previewImportText(this.shadowRoot.querySelector('#save-text').value));
-    this.bind('.cancel-import','click',()=>{this.importPreviewId=(this.importPreviewId||0)+1;this.shadowRoot.querySelector('.import').hidden=true;this.importData=null;});
+    this.bind('.cancel-import','click',()=>{this.importPreviewId=(this.importPreviewId||0)+1;this.shadowRoot.querySelector('.import').hidden=true;this.importData=null;this.restoreImportFocus();});
     this.bind('.confirm-import','click',()=>this.confirmImport());
     if(this.inline){this.shadowRoot.querySelector('.launcher').hidden=true;this.shadowRoot.querySelector('.close').hidden=true;this.open();}
   }
@@ -152,7 +152,7 @@ class LilGotchi extends HTMLElement {
     this.status('Loading your pet…');
     let saved;
     if(!await this.store.acquire(this.family)){
-      container.innerHTML='<p class="loading">This pet is active in another window. Close it there, then try again here.</p>';
+      container.innerHTML='<p class="loading">This pet is active in another browser tab or page. Close that tab or page, then try again here. Closing its pet drawer keeps it active.</p>';
       this.status('Read only while another window is playing.');
       this.shadowRoot.querySelector('.retry').hidden=false;return;
     }
@@ -239,16 +239,22 @@ class LilGotchi extends HTMLElement {
       if(file.size>32768)throw new Error('This save file is too large.');
       const text=await file.text();
       if(request!==this.importPreviewId)return;
-      this.previewImportText(text);
+      this.previewImportText(text,this.shadowRoot.querySelector('.import-button'));
     }catch(error){if(request===this.importPreviewId)this.fail(error);}
     finally{this.shadowRoot.querySelector('.file').value='';}
   }
-  previewImportText(text){
+  restoreImportFocus(){
+    const target=this.importFocus;
+    if(target && visibleControl(target))target.focus();else this.select.focus();
+    this.importFocus=null;
+  }
+  previewImportText(text,origin=this.shadowRoot.querySelector('.preview-paste')){
     this.importPreviewId=(this.importPreviewId||0)+1;
     this.importData=null;
     this.shadowRoot.querySelector('.import').hidden=true;
     try{
       this.importData=parseImport(text,this.allowed);
+      this.importFocus=origin;
       const panel=this.shadowRoot.querySelector('.import');
       panel.querySelector('p').textContent=`Replace ${catalog.find(choice=>choice.id===this.importData.family).name} with this ${this.importData.state.stage}, age ${this.importData.state.age}? Your previous save will be kept as a recovery copy.`;
       panel.hidden=false;panel.querySelector('button').focus();
@@ -258,14 +264,19 @@ class LilGotchi extends HTMLElement {
     const data=this.importData;if(!data)return;
     requireAllowed(data.family,this.allowed);
     await this.unload();
-    if(!await this.store.acquire(data.family))throw new Error('Close this pet in the other window before importing.');
+    if(!await this.store.acquire(data.family))throw new Error('Close the other browser tab or page using this pet before importing. Closing its drawer keeps it active.');
     try{
+      let previous;
+      try{previous=JSON.parse(this.store.raw(data.family)||'null')?.state;}catch{ /* Replacement preserves damaged raw data as a recovery copy. */ }
+      this.rememberDeath(data.family,previous);
       this.store.replace(data.family,data.state);
+      this.rememberDeath(data.family,data.state);this.renderHistory();
       this.family=data.family;this.updateLauncher();this.select.value=data.family;this.store.preference('character',data.family);
       this.shadowRoot.querySelector('.import').hidden=true;this.importData=null;
       this.shadowRoot.querySelector('#save-text').value='';
     }finally{this.store.release(data.family);}
     await this.mount();
+    this.importFocus=null;this.select.focus();
   });}
 }
 if(!customElements.get('lil-gotchi'))customElements.define('lil-gotchi',LilGotchi);
