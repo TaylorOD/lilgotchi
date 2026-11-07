@@ -1,41 +1,38 @@
-// Each silhouette is drawn by hand. Face stamps are placed on complete canvases.
-export const slicePalette = ['', '#fff0c2', '#b96b32', '#ffd15a', '#cf432f', '#38271f', '#347743', '#9cab67'];
-export const sliceNames = {egg:'Dough',babytchi:'Dough Drop',marutchi:'Pizza Round',tamatchi:'Little Slice',kuchitamatchi:'Folded Slice',mametchi:'Margherita',ginjirotchi:'Pepperoni',maskutchi:'Calzone',kuchipatchi:'Deep Dish',nyorotchi:'Cheese Pull',tarakotchi:'Crispy Slice',oyajitchi:'Spoiled Slice'};
-const freeze = matrix => Object.freeze(matrix.map(row=>Object.freeze(row)));
-const canvas = (rows,height=12) => {
-  if(rows.length>height || rows.some(row=>row.length>12)) throw new Error('Slice art exceeds its canvas');
-  return [...Array(height-rows.length).fill(''),...rows].map(row=>[...row.padEnd(12,'0')].map(Number));
-};
-// Face position is the upper left of a five by three expression area.
-const drawings = {
-  babytchi: {face:[4,7], rows:['000005550','0000511150','00051111150','00051111150','00051111150','0000511150','0000550550']},
-  marutchi: {face:[4,6], rows:['0000555500','005522225500','052444444250','524333333425','523333333325','052333333250','005522225500','000550055000']},
-  tamatchi: {face:[4,5], rows:['005555555500','052222222250','005333333500','005333333500','000533335000','000533335000','000053350000','000053350000','000005500000','000055055000']},
-  kuchitamatchi: {face:[4,5], rows:['000055555000','000522222500','005333332500','053333332500','053333332500','005333325000','000533325000','000053325000','000005335000','000055005500']},
-  mametchi: {face:[4,5], rows:['000555555000','005222222500','005333363500','005333663500','005333333500','000533335000','000533335000','000053350000','000053350000','000005500000','000055055000']},
-  ginjirotchi: {face:[4,5], rows:['055555555550','522222222225','053443344350','053443344350','005333333500','005333333500','000534435000','000053350000','000005500000','000550055000']},
-  maskutchi: {face:[4,6], rows:['000055550000','000522225000','005211112500','052111111250','052111111250','052111111250','005211112250','000522222250','000055555500','000055005500']},
-  kuchipatchi: {face:[4,6], rows:['005555555500','052444444250','523333333325','523333333325','523333333325','052222222250','005222222500','000555055500']},
-  nyorotchi: {face:[4,4], rows:['000555555000','000522225000','000533335000','000533335000','000533335000','000053350000','000053350000','000005350000','000005350000','000053500000','000053550000','000005555000']},
-  tarakotchi: {face:[4,5], rows:['005550555000','052225222550','523333333225','053443333350','005333333350','005333333500','000533335000','000052350000','000052250000','000555055500']},
-  oyajitchi: {face:[4,5], rows:['005555555500','052222222250','051177111150','005176611500','005111111500','005111111500','000511115000','000517615000','000051150000','000051150000','000005155000','000055055000']}
-};
-const faces = {idle1:['50005','00000','00500'],idle2:['50005','00000','05550'],happy:['05050','50005','05550'],sad:['00000','50005','05550'],eat:['50005','00500','05550'],sleep:['00000','55055','00000']};
-function body({rows,face:[x,y]},key) {
-  const matrix=canvas(rows);
-  // Transparent stamp cells retain the dough, cheese and toppings below them.
-  faces[key].forEach((row,dy)=>[...row].forEach((value,dx)=>{if(value!=='0')matrix[y+dy][x+dx]=Number(value);}));
-  if(key==='idle2') {
-    // A toe step changes the stance without moving the shared foot anchor.
-    const foot=matrix[11].findIndex(value=>value===5);
-    if(foot>0) { matrix[11][foot]=0; matrix[11][foot-1]=5; }
-  }
-  return freeze(matrix);
+const palette=['','#fff0c2','#b96b32','#ffd15a','#cf432f','#38271f','#5f9c58','#dfb889','#ffe66a','#92acb8','#b975c5','#713c24','#9e3028'];
+const drawings=[
+ ['egg','Dough','egg',[4,6],['000000000000','000000000000','000055550000','000511115000','005111111500','005111111500','000511115000','000055550000']],
+ ['babytchi','Dough Drop','baby',[4,6],['000005500000','000051150000','000511115000','005111111500','005111111500','005111111500','000511115000','000051150000','000055055000']],
+ ['marutchi','Pizza Puff','child',[4,6],['000055550000','000522225000','005233332500','052443344250','052333333250','523333333325','523333333325','052333333250','005222222500','000550055000']],
+ ['tamatchi','Little Slice','teen',[4,5],['005555555500','052222222250','005333333500','005333333500','000533335000','000533335000','000053350000','000053350000','000005500000','000055055000']],
+ ['kuchitamatchi','Folded Slice','teen',[4,5],['000055555000','000522222500','005333332500','053333332500','053333332500','005333325000','000533325000','000053325000','000005335000','000055005500']],
+ ['mametchi','Margherita','adult',[4,5],['055555555550','522222222225','053114461350','053114461350','005333113500','005333333500','000533335000','000534435000','000056150000','000005500000','000055055000']],
+ ['ginjirotchi','Pepperoni','adult',[4,5],['055555555550','522222222225','053443344350','053443344350','005333333500','005333333500','000533335000','000534435000','000054450000','000005500000','000055055000']],
+ ['maskutchi','BBQ Chicken','adult',[4,5],['005555555500','052222222250','05377BAA7350','053BB7A7B350','005A33733500','005333333500','0053333B3500','0005377A5000','00005BB50000','000053350000','000005500000','000055055000']],
+ ['kuchipatchi','Meat Lovers','adult',[4,6],['005555555500','052222222250','5244BB3BB425','5234BB3BB325','52C333333C25','52C333333C25','523333333325','5244C3BB4325','052222222250','005555555500','000550055000']],
+ ['nyorotchi','Anchovy','adult',[4,5],['000555555000','005222222500','005393339500','005339993500','005393339500','005333333500','000533335000','000539935000','000053950000','000053350000','000005500000','000055055000']],
+ ['tarakotchi','Pineapple','adult',[4,5],['005555555500','052222222250','05188C188150','05188C188150','005133133500','005333333500','0053333C1500','000531885000','00005C850000','000053150000','000005500000','000055055000']],
+ ['oyajitchi','Spoiled Slice','adult',[4,5],['005555555500','052222222250','051166111150','005166611500','005111111500','005111111500','000511115000','000516615000','000051150000','000051150000','000005155000','000055055000']],
+];
+const faces={idle1:['505','000','050'],idle2:['505','000','555'],happy:['050','505','555'],sad:['000','505','050'],eat:['505','050','555'],sleep:['000','505','000']};
+function canvas(rows){
+ if(rows.length>12||rows.some(row=>row.length>12))throw new Error('Slice proposal exceeds its display');
+ return [...Array(12-rows.length).fill(''),...rows].map(row=>[...row.padEnd(12,'0')].map(value=>parseInt(value,16)));
 }
-export const sliceSprites = Object.freeze({
-  egg:Object.freeze({
-    idle1:freeze(canvas(['000000000000','000000000000','000005550000','000551115500','005111111150','051111111115','051111111115','005555555550'],10)),
-    idle2:freeze(canvas(['000000000000','000005550000','000551115500','005111111150','005111111150','051111111115','051111111115','005555555550'],10))
-  }),
-  ...Object.fromEntries(Object.entries(drawings).map(([name,drawing])=>[name,Object.freeze(Object.fromEntries(Object.keys(faces).map(key=>[key,body(drawing,key)])))]))
-});
+function pose(rows,face,expression){
+ const pixels=canvas(rows);
+ if(expression)faces[expression].forEach((row,dy)=>[...row].forEach((value,dx)=>{if(value!=='0')pixels[face[1]+dy][face[0]+dx]=Number(value);}));
+ if(expression==='idle2'){
+  const foot=pixels[11].findIndex(value=>value===5);
+  if(foot>0){pixels[11][foot]=0;pixels[11][foot-1]=5;}
+ }
+ return pixels;
+}
+const artwork={type:'Slice',palette,pets:drawings.map(([id,name,stage,face,rows])=>({
+ id,name,stage,
+ frames:id==='egg'?{idle1:pose(rows,face),idle2:pose(rows.map(row=>'0'+row.slice(0,-1)),face)}:Object.fromEntries(Object.keys(faces).map(expression=>[expression,pose(rows,face,expression)]))
+}))};
+
+const freezeFrame=frame=>Object.freeze(frame.map(row=>Object.freeze([...row])));
+export const slicePalette=Object.freeze(artwork.palette);
+export const sliceNames=Object.freeze(Object.fromEntries(artwork.pets.map(pet=>[pet.id,pet.name])));
+export const sliceSprites=Object.freeze(Object.fromEntries(artwork.pets.map(pet=>[pet.id,Object.freeze(Object.fromEntries(Object.entries(pet.frames).map(([key,frame])=>[key,freezeFrame(pet.id==='egg'?frame.slice(2):frame)])))])));

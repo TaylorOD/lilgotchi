@@ -1,10 +1,10 @@
-# Cypunk evolution proposals
+# Cypunk evolution paths
 
-These are review proposals only. They are not imported by the live game, included in its catalog or used by saved pets. Every form uses a complete canvas no larger than 12 by 12 pixels. The baby, child, teens and adults include idle, happy, sad, eating and sleeping expressions. The egg has two idle poses.
+These paths and sprites ship in lilgotchi 1.0.0. The preview reads the same artwork modules as the live game. Each type covers the original evolution branches while retaining its own appearance.
 
 ## Lineup
 
-| Original identity | Proposed name | Shape and detail |
+| Original identity | Name | Shape and detail |
 | --- | --- | --- |
 | egg | Binary Seed | Rounded cyan seed carrying tiny binary marks |
 | babytchi | Bit | Small digital block with a face and two feet |
@@ -13,7 +13,7 @@ These are review proposals only. They are not imported by the live game, include
 | kuchitamatchi | Syntax Error | Uneven terminal with detached magenta pixels |
 | mametchi | JavaScript | Cyan robot with yellow antenna tips, scarf, hands and feet |
 | ginjirotchi | Sentinel | The original Cypunk adult, with its exact sprite and expressions |
-| maskutchi | Matrix | Green hooded companion with a face, code cloak and feet |
+| maskutchi | Matrix | Green robot with antennae, a face and falling torso lights |
 | kuchipatchi | 404 | Lost little robot with a bent magenta antenna and lowered arms |
 | nyorotchi | MissingNumber | Original asymmetric block creature with broken edges and magenta fragments |
 | tarakotchi | Blue Screen | Wide blue monitor companion with a face, arms and feet |
@@ -47,6 +47,6 @@ Check that JavaScript, Sentinel and 404 feel like individual companions at the a
 
 ## Character revision
 
-The C# badge is replaced by Sentinel, the exact original Cypunk adult sprite and expressions. Sentinel occupies the Ginjirotchi branch in this proposal. JavaScript is a friendly cyan robot with yellow antenna tips and a yellow scarf, not a lettering tile. 404 is a lost little robot with a bent magenta antenna and lowered arms, keeping the original Cypunk proportions. Neither wears a word or number across its face.
+The C# badge is replaced by Sentinel, the exact original Cypunk adult sprite and expressions. Sentinel occupies the Ginjirotchi branch in this lineup. JavaScript is a friendly cyan robot with yellow antenna tips and a yellow scarf, not a lettering tile. 404 is a lost little robot with a bent magenta antenna and lowered arms, keeping the original Cypunk proportions. Neither wears a word or number across its face.
 
-Matrix is a green robot with antennae, a bright face, hands and feet. Small falling code lights travel down its torso. It has no hood. Binary Seed keeps the original readable 0 and 1 in both egg poses. Blue Screen is a wider monitor companion with a face, little arms and sturdy feet. MissingNumber and Glitch Elder retain their existing proposed shapes.
+Matrix is a green robot with antennae, a bright face, hands and feet. Small falling code lights travel down its torso. It has no hood. Binary Seed keeps the original readable 0 and 1 in both egg poses. Blue Screen is a wider monitor companion with a face, little arms and sturdy feet. MissingNumber and Glitch Elder retain their reviewed shapes.

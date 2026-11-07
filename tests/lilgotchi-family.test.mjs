@@ -28,18 +28,19 @@ test('Lilgotchi grows from a small plain egg into the logo egg and cracked elder
   const heights=['egg','babytchi','marutchi','tamatchi','mametchi'].map(id=>{
     const info=frameInfo(lilgotchiSprites[id].idle1);return info.bottom-info.top+1;
   });
-  assert.deepEqual(heights,[5,7,9,10,12]);
+  assert.deepEqual(heights,[5,7,9,10,11]);
   assert.equal(lilgotchiSprites.oyajitchi.idle1[1][5],3);
   assert.equal(lilgotchiSprites.oyajitchi.idle1[2][6],3);
   assert.equal(lilgotchiSprites.oyajitchi.idle1[3][5],3);
-  assert.equal(lilgotchiSprites.mametchi.idle1[1][5],1);
+  assert.equal(lilgotchiSprites.mametchi.idle1[1][5],2);
+  for(const frame of Object.values(lilgotchiSprites.oyajitchi)){assert.equal(frame[3][7],0);assert.equal(frame[8][8],3);assert.equal(frame[10][8],3);}
 });
 
 test('Lilgotchi labels and memorials use its own name',()=>{
   assert.equal(petLabel('lilgotchi',null),'Little Egg · Egg');
-  assert.equal(petLabel('lilgotchi',{character:'babytchi',stage:'baby'}),'Lilgotchi · Baby');
+  assert.equal(petLabel('lilgotchi',{character:'babytchi',stage:'baby'}),'Peep Egg · Baby');
   const entry={family:'lilgotchi',character:'oyajitchi',age:12,bornAt:1,recordedAt:2};
-  assert.equal(new PetHistory({}).describe(entry),'Lilgotchi · Elder Lilgotchi · 12 days old');
+  assert.equal(new PetHistory({}).describe(entry),'Lilgotchi · Cracked Elder · 12 days old');
 });
 
 test('Lilgotchi keeps all frames and care effects in the display',()=>{

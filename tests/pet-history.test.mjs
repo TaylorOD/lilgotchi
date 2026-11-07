@@ -23,7 +23,7 @@ test('death records deduplicate per lifetime and persist before a new pet replac
     assert.equal(reopened.list('slice').length,2);
     assert.equal(reopened.list('slice')[0].bornAt,2000);
     assert.match(history.describe(history.list()[0]),/Slice.*Margherita.*8 days old/);
-    assert.match(history.describe({...history.list()[0],family:'cyberpunk'}),/Cypunk.*Sentinel.*8 days old/);
+    assert.match(history.describe({...history.list()[0],family:'cyberpunk'}),/Cypunk.*JavaScript.*8 days old/);
     const copy=history.list();copy[0].age=999;assert.equal(history.list()[0].age,8);
   }finally{store.dispose();}
 });

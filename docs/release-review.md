@@ -2,6 +2,12 @@
 
 Pasted save import was removed at the user's request after 0.2.1. Historical pasted import checks below describe the earlier releases, not an available feature. File import, validation, confirmation and recovery remain.
 
+## 1.0.0 complete custom evolution lineup
+
+Slice, Cypunk and Lilgotchi now use all reviewed stages and six adult branches. Original keeps its existing artwork and evolution rules. The custom families share those rules without crossing between types. Save schema remains 1, with no reset or migration required. Existing identities gain the new appearance and name listed in the character guide.
+
+Binary Seed keeps readable 01 in both poses. Sentinel preserves the original Cypunk adult expressions. Matrix is a green robot, and Cracked Elder has a missing side shard and deeper crack.
+
 ## 0.3.4 original label
 
 The original pet type is labeled Original in the picker, lineup and documentation. Adult preview artwork and all saved identities stay the same.
@@ -72,4 +78,4 @@ Screenshots are under pr-screenshots, including release-slice-mobile, release-cy
 
 ## Release contents
 
-The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site, standalone demo and hosted loader use 0.3.4; see the current installation guide for their version.
+The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site, standalone demo and hosted loader use 1.0.0; see the current installation guide for their version.

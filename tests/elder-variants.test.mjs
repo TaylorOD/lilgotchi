@@ -21,10 +21,10 @@ test('custom elder appearances share the cracked egg care path',()=>{
 
 test('elder variants retain their mold and glitch detail in every expression',()=>{
   for(const frame of Object.values(sliceSprites.oyajitchi)){
-    assert.ok(frame.flat().includes(6));assert.ok(frame.flat().includes(7));
+    assert.ok(frame.flat().includes(6));assert.ok(frame.flat().includes(1));
   }
   for(const frame of Object.values(cyberpunkSprites.oyajitchi)){
-    assert.ok(frame.flat().includes(4));assert.equal(frame[0][8],4);
+    assert.ok(frame.flat().includes(4));assert.ok(frame[0][8]===4||frame[0][9]===4);
   }
   assert.notDeepEqual(sliceSprites.oyajitchi.idle1,sliceSprites.oyajitchi.idle2);
   assert.notDeepEqual(cyberpunkSprites.oyajitchi.idle1,cyberpunkSprites.oyajitchi.idle2);

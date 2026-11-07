@@ -1,6 +1,6 @@
-# Evolution proposals
+# Evolution paths
 
-Review only. Open `index.html` through the local development server to see every proposed sprite and expression. Nothing here is imported by the live game or included in its package.
+These paths and sprites ship in lilgotchi 1.0.0. The preview reads the same artwork modules as the live game. Each type covers the original evolution branches while retaining its own appearance.
 
 Each new pet type covers all 12 original identities: egg, baby, child, two teens, six adults and the special elder. Pet types never cross into each other. Care selects a branch inside the same type.
 
