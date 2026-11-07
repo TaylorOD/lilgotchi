@@ -13,7 +13,7 @@ const steps=Object.freeze([
   ]},
   {title:'Come back when you can', paragraphs:[
     'While you are away, progress catches up for up to eight hours. Vacation pauses care and growth when you need a longer break. After you first open a pet, its launcher follows live care while this page remains active. Before that, it shows the last saved state. Closing the drawer keeps the pet active. Close the browser tab or page to release it for another window.',
-    'Your pet saves in this browser on this website. Use Export save in Save and help for a backup or to move it elsewhere. Import previews a replacement first. Clearing browser data can remove progress. If storage is unavailable, progress may last only for this visit.'
+    'Your pet saves in this browser on this website. Use Export save in Settings for a backup or to move it elsewhere. Import previews a replacement first. Clearing browser data can remove progress. If storage is unavailable, progress may last only for this visit.'
   ]}
 ]);
 
