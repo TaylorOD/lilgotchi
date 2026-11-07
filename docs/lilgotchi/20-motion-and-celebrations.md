@@ -1,5 +1,7 @@
 # Scenery, movement and growth moments
 
+> Implemented design record. Requirements below describe the shipped implementation, not pending work. Hardware fidelity and external verification remain limited as recorded in the release review. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 The pet canvas stays a complete 32 by 16 pixel play area. Landscape decoration lives in a separate 24 pixel strip above it inside the bezel. It never overlays bodies, waste, sickness indicators or game effects. The original family uses rolling hills, Slice uses triangular hills, and Cyberpunk uses a small skyline. All families share local morning, afternoon, evening and night periods. Night uses a quiet moon and two static stars. Lights off and sleep darken the strip and hide the celestial marker. E ink uses a static grayscale landscape.
 
 There are no additional text labels in the scenery. Time remains above the display. Stage, needs and growth updates remain below the egg. Decorative landscape markup is aria hidden and ignores pointer events. No scenery animation or flashing is used.

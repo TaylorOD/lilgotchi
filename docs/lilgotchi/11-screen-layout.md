@@ -1,5 +1,7 @@
 # Compact care layout
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 The LCD belongs to the pet. Clock, identity, stage, care grade and numeric needs stay outside its pixels. A small clock sits above the screen inside the egg. The current name and stage sit below the egg on a flat care panel, followed by a two column grid for Food, Happy, Energy and Health. All four compact meters use percentages. Food and Happy retain their original four point scale in Stats.
 
 Three primary buttons are Feed, Play and contextual care. Care chooses Clean when waste is present, otherwise Wake for a sleeping pet or Sleep for an awake pet. Medicine and discipline remain explicit choices in More care, alongside Stats, Light and Sound. A persistent plain language care hint explains illness, hunger, sleep, eggs and discipline. Hidden secondary controls remain reachable by keyboard.

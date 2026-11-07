@@ -1,54 +1,44 @@
-# lilgotchi design
+# lilgotchi design records
 
-lilgotchi is a small virtual pet widget that anyone can add to a website. It keeps the original clone's game and default artwork, adds complete Slice and Cyberpunk families, and fits inside a polished slide out panel.
+The widget is released and deployed. These numbered documents preserve design decisions from earlier implementation rounds. Their acceptance criteria are not a current task list. Some original requirements were deliberately replaced by later designs.
 
-Documents 01 through 08 record the original implementation plan. Documents 10 through 15 cover the compact care update. Documents 16 through 25 cover evidence based care, vacation, removal of AI, history, scenery, guidance, accessibility, live care, release and recovery. See ../implementation-status.md for current evidence and external verification limits.
+Use [implementation status](../implementation-status.md) for shipped behavior, [release review](../release-review.md) for evidence and open checks, and [installation](../install.md) for the public package and hosted snippet.
 
-## Separate changes
+## Design index and outcome
 
-| Doc | What it covers |
+| Record | Outcome |
 | --- | --- |
-| [Embeddable widget](01-embeddable-widget.md) | Install, public API, packaging, isolation and multiple instances |
-| [Original clone parity](02-original-clone-parity.md) | Exact source baseline, gameplay, default pixels and differences |
-| [Default character family](03-default-character-family.md) | Original egg, every evolution and every reaction |
-| [Slice character family](04-slice-character-family.md) | Dough egg, growing slice and distinct adult forms |
-| [Cyberpunk character family](05-cyberpunk-character-family.md) | Binary egg, boot sequence and distinct adult forms |
-| [Animation and screen bounds](06-animation-and-screen-bounds.md) | Complete frames, safe movement and effects that stay visible |
-| [Widget polish and accessibility](07-widget-polish-and-accessibility.md) | Dark shell, responsive layout, controls, focus and motion |
-| [Saves and site migration](08-saves-and-site-migration.md) | Portable saves, browser storage and replacing the personal site version |
+| [01 Embeddable widget](01-embeddable-widget.md) | Implemented. Public GitHub package and a hosted one script install are also available |
+| [02 Original clone parity](02-original-clone-parity.md) | Original regression baseline captured. The compact UI deliberately supersedes exact presentation parity |
+| [03 Default family](03-default-character-family.md) | Original egg and all original starting characters implemented |
+| [04 Slice family](04-slice-character-family.md) | Dough egg, full lifecycle and reaction art implemented |
+| [05 Cyberpunk family](05-cyberpunk-character-family.md) | Binary egg, full lifecycle and reaction art implemented |
+| [06 Screen bounds](06-animation-and-screen-bounds.md) | Complete bodies and effects contained, with regression coverage |
+| [07 Widget accessibility](07-widget-polish-and-accessibility.md) | Responsive shell and keyboard behavior implemented. External checks remain open |
+| [08 Saves and migration](08-saves-and-site-migration.md) | Host owned saves, migration, recovery and personal site integration implemented |
+| [10 Care model](10-care-model.md) | Energy, advisory health, care grades and manual sleep implemented |
+| [11 Screen layout](11-screen-layout.md) | Clock, stage, four meters and contextual controls implemented outside the pet canvas |
+| [12 Motion and scenery](12-motion-and-scenery.md) | Implemented, then extended by record 20 |
+| [13 Widget polish](13-widget-polish.md) | Implemented. Its last saved only behavior is superseded by record 23 |
+| [14 Install and release](14-install-and-release.md) | Configurator and versioned downloads implemented. It now generates one hosted script |
+| [15 Integration review](15-integration-review.md) | Recorded browser and automated checks passed. External verification remains open |
+| [16 Hardware review](16-hardware-review.md) | Needs and medicine corrections implemented. Undocumented device constants remain unknown |
+| [17 Away care](17-away-care.md) | Vacation, eight hour catch up cap and return summary implemented |
+| [18 Dialogue removal](18-dialogue-removal.md) | AI removed from runtime, public API and distribution |
+| [19 Pet history](19-pet-history.md) | Local memorial history implemented. Active pet exports do not include history |
+| [20 Motion and celebrations](20-motion-and-celebrations.md) | Family scenery, pixel tilt and landing, and dismissible growth notices implemented |
+| [21 Care guide](21-care-guide.md) | Four step walkthrough and care explanations implemented |
+| [22 Accessibility review](22-accessibility-review.md) | Recorded desktop browser checks complete. Physical devices, human listening and screen reader checks remain open |
+| [23 Live care](23-live-care.md) | After first opening, care updates continue with the drawer closed while the page remains open |
+| [24 Stable release](24-stable-release.md) | Tagged releases, built zip and npm installable GitHub package published |
+| [25 Import recovery](25-import-recovery.md) | Pasted save flow verified in Chrome. Native file picker verification remains open |
 
-## What pixel for pixel means
+Record 09 was the optional AI plan and was removed with that feature.
 
-The new clock, scenery, meters and contextual controls intentionally supersede the original presentation contract below. Preserve source sprite data and test the remaining original care rules, but do not describe the updated widget as a pixel exact copy of the original device or clone.
+## Presentation contract
 
-Default mode matches the pinned original clone's screen, sprites, font, spacing, frame sequence and game controls at the same viewport and game state. The outer lilgotchi launcher and drawer are new. Slice and Cyberpunk change artwork and palette, while preserving the same rules and interaction sequence.
+Original sprite matrices and the documented core care rules remain regression references. The clock, scenery, meters, contextual controls, growth cards and compact shell intentionally differ from the original clone. Neither these checks nor the inherited rules establish exact hardware emulation. See the [parity register](../parity-status.md).
 
-Fixing visible cropping is an intentional difference. Any other change to original behavior or appearance must be recorded in the parity doc. Matching this clone does not mean matching official Tamagotchi firmware.
+## Remaining verification
 
-## Build order
-
-1. Capture the pinned original and turn its behavior and pixels into repeatable checks.
-2. Separate the game from the personal site and implement the reusable widget and save adapter.
-3. Restore default parity and fix frame placement without altering gameplay.
-4. Build the full Slice family, then the full Cyberpunk family.
-5. Finish the shell, accessibility and install examples.
-6. Replace the personal site's widget using the same public install path other sites will use.
-
-Keep each item on its own branch and PR. Include browser screenshots in every PR. Visual work must be viewed at desktop and phone sizes before pushing. Merge each PR separately after approval.
-
-## Release gate
-
-The widget is ready when a clean website can install the documented build, all three families pass the same gameplay checks, every required frame is complete and visible, and Default passes the original comparison with only documented exceptions. Reloading, closing, switching characters and upgrading must preserve progress. A desktop demo, phone demo and install example must all use the release build.
-
-## Current update
-
-| Doc | Scope |
-| --- | --- |
-| [Care model](10-care-model.md) | Energy, health, care grades, manual sleep and existing saves |
-| [Screen layout](11-screen-layout.md) | Clock, stage, readable meters and contextual controls |
-| [Motion and scenery](12-motion-and-scenery.md) | Time palettes, bounded movement and scanlines |
-| [Widget polish](13-widget-polish.md) | Launcher, care status, save feedback and guidance |
-| [Install and release](14-install-and-release.md) | Landing configurator and delivery |
-| [Integration review](15-integration-review.md) | Combined acceptance and external checks |
-
-| [Dialogue removal](18-dialogue-removal.md) | Remove AI callbacks, settings and service examples |
+The release review is the authoritative list: exact undocumented hardware constants, physical iPhone and Android checks, human screen reader and audio listening, broader native zoom and accessibility testing, and native file picker import. The npm registry listing also requires an authorized login; the GitHub package and hosted embed already work.

@@ -1,5 +1,7 @@
 # lilgotchi Cyberpunk character family
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 Cyberpunk starts as a binary seed and grows into a small neon machine. Its lifecycle should feel like a system booting, developing a body and taking a different adult form based on care.
 
 ## Proposed forms

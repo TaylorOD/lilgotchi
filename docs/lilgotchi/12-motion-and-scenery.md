@@ -1,5 +1,7 @@
 # Time, scenery and motion
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 Three Pet uses the local hour to choose morning from 06:00, afternoon from 11:00, evening from 16:00, and night from 19:00. lilgotchi independently implements these boundaries with a local clock and an accessible time label. No location permission is needed. The clock is informational and does not change character sleep schedules.
 
 The display bezel uses restrained scenery gradients and the LCD background follows the time period. Family ink stays readable. Sleep darkens the scene. E ink retains a static high contrast display. An optional Scanlines switch adds a very faint decorative layer over the bezel and screen without consuming logical pixels. It starts off and persists as a host owned preference alongside sound and E ink.

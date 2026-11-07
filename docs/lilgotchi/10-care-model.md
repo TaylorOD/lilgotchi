@@ -1,5 +1,7 @@
 # Care model and contextual sleep
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 ## Intent
 
 Add readable energy and health percentages and a persistent care quality grade without rewriting the original evolution tree. These are lilgotchi companion metrics, not claims about original hardware. Food and happiness remain the original 0 to 4 values and can be displayed as percentages.

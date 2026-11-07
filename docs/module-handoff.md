@@ -1,19 +1,19 @@
-# Module handoff
+# Module map
 
-The foundation intentionally preserves the existing game modules. Later tasks can replace their interfaces together without rewriting the original reference.
+Current module responsibilities for the shipped widget. Earlier agent assignments are complete. See [implementation status](implementation-status.md) for features and [release review](release-review.md) for open verification.
 
-| Area | Current files | Next owner |
+| Area | Current files | Responsibility |
 | --- | --- | --- |
-| Shell and lifecycle | `lilgotchi.js`, `widget/shell.css` | Integration |
-| State persistence | `pets/storage.js`, `boot.js` | Widget |
-| Rules and timing | `pets/game.js`, `engine.js`, `constants.js`, `clock.js` | Default parity |
-| Logical drawing | `pets/renderer.js` and render methods in `game.js` | Rendering |
-| Artwork | `pets/classic-sprites.js`, `skins.js` | Default and character families |
-| Original presentation | `pets/game.html`, `game.css`, `font.js`, `sound.js` | Default parity |
+| Shell and lifecycle | `lilgotchi.js`, `widget/shell.css` | Host element |
+| State persistence | `widget/save-store.js`, `pets/storage.js`, `pets/boot.js` | Host save adapter |
+| Rules and timing | `pets/game.js`, `engine.js`, `constants.js`, `clock.js` | Game and source comparisons |
+| Logical drawing | `pets/renderer.js` and render methods in `game.js` | Pixel composition |
+| Artwork | `pets/classic-sprites.js`, `skins.js` | Family sprite data |
+| Original presentation | `pets/game.html`, `game.css`, `font.js`, `sound.js` | Game and source comparisons |
 
-`GameState` provides reset, load, save and clearSave. `Evo` exposes evolution decisions. `setSimulationTime` controls the adapted clock for tests. `TamagotchiApp` owns actions and rendering. The current browser boot exposes `window.app`, which is a development aid rather than the planned public API.
+`GameState` provides reset, load, save and clearSave. `Evo` exposes evolution decisions. `setSimulationTime` controls the adapted clock for tests. `TamagotchiApp` owns actions and rendering. The current browser boot exposes `window.app`, which is a development aid rather than the public custom element API.
 
-The widget task should establish the frame channel and persistence interfaces before subsequent agents change them. The rendering task should establish a shared frame and anchor contract before custom art integration.
+The private frame channel, host persistence adapter and shared frame contract are implemented. Preserve these interfaces when changing the game or artwork.
 
 ## Widget interface
 
@@ -29,13 +29,13 @@ Default also sends the boolean `eink` preference through that channel. `Tamagotc
 
 The host owns all embedded persistence. Do not read parent DOM or parent localStorage from the iframe. `SaveStore` handles validation, locks, leases, revisions, export data and confirmed replacement backups. The opt in site migration uses this adapter after acquiring ownership. See docs/install.md for migrate-legacy.
 
-Run `npm run build` to create the static distribution. `examples/nested/`, `examples/cross-origin.html` and `examples/duplicate.html` are the widget QA surfaces. Shell polish owns further accessibility and responsive improvements.
+Run `npm run build` to create the static distribution. `examples/nested/`, `examples/cross-origin.html` and `examples/duplicate.html` are the widget QA surfaces. Recorded responsive and accessibility checks are in the release review.
 
 The source harness in `tests/upstream-harness.mjs` evaluates the original without booting the browser or performing network calls. It supplies a controlled Date and repeatable random sequence. Extend action comparisons there while keeping `reference/upstream.html` untouched.
 
-`reference/contact-sheet.html` is the initial original art review surface. Extend a separate QA page for family and stage selection, fixed animation frames and reaction fixtures. Production controls must not expose test time or state mutation.
+`reference/contact-sheet.html` is the initial original art review surface. The separate QA pages provide family and stage selection, fixed animation frames and reaction fixtures. Production controls must not expose test time or state mutation.
 
-`qa/index.html` now supplies that separate review surface. Its controls select all original identities, reactions, frame and theme. `qa/fixtures.js` is shared with a frozen source view. `qa/frame.js` mounts the current game markup without production boot and uses a no save adapter. These files do not enter the release build. Later art agents can use the family selector directly.
+`qa/index.html` now supplies that separate review surface. Its controls select all original identities, reactions, frame and theme. `qa/fixtures.js` is shared with a frozen source view. `qa/frame.js` mounts the current game markup without production boot and uses a no save adapter. These files do not enter the release build. Artwork changes can use the family selector directly.
 
 The Default screen comparison now omits only the original EGG label and heart draw operations, because those indicators moved below the LCD. All body and effect buffers still compare against the source. Raw sprites, font, paint and sound remain strict. Read [frame-contract.md](frame-contract.md) before adding art. The layout module derives opaque bounds and places complete matrices without overlaps. Custom bodies use equally padded frames up to 16 by 12, and eggs up to 16 by 10. The combined QA fixture and Animate fork checkbox cover the tightest live compositions.
 
@@ -55,7 +55,7 @@ Review all Slice art at `/qa/slice.html`, then use `/qa/?pet=pizza` for composed
 
 Open `/qa/cyberpunk.html` for all 68 matrices at native and six times scale. Use `/qa/?pet=cyberpunk` to inspect composed reactions. Mainframe antennae and Wire cable are included in the full padded bounds. All art and rows are immutable. The robot placeholder is removed and Default and Slice keep their existing artwork.
 
-## Shell polish handoff
+## Shell behavior
 
 `widget/launcher.js` renders a fixed portrait from existing sprite matrices. `pets/boot.js` reports `resize` over the private channel after device resize or overlay changes. The host accepts integer heights from 100 to 1200 only, from the current frame and family. Overlays contribute their natural child heights so the outer drawer owns scrolling. Keep unrelated source styles unchanged.
 

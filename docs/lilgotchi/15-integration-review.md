@@ -1,5 +1,7 @@
 # Integration and release review
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 ## Scope
 
 This pass adds the requested clock, scenery, stage and care labels, four meters, contextual controls, motion and screen texture. It also completes the actionable polish review. The newer design supersedes exact upstream presentation while retaining the sprite matrices and documented core care rules.

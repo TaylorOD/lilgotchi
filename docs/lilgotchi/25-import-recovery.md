@@ -1,5 +1,7 @@
 # Import and recovery
 
+> Implemented design record. Requirements below describe the shipped implementation, not pending work. Hardware fidelity and external verification remain limited as recorded in the release review. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 Save and help offers both a file picker and a paste fallback. The paste path exists for browsers where file selection is unavailable, including restricted review environments. It is not an upload.
 
 ## Flow
@@ -14,4 +16,4 @@ Use a labeled multiline field with keyboard focus, a clear explanation and a nor
 
 ## Evidence
 
-Automated checks cover valid pasted preview, malformed input after a valid preview, disallowed families, oversized data and stale file reads. Browser verification should paste a synthetic exported save, inspect its confirmation, replace it and reopen to prove persistence. Test invalid text while a pet remains active. File picker verification is separate from the fallback flow.
+Automated checks cover valid pasted preview, malformed input after a valid preview, disallowed families, oversized data and stale file reads. Chrome verification exercised invalid text, valid pasted preview, confirmation, same family replacement, restored focus and saved progress. That check found a Web Lock release race, which was fixed and retested. Native file picker verification remains separate and unverified.

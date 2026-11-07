@@ -1,5 +1,7 @@
 # Care guide
 
+> Implemented design record. Requirements below describe the shipped implementation, not pending work. Hardware fidelity and external verification remain limited as recorded in the release review. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 A four step guide lives in Save and help, outside the small game display. First visit welcome offers Quick tour or Got it. Dismissing either remembers the introduction preference. The guide remains available later from its disclosure.
 
 ## Steps

@@ -1,5 +1,7 @@
 # Remove AI dialogue
 
+> Implemented design record. Requirements below describe the shipped implementation, not pending work. Hardware fidelity and external verification remain limited as recorded in the release review. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 The current product scope removes AI personality dialogue entirely. This is an intentional difference from the archived source, not a missing integration or a release blocker.
 
 Remove the host callback API, private request and reply messages, saved enablement preference handling, game event hooks, idle request timer, speech bubble, settings controls, adapter modules, fake reply example and server route example. No provider configuration, credential setup or live provider verification remains part of installing or releasing lilgotchi.
