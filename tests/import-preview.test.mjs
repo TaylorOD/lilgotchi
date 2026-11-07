@@ -14,25 +14,25 @@ function host(){
   const errors=[];
   const retry={hidden:false};
   const widget={allowed:['slice','cyberpunk'],status(text){this.statusText=text;this.statusError=false;},shadowRoot:{querySelector:selector=>selector==='.file'?file:selector==='.retry'?retry:preview},fail:error=>{errors.push(error.message);widget.statusError=true;retry.hidden=false;},unload:()=>assert.fail('Preview must not unload a pet')};
-  widget.previewImportText=text=>LilGotchi.prototype.previewImportText.call(widget,text);
+  widget.prepareFileImport=text=>LilGotchi.prototype.prepareFileImport.call(widget,text);
   return {widget,preview,message,button,file,errors,retry};
 }
-test('pasted backup previews safely and invalid replacements clear stale confirmation',()=>{
+test('file backups preview safely and invalid replacements clear stale confirmation',async()=>{
   const {widget,preview,message,button,errors}=host();
-  widget.previewImportText(backup());
+  await LilGotchi.prototype.previewImport.call(widget,{size:100,text:async()=>backup()});
   assert.equal(widget.importData.family,'slice');assert.equal(preview.hidden,false);assert.equal(button.focused,true);assert.match(message.textContent,/Replace Slice/);
   for(const text of ['bad json','x'.repeat(32769),backup('mametchi')]){
-    widget.previewImportText(text);assert.equal(widget.importData,null);assert.equal(preview.hidden,true);
+    await LilGotchi.prototype.previewImport.call(widget,{size:text.length,text:async()=>text});assert.equal(widget.importData,null);assert.equal(preview.hidden,true);
   }
   assert.equal(errors.length,3);
-  widget.previewImportText(backup());
+  await LilGotchi.prototype.previewImport.call(widget,{size:100,text:async()=>backup()});
   assert.equal(widget.statusError,false);assert.match(widget.statusText,/Review/);
   assert.equal(widget.shadowRoot.querySelector('.retry').hidden,true);
 });
-test('slow file reads cannot replace a newer pasted preview',async()=>{
+test('slow file reads cannot replace a newer selected file',async()=>{
   const {widget,file}=host();let finish;
   const pending=LilGotchi.prototype.previewImport.call(widget,{size:100,text:()=>new Promise(resolve=>finish=resolve)});
-  widget.previewImportText(backup('cyberpunk'));
+  await LilGotchi.prototype.previewImport.call(widget,{size:100,text:async()=>backup('cyberpunk')});
   finish(backup('slice'));await pending;
   assert.equal(widget.importData.family,'cyberpunk');assert.equal(file.value,'');
 });
@@ -57,7 +57,7 @@ test('cancel focus returns to its visible import trigger or the character picker
 test('import remembers a different target pet before replacement and restores visible focus',async()=>{
   const target={...new GameState(getCharacter('cyberpunk')),isDead:true,stage:'dead',bornAt:1000};
   const replacement=new GameState(getCharacter('cyberpunk'));
-  const calls=[],nodes={'.import':{hidden:false},'#save-text':{value:'backup'}};
+  const calls=[],nodes={'.import':{hidden:false}};
   const widget={
     family:'slice',allowed:['slice','cyberpunk'],importData:{family:'cyberpunk',state:replacement},
     serial:callback=>callback(),unload:async()=>calls.push('unload'),mount:async()=>calls.push('mount'),
@@ -68,5 +68,5 @@ test('import remembers a different target pet before replacement and restores vi
   };
   await LilGotchi.prototype.confirmImport.call(widget);
   assert.deepEqual(calls,['unload','remember old target','replace','remember replacement','release','mount','focus picker']);
-  assert.equal(widget.family,'cyberpunk');assert.equal(widget.importData,null);assert.equal(nodes['#save-text'].value,'');
+  assert.equal(widget.family,'cyberpunk');assert.equal(widget.importData,null);
 });
