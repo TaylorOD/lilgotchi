@@ -519,7 +519,7 @@ export class TamagotchiApp {
     const name=characterName(st.character);
     document.getElementById('stats-content').innerHTML=`
       <div class="stat-row"><span>Name</span><span>${name}</span></div>
-      <div class="stat-row"><span>Stage</span><span>${st.stage}</span></div>
+      <div class="stat-row"><span>Stage</span><span>${st.stage[0].toUpperCase()+st.stage.slice(1)}</span></div>
       <div class="stat-row"><span>Age</span><span>${st.age} days</span></div>
       <div class="stat-row"><span>Weight</span><span>${st.weight} lb</span></div>
       <div class="stat-row"><span>Food</span><span class="hearts">${hungerH} ${st.hunger}/4</span></div>
@@ -751,7 +751,7 @@ export class TamagotchiApp {
     this.cancelGame();
     if(this.catchingUp) return;
     document.getElementById('death-msg').textContent=
-      `${characterName(this.state.character)} lived for ${this.state.age} ${this.state.age===1?'day':'days'}. Their memory stays in Save and help.`;
+      `${characterName(this.state.character)} lived for ${this.state.age} ${this.state.age===1?'day':'days'}. Their memory stays in Settings.`;
     this.openOverlay('death-overlay');
     document.getElementById('attention-bar').classList.remove('active');
   }

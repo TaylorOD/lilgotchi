@@ -31,7 +31,7 @@ Use [implementation status](../implementation-status.md) for shipped behavior, [
 | [22 Accessibility review](22-accessibility-review.md) | Recorded desktop browser checks complete. Physical devices, human listening and screen reader checks remain open |
 | [23 Live care](23-live-care.md) | After first opening, care updates continue with the drawer closed while the page remains open |
 | [24 Stable release](24-stable-release.md) | Tagged releases, built zip and npm installable GitHub package published |
-| [25 Import recovery](25-import-recovery.md) | Pasted save flow verified in Chrome. Native file picker verification remains open |
+| [25 Import recovery](25-import-recovery.md) | File import retains validation and recovery. The paste fallback was removed; native file picker verification remains open |
 
 Record 09 was the optional AI plan and was removed with that feature.
 

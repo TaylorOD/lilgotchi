@@ -3,7 +3,7 @@
 ## One line hosted install
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.2.1/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.0/embed.js"></script>
 ```
 
 Paste this into the head or body of an HTML page. The versioned URL loads all required files and creates one widget. No account, upload, API key or package manager is needed. The widget starts with Slice, all characters available and sound off. The hosted files come from Taylor's GitHub Pages site. Saves stay in the visitor's browser on your website.
@@ -11,19 +11,19 @@ Paste this into the head or body of an HTML page. The versioned URL loads all re
 The URL stays on this release. Change the version to upgrade. Keep `data-storage-key` stable to preserve saves. Loading third party scripts requires a website that allows custom JavaScript; a CMS that strips script tags needs its custom code feature.
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.2.1/embed.js" data-character="cyberpunk" data-characters="default,slice,cyberpunk" data-placement="bottom-left" data-storage-key="my-pets"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.3.0/embed.js" data-character="cyberpunk" data-characters="default,slice,cyberpunk" data-placement="bottom-left" data-storage-key="my-pets"></script>
 ```
 
-Supported script settings are `data-character`, `data-characters`, `data-placement`, `data-appearance`, `data-storage-key`, `data-mode` and `data-muted`. They map to the custom element settings below. `data-muted` is a presence flag. Inline widgets appear immediately after a script in the body; a script in the head places its inline widget at the end of the body. Put the script where you want an inline widget. Each script creates one widget. Give multiple widgets separate storage keys. Module loading failures emit `lilgotchi:loaderror` on the script.
+Supported script settings are `data-character`, `data-characters`, `data-placement`, `data-appearance`, `data-storage-key`, `data-mode`, `data-launcher` and `data-muted`. They map to the custom element settings below. `data-muted` is a presence flag. Inline widgets appear immediately after a script in the body; a script in the head places its inline widget at the end of the body. Put the script where you want an inline widget. Each script creates one widget. Give multiple widgets separate storage keys. Module loading failures emit `lilgotchi:loaderror` on the script.
 
 Use the landing page to generate a customized one line snippet. The release includes `examples/one-line.html` to try the same loader with your own copy.
 
 ## Public package
 
-The [0.2.1 release](https://github.com/TaylorOD/lilgotchi/releases/tag/v0.2.1) includes a built zip and an npm installable tarball under MIT. The npm registry listing is separate from this GitHub package.
+The [0.3.0 release](https://github.com/TaylorOD/lilgotchi/releases/tag/v0.3.0) includes a built zip and an npm installable tarball under MIT. The npm registry listing is separate from this GitHub package.
 
 ```sh
-npm install https://github.com/TaylorOD/lilgotchi/releases/download/v0.2.1/lilgotchi-0.2.1.tgz
+npm install https://github.com/TaylorOD/lilgotchi/releases/download/v0.3.0/lilgotchi-0.3.0.tgz
 ```
 
 Copy the entire `node_modules/lilgotchi/dist` directory into your public assets. Do not bundle just the main JavaScript file: its sibling modules, styles and game iframe must stay together. The export is browser only. Server rendered frameworks should use a script in the rendered page and serve the full static folder.
@@ -68,7 +68,7 @@ Closing waits for a final state snapshot, keeps care active and suppresses rende
 
 The original sprites and character branches are retained inside a redesigned compact interface. Slice and Cypunk include every life stage. The presentation and wellbeing additions are lilgotchi choices, not verified original hardware behavior. Import validation and replacement are covered by automated tests. See the current implementation status for browser upload verification.
 
-The drawer keeps its header reachable while the game and save tools scroll together. The private frame channel reports bounded content heights, including open overlays. Save and help contains export and import. Escape closes a game overlay before closing the drawer. Closing returns focus to the launcher. Inline mode does not trap focus in the host page. Reduced motion removes the drawer entrance and decorative game movement.
+The drawer keeps its header reachable while the game and save tools scroll together. The private frame channel reports bounded content heights, including open overlays. Settings contains export and import. Escape closes a game overlay before closing the drawer. Closing returns focus to the launcher. Inline mode does not trap focus in the host page. Reduced motion removes the drawer entrance and decorative game movement.
 
 ## Migrate the earlier personal site pets
 
@@ -93,12 +93,24 @@ Open `dist/examples/install.html` through your local HTTP server after building.
 
 The landing page generates a complete install snippet for all characters or a chosen subset, the starting pet, placement and outer shell appearance. `appearance="light"` changes only the outer widget. Dark is the default. Each family retains its game palette.
 
-Before first opening, the launcher shows last saved care. After opening, closing the drawer keeps the selected pet live while this page remains open, without sound or drawing. The care dot updates every five seconds when the browser permits. Close the browser tab or page to release this pet for another window. Vacation pauses both needs and growth. The welcome message can be dismissed per storage key. Save and help explains browser only storage and portable backups.
+Before first opening, the launcher shows last saved care. After opening, closing the drawer keeps the selected pet live while this page remains open, without sound or drawing. The care dot updates every five seconds when the browser permits. Close the browser tab or page to release this pet for another window. Vacation pauses both needs and growth. The welcome message can be dismissed per storage key. Settings explains browser only storage and portable backups.
 
 ## Download and release packaging
 
-[Download lilgotchi 0.2.1](https://github.com/TaylorOD/lilgotchi/releases/download/v0.2.1/lilgotchi-0.2.1.zip). This is the named built distribution. Extract its contents directly into your asset directory.
+[Download lilgotchi 0.3.0](https://github.com/TaylorOD/lilgotchi/releases/download/v0.3.0/lilgotchi-0.3.0.zip). This is the named built distribution. Extract its contents directly into your asset directory.
 
 For a reviewed source checkout on Windows, run `pwsh -File scripts/package-release.ps1`. It rebuilds the distribution and creates a zip in the temporary `lilgotchi-releases` folder named with the package version and source commit. Commit reviewed source before packaging so the filename identifies the actual source. Existing archives are never overwritten. Publish that zip as a release asset after reviewing the source and browser checks. A GitHub source archive is not the built distribution.
 
 Real iPhone Safari, Android browser, assistive technology still require explicit verification. Browser viewport emulation does not establish those results.
+
+## Launcher appearance
+
+The launcher uses the selected family's shell color and current pet. Original pets also follow the E ink preference. Use `launcher="pet"` on the element or `data-launcher="pet"` on the script for the pet icon and lilgotchi text without an egg background.
+
+The launcher exposes a CSS part. This example moves it left on mobile while leaving desktop placement unchanged:
+
+```css
+@media (max-width: 600px) {
+  lil-gotchi::part(launcher) { left: 18px; right: auto; }
+}
+```

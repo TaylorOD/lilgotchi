@@ -2,12 +2,22 @@ import { TamagotchiApp } from './game.js';
 import { overlayControls } from './focus.js';
 import { overlayContentHeight } from './overlay-size.js';
 import { petType, validState, configureStorage } from './storage.js';
+import { configurationActionId } from '../widget/settings.js';
 
 const params=new URLSearchParams(location.search);
 const embedded=params.get('embed')==='1';
 let channel=null;
 let saved=null;
 let saveId=0;
+let lastConfiguration='';
+let configurationReady=false;
+function publishConfiguration(){
+  if(!channel||!window.app||!configurationReady)return;
+  const configuration={vacation:window.app.state.vacationAt>0,scanlines:document.documentElement.classList.contains('scanlines'),eink:window.app.eink,muted:window.app.sound.muted,classic:petType==='classic'};
+  const key=JSON.stringify(configuration);
+  if(key===lastConfiguration)return;
+  lastConfiguration=key;channel.postMessage({type:'configuration',configuration});
+}
 document.documentElement.dataset.pet=petType;
 document.documentElement.dataset.embedded=String(embedded);
 if(petType!=='classic') {
@@ -26,20 +36,23 @@ function start(initial, muted=true, eink=false,scanlines=false) {
   if(embedded) configureStorage({load:()=>saved,save:state=>{
     saved=state;
     channel.postMessage({type:'save',id:++saveId,state});
+    publishConfiguration();
   }});
   window.app=new TamagotchiApp({scanlines,onScanlinesChange:value=>{
-    if(channel)channel.postMessage({type:'preference',name:'scanlines',value});
+    if(channel){channel.postMessage({type:'preference',name:'scanlines',value});publishConfiguration();}
     else try{localStorage.setItem('lilgotchi:scanlines',String(value));}catch{}
   },eink:petType==='classic'&&eink,onThemeChange:value=>{
-    if(channel)channel.postMessage({type:'preference',name:'eink',value});
+    if(channel){channel.postMessage({type:'preference',name:'eink',value});publishConfiguration();}
     else try{localStorage.setItem('lilgotchi:eink',String(value));}catch{}
   }});
   if(!muted) window.app.handleAction('mute');
-  document.getElementById('mute-btn').addEventListener('click',()=>channel?.postMessage({type:'preference',name:'muted',value:window.app.sound.muted}));
+  document.getElementById('mute-btn').addEventListener('click',()=>{channel?.postMessage({type:'preference',name:'muted',value:window.app.sound.muted});publishConfiguration();});
   window.app.state.save();
   if(channel) {
     window.app.render();
     channel.postMessage({type:'ready'});
+    configurationReady=true;
+    publishConfiguration();
     setInterval(()=>channel.postMessage({type:'care-status',state:JSON.parse(JSON.stringify(window.app.state))}),5000);
     let lastHeight=0;
     const resize=()=>{
@@ -72,6 +85,10 @@ if(embedded) {
     channel.onmessage=event=>{
       const message=event.data;
       if(!message || typeof message.type!=='string') return;
+      if(message.type==='configure' && window.app){
+        const id=configurationActionId(message.action,petType==='classic');
+        if(id){document.getElementById(id)?.click();publishConfiguration();}
+      }
       if(message.type==='snapshot' && Number.isSafeInteger(message.id) && window.app) {
         if(message.closing){window.app.gameActive=false;window.app.gameId=(window.app.gameId||0)+1;}
         channel.postMessage({type:'snapshot',id:message.id,state:JSON.parse(JSON.stringify(window.app.state))});

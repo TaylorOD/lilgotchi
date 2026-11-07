@@ -6,6 +6,8 @@ import { SaveStore, legacyFamily, parseImport } from './widget/save-store.js';
 import { validState } from './pets/valid-state.js';
 import { PetHistory } from './widget/pet-history.js';
 import { mountCareGuide } from './widget/care-guide.js';
+import { mountSettings } from './widget/settings.js';
+import { petLabel } from './widget/pet-label.js';
 
 const asset = path => new URL(path,import.meta.url).href;
 class LilGotchi extends HTMLElement {
@@ -26,19 +28,18 @@ class LilGotchi extends HTMLElement {
     this.family=initialCharacter(this.store.preference('character'),this.getAttribute('character'),this.allowed);
     this.inline=this.getAttribute('mode')==='inline';
     this.shadowRoot.innerHTML=`<link rel="stylesheet" href="${asset('./widget/shell.css')}">
-      <button class="launcher" aria-label="Open lilgotchi" aria-haspopup="dialog">${launcherArt(this.family)}</button>
+      <button class="launcher" part="launcher" aria-label="Open lilgotchi" aria-haspopup="dialog">${launcherArt(this.family)}</button>
       <${this.inline?'section class="inline"':'dialog'} aria-label="lilgotchi">
       <header><h2><img src="${asset('./widget/egg.svg')}" width="20" height="24" alt="" style="vertical-align:middle"> lilgotchi</h2><button class="close" aria-label="Close lilgotchi">×</button>
-      <label class="chooser">Your pet <select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
+      <label class="chooser"><span class="pet-identity"></span><select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
       <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-tour">Quick tour</button> <button class="welcome-close">Got it</button></aside>
       <p class="return-summary" hidden></p><div class="frame"></div>
-      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Save and help</span><span class="status" role="status"></span></summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
+      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="game-options"></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
-      <details class="paste-save"><summary>Paste a save instead</summary><label for="save-text">Exported save text</label><p id="paste-hint">Open your exported JSON file as text and paste its contents here. Nothing is uploaded.</p><textarea id="save-text" rows="5" maxlength="32768" spellcheck="false" aria-describedby="paste-hint"></textarea><button class="preview-paste">Preview pasted save</button></details>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
       <div class="guide-host"></div>
       <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
-      <footer>Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed. <a href="${asset('./pets/NOTICE.md')}" target="_blank" rel="noopener">Credits</a></footer></details>
+      <footer>Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed. <a href="${asset('./docs/credits.md')}" target="_blank" rel="noopener">Credits</a></footer><button class="settings-close">Close settings</button></details>
       </${this.inline?'section':'dialog'}>`;
     this.panel=this.shadowRoot.querySelector(this.inline?'section':'dialog');
     this.select=this.shadowRoot.querySelector('select');
@@ -47,6 +48,10 @@ class LilGotchi extends HTMLElement {
     this.bind('.welcome-close','click',()=>{this.shadowRoot.querySelector('.welcome').hidden=true;this.store.preference('introduced',true);});
     this.updateLauncher();
     this.renderHistory();
+    this.settings=mountSettings(this.shadowRoot.querySelector('.game-options'),action=>{
+      if(this.ready)this.port?.postMessage({type:'configure',action});
+    });
+    this.bind('.settings-close','click',()=>{const details=this.shadowRoot.querySelector('.save-help');details.open=false;details.querySelector('summary').focus();});
     this.careGuide=mountCareGuide(this.shadowRoot.querySelector('.guide-host'));
     this.bind('.welcome-tour','click',()=>{
       this.shadowRoot.querySelector('.welcome').hidden=true;this.store.preference('introduced',true);
@@ -67,15 +72,15 @@ class LilGotchi extends HTMLElement {
     this.bind('.export','click',()=>this.exportSave());
     this.bind('.import-button','click',()=>this.shadowRoot.querySelector('.file').click());
     this.bind('.file','change',event=>this.previewImport(event.target.files[0]));
-    this.bind('.preview-paste','click',()=>this.previewImportText(this.shadowRoot.querySelector('#save-text').value));
     this.bind('.cancel-import','click',()=>{this.importPreviewId=(this.importPreviewId||0)+1;this.shadowRoot.querySelector('.import').hidden=true;this.importData=null;this.restoreImportFocus();});
     this.bind('.confirm-import','click',()=>this.confirmImport());
     if(this.inline){this.shadowRoot.querySelector('.launcher').hidden=true;this.shadowRoot.querySelector('.close').hidden=true;this.open();}
   }
   updateLauncher(state){
     if(!state){try{state=this.store.load(this.family)?.state;}catch{ /* Recovery stays in the normal open flow. */ }}
+    this.shadowRoot.querySelector('.pet-identity').textContent=petLabel(this.family,state);
     const button=this.shadowRoot.querySelector('.launcher'),care=savedCare(state);
-    button.innerHTML=launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family))+(care?'<span class="care-dot" aria-hidden="true"></span>':'');
+    button.innerHTML=launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family),{shell:this.getAttribute('launcher')!=='pet',eink:this.store.preference('eink')==='true'})+(care?'<span class="care-dot" aria-hidden="true"></span>':'');
     const label=`Open lilgotchi${state?`, ${state.stage}`:''}${state?.vacationAt?'. Vacation paused':care?`. ${this.ready?'Live care':'Last saved'}: ${care}`:''}`;
     button.setAttribute('aria-label',label);button.title=label;
   }
@@ -195,6 +200,7 @@ class LilGotchi extends HTMLElement {
   }
   receive(message,family){
     if(!message || family!==this.family || typeof message.type!=='string')return;
+    if(message.type==='configuration')this.settings?.update(message.configuration);
     if(message.type==='care-status' && validState(message.state))this.updateLauncher(message.state);
     if(message.type==='scroll' && Number.isFinite(message.delta) && Math.abs(message.delta)<=1000){
       if(this.inline)window.scrollBy(0,message.delta);else this.panel.scrollBy(0,message.delta);
@@ -205,7 +211,7 @@ class LilGotchi extends HTMLElement {
       catch(error){this.fail(error);this.detachFrame();this.store.release(family);}
     }
     if(message.type==='ready'){
-      this.ready=true;clearTimeout(this.loadTimeout);
+      this.ready=true;this.settings?.setReady(true);clearTimeout(this.loadTimeout);
       if(this.frame)this.frame.style.visibility='visible';
       const container=this.shadowRoot.querySelector('.frame');
       container.classList.remove('is-loading');container.removeAttribute('aria-busy');container.style.minHeight='';
@@ -213,7 +219,7 @@ class LilGotchi extends HTMLElement {
     }
     if(message.type==='snapshot' && Number.isSafeInteger(message.id))this.pending.get(message.id)?.(message.state);
     if(message.type==='close')this.close();
-    if(message.type==='preference' && ['muted','eink','scanlines'].includes(message.name) && typeof message.value==='boolean')this.store.preference(message.name,message.value);
+    if(message.type==='preference' && ['muted','eink','scanlines'].includes(message.name) && typeof message.value==='boolean'){this.store.preference(message.name,message.value);if(message.name==='eink')this.updateLauncher();}
   }
   async snapshot(closing=false){
     if(!this.port || !this.ready)return;
@@ -230,7 +236,7 @@ class LilGotchi extends HTMLElement {
     const container=this.shadowRoot.querySelector('.frame');
     if(this.frame && container)container.style.minHeight=`${Math.ceil(this.frame.getBoundingClientRect().height)}px`;
     clearInterval(this.heartbeat);clearTimeout(this.loadTimeout);
-    this.frame?.remove();this.frame=null;this.ready=false;
+    this.frame?.remove();this.frame=null;this.ready=false;this.settings?.setReady(false);
     this.port?.close();this.port=null;
     for(const resolve of this.pending.values())resolve(null);
     this.pending.clear();
@@ -256,7 +262,7 @@ class LilGotchi extends HTMLElement {
       if(file.size>32768)throw new Error('This save file is too large.');
       const text=await file.text();
       if(request!==this.importPreviewId)return;
-      this.previewImportText(text,this.shadowRoot.querySelector('.import-button'));
+      this.prepareFileImport(text,this.shadowRoot.querySelector('.import-button'));
     }catch(error){if(request===this.importPreviewId)this.fail(error);}
     finally{this.shadowRoot.querySelector('.file').value='';}
   }
@@ -265,7 +271,7 @@ class LilGotchi extends HTMLElement {
     if(target && visibleControl(target))target.focus();else this.select.focus();
     this.importFocus=null;
   }
-  previewImportText(text,origin=this.shadowRoot.querySelector('.preview-paste')){
+  prepareFileImport(text,origin=this.shadowRoot.querySelector('.import-button')){
     this.importPreviewId=(this.importPreviewId||0)+1;
     this.importData=null;
     this.shadowRoot.querySelector('.import').hidden=true;
@@ -292,7 +298,6 @@ class LilGotchi extends HTMLElement {
       this.rememberDeath(data.family,data.state);this.renderHistory();
       this.family=data.family;this.updateLauncher();this.select.value=data.family;this.store.preference('character',data.family);
       this.shadowRoot.querySelector('.import').hidden=true;this.importData=null;
-      this.shadowRoot.querySelector('#save-text').value='';
     }finally{this.store.release(data.family);}
     await this.mount();
     this.importFocus=null;this.select.focus();

@@ -1,5 +1,15 @@
 # Release review
 
+Pasted save import was removed at the user's request after 0.2.1. Historical pasted import checks below describe the earlier releases, not an available feature. File import, validation, confirmation and recovery remain.
+
+## 0.3.0 egg family and widget layout
+
+142 automated tests pass. Lilgotchi adds a complete logo egg family, including a cracked elder form, with screen bounds checks for every stage and reaction. The landing page has four featured pets and the personal site allows Original egg, Slice, Cypunk and Lilgotchi.
+
+Pet identity sits beside the picker. Care status sits below the egg. Settings combines preferences, backups, help and memories at the bottom, with a Close settings button. Pasted saves are removed. Launchers match family shell colors and support an optional icon and text style. The personal site's launcher moves left on mobile only.
+
+Chrome checks cover the changed desktop and mobile layouts, Vacation and sound preference updates, the four pet gallery, launcher variants, and the installed personal site. Physical device and human audio checks remain separate below.
+
 ## 0.2.1 mobile fixes
 
 132 automated tests pass. Settings has a visible top Close button and accurate natural overlay height, including flex gaps. The scanline explanation describes its decorative effect. Save status shares the Save and help row. Pet switching keeps a dark, stable frame area until the next game is painted and ready. Cypunk replaces the displayed Cyberpunk name while internal IDs preserve existing saves.
@@ -39,9 +49,9 @@ Screenshots are under pr-screenshots, including release-slice-mobile, release-cy
 1. Physical iPhone and Android checks.
 2. A human screen reader session and human audio listening.
 3. Complete native zoom and accessibility matrix beyond the recorded browser checks.
-4. File chooser import automation. The Chrome extension denied local file access. Pasted JSON import was exercised successfully and uses the same validation, confirmation and recovery path. File parsing and asynchronous preview races are covered by tests.
+4. File chooser import automation. The Chrome extension denied local file access. The former pasted JSON flow was exercised successfully; it has since been removed. File parsing and asynchronous preview races are covered by tests.
 5. Exact hardware constants not established by the official manual, including decay schedules and evolution thresholds. They remain identified clone assumptions. See the hardware review rather than interpreting test counts as firmware fidelity.
 
 ## Release contents
 
-The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site, standalone demo and hosted loader use 0.2.1; see the current installation guide for their version.
+The named built zip includes the runtime, install examples, metadata and notices. Local saves retain schema 1. Memorial history remains local to the original website and is not bundled into active pet exports. Published release downloads stay unchanged. The personal site, standalone demo and hosted loader use 0.3.0; see the current installation guide for their version.

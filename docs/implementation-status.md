@@ -4,17 +4,17 @@
 
 The public GitHub release includes a built zip and npm installable tarball. The landing configurator generates a versioned one script hosted embed. The source, package and release include MIT terms and the upstream notice. An npm registry listing still needs an authorized login.
 
-The game update is deployed on the personal site using its 0.2.1 asset copy. The standalone demo and hosted loader use the same 0.2.1 release. See [installation](install.md) for the current download and snippet.
+The game update is deployed on the personal site using its 0.3.0 asset copy. The standalone demo and hosted loader use the same 0.3.0 release. See [installation](install.md) for the current download and snippet.
 
-The standalone widget, all original starting characters, complete Slice and Cypunk lifecycles, local saves, curated installs and personal site integration are implemented. Original sprites remain intact. This is an adapted pixel game, not verified hardware emulation.
+The standalone widget, all original starting characters, complete Slice, Cypunk and Lilgotchi lifecycles, local saves, curated installs and personal site integration are implemented. Original sprites remain intact. This is an adapted pixel game, not verified hardware emulation.
 
-The landing page features Original egg, Slice and Cypunk with a dropdown for the other originals. Eggs hatch in 90 seconds. Newly hatched pets need food and play. Later evolution preserves existing needs. New illnesses can require one through three doses.
+The landing page features Original egg, Slice, Cypunk and Lilgotchi with a dropdown for the other originals. Eggs hatch in 90 seconds. Newly hatched pets need food and play. Later evolution preserves existing needs. New illnesses can require one through three doses.
 
 Clock, time icon, scenery, stage, care grade and four numeric meters are implemented. Information and growth notices sit outside the pet canvas. Three primary controls retain secondary actions in More care. Lighting and sleep are separate. Integer sway, breathing, bounce, tilt and landing respect reduced motion, E ink, busy scenes and Vacation.
 
 Vacation freezes care and growth until resumed, including across reloads. When the page was absent, catch up is limited to eight hours. After a pet is opened, closing its drawer keeps its live simulation active while this page remains open, with rendering and sound suppressed. The launcher distinguishes live care from last saved care. Browsers may throttle inactive tabs.
 
-The care walkthrough explains food, play, medicine, discipline, growth, sleep, energy, advisory health and care grades. Memorials retain twelve past lifetimes per starting character locally. Import supports files or pasted save text, validates before confirmation, preserves a recovery copy and remembers an overwritten dead pet. Exports remain portable active pet saves; history stays on the original website.
+The care walkthrough explains food, play, medicine, discipline, growth, sleep, energy, advisory health and care grades. Memorials retain twelve past lifetimes per starting character locally. Import uses a file picker, validates before confirmation, preserves a recovery copy and remembers an overwritten dead pet. Exports remain portable active pet saves; history stays on the original website.
 
 AI dialogue has been removed entirely from the runtime, public API, settings and examples. The immutable archived upstream source remains a development reference only and is excluded from releases.
 
