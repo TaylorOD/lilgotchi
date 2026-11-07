@@ -2,7 +2,7 @@ import { catalog, allowedCharacters, requireAllowed, initialCharacter } from './
 import { DialogueHost } from './widget/dialogue-host.js';
 import { visibleControl } from './widget/focus.js';
 import { lockPage, unlockPage } from './widget/scroll-lock.js';
-import { launcherArt } from './widget/launcher.js';
+import { launcherIcon as launcherArt } from './widget/launcher.js';
 import { SaveStore, legacyFamily, parseImport } from './widget/save-store.js';
 
 const asset = path => new URL(path,import.meta.url).href;
@@ -25,7 +25,7 @@ class LilGotchi extends HTMLElement {
     this.shadowRoot.innerHTML=`<link rel="stylesheet" href="${asset('./widget/shell.css')}">
       <button class="launcher" aria-label="Open lilgotchi" aria-haspopup="dialog">${launcherArt(this.family)}</button>
       <${this.inline?'section class="inline"':'dialog'} aria-label="lilgotchi">
-      <header><h2>lilgotchi</h2><button class="close" aria-label="Close lilgotchi">×</button>
+      <header><h2><img src="${asset('./widget/egg.svg')}" width="20" height="24" alt="" style="vertical-align:middle"> lilgotchi</h2><button class="close" aria-label="Close lilgotchi">×</button>
       <label class="chooser">Your pet <select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
       <div class="frame"></div><p class="status" role="status"></p>
       <button class="retry" hidden>Try again</button><details><summary>Save and help</summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>

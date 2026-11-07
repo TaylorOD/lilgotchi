@@ -12,7 +12,7 @@ for(const name of ['lilgotchi.js','index.html','README.md'])await copyFile(resol
 for(const folder of ['widget','pets']){
   await mkdir(resolve(out,folder),{recursive:true});
   for(const item of await readdir(resolve(root,folder),{withFileTypes:true})){
-    if(item.isFile() && /\.(js|css|html|md)$/.test(item.name) && !['widget.js','widget.css','panel.js'].includes(item.name))await copyFile(resolve(root,folder,item.name),resolve(out,folder,item.name));
+    if(item.isFile() && /\.(js|css|html|md|svg)$/.test(item.name) && !['widget.js','widget.css','panel.js'].includes(item.name))await copyFile(resolve(root,folder,item.name),resolve(out,folder,item.name));
   }
 }
 await cp(resolve(root,'docs'),resolve(out,'docs'),{recursive:true});
