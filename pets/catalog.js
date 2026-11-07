@@ -1,7 +1,7 @@
 // Public choices share one identity map across the host and game frame.
 const originalStages={babytchi:'baby',marutchi:'child',tamatchi:'teen',kuchitamatchi:'teen',mametchi:'adult',ginjirotchi:'adult',maskutchi:'adult',kuchipatchi:'adult',nyorotchi:'adult',tarakotchi:'adult',oyajitchi:'adult'};
 export const catalog=Object.freeze([
-  {id:'default',name:'Original egg',skin:'classic',character:'egg',stage:'egg'},
+  {id:'default',name:'Tamagotchi',skin:'classic',character:'egg',stage:'egg'},
   ...Object.entries(originalStages).map(([id,stage])=>({id,name:id[0].toUpperCase()+id.slice(1),skin:'classic',character:id,stage})),
   {id:'slice',name:'Slice',skin:'pizza',character:'egg',stage:'egg'},
   {id:'cyberpunk',name:'Cypunk',skin:'cyberpunk',character:'egg',stage:'egg'},
