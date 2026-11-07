@@ -16,7 +16,7 @@ createServer(async (req, res) => {
     if (pathname.split('/').some(part => part.startsWith('.'))) throw new Error('hidden path');
     if ((await stat(path)).isDirectory()) path = resolve(path, 'index.html');
     const body = await readFile(path);
-    res.writeHead(200, { 'Content-Type': (types[extname(path)] || 'application/octet-stream') + '; charset=utf-8', 'Cache-Control': 'no-store' });
+    res.writeHead(200, { 'Content-Type': (types[extname(path)] || 'application/octet-stream') + '; charset=utf-8', 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin':'*' });
     res.end(body);
   } catch {
     res.writeHead(404, { 'Content-Type': 'text/plain' });

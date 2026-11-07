@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node scripts/serve.mjs",
     "test": "node --test pets/game.test.mjs tests/*.test.mjs",
-    "inventory": "node scripts/inventory.mjs"
+    "inventory": "node scripts/inventory.mjs",
+    "build": "node scripts/build.mjs"
   }
 }

@@ -4,6 +4,8 @@ export const petType = petTypes.includes(requested) ? requested : 'pizza';
 export const saveKey = `taylor-pocket-pets-p1-v1-${petType}`;
 const characters = ['egg','babytchi','marutchi','tamatchi','kuchitamatchi','mametchi','ginjirotchi','maskutchi','kuchipatchi','nyorotchi','tarakotchi','oyajitchi'];
 const stages = ['egg','baby','child','teen','adult','dead'];
+let bridge = null;
+export function configureStorage(adapter) { bridge = adapter; }
 
 export function validState(data) {
   if (!data || !stages.includes(data.stage) || !characters.includes(data.character)) return false;
@@ -22,6 +24,7 @@ function status(text) {
 }
 
 export function saveState(state) {
+  if (bridge) { bridge.save(JSON.parse(JSON.stringify(state))); return true; }
   try {
     localStorage.setItem(saveKey, JSON.stringify(state));
     status('saved in this browser');
@@ -33,6 +36,12 @@ export function saveState(state) {
 }
 
 export function loadState(state) {
+  if (bridge) {
+    const data = bridge.load();
+    if (!validState(data)) return false;
+    for (const key of Object.keys(state)) if (Object.hasOwn(data,key)) state[key]=data[key];
+    return true;
+  }
   try {
     const raw = localStorage.getItem(saveKey);
     if (!raw) return false;
@@ -45,5 +54,6 @@ export function loadState(state) {
 }
 
 export function clearState() {
+  if (bridge) return;
   try { localStorage.removeItem(saveKey); } catch {}
 }

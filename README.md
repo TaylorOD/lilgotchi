@@ -2,7 +2,22 @@
 
 A small virtual pet for your website, based on [plateaukao/tamagochi](https://github.com/plateaukao/tamagochi).
 
-This checkout starts with the existing personal site game. The reusable widget and complete character families are being implemented from the [design docs](docs/lilgotchi/README.md).
+The reusable widget runs without a backend or dependencies. Complete character artwork and original presentation parity are still being implemented from the [design docs](docs/lilgotchi/README.md).
+
+## Add it to a website
+
+Run `npm run build`, then copy the whole `dist` folder to your site's `/assets/lilgotchi/0.1.0/` directory.
+
+```html
+<script type="module" src="/assets/lilgotchi/0.1.0/lilgotchi.js"></script>
+<lil-gotchi character="slice" storage-key="site-pet"></lil-gotchi>
+```
+
+Use `default`, `slice` or `cyberpunk`. Add `mode="inline"` for an always visible game, or `placement="bottom-left"` to move the launcher. Each storage key has independent saves. Reusing the same key keeps a single active player.
+
+The element exposes async `open()`, `close()` and `setCharacter(name)` methods. Events are `lilgotchi:ready`, `lilgotchi:open`, `lilgotchi:close`, `lilgotchi:characterchange` and `lilgotchi:error`. Details include only the selected character or error message, never a save.
+
+See [installation and storage](docs/install.md) for hosting, styles, browser limits and recovery.
 
 ## Run it
 

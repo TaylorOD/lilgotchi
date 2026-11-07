@@ -16,6 +16,18 @@ The foundation intentionally preserves the existing game modules. Later tasks ca
 
 The widget task should establish the frame channel and persistence interfaces before subsequent agents change them. The rendering task should establish a shared frame and anchor contract before custom art integration.
 
+## Widget interface
+
+The public entry is `lilgotchi.js`. It defines `<lil-gotchi>` and imports `widget/save-store.js`. Shell styling is in `widget/shell.css`. A private MessageChannel connects each element to its frame after checking parent origin, source window and a unique nonce.
+
+`pets/storage.js` now exports `configureStorage(adapter)`. Embedded boot supplies synchronous `load()` and a `save(state)` callback that sends validated state to the host. Direct game pages retain their original storage path for reference testing. Keep those function exports stable.
+
+`pets/boot.js` delays app creation until the host connection arrives. It handles `snapshot` requests, sends `save`, `ready`, `close` and sound `preference` messages, and receives `save-status`. Later dialogue support can extend this private protocol with validated message types. Public families map to the existing internal `classic`, `pizza` and `cyberpunk` values.
+
+The host owns all embedded persistence. Do not read parent DOM or parent localStorage from the iframe. `SaveStore` handles validation, locks, leases, revisions, export data and confirmed replacement backups. A later site migration should use this adapter instead of changing frame storage.
+
+Run `npm run build` to create the static distribution. `examples/nested/`, `examples/cross-origin.html` and `examples/duplicate.html` are the widget QA surfaces. Shell polish owns further accessibility and responsive improvements.
+
 The source harness in `tests/upstream-harness.mjs` evaluates the original without booting the browser or performing network calls. It supplies a controlled Date and repeatable random sequence. Extend action comparisons there while keeping `reference/upstream.html` untouched.
 
 `reference/contact-sheet.html` is the initial original art review surface. Extend a separate QA page for family and stage selection, fixed animation frames and reaction fixtures. Production controls must not expose test time or state mutation.
