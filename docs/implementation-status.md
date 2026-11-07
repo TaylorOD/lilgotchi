@@ -7,7 +7,7 @@ Each stage gets its own branch and PR. Later branches may build on earlier work,
 | 1. Standalone foundation | Implemented and browser checked | [PR 1](https://github.com/TaylorOD/lilgotchi/pull/1). Desktop and phone screenshots included |
 | 2. Widget and storage | Implemented and initial browser checks passed | [PR 2](https://github.com/TaylorOD/lilgotchi/pull/2). Custom element, private channel, host saves, static build and three install examples |
 | 3. Default parity | Implemented and browser checked | Original presentation and E ink restored. Controlled actions, screen buffers, raster colors and sound cues compared |
-| 4. Bounds and animation | Pending | Establish full frame and anchor contract |
+| 4. Bounds and animation | Implemented and browser checked | Complete frame placement, separate needs row, crisp sizing and exhaustive composition checks |
 | 5. Slice family | Pending | Complete dough through secret adult artwork |
 | 6. Cyberpunk family | Pending | Complete binary seed through secret adult artwork |
 | 7. Shell polish | Pending | Responsive, keyboard and accessibility checks |
@@ -24,7 +24,7 @@ The demo and reference pages are ready for browser review. Screenshots and a PR 
 
 ## Remaining release limits
 
-The current build is not the finished widget. Documented offline and embedding differences remain. Full custom art, bounds fixes, shell polish and the optional dialogue adapter are pending. No live AI provider or personal site deployment is configured by this stage.
+The current build is not the finished widget. Documented offline and embedding differences remain. Full custom art, shell polish and the optional dialogue adapter are pending. No live AI provider or personal site deployment is configured by this stage.
 
 ## Widget evidence
 
@@ -35,3 +35,7 @@ Storage tests cover family isolation, writer ownership, stale revision rejection
 ## Default evidence
 
 The Default task adds exact source CSS and restored settings, palette and lights off colors. Tests compare the original and fork under controlled time and randomness, including 864 logical screen compositions, both raster themes and all sound cues. The local `/qa/` page provides frozen source and fork views. Parent browser review confirmed idle, lights off and stats layouts against the source, inspected the phone layout, and checked E ink in the actual drawer. Screenshots are included. See `parity-status.md` for intentional behavior differences and remaining bounds work.
+
+## Bounds evidence
+
+47 tests pass. The bounds suite covers every family and identity across 90 frame positions and 15 reactions, including combined maximum care indicators. Source sprite and raster comparisons remain strict. Only the clipped source HUD is intentionally relocated below the screen. See frame-contract.md for the art handoff. Parent inspected the animated combined scene at desktop and 320 pixel phone sizes, verified readable needs text and saved bounds screenshots.

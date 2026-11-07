@@ -1,6 +1,6 @@
 export const time = new Date(2026, 0, 5, 12).getTime();
 export const identities = ['egg','babytchi','marutchi','tamatchi','kuchitamatchi','mametchi','ginjirotchi','maskutchi','kuchipatchi','nyorotchi','tarakotchi','oyajitchi'];
-export const reactions = ['idle','happy','sad','eat','evolve','discipline','medicine','clean','sleep','lights-off','sick','attention','waste','death','stats','settings','game','win','loss'];
+export const reactions = ['idle','happy','sad','eat','evolve','discipline','medicine','clean','sleep','lights-off','sick','attention','waste','combined','death','stats','settings','game','win','loss'];
 
 // Shared by both QA frames. Production builds do not include this module.
 export function applyFixture(app, settings, fixedTime) {
@@ -20,6 +20,7 @@ export function applyFixture(app, settings, fixedTime) {
   if(reaction==='sick'){app.state.isSick=true;app.state.medDoses=2;}
   if(reaction==='attention')app.state.isMisbehaving=true;
   if(reaction==='waste')app.state.poopCount=4;
+  if(reaction==='combined'){app.state.poopCount=4;app.state.isSick=true;app.state.isMisbehaving=true;}
   if(reaction==='death'){app.state.isDead=true;app.state.stage='dead';}
   app.updateButtons(); app.render();
   if(reaction==='stats')app.showStats();

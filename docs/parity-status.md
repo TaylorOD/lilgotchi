@@ -23,11 +23,14 @@ These checks use a fixed clock and random sequence. They do not prove hardware p
 | Motion | Always advances animation | Honors reduced motion and hidden pages | Accessible and inactive rendering behavior |
 | Frame layout | Full viewport centering and a device up to 380 pixels wide | Embedded mode top aligns the device and fits the frame width | Fits the drawer. `embed.css` contains these overrides, while `game.css` stays identical to the source |
 
+| Screen HUD | EGG text begins at y 14, hunger hearts extend below the screen and hearts overlap the body | EGG countdown and labeled needs appear below the LCD | Explicit clipping exception. Screen comparisons omit only the old EGG and heart draw operations, while body and effect buffers stay exact |
+| Display scale | Canvas stretches to the frame width | Whole device pixel cells fit inside the frame without stretching | Crisp rendering at phone sizes and browser zoom. Logical resolution and original raster colors stay unchanged |
+
 ## Remaining differences
 
 | Area | Work remaining |
 | --- | --- |
-| Original clipping | The original EGG label begins at y 14 and draws beyond the display. Original hearts can overlap the body. Bounds work must record corrected placement as an intentional exception to screen comparison |
+| Original clipping | Corrected. EGG and needs are readable below the LCD. Complete bodies and effects remain on the 32 by 16 display |
 | Custom families | Complete dough and binary eggs, distinct silhouettes and reactions are still pending |
 | Dialogue | The original optional AI feature is still awaiting its adapter |
 
