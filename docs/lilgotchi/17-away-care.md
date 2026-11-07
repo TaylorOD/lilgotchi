@@ -24,4 +24,4 @@ For a long active absence, shift these same anchors by the excess above eight ho
 
 ## Verification
 
-Tests cover anchor preservation, birthday preservation, timer fractions, eight hour limit, freeze across every care action, no misbehavior or minigame mutation, long vacation resume, paused save reload, and old saves loading active. Chrome verification covered Vacation on, reload, paused hints and controls, and resume with preserved needs. Pasted import passed separately. Native file picker and physical device verification remain open in the release review.
+Tests cover anchor preservation, birthday preservation, timer fractions, eight hour limit, freeze across every care action, no misbehavior or minigame mutation, long vacation resume, paused save reload, and old saves loading active. Chrome verification covered Vacation on, reload, paused hints and controls, and resume with preserved needs. The former pasted import flow passed separately and has since been removed. Native file picker and physical device verification remain open in the release review.

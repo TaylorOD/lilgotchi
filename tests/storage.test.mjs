@@ -102,7 +102,7 @@ test('same family import can unload, replace, release and mount with asynchronou
   const backend=storage(),a=new SaveStore('import-weblock',{storage:backend,locks:asynchronousLocks()});
   await a.acquire('slice');a.load('slice');const previous=new GameState();a.save('slice',previous);
   const original=a.raw('slice'),imported=new GameState();imported.hunger=3;
-  const nodes={'.import':{hidden:false},'#save-text':{value:'backup'}};
+  const nodes={'.import':{hidden:false}};
   let mounted=false,focused=false;
   const widget={family:'slice',allowed:['slice'],importData:{family:'slice',state:imported},store:a,
     serial:callback=>callback(),unload:async()=>{a.release('slice');},

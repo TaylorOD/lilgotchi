@@ -14,7 +14,7 @@ Clock, time icon, scenery, stage, care grade and four numeric meters are impleme
 
 Vacation freezes care and growth until resumed, including across reloads. When the page was absent, catch up is limited to eight hours. After a pet is opened, closing its drawer keeps its live simulation active while this page remains open, with rendering and sound suppressed. The launcher distinguishes live care from last saved care. Browsers may throttle inactive tabs.
 
-The care walkthrough explains food, play, medicine, discipline, growth, sleep, energy, advisory health and care grades. Memorials retain twelve past lifetimes per starting character locally. Import supports files or pasted save text, validates before confirmation, preserves a recovery copy and remembers an overwritten dead pet. Exports remain portable active pet saves; history stays on the original website.
+The care walkthrough explains food, play, medicine, discipline, growth, sleep, energy, advisory health and care grades. Memorials retain twelve past lifetimes per starting character locally. Import uses a file picker, validates before confirmation, preserves a recovery copy and remembers an overwritten dead pet. Exports remain portable active pet saves; history stays on the original website.
 
 AI dialogue has been removed entirely from the runtime, public API, settings and examples. The immutable archived upstream source remains a development reference only and is excluded from releases.
 
