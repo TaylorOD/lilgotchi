@@ -67,3 +67,6 @@ button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 #pet-clock { color:#f0e9df; }
 @media(prefers-reduced-motion:reduce) { * { animation:none!important; transition:none!important; } }
 
+
+:root[data-pet="lilgotchi"] { --device-bg:linear-gradient(145deg,#fff0cc,#e7c88d); --lcd-bg:#20281d; --lcd-fg:#fff0cc; --accent:#e7c88d; --stat-hearts:#e7c88d; }
+:root[data-pet="lilgotchi"] #pet-clock { color:#3d4937; }

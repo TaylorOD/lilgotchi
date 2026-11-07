@@ -1,6 +1,6 @@
 import { frameCharacter } from './catalog.js';
 export const selectedCharacter=frameCharacter(new URLSearchParams(globalThis.location?.search || ''));
-export const petTypes = ['classic', 'pizza', 'cyberpunk'];
+export const petTypes = ['classic', 'pizza', 'cyberpunk', 'lilgotchi'];
 export const petType = selectedCharacter.skin;
 export const saveKey = ['default','slice','cyberpunk'].includes(selectedCharacter.id) ? `taylor-pocket-pets-p1-v1-${petType}` : `lilgotchi:standalone:${selectedCharacter.id}`;
 import { validState } from './valid-state.js';

@@ -1,7 +1,7 @@
 import { catalog } from '../pets/catalog.js';
 import { launcherArt } from './launcher.js';
 const gallery=document.querySelector('.gallery');
-const featured=['default','slice','cyberpunk'];
+const featured=['default','slice','cyberpunk','lilgotchi'];
 const select=document.getElementById('original-picker');
 const open=async id=>{
   const pet=document.querySelector('lil-gotchi');
