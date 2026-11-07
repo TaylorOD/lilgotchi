@@ -76,3 +76,43 @@ test('Web Locks hold ownership until release and permit later acquisition',async
   a.release('default');await new Promise(resolve=>setTimeout(resolve,0));
   assert.equal(await b.acquire('default'),true);b.dispose();
 });
+
+function asynchronousLocks(){
+  const held=new Set();
+  return {async request(key,options,callback){
+    if(held.has(key))return callback(null);
+    held.add(key);
+    try{return await callback({name:key});}
+    finally{await new Promise(resolve=>setImmediate(resolve));held.delete(key);}
+  }};
+}
+test('same store can immediately reacquire a released Web Lock without waiting on an active lock',async()=>{
+  const backend=storage(),a=new SaveStore('immediate-weblock',{storage:backend,locks:asynchronousLocks()});
+  assert.equal(await a.acquire('slice'),true);
+  assert.equal(await a.acquire('slice'),true);
+  a.release('slice');
+  assert.equal(await a.acquire('slice'),true);
+  a.load('slice');a.save('slice',new GameState());
+  a.release('slice');
+  assert.equal(await a.acquire('slice'),true);a.dispose();
+});
+test('same family import can unload, replace, release and mount with asynchronous Web Locks',async()=>{
+  globalThis.HTMLElement=class{};globalThis.customElements={get:()=>true};
+  const {LilGotchi}=await import('../lilgotchi.js');
+  const backend=storage(),a=new SaveStore('import-weblock',{storage:backend,locks:asynchronousLocks()});
+  await a.acquire('slice');a.load('slice');const previous=new GameState();a.save('slice',previous);
+  const original=a.raw('slice'),imported=new GameState();imported.hunger=3;
+  const nodes={'.import':{hidden:false},'#save-text':{value:'backup'}};
+  let mounted=false,focused=false;
+  const widget={family:'slice',allowed:['slice'],importData:{family:'slice',state:imported},store:a,
+    serial:callback=>callback(),unload:async()=>{a.release('slice');},
+    mount:async()=>{assert.equal(await a.acquire('slice'),true);assert.equal(a.load('slice').state.hunger,3);mounted=true;},
+    rememberDeath:()=>{},renderHistory:()=>{},updateLauncher:()=>{},
+    select:{focus:()=>focused=true},shadowRoot:{querySelector:selector=>nodes[selector]}
+  };
+  try{
+    await LilGotchi.prototype.confirmImport.call(widget);
+    assert.equal(mounted,true);assert.equal(focused,true);
+    assert.equal(backend.getItem(saveKey('import-weblock','slice')+':recovery'),original);
+  }finally{a.dispose();}
+});

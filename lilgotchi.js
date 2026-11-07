@@ -255,6 +255,8 @@ class LilGotchi extends HTMLElement {
     try{
       this.importData=parseImport(text,this.allowed);
       this.importFocus=origin;
+      this.status('Review this backup before replacing your pet.');
+      this.shadowRoot.querySelector('.retry').hidden=true;
       const panel=this.shadowRoot.querySelector('.import');
       panel.querySelector('p').textContent=`Replace ${catalog.find(choice=>choice.id===this.importData.family).name} with this ${this.importData.state.stage}, age ${this.importData.state.age}? Your previous save will be kept as a recovery copy.`;
       panel.hidden=false;panel.querySelector('button').focus();
