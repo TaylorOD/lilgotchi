@@ -5,7 +5,6 @@ import { classicSprites } from '../pets/classic-sprites.js';
 import { GameState, Evo } from '../pets/engine.js';
 import { C } from '../pets/constants.js';
 import { SaveStore, saveKey, parseImport } from '../widget/save-store.js';
-import { contextFor, validContext } from '../pets/dialogue.js';
 
 test('catalog exposes every original sprite identity and validates frame identity pairs',()=>{
   assert.deepEqual(catalog.filter(c=>c.skin==='classic').map(c=>c.character).sort(),Object.keys(classicSprites).filter(id=>id==='egg'||getCharacter(id)).sort());
@@ -37,7 +36,6 @@ test('original presets start fresh at their pictured stage, reset consistently a
     assert.equal(state.age,0);assert.equal(state.careMistakes,0);assert.equal(state.discipline,0);assert.equal(state.prevTeen,null);
     state.age=9;state.character='tarakotchi';state.reset();
     assert.equal(state.character,choice.character);assert.equal(state.age,0);
-    if(choice.stage!=='egg')assert.ok(validContext(contextFor(state,'idle',choice.id,choice.name)));
   }
   assert.equal(Evo.evolve(new GameState(getCharacter('babytchi'))).character,'marutchi');
   assert.equal(Evo.evolve(new GameState(getCharacter('tamatchi'))).character,'tarakotchi');

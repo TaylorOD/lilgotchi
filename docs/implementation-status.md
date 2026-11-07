@@ -6,7 +6,7 @@ Design documents 10 through 15 cover the additive care model, compact screen, sc
 
 The host uses current saved artwork, an explicitly last saved care indicator, onboarding, return information and save confirmation. The landing page provides the install configurator and preview download without redundant install navigation. A clean source archive script produces a revision named distribution.
 
-Browser integration checked original, Slice and Cyberpunk, desktop and narrow phone layouts, busy care scenes, food percentages, manual sleep across reload, Stats, secondary care, E ink and exported saves. The actual import file picker remains blocked by the Chrome extension's disabled file URL access. Validation and replacement remain covered by automated tests. Real phone hardware, human audio listening, a screen reader and a live dialogue provider remain external verification tasks. These limits are not implied complete by the automated suite.
+Browser integration checked original, Slice and Cyberpunk, desktop and narrow phone layouts, busy care scenes, food percentages, manual sleep across reload, Stats, secondary care, E ink and exported saves. The actual import file picker remains blocked by the Chrome extension's disabled file URL access. Validation and replacement remain covered by automated tests. Real phone hardware, human audio listening, and a screen reader remain external verification tasks. These limits are not implied complete by the automated suite.
 
 Production PRs remain separate and await merge approval. The public demo is a built preview, not a merged production release. Historical stage counts below are retained as evidence of their original milestones.
 
@@ -21,7 +21,6 @@ Each stage gets its own branch and PR. Later branches may build on earlier work,
 | 5. Slice family | Implemented and browser checked | Complete dough through secret adult artwork and labeled frame review |
 | 6. Cyberpunk family | Implemented and browser checked | Complete binary seed through secret adult artwork and labeled frame review |
 | 7. Shell polish | Implemented and browser checked | PR 7. Responsive, keyboard and accessibility checks with screenshots |
-| 8. Dialogue adapter | Implemented and browser checked | Optional callback, original triggers, retry and cancellation checks with desktop and phone screenshots |
 | 9. Integration and site migration | Implemented and browser checked | Opt in legacy migration, clean release build, copied install example and local personal site migration verified. Production rollout is separate |
 
 ## Foundation evidence
@@ -34,7 +33,7 @@ Foundation browser review passed and screenshots are included in PR 1. Test coun
 
 ## Remaining release limits
 
-Documented offline and embedding differences remain. Shell and dialogue browser reviews are complete. A configured live provider check remains pending. No live AI provider or personal site deployment is configured by this stage.
+Documented offline and embedding differences remain. Shell browser reviews are complete. Personal site deployment is recorded separately.
 
 ## Widget evidence
 
@@ -63,10 +62,6 @@ The Default task adds exact source CSS and restored settings, palette and lights
 ## Shell polish
 
 The launcher uses actual family pixel art. A sticky drawer header, content sized frame and expandable save tools reduce clutter. Only the outer shell announces save status. Reset names the selected family. The demo introduces the playable pet and static install. 56 tests pass and the static build succeeds. Parent browser review checked Default, Slice, stats, Escape ordering, phone fit, reduced motion and landscape scrolling. It found and fixed page scroll locking and closed disclosure focus wrapping. Final keyboard review passed in both directions across the frame and collapsed save disclosure, and closing restores launcher focus. Desktop, launcher, phone and landscape screenshots are included. Import validation is tested, but browser upload remains unverified because local file access is blocked.
-
-## Dialogue evidence
-
-63 tests pass and the static build succeeds. Parent browser review checked the Default reply bubble, saved opt in after reload, failure and malformed reply states, successful retry and cancellation when a delayed Default reply was followed by a switch to Slice. The new egg stayed clear of the old reply. Phone review checked the Slice adult error panel. Screenshots are saved as `pr-screenshots/dialogue-desktop.jpg` and `pr-screenshots/dialogue-mobile.jpg`. No live provider or paid call was used.
 
 ## Integration evidence
 

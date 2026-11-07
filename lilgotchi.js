@@ -1,5 +1,4 @@
 import { catalog, allowedCharacters, requireAllowed, initialCharacter } from './pets/catalog.js';
-import { DialogueHost } from './widget/dialogue-host.js';
 import { visibleControl } from './widget/focus.js';
 import { lockPage, unlockPage } from './widget/scroll-lock.js';
 import { launcherIcon as launcherArt, savedCare } from './widget/launcher.js';
@@ -135,11 +134,10 @@ class LilGotchi extends HTMLElement {
     const channel=new MessageChannel();
     this.port=channel.port1;
     const activeFamily=this.family;
-    this.dialogueHost=new DialogueHost(this.dialogueAdapter,message=>channel.port1.postMessage(message),activeFamily);
     this.port.onmessage=event=>{if(this.frame===frame)this.receive(event.data,activeFamily);};
     frame.addEventListener('load',()=>{
       if(this.frame!==frame)return;
-      frame.contentWindow.postMessage({type:'lilgotchi:connect',nonce,dialogueEnabled:this.store.preference('dialogue')==='true',dialogueAvailable:typeof this.dialogueAdapter==='function',state:saved?.state||null,muted:this.hasAttribute('muted') || this.store.preference('muted')!=='false',eink:this.store.preference('eink')==='true',scanlines:this.store.preference('scanlines')==='true'},url.origin,[channel.port2]);
+      frame.contentWindow.postMessage({type:'lilgotchi:connect',nonce,state:saved?.state||null,muted:this.hasAttribute('muted') || this.store.preference('muted')!=='false',eink:this.store.preference('eink')==='true',scanlines:this.store.preference('scanlines')==='true'},url.origin,[channel.port2]);
     },{once:true});
     frame.src=url.href;container.append(frame);
     this.loadTimeout=setTimeout(()=>{if(this.frame===frame && !this.ready)this.fail(new Error('The game did not load. Check that all widget files are available.'));},12000);
@@ -149,7 +147,6 @@ class LilGotchi extends HTMLElement {
   }
   receive(message,family){
     if(!message || family!==this.family || typeof message.type!=='string')return;
-    if(message.type.startsWith('dialogue-'))this.dialogueHost?.receive(message);
     if(message.type==='scroll' && Number.isFinite(message.delta) && Math.abs(message.delta)<=1000){
       if(this.inline)window.scrollBy(0,message.delta);else this.panel.scrollBy(0,message.delta);
     }
@@ -161,7 +158,7 @@ class LilGotchi extends HTMLElement {
     if(message.type==='ready'){this.ready=true;clearTimeout(this.loadTimeout);this.emit('ready',{character:family});}
     if(message.type==='snapshot' && Number.isSafeInteger(message.id))this.pending.get(message.id)?.(message.state);
     if(message.type==='close')this.close();
-    if(message.type==='preference' && ['muted','eink','dialogue','scanlines'].includes(message.name) && typeof message.value==='boolean')this.store.preference(message.name,message.value);
+    if(message.type==='preference' && ['muted','eink','scanlines'].includes(message.name) && typeof message.value==='boolean')this.store.preference(message.name,message.value);
   }
   async snapshot(closing=false){
     if(!this.port || !this.ready)return;
@@ -174,14 +171,14 @@ class LilGotchi extends HTMLElement {
     if(state){this.store.save(this.family,state);this.updateLauncher(state);}
   }
   detachFrame(){
-    this.dialogueHost?.cancel();
+    
     clearInterval(this.heartbeat);clearTimeout(this.loadTimeout);
     this.frame?.remove();this.frame=null;this.ready=false;
     this.port?.close();this.port=null;
     for(const resolve of this.pending.values())resolve(null);
     this.pending.clear();
   }
-  async unload(){this.dialogueHost?.cancel();await this.snapshot(true);this.detachFrame();this.store.release(this.family);}
+  async unload(){await this.snapshot(true);this.detachFrame();this.store.release(this.family);}
   disconnectedCallback(){
     // Removal keeps the latest action save. The close method waits for its final snapshot.
     unlockPage(this);clearTimeout(this.savedTimer);this.detachFrame();this.store?.dispose();this.initialized=false;

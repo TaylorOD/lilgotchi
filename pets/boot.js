@@ -16,7 +16,7 @@ if(petType!=='classic') {
   document.head.append(style); await loaded;
   document.getElementById('eink-row').hidden=true;
 }
-function start(initial, muted=true, eink=false,dialogueAvailable=false,dialogueEnabled=false,scanlines=false) {
+function start(initial, muted=true, eink=false,scanlines=false) {
   for(const overlay of document.querySelectorAll('.overlay')) {
     const title=overlay.querySelector('.overlay-title');
     title.id=`${overlay.id}-title`;overlay.setAttribute('aria-labelledby',title.id);
@@ -29,7 +29,7 @@ function start(initial, muted=true, eink=false,dialogueAvailable=false,dialogueE
   window.app=new TamagotchiApp({scanlines,onScanlinesChange:value=>{
     if(channel)channel.postMessage({type:'preference',name:'scanlines',value});
     else try{localStorage.setItem('lilgotchi:scanlines',String(value));}catch{}
-  },dialogueAvailable,dialogueEnabled,onDialogueChange:value=>channel?.postMessage({type:'preference',name:'dialogue',value}),dialogueSend:message=>channel?.postMessage(message),eink:petType==='classic'&&eink,onThemeChange:value=>{
+  },eink:petType==='classic'&&eink,onThemeChange:value=>{
     if(channel)channel.postMessage({type:'preference',name:'eink',value});
     else try{localStorage.setItem('lilgotchi:eink',String(value));}catch{}
   }});
@@ -70,20 +70,19 @@ if(embedded) {
       const message=event.data;
       if(!message || typeof message.type!=='string') return;
       if(message.type==='snapshot' && Number.isSafeInteger(message.id) && window.app) {
-        if(message.closing){window.app.gameActive=false;window.app.dialogue.cancel();}
+        if(message.closing){window.app.gameActive=false;}
         channel.postMessage({type:'snapshot',id:message.id,state:JSON.parse(JSON.stringify(window.app.state))});
       }
-      if(message.type==='dialogue-result')window.app?.dialogue.receive(message);
       if(message.type==='save-status') document.getElementById('save-status').textContent=String(message.text||'').slice(0,160);
     };
     const initial=event.data.state;
-    start(validState(initial)?initial:null,event.data.muted!==false,event.data.eink===true,event.data.dialogueAvailable===true,event.data.dialogueEnabled===true,event.data.scanlines===true);
+    start(validState(initial)?initial:null,event.data.muted!==false,event.data.eink===true,event.data.scanlines===true);
   };
   window.addEventListener('message',connect);
 } else {
   let eink=false,scanlines=false;
   try{eink=localStorage.getItem('lilgotchi:eink')==='true';scanlines=localStorage.getItem('lilgotchi:scanlines')==='true';}catch{}
-  start(null,true,eink,false,false,scanlines);
+  start(null,true,eink,scanlines);
 }
 window.addEventListener('pagehide',()=>window.app?.state.save());
 window.restorePetSession=data=>{
