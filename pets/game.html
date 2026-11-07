@@ -6,6 +6,7 @@
 <title>lilgotchi</title>
 <link rel="stylesheet" href="game.css">
 <link rel="stylesheet" href="embed.css">
+<link rel="stylesheet" href="scenery.css">
 <script type="module" src="boot.js"></script>
 </head>
 <body>
@@ -16,6 +17,7 @@
   <button id="settings-btn" aria-label="Settings">&#9881;</button>
   <div id="pet-clock" aria-label="Local time"></div>
   <div id="screen-frame">
+    <div class="scene-window" aria-hidden="true"><span class="scene-orb"></span><span class="scene-land"></span></div>
     <canvas id="lcd" width="32" height="16" role="img" aria-label="Your pet"></canvas>
   </div>
   <div id="attention-bar"></div>
@@ -35,6 +37,7 @@
 </div>
 <div id="care-panel">
   <div id="pet-identity"></div>
+  <div id="growth-notice" hidden></div>
   <div id="pet-needs" aria-live="off"></div>
   <div id="care-meters" aria-label="Pet needs"></div>
   <p id="care-hint"></p>

@@ -2,7 +2,8 @@ import { now as clockNow, setSimulationTime } from './clock.js';
 // Adapted from plateaukao/tamagochi at 74c7a45. See NOTICE.md.
 import { C } from './constants.js';
 import { initializeWellbeing, advanceWellbeing, applyWellbeingAction, setManualSleep, sleepDecision, careGrade } from './wellbeing.js';
-import { updatePresentation, careAction, motionOffset } from './presentation.js';
+import { updatePresentation, careAction, motionOffset, tiltFrame } from './presentation.js';
+import { GrowthCelebration } from './celebrations.js';
 import { overlayControls } from './focus.js';
 import { limitAbsence, resumeVacation } from './away.js';
 import { GameState, Evo } from './engine.js';
@@ -22,6 +23,7 @@ export class TamagotchiApp {
     this.frame=0;
     this.presentationEnabled=true;
     this.panelVisible=true;
+    this.growth=new GrowthCelebration(document.getElementById('growth-notice'));
     this.animState=null;
     this.animTimer=0;
     this.gameActive=false;
@@ -104,12 +106,14 @@ export class TamagotchiApp {
     });
     document.getElementById('reset-game-btn').addEventListener('click',()=>{
       if(confirm(`Restart ${selectedCharacter.name}? This cannot be undone.`)){
+        this.growth?.clear();this.landingAt=null;
         this.state.clearSave(); this.state.reset(); this.animState=null; this.state.save();
         this.closeOverlay('settings-overlay'); this.closeOverlay('death-overlay');
         this.toast(`${selectedCharacter.name} started again.`);
       }
     });
     document.getElementById('restart-btn').addEventListener('click',()=>{
+      this.growth?.clear();this.landingAt=null;
       this.state.clearSave(); this.state.reset();
       this.animState=null; this.state.save(); this.updateButtons();
       this.closeOverlay('death-overlay');
@@ -185,6 +189,7 @@ export class TamagotchiApp {
     const end=clockNow(), st=this.state;
     if(st.vacationAt>0)return;
     if(st.isDead) { this.showDeath(); return; }
+    const previous={...st};
     const skipped=limitAbsence(st,end);
     const start=st.lastProcessed;
     if(end<=start) return;
@@ -207,6 +212,7 @@ export class TamagotchiApp {
     }
     this.state.lastProcessed=end;
     this.state.save();
+    this.growth?.observe(previous,st);
     if(st.isDead) this.showDeath();
     this.updateButtons();
     if(skipped>0)this.toast('Welcome back. Only eight hours passed for your pet.');
@@ -278,9 +284,11 @@ export class TamagotchiApp {
         this.sound.death(); this.showDeath();
       }
       if(!st.isDead&&Evo.checkOyajitchi(st)&&st.character!=='oyajitchi'&&Math.random()<.05){
+        const previous={...st};
         st.character='oyajitchi';
         this.sound.hatch();
         this.animState='evolve'; this.animTimer=clockNow();
+        if(!this.catchingUp){this.growth?.observe(previous,st);this.landingAt=clockNow()+2000;}
       }
     }
 
@@ -339,6 +347,7 @@ export class TamagotchiApp {
     const st=this.state;
     const r=Evo.evolve(st);
     if(!r) return;
+    const previous={...st};
     const oldStage=st.stage;
     st.stage=r.stage; st.character=r.character; st.weight=r.weight;
     st.stageStartTime=clockNow();
@@ -349,6 +358,7 @@ export class TamagotchiApp {
     if(r.stage==='teen') st.prevTeen=r.character;
     this.sound.hatch();
     this.animState='evolve'; this.animTimer=clockNow();
+    if(!this.catchingUp){this.growth?.observe(previous,st);this.landingAt=clockNow()+2000;}
     const name=characterName(r.character);
     this.toast(`Evolved into ${name}!`);
     if(!this.catchingUp) this.state.save();
@@ -639,7 +649,8 @@ export class TamagotchiApp {
     const items=[];
     if(sp){
       const fk=this.frame%90<45?'idle1':'idle2';
-      const f=sp[fk]||sp.idle1;
+      const original=sp[fk]||sp.idle1;
+      const f=this.canTilt()?tiltFrame(original,clockNow()):original;
       const cx=Math.floor((32-f[0].length)/2);
       const cy=Math.floor((16-f.length)/2)+1;
       const offset=this.petMotion();
@@ -666,7 +677,14 @@ export class TamagotchiApp {
 
   petMotion(kind='idle'){
     if(this.state.vacationAt>0||!this.presentationEnabled||this.eink||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return {x:0,y:0};
+    const elapsed=clockNow()-this.landingAt;
+    if(this.landingAt&&elapsed>=0&&elapsed<650)return motionOffset(elapsed,'land');
     return motionOffset(clockNow(),kind);
+  }
+
+  canTilt(){
+    const st=this.state;
+    return this.presentationEnabled&&!this.eink&&!st.vacationAt&&!st.poopCount&&!st.isSick&&!st.isMisbehaving&&!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   }
 
   renderAnim(R,st){
@@ -682,7 +700,7 @@ export class TamagotchiApp {
         if(this.frame%30<15) items.push({name:'meal',pixels:SP.meal,x:cx-6,y:cy+2});
         break;
       case 'evolve':
-        if(this.frame%20>=10) items.length=0;
+        if(!this.presentationEnabled&&this.frame%20>=10) items.length=0;
         break;
       case 'discipline':
         if(this.frame%20<10) items.push({name:'discipline',pixels:PF['!'],x:cx+frame[0].length+1,y:cy});
