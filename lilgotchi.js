@@ -119,7 +119,12 @@ class LilGotchi extends HTMLElement {
   emit(name,detail={}){this.dispatchEvent(new CustomEvent(`lilgotchi:${name}`,{detail,bubbles:true,composed:true}));}
   serial(callback){this.queue=this.queue.then(callback).catch(error=>this.fail(error));return this.queue;}
   status(text,error=false){const node=this.shadowRoot.querySelector('.status');if(node.textContent!==text)node.textContent=text;node.classList.toggle('error',error);}
-  fail(error){this.select.value=this.family;this.status(error.message||'Could not load lilgotchi.',true);this.shadowRoot.querySelector('.retry').hidden=false;this.emit('error',{message:error.message||'Unknown error'});}
+  fail(error){
+    this.select.value=this.family;this.status(error.message||'Could not load lilgotchi.',true);
+    const container=this.shadowRoot.querySelector('.frame');
+    container.classList.remove('is-loading');container.removeAttribute('aria-busy');container.style.minHeight='';
+    this.shadowRoot.querySelector('.retry').hidden=false;this.emit('error',{message:error.message||'Unknown error'});
+  }
   open(){return this.serial(async()=>{
     if(!this.isConnected)return;
     if(!this.inline && !this.panel.open){this.panel.showModal();lockPage(this);this.shadowRoot.querySelector('.close').focus();}
@@ -148,12 +153,15 @@ class LilGotchi extends HTMLElement {
   async mount(){
     const container=this.shadowRoot.querySelector('.frame');
     container.textContent='';
+    container.classList.add('is-loading');
+    container.setAttribute('aria-busy','true');
     this.shadowRoot.querySelector('.retry').hidden=true;
     this.status('Loading your pet…');
     let saved;
     if(!await this.store.acquire(this.family)){
       container.innerHTML='<p class="loading">This pet is active in another browser tab or page. Close that tab or page, then try again here. Closing its pet drawer keeps it active.</p>';
       this.status('Read only while another window is playing.');
+      container.classList.remove('is-loading');container.removeAttribute('aria-busy');container.style.minHeight='';
       this.shadowRoot.querySelector('.retry').hidden=false;return;
     }
     try {
@@ -166,6 +174,7 @@ class LilGotchi extends HTMLElement {
     const frame=document.createElement('iframe');
     this.frame=frame;
     frame.style.height='340px';
+    frame.style.visibility='hidden';
     frame.title=`${this.family} virtual pet game`;
     const url=new URL('./pets/game.html',import.meta.url);
     const nonce=crypto.randomUUID();
@@ -195,7 +204,13 @@ class LilGotchi extends HTMLElement {
       try{this.savePet(family,message.state);this.status(this.store.persistent?'Saved in this browser':'Progress lasts for this visit');this.savedFeedback(message.state);}
       catch(error){this.fail(error);this.detachFrame();this.store.release(family);}
     }
-    if(message.type==='ready'){this.ready=true;clearTimeout(this.loadTimeout);this.emit('ready',{character:family});}
+    if(message.type==='ready'){
+      this.ready=true;clearTimeout(this.loadTimeout);
+      if(this.frame)this.frame.style.visibility='visible';
+      const container=this.shadowRoot.querySelector('.frame');
+      container.classList.remove('is-loading');container.removeAttribute('aria-busy');container.style.minHeight='';
+      this.emit('ready',{character:family});
+    }
     if(message.type==='snapshot' && Number.isSafeInteger(message.id))this.pending.get(message.id)?.(message.state);
     if(message.type==='close')this.close();
     if(message.type==='preference' && ['muted','eink','scanlines'].includes(message.name) && typeof message.value==='boolean')this.store.preference(message.name,message.value);
@@ -211,7 +226,9 @@ class LilGotchi extends HTMLElement {
     if(state){this.savePet(this.family,state);this.updateLauncher(state);}
   }
   detachFrame(){
-    
+    // Keep the drawer's space while the next pet connects and paints.
+    const container=this.shadowRoot.querySelector('.frame');
+    if(this.frame && container)container.style.minHeight=`${Math.ceil(this.frame.getBoundingClientRect().height)}px`;
     clearInterval(this.heartbeat);clearTimeout(this.loadTimeout);
     this.frame?.remove();this.frame=null;this.ready=false;
     this.port?.close();this.port=null;
