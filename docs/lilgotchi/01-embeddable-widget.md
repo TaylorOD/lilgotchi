@@ -1,5 +1,7 @@
 # lilgotchi embeddable widget
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 lilgotchi should work on an ordinary website with a script and one element. It must not depend on Taylor's site, its styles, its paths or its build tools.
 
 ## Static install

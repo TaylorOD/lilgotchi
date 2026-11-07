@@ -66,6 +66,6 @@ lilgotchi is public and [MIT licensed](LICENSE.md). Keep the license and upstrea
 
 `npm run inventory` regenerates the original frame inventory from the pinned source.
 
-See the [difference register](docs/parity-status.md) and [module handoff](docs/module-handoff.md) for remaining work.
+See the [difference register](docs/parity-status.md) and [module map](docs/module-handoff.md) for implementation context. Outstanding verification is listed in the [release review](docs/release-review.md).
 
 The landing page includes a setup configurator and a named release download. Use `appearance="light"` for a light outer widget. The pet display keeps its family colors. See the [release packaging instructions](docs/install.md#download-and-release-packaging) for a versioned built archive.

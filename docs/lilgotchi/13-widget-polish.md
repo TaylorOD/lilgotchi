@@ -1,8 +1,12 @@
 # Widget polish
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 The launcher should show the selected pet as it was last saved. It must not imply that a closed frame is simulating live needs.
 
-## Behavior
+The last saved only launcher described below was replaced by [live care](23-live-care.md). The shipped widget updates care after its first opening while the page remains open. Before first opening it still reports the last saved state.
+
+## Historical behavior
 
 Use saved character identity with its family palette. A small dot means that the last saved state needed care. Its accessible name and tooltip say last saved, and opening runs normal offline catch up. Death and eggs have distinct labels. Never mutate or advance a save just to draw the launcher.
 

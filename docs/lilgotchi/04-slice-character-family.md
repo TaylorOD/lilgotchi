@@ -1,5 +1,7 @@
 # lilgotchi Slice character family
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 Slice starts as dough and grows into a pizza character. Every stage needs its own silhouette and complete animation frames. A few changed toppings on the same body are not enough to communicate growth.
 
 ## Proposed forms

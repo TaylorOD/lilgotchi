@@ -1,5 +1,7 @@
 # lilgotchi default character family
 
+> Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 Default uses the original clone's art unchanged. Its purpose is to make the game recognizable and give the other families a precise reference for stages, reactions and timing.
 
 ## Lifecycle

@@ -1,5 +1,7 @@
 # Pet history
 
+> Implemented design record. Requirements below describe the shipped implementation, not pending work. Hardware fidelity and external verification remain limited as recorded in the release review. See the [current status](../implementation-status.md) and [release review](../release-review.md).
+
 Keep a small local memorial in Save and help, outside the game display. It records a pet that passed away before a restart replaces its active save. It is not a score board or a second playable save.
 
 ## Data and ownership

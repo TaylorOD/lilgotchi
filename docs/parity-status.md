@@ -8,7 +8,7 @@ Energy and health are additional companion metrics, with their own migration and
 
 The sections below describe the earlier baseline and retained exceptions. They are not a claim that the new UI matches the source pixel for pixel.
 
-Default now uses the pinned original stylesheet apart from removed speech bubble styling, original sprite matrices, pixel font, control order, palette, E ink setting and sound cues. Its raster colors also match the original with the lights off. The dark outer widget remains separate.
+The original parity milestone preserved the pinned stylesheet, sprite matrices, pixel font, control order, palette, E ink setting and sound cues. The shipped compact interface now overrides presentation as described above. Original sprite data and the documented core rules remain regression references; current control order and screen layout intentionally differ.
 
 Controlled tests compare care actions and refusals, snack sickness, attention mistakes, random misbehavior, hatching and evolution with documented needs exceptions, adult mortality, secret evolution and all five rounds of winning and losing games. The screen comparison covers all 12 character identities, 12 reactions and six frame positions. Raster tests check exact paint colors and rectangles in both themes and light states. Sound tests compare frequency, duration and volume arguments for all 13 cues.
 
@@ -35,9 +35,9 @@ These checks use a fixed clock and random sequence. They do not prove hardware p
 | Display scale | Canvas stretches to the frame width | Whole device pixel cells fit inside the frame without stretching | Crisp rendering at phone sizes and browser zoom. Logical resolution and original raster colors stay unchanged |
 
 
-## Remaining differences
+## Completed artwork and clipping work
 
-| Area | Work remaining |
+| Area | Completed result |
 | --- | --- |
 | Original clipping | Corrected. EGG and needs are readable below the LCD. Complete bodies and effects remain on the 32 by 16 display |
 | Custom families | Slice and Cyberpunk provide all 12 identities and complete reaction frames. Original identity keys, evolution rules and shared effects remain unchanged |
