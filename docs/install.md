@@ -10,28 +10,6 @@ That’s it. Slice opens first, all pets are available and sound starts off. You
 
 Want to pick the pets, colors or corner? Use the [setup tool](https://www.taylordorsett.com/lilgotchi/).
 
-## Make it yours
-
-Add these settings to the script:
-
-**Starting pet:** `data-character="lilgotchi"`
-
-**Available families:** `data-characters="slice,cyberpunk"` for just those two. Use `all` for everyone.
-
-**Corner:** `data-placement="bottom-left"`. Choose `bottom-right`, `bottom-left`, `top-right` or `top-left`. Top corners open downward.
-
-**Pet button without an egg:** `data-launcher="pet"`
-
-**Light outer panel:** `data-appearance="light"`
-
-**Separate saves:** `data-storage-key="my-pets"`
-
-**Always start muted:** `data-muted`
-
-Keep your storage key the same when updating. Give separate widgets different keys.
-
-A saved pet opens before the starting pet. See the [character guide](characters.md) for all choices.
-
 ## Host your own copy
 
 [Download the zip](https://github.com/TaylorOD/lilgotchi/releases/download/v1.0.2/lilgotchi-1.0.2.zip), extract the whole folder into your site, then point the script at it:
