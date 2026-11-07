@@ -8,11 +8,11 @@ Meals, snacks, weight, hunger, happiness, discipline, waste, sickness, medicine,
 
 All three pets use the same rules with separate saves. Pizza and Cypunk replace the character artwork, including variations across evolutions. Classic keeps the original sprites. This is the open source clone's game, not official firmware or a claim of exact hardware parity. Optional AI chat is not included.
 
-Time away is processed in minute steps, capped at 25 days per catch up. Sleep uses local time. Catch up advances hatching, age and care, and preserves timer fractions across repeated opens. Random events during catch up are approximate. The clone's limits remain, including sickness blocking evolution and adult mortality rules.
+Time away is processed in minute steps, capped at eight hours per catch up. Sleep uses local time. Catch up advances hatching, age and care, and preserves timer fractions across repeated opens. Random events during catch up are approximate. The clone's limits remain, including sickness blocking evolution and adult mortality rules.
 
-Full game saves use `taylor-pocket-pets-p1-v1-{type}`. The earlier simplified save at `taylor-pocket-pets-v1` is left untouched. The new rules start with new eggs rather than inventing a history of care and discipline for old pets.
+Embedded saves belong to the host widget and its storage key. Earlier full game saves under `taylor-pocket-pets-p1-v1-{type}` can be migrated explicitly; original data stays intact. See [installation and migration](../docs/install.md).
 
-The game loads on the first click. Closing the panel removes its iframe and stops its timers and sound. There are no dependencies, accounts or API calls. Blocked browser storage falls back to the current page visit and shows a note.
+The game loads on the first click. Closing the panel keeps care active while the page remains open, but stops drawing and sound. Vacation pauses care and growth. There are no dependencies, accounts or API calls. Blocked browser storage falls back to the current page visit and shows a note.
 
 Files separate the panel, game controller, state and evolution, storage, clock, sound, renderer, font and skins. Source credits and license are in [NOTICE.md](NOTICE.md).
 
