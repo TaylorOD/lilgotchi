@@ -751,7 +751,7 @@ export class TamagotchiApp {
     this.cancelGame();
     if(this.catchingUp) return;
     document.getElementById('death-msg').textContent=
-      `${characterName(this.state.character)} lived for ${this.state.age} ${this.state.age===1?'day':'days'}. Their memory stays in Save and help.`;
+      `${characterName(this.state.character)} lived for ${this.state.age} ${this.state.age===1?'day':'days'}. Their memory stays in Settings.`;
     this.openOverlay('death-overlay');
     document.getElementById('attention-bar').classList.remove('active');
   }

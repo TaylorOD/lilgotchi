@@ -6,6 +6,7 @@ import { SaveStore, legacyFamily, parseImport } from './widget/save-store.js';
 import { validState } from './pets/valid-state.js';
 import { PetHistory } from './widget/pet-history.js';
 import { mountCareGuide } from './widget/care-guide.js';
+import { mountSettings } from './widget/settings.js';
 import { petLabel } from './widget/pet-label.js';
 
 const asset = path => new URL(path,import.meta.url).href;
@@ -33,12 +34,12 @@ class LilGotchi extends HTMLElement {
       <label class="chooser"><span class="pet-identity"></span><select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
       <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-tour">Quick tour</button> <button class="welcome-close">Got it</button></aside>
       <p class="return-summary" hidden></p><div class="frame"></div>
-      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Save and help</span><span class="status" role="status"></span></summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
+      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="game-options"></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
       <div class="guide-host"></div>
       <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
-      <footer>Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed. <a href="${asset('./pets/NOTICE.md')}" target="_blank" rel="noopener">Credits</a></footer></details>
+      <footer>Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed. <a href="${asset('./pets/NOTICE.md')}" target="_blank" rel="noopener">Credits</a></footer><button class="settings-close">Close settings</button></details>
       </${this.inline?'section':'dialog'}>`;
     this.panel=this.shadowRoot.querySelector(this.inline?'section':'dialog');
     this.select=this.shadowRoot.querySelector('select');
@@ -47,6 +48,10 @@ class LilGotchi extends HTMLElement {
     this.bind('.welcome-close','click',()=>{this.shadowRoot.querySelector('.welcome').hidden=true;this.store.preference('introduced',true);});
     this.updateLauncher();
     this.renderHistory();
+    this.settings=mountSettings(this.shadowRoot.querySelector('.game-options'),action=>{
+      if(this.ready)this.port?.postMessage({type:'configure',action});
+    });
+    this.bind('.settings-close','click',()=>{const details=this.shadowRoot.querySelector('.save-help');details.open=false;details.querySelector('summary').focus();});
     this.careGuide=mountCareGuide(this.shadowRoot.querySelector('.guide-host'));
     this.bind('.welcome-tour','click',()=>{
       this.shadowRoot.querySelector('.welcome').hidden=true;this.store.preference('introduced',true);
@@ -195,6 +200,7 @@ class LilGotchi extends HTMLElement {
   }
   receive(message,family){
     if(!message || family!==this.family || typeof message.type!=='string')return;
+    if(message.type==='configuration')this.settings?.update(message.configuration);
     if(message.type==='care-status' && validState(message.state))this.updateLauncher(message.state);
     if(message.type==='scroll' && Number.isFinite(message.delta) && Math.abs(message.delta)<=1000){
       if(this.inline)window.scrollBy(0,message.delta);else this.panel.scrollBy(0,message.delta);
@@ -205,7 +211,7 @@ class LilGotchi extends HTMLElement {
       catch(error){this.fail(error);this.detachFrame();this.store.release(family);}
     }
     if(message.type==='ready'){
-      this.ready=true;clearTimeout(this.loadTimeout);
+      this.ready=true;this.settings?.setReady(true);clearTimeout(this.loadTimeout);
       if(this.frame)this.frame.style.visibility='visible';
       const container=this.shadowRoot.querySelector('.frame');
       container.classList.remove('is-loading');container.removeAttribute('aria-busy');container.style.minHeight='';
@@ -230,7 +236,7 @@ class LilGotchi extends HTMLElement {
     const container=this.shadowRoot.querySelector('.frame');
     if(this.frame && container)container.style.minHeight=`${Math.ceil(this.frame.getBoundingClientRect().height)}px`;
     clearInterval(this.heartbeat);clearTimeout(this.loadTimeout);
-    this.frame?.remove();this.frame=null;this.ready=false;
+    this.frame?.remove();this.frame=null;this.ready=false;this.settings?.setReady(false);
     this.port?.close();this.port=null;
     for(const resolve of this.pending.values())resolve(null);
     this.pending.clear();

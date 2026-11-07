@@ -68,7 +68,7 @@ Closing waits for a final state snapshot, keeps care active and suppresses rende
 
 The original sprites and character branches are retained inside a redesigned compact interface. Slice and Cypunk include every life stage. The presentation and wellbeing additions are lilgotchi choices, not verified original hardware behavior. Import validation and replacement are covered by automated tests. See the current implementation status for browser upload verification.
 
-The drawer keeps its header reachable while the game and save tools scroll together. The private frame channel reports bounded content heights, including open overlays. Save and help contains export and import. Escape closes a game overlay before closing the drawer. Closing returns focus to the launcher. Inline mode does not trap focus in the host page. Reduced motion removes the drawer entrance and decorative game movement.
+The drawer keeps its header reachable while the game and save tools scroll together. The private frame channel reports bounded content heights, including open overlays. Settings contains export and import. Escape closes a game overlay before closing the drawer. Closing returns focus to the launcher. Inline mode does not trap focus in the host page. Reduced motion removes the drawer entrance and decorative game movement.
 
 ## Migrate the earlier personal site pets
 
@@ -93,7 +93,7 @@ Open `dist/examples/install.html` through your local HTTP server after building.
 
 The landing page generates a complete install snippet for all characters or a chosen subset, the starting pet, placement and outer shell appearance. `appearance="light"` changes only the outer widget. Dark is the default. Each family retains its game palette.
 
-Before first opening, the launcher shows last saved care. After opening, closing the drawer keeps the selected pet live while this page remains open, without sound or drawing. The care dot updates every five seconds when the browser permits. Close the browser tab or page to release this pet for another window. Vacation pauses both needs and growth. The welcome message can be dismissed per storage key. Save and help explains browser only storage and portable backups.
+Before first opening, the launcher shows last saved care. After opening, closing the drawer keeps the selected pet live while this page remains open, without sound or drawing. The care dot updates every five seconds when the browser permits. Close the browser tab or page to release this pet for another window. Vacation pauses both needs and growth. The welcome message can be dismissed per storage key. Settings explains browser only storage and portable backups.
 
 ## Download and release packaging
 
