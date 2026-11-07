@@ -6,7 +6,7 @@ A little pixel pet for your website. Feed it, play with it, and watch it grow.
 
 <p align="center">
   <a href="https://www.taylordorsett.com/lilgotchi/">
-    <img src="https://raw.githubusercontent.com/TaylorOD/lilgotchi/main/pr-screenshots/release-030-mobile.jpg" alt="lilgotchi running in its compact pet widget" width="320">
+    <img src="https://raw.githubusercontent.com/TaylorOD/lilgotchi/main/pr-screenshots/adult-slice-readme.jpg" alt="Adult Slice, Margherita, in the lilgotchi widget" width="320">
   </a>
 </p>
 
