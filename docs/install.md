@@ -3,7 +3,7 @@
 Paste this into your HTML:
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.0.1/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.0.2/embed.js"></script>
 ```
 
 That’s it. Slice opens first, all pets are available and sound starts off. Your site needs to allow custom JavaScript.
@@ -18,9 +18,7 @@ Add these settings to the script:
 
 **Available families:** `data-characters="slice,cyberpunk"` for just those two. Use `all` for everyone.
 
-**Left corner:** `data-placement="bottom-left"`
-
-**Inside your page:** `data-mode="inline"`
+**Corner:** `data-placement="bottom-left"`. Choose `bottom-right`, `bottom-left`, `top-right` or `top-left`. Top corners open downward.
 
 **Pet button without an egg:** `data-launcher="pet"`
 
@@ -30,13 +28,13 @@ Add these settings to the script:
 
 **Always start muted:** `data-muted`
 
-Put an inline script where you want the game to appear. Keep your storage key the same when updating. Give separate widgets different keys.
+Keep your storage key the same when updating. Give separate widgets different keys.
 
 A saved pet opens before the starting pet. See the [character guide](characters.md) for all choices.
 
 ## Host your own copy
 
-[Download the zip](https://github.com/TaylorOD/lilgotchi/releases/download/v1.0.1/lilgotchi-1.0.1.zip), extract the whole folder into your site, then point the script at it:
+[Download the zip](https://github.com/TaylorOD/lilgotchi/releases/download/v1.0.2/lilgotchi-1.0.2.zip), extract the whole folder into your site, then point the script at it:
 
 ```html
 <script defer src="/assets/lilgotchi/embed.js"></script>
@@ -47,7 +45,7 @@ Keep all the files together. Use the built zip, not GitHub’s source code downl
 Prefer npm? The package is available through GitHub:
 
 ```sh
-npm install https://github.com/TaylorOD/lilgotchi/releases/download/v1.0.1/lilgotchi-1.0.1.tgz
+npm install https://github.com/TaylorOD/lilgotchi/releases/download/v1.0.2/lilgotchi-1.0.2.tgz
 ```
 
 Copy `node_modules/lilgotchi/dist` into your public assets. The widget needs that whole folder.

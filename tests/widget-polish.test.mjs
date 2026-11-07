@@ -13,8 +13,12 @@ test('launcher follows saved evolution while keeping the selected family palette
   assert.equal(savedCare({vacationAt:123,hunger:0,isSick:true}), '');
 });
 test('install snippets constrain selected character and reject empty or injected configuration',()=>{
-  const snippet=installSnippet({characters:'default,cyberpunk',character:'slice',placement:'inline',appearance:'light'});
-  assert.match(snippet,/character="default"/);assert.match(snippet,/mode="inline"/);assert.match(snippet,/appearance="light"/);
+  const snippet=installSnippet({characters:'default,cyberpunk',character:'slice',placement:'top-left',appearance:'light'});
+  assert.match(snippet,/character="default"/);assert.match(snippet,/placement="top-left"/);assert.match(snippet,/appearance="light"/);
+  for(const placement of ['bottom-left','bottom-right','top-left','top-right']){
+    assert.ok(installSnippet({placement}).includes(`data-placement="${placement}"`));
+  }
+  assert.throws(()=>installSnippet({placement:'inline'}));
   assert.throws(()=>installSnippet({characters:''}));
   assert.throws(()=>installSnippet({characters:'slice" onclick="bad'}));
   assert.throws(()=>installSnippet({placement:'elsewhere'}));

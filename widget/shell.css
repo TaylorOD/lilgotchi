@@ -42,3 +42,10 @@ iframe{background:#121619;color-scheme:dark}
 
 :host([launcher=pet]) .launcher{width:auto;display:flex;align-items:center;gap:9px;padding:10px 14px}
 :host([launcher=pet]) .launcher svg{width:32px;height:36px;flex:none}.launcher-label{font-size:14px;font-weight:600}
+
+/* Top corner drawers unfold downward from their launcher. */
+:host([placement=top-left]) .launcher,:host([placement=top-right]) .launcher{top:calc(var(--lilgotchi-spacing) + env(safe-area-inset-top));bottom:auto}
+:host([placement=top-left]) .launcher{left:var(--lilgotchi-spacing);right:auto}
+:host([placement=top-left]) dialog,:host([placement=top-right]) dialog{top:calc(12px + env(safe-area-inset-top));bottom:auto;max-height:calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
+:host([placement=top-left]) dialog{left:12px;right:auto}
+@media(prefers-reduced-motion:no-preference){:host([placement=top-left]) dialog[open],:host([placement=top-right]) dialog[open]{animation-name:appear-down}@keyframes appear-down{from{transform:translateY(-18px);opacity:0}to{transform:translateY(0);opacity:1}}}
