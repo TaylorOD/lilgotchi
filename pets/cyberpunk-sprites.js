@@ -3,7 +3,7 @@ export const cyberpunkPalette = Object.freeze(['', '#d9fcff', '#102238', '#22dbe
 export const cyberpunkNames = Object.freeze({egg:'Binary Seed',babytchi:'Bit',marutchi:'Byte',tamatchi:'Runner',kuchitamatchi:'Glitch',mametchi:'Sentinel',ginjirotchi:'Courier',maskutchi:'Ghost',kuchipatchi:'Tank',nyorotchi:'Wire',tarakotchi:'Scrap',oyajitchi:'Mainframe'});
 const freeze = matrix => Object.freeze(matrix.map(row=>Object.freeze(row)));
 const canvas = (rows,height=12) => {
-  if(rows.length>height || rows.some(row=>row.length>12)) throw new Error('Cyberpunk art exceeds its canvas');
+  if(rows.length>height || rows.some(row=>row.length>12)) throw new Error('Cypunk art exceeds its canvas');
   return [...Array(height-rows.length).fill(''),...rows].map(row=>[...row.padEnd(12,'0')].map(Number));
 };
 // Each face lives inside a five by three dark panel on its own silhouette.

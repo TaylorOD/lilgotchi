@@ -4,7 +4,7 @@ export const catalog=Object.freeze([
   {id:'default',name:'Original egg',skin:'classic',character:'egg',stage:'egg'},
   ...Object.entries(originalStages).map(([id,stage])=>({id,name:id[0].toUpperCase()+id.slice(1),skin:'classic',character:id,stage})),
   {id:'slice',name:'Slice',skin:'pizza',character:'egg',stage:'egg'},
-  {id:'cyberpunk',name:'Cyberpunk',skin:'cyberpunk',character:'egg',stage:'egg'},
+  {id:'cyberpunk',name:'Cypunk',skin:'cyberpunk',character:'egg',stage:'egg'},
 ].map(Object.freeze));
 export const families=Object.freeze(catalog.map(choice=>choice.id));
 export const legacyFamily=Object.freeze(Object.fromEntries(catalog.map(choice=>[choice.id,choice.skin])));

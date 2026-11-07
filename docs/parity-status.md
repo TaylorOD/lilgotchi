@@ -40,7 +40,7 @@ These checks use a fixed clock and random sequence. They do not prove hardware p
 | Area | Completed result |
 | --- | --- |
 | Original clipping | Corrected. EGG and needs are readable below the LCD. Complete bodies and effects remain on the 32 by 16 display |
-| Custom families | Slice and Cyberpunk provide all 12 identities and complete reaction frames. Original identity keys, evolution rules and shared effects remain unchanged |
+| Custom families | Slice and Cypunk provide all 12 identities and complete reaction frames. Original identity keys, evolution rules and shared effects remain unchanged |
 
 ## Review surface
 

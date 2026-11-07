@@ -8,7 +8,7 @@ The widget should feel like a small finished game. Use a dark outer shell that f
 
 Use a small pixel character launcher, initially a slice on Taylor's site. Other installs can use the selected family icon. Give it an accessible name such as "Open lilgotchi" and a clear focus ring. Do not animate it constantly or play sound before interaction.
 
-The drawer slides in from the selected bottom corner. Its header contains lilgotchi, a labeled character selector and a close button. Use the public labels Default, Slice and Cyberpunk. Keep save status and help available without covering the game screen.
+The drawer slides in from the selected bottom corner. Its header contains lilgotchi, a labeled character selector and a close button. Use the public labels Default, Slice and Cypunk. Keep save status and help available without covering the game screen.
 
 Use a near black shell, slightly lighter controls, readable light text and one restrained accent. Do not spread host page styles into the original game. The original game controls belong inside the frame and keep their original arrangement. Avoid a second set of competing care buttons in the shell.
 

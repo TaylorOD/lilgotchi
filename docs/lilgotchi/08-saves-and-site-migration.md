@@ -2,7 +2,7 @@
 
 > Historical design plan. This records the original requirements, not an outstanding task list. Later care, layout and release changes supersede parts of this plan. See the [current status](../implementation-status.md) and [release review](../release-review.md).
 
-Each website keeps its own pets in that browser. Default, Slice and Cyberpunk have separate progress. Closing the drawer or switching families must never reset them.
+Each website keeps its own pets in that browser. Default, Slice and Cypunk have separate progress. Closing the drawer or switching families must never reset them.
 
 ## Storage ownership
 

@@ -2,7 +2,7 @@
 
 A small virtual pet for your website, based on [plateaukao/tamagochi](https://github.com/plateaukao/tamagochi).
 
-The widget runs without a backend or dependencies. Choose the original egg, any of the 11 original characters, Slice or Cyberpunk. Each choice has its own saved progress.
+The widget runs without a backend or dependencies. Choose the original egg, any of the 11 original characters, Slice or Cypunk. Each choice has its own saved progress.
 
 ## Add it to a website
 
@@ -12,7 +12,7 @@ Paste this into your page. It creates the widget and loads the hosted files. No 
 <script defer src="https://www.taylordorsett.com/lilgotchi/releases/0.2.0/embed.js"></script>
 ```
 
-Use `data-character="cyberpunk"` to change the starting pet or `data-characters="default,slice,cyberpunk"` to limit the lineup. All element settings below work on the script with a `data-` prefix. The default is Slice with all characters available. Use one script per page unless you give each widget a different `data-storage-key`.
+Use `data-character="cyberpunk"` to start with Cypunk or `data-characters="default,slice,cyberpunk"` to limit the lineup. All element settings below work on the script with a `data-` prefix. The default is Slice with all characters available. Use one script per page unless you give each widget a different `data-storage-key`.
 
 ## Host your own copy
 

@@ -175,7 +175,7 @@ class LilGotchi extends HTMLElement {
     this.frame=frame;
     frame.style.height='340px';
     frame.style.visibility='hidden';
-    frame.title=`${this.family} virtual pet game`;
+    frame.title=`${catalog.find(choice=>choice.id===this.family).name} virtual pet game`;
     const url=new URL('./pets/game.html',import.meta.url);
     const nonce=crypto.randomUUID();
     url.search=new URLSearchParams({pet:legacyFamily[this.family],character:this.family,embed:'1',parentOrigin:location.origin,nonce});

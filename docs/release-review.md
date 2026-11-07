@@ -16,7 +16,7 @@ Reviewed November 6, 2026 for the first named 0.1.0 built release. The 124 test 
 
 Actual Chrome review checked the built package at desktop, 390 by 844, 320 by 700 and 844 by 390. A 640 by 450 effective viewport at device scale 2 was inspected as an enlarged layout simulation. This is not a claim of a complete native browser zoom matrix.
 
-Observed flows: original, Slice and Cyberpunk; 90 second countdown; newborn empty needs; growth notice; scenery; busy E ink scene with all care indicators visible; reduced motion; Settings keyboard wrapping in both directions; Escape focus return; vacation on, reload and resume; four step care guide; pasted save validation, replacement and restored picker focus; memorial surviving restart; light outer shell.
+Observed flows: original, Slice and Cypunk; 90 second countdown; newborn empty needs; growth notice; scenery; busy E ink scene with all care indicators visible; reduced motion; Settings keyboard wrapping in both directions; Escape focus return; vacation on, reload and resume; four step care guide; pasted save validation, replacement and restored picker focus; memorial surviving restart; light outer shell.
 
 Closing the drawer retained the frame, stopped its frame counter and suppressed sound while lastProcessed continued advancing and the launcher exposed Live care. Before first open it remains labeled last saved.
 
