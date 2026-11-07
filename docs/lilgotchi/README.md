@@ -2,7 +2,7 @@
 
 lilgotchi is a small virtual pet widget that anyone can add to a website. It keeps the original clone's game and default artwork, adds complete Slice and Cyberpunk families, and fits inside a polished slide out panel.
 
-Documents 01 through 09 record the original implementation plan. That foundation is implemented. Documents 10 through 15 specify the current care and presentation update. See implementation-status.md for evidence and remaining external checks.
+Documents 01 through 08 record the original implementation plan. Documents 10 through 15 cover the compact care update. Documents 16 through 25 cover evidence based care, vacation, removal of AI, history, scenery, guidance, accessibility, live care, release and recovery. See ../implementation-status.md for current evidence and external verification limits.
 
 ## Separate changes
 

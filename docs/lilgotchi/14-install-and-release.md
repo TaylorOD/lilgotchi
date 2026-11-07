@@ -6,7 +6,7 @@ The landing page is the install experience. Keep playable gallery and a compact 
 
 Offer all characters or an explicit checkbox list, starting character, bottom corner or inline placement, and dark or light outer shell. Generate a complete escaped copyable snippet. Empty lists show a useful validation message and disable copying. Explain that appearance changes the outer widget, while each pet keeps its own game palette. Configuration changes do not erase demo saves.
 
-Use stable relative asset paths in examples. A download link offers the current demo build with an explicit preview label. A release recipe creates a zip from dist and identifies its version and source commit. Do not invent a published version or stable tag before it exists.
+Use stable relative asset paths in examples. The landing download points to the named built release. A release recipe creates a zip from dist and identifies its version and source commit. Do not invent a published version or stable tag before it exists.
 
 ## Acceptance
 

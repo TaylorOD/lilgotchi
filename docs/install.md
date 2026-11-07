@@ -28,9 +28,9 @@ Export also works for damaged save data so it can be kept for recovery. A damage
 
 If browser storage is unavailable or full, a session copy keeps progress for the current page visit. The UI reports that limit. Reloading or closing the browser may lose session only progress. Clearing site data removes local pets. There is no automatic cross device or cross website sync.
 
-Modern browsers use Web Locks to allow one writer per pet. A second widget or tab shows a read only notice. Close the active instance, then choose Try again in the other. Older browsers use a 15 second lease with revision checks. A suspended writer loses its lease instead of overwriting later progress. The fallback cannot provide the same atomic cross tab guarantees as Web Locks, so current browsers are recommended for simultaneous tabs.
+Modern browsers use Web Locks to allow one writer per pet. A second widget or tab shows a read only notice. Close the active browser tab or page, then choose Try again in the other. Closing only the drawer keeps its pet active. Older browsers use a 15 second lease with revision checks. A suspended writer loses its lease instead of overwriting later progress. The fallback cannot provide the same atomic cross tab guarantees as Web Locks, so current browsers are recommended for simultaneous tabs.
 
-Closing waits for a final state snapshot before removing the frame. Disconnecting the element retains the latest action or periodic save and immediately stops its frame. An interrupted guessing game earns no result. Exporting a save leaves the game running.
+Closing waits for a final state snapshot, keeps care active and suppresses rendering and sound. Disconnecting the element retains the latest action or periodic save and immediately stops its frame. An interrupted guessing game earns no result. Exporting a save leaves the game running.
 
 ## Current limits
 
@@ -61,11 +61,11 @@ Open `dist/examples/install.html` through your local HTTP server after building.
 
 The landing page generates a complete install snippet for all characters or a chosen subset, the starting pet, placement and outer shell appearance. `appearance="light"` changes only the outer widget. Dark is the default. Each family retains its game palette.
 
-The launcher shows the last saved character. Its care dot describes the last saved needs, not a live simulation while closed. Opening the widget runs normal elapsed time processing. The welcome message can be dismissed per storage key. Save and help explains browser only storage and portable backups.
+Before first opening, the launcher shows last saved care. After opening, closing the drawer keeps the selected pet live while this page remains open, without sound or drawing. The care dot updates every five seconds when the browser permits. Close the browser tab or page to release this pet for another window. Vacation pauses both needs and growth. The welcome message can be dismissed per storage key. Save and help explains browser only storage and portable backups.
 
 ## Download and release packaging
 
-[Download the current preview build](https://github.com/TaylorOD/lilgotchi/archive/refs/heads/demo.zip) for the published demo files. This is a moving preview, not an immutable release. Extract the archive and copy the contents of its top folder into your asset directory.
+[Download lilgotchi 0.1.0](https://github.com/TaylorOD/lilgotchi/releases/download/v0.1.0/lilgotchi-0.1.0.zip). This is the named built distribution. Extract its contents directly into your asset directory.
 
 For a reviewed source checkout on Windows, run `pwsh -File scripts/package-release.ps1`. It rebuilds the distribution and creates a zip in the temporary `lilgotchi-releases` folder named with the package version and source commit. Commit reviewed source before packaging so the filename identifies the actual source. Existing archives are never overwritten. Publish that zip as a release asset after reviewing the source and browser checks. A GitHub source archive is not the built distribution.
 
