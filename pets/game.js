@@ -147,6 +147,7 @@ export class TamagotchiApp {
     if(this.catchingUp) return;
     const st=this.state;
     updateStatus(st);
+    if(document.getElementById('stats-overlay')?.classList.contains?.('show')) this.renderStats();
     const btns=document.querySelectorAll('.ctrl-btn');
     btns.forEach(btn=>{
       const action=btn.dataset.action;
@@ -448,6 +449,11 @@ export class TamagotchiApp {
   }
 
   showStats(){
+    this.renderStats();
+    this.openOverlay('stats-overlay');
+  }
+
+  renderStats(){
     const st=this.state;
     const hF='\u2665', hE='\u2661';
     const hungerH=hF.repeat(st.hunger)+hE.repeat(C.MAX_HUNGER-st.hunger);
@@ -458,11 +464,10 @@ export class TamagotchiApp {
       <div class="stat-row"><span>Stage</span><span>${st.stage}</span></div>
       <div class="stat-row"><span>Age</span><span>${st.age} days</span></div>
       <div class="stat-row"><span>Weight</span><span>${st.weight} lb</span></div>
-      <div class="stat-row"><span>Hunger</span><span class="hearts">${hungerH}</span></div>
-      <div class="stat-row"><span>Happy</span><span class="hearts">${happyH}</span></div>
+      <div class="stat-row"><span>Food</span><span class="hearts">${hungerH} ${st.hunger}/4</span></div>
+      <div class="stat-row"><span>Happy</span><span class="hearts">${happyH} ${st.happiness}/4</span></div>
       <div class="stat-row"><span>Discipline</span><span>${st.discipline}%</span></div>
     `;
-    this.openOverlay('stats-overlay');
   }
 
   // -- MINI-GAME --
