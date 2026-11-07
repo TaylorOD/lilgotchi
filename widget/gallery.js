@@ -22,4 +22,8 @@ for(const choice of catalog.filter(choice=>!featured.includes(choice.id))){
   option.value=choice.id;option.textContent=`${choice.name} · ${choice.stage}`;
   select.append(option);
 }
-select.addEventListener('change',async()=>{if(select.value)await open(select.value);});
+select.addEventListener('change',async()=>{
+  const id=select.value;
+  select.value='';
+  if(id)await open(id);
+});
