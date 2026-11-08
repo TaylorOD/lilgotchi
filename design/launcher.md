@@ -1,6 +1,6 @@
 # Launcher and care badge
 
-Todo only. Implement separately from the left and right hotfix. This adds launcher options, so plan it for a minor release.
+Implemented for 1.1.0. The game plans and direction hotfix remain separate.
 
 ## Bigger pet icon
 
@@ -14,7 +14,7 @@ Add a separate brand launcher using the website's logo egg from `widget/egg.svg`
 
 Keep the button's height and make it wider to fit the logo, label and optional badge. Use a 32 to 40 pixel egg, comfortable spacing and a single line of text. Keep it clear of the screen edges and respect all four corner placements.
 
-Proposed setting: `launcher="brand"`, or `data-launcher="brand"` in the one line install. Retain the existing shell and pet options. Add the brand choice to the install builder when implemented.
+Setting: `launcher="brand"`, or `data-launcher="brand"` in the one line install. Retain the existing shell and pet options. The install builder includes the brand choice.
 
 ## Count care needs across pets
 
@@ -36,9 +36,9 @@ Use the existing elapsed time rules and storage ownership. Never start a second 
 
 ## Settings and Taylor's site
 
-Care notifications are optional for the brand launcher. Proposed setting: `notifications="on|off"`, with matching `data-notifications` support. Offer the same switch for the other launcher styles. Default new installs to on, with no badge when nothing needs care.
+Care notifications are optional for the brand launcher. Setting: `notifications="on|off"`, with matching `data-notifications` support. Offer the same switch for the other launcher styles. Default new installs to on, with no badge when nothing needs care.
 
-When this ships, use `launcher="brand" notifications="on"` on both the home and projects pages of Taylor's site. Keep bottom right placement, the existing storage key and all four families. Do not change the live site launcher until this feature is built and reviewed.
+Use `launcher="brand" notifications="on"` on both the home and projects pages of Taylor's site. Keep bottom right placement, the existing storage key and all four families.
 
 ## Done when
 
