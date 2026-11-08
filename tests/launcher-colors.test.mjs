@@ -29,6 +29,6 @@ test('original launchers match the active LCD and e ink colors',()=>{
 
 test('without a shell the launcher shows the pet and its label',()=>{
   const state={character:'mametchi'};
-  assert.equal(launcherIcon('slice',state,{shell:false}),`${launcherArt('slice',state)}<span class="launcher-label">lilgotchi</span>`);
+  assert.equal(launcherIcon('slice',state,{shell:false}),`${launcherArt('slice',state,{fit:true})}<span class="launcher-label">lilgotchi</span>`);
   assert.ok(!launcherArt('slice',state).includes('<path'));
 });
