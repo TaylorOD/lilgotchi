@@ -26,7 +26,7 @@ Feed, play, clean up and settle down for a nap. Progress stays in your browser, 
 ## Put one on your website
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.1.0/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.1.1/embed.js"></script>
 ```
 
 That’s it. No account, backend or dependencies.

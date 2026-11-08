@@ -4,7 +4,7 @@ Implemented for 1.1.0. The game plans and direction hotfix remain separate.
 
 ## Bigger pet icon
 
-Keep the compact square button. Increase the visible egg and pet artwork so it mostly fills the box. Target about 48 to 52 pixels of visible art in the existing 64 pixel button, with enough room for the rounded corners. Fit visible pixels, not blank sprite padding. Keep crisp edges and never clip a pet or shell.
+Keep the compact square button. Increase the visible egg and pet artwork so it mostly fills the box. Target at least 85% of the button height as visible egg art in the existing 64 pixel button, with enough room for the rounded corners. Fit visible pixels, not blank sprite padding. Keep crisp edges and never clip a pet or shell.
 
 The selected family still controls the shell color and pet. Check every stage, especially tall antennae and wide elders.
 
@@ -12,7 +12,7 @@ The selected family still controls the shell color and pet. Check every stage, e
 
 Add a separate brand launcher using the website's logo egg from `widget/egg.svg` beside the text `lilgotchi`. This is the fixed logo, not the selected pet or its shell. It stays the same when switching families.
 
-Keep the button's height and make it wider to fit the logo, label and optional badge. Use a 32 to 40 pixel egg, comfortable spacing and a single line of text. Keep it clear of the screen edges and respect all four corner placements.
+Keep the button's height and make it wider to fit the logo, label and optional badge. Use an egg that fills at least 85% of the button height, comfortable spacing and a single line of text. Keep it clear of the screen edges and respect all four corner placements.
 
 Setting: `launcher="brand"`, or `data-launcher="brand"` in the one line install. Retain the existing shell and pet options. The install builder includes the brand choice.
 
