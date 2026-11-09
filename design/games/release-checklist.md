@@ -31,7 +31,7 @@ Record remaining gaps honestly before calling 2.0 ready. The wider device catalo
 
 ## Current review
 
-The integrated suite passes 231 tests. The build checks local imports and assets in the package. All 44 compact identities are tested across game scenes and both motion modes.
+The integrated suite passes 233 tests. The build checks local imports and assets in the package. All 44 compact identities are tested across game scenes and both motion modes.
 
 Mobile browser checks exercised all seven games through start, controls, pause and return. Desktop review covered the picker, Bump, Memory and Sprint. The final Sprint screenshot includes lane labels and steady running feedback.
 
