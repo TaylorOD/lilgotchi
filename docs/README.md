@@ -8,6 +8,7 @@
 
 [Work on the code](development.md) or [make new sprites](frame-contract.md).
 
+[Planned games](https://github.com/TaylorOD/lilgotchi/tree/main/design/games): the next patch and future game additions.
 [Launcher plan](https://github.com/TaylorOD/lilgotchi/blob/main/design/launcher.md): bigger icons, the logo option and care counts.
 
 [Release notes](release-review.md) · [Credits](credits.md)
