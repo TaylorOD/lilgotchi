@@ -339,12 +339,12 @@ export class Arcade {
 export function arcadeCue(s) {
   if(s.paused)return "Paused";
   if(s.result)return s.result==="win"?"Nice work!":"Try another round";
-  if(s.id==="memory")return s.cue?s.cue.toUpperCase():s.phase==="answer"?"Your turn":"Watch";
+  if(s.id==="memory")return s.cue?`Watch: ${{left:"← Left",up:"↑ Up",right:"→ Right"}[s.cue]}`:s.phase==="answer"?"Your turn":"Watch";
   if(s.id==="flag"){
     if(s.phase==="rest")return s.correct?"Correct!":"Missed that one";
     return `Round ${s.round}: ${s.cue==="fake"?"Fake! Wait":s.cue?.toUpperCase()||"Wait"}`;
   }
-  if(s.phase==="countdown")return "Ready�";
+  if(s.phase==="countdown")return "Ready…";
   if(s.id==="bump")return s.phase==="meter"?"Stop in the target":s.boutWon?"You won the bout!":"Opponent wins this bout";
   if(s.id==="hoops")return s.phase==="ready"?"Press Shoot when ready":s.phase==="aim"?"Stop in the target":s.made?"Basket!":"Missed the basket";
   if(s.id==="get")return "Catch notes. Dodge poop.";
