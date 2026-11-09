@@ -640,3 +640,23 @@ export const classicSprites = {
   grave: [[0,0,1,1,1,0,0],[0,1,0,1,0,1,0],[0,1,0,1,0,1,0],[0,1,1,1,1,1,0],[0,1,0,0,0,1,0],[0,1,0,0,0,1,0],[1,1,1,1,1,1,1]],
   angel: [[0,0,1,1,1,0,0],[0,0,0,0,0,0,0],[0,0,1,1,1,0,0],[0,1,0,1,0,1,0],[1,0,0,0,0,0,1],[0,1,1,1,1,1,0]],
 };
+
+// Side glances change the face rather than mirroring the whole character.
+const glanceFaces={
+  babytchi:[1,2,6,0],marutchi:[1,2,6,1],tamatchi:[2,2,4,1],
+  kuchitamatchi:[1,2,6,0],mametchi:[2,3,4,0],ginjirotchi:[1,2,6,1],
+  maskutchi:[1,2,6,0],kuchipatchi:[1,2,6,0],nyorotchi:[1,3,5,0],
+  tarakotchi:[1,3,6,0],oyajitchi:[2,2,4,0],
+};
+for(const [id,[x,y,width,background]] of Object.entries(glanceFaces)){
+  for(const [name,left] of [['lookLeft',true],['lookRight',false]]){
+    const frame=classicSprites[id].idle1.map(row=>[...row]);
+    for(let dx=0;dx<width;dx++)frame[y][x+dx]=background;
+    const eye=x+(left?0:width-3);
+    frame[y][eye]=1-background;frame[y][eye+2]=1-background;
+    // The cheek points toward the answer while the body remains in place.
+    for(let dx=0;dx<width;dx++)frame[y+1][x+dx]=background;
+    frame[y+1][left?x:x+width-1]=1-background;
+    classicSprites[id][name]=frame;
+  }
+}

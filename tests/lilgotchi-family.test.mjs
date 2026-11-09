@@ -16,7 +16,7 @@ test('Lilgotchi grows from a small plain egg into the logo egg and cracked elder
   assert.equal(Evo.evolve(state).character,'babytchi');
   for(const [identity,frames] of Object.entries(lilgotchiSprites)) {
     assert.ok(lilgotchiNames[identity]);
-    assert.deepEqual(Object.keys(frames),identity==='egg'?['idle1','idle2']:['idle1','idle2','happy','sad','eat','sleep']);
+    assert.deepEqual(Object.keys(frames),identity==='egg'?['idle1','idle2']:['idle1','idle2','happy','sad','eat','sleep','lookLeft','lookRight']);
     for(const frame of Object.values(frames)) {
       const info=frameInfo(frame);
       assert.ok(info.width<=12 && info.height<=12);

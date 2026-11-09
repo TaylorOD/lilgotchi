@@ -19,7 +19,9 @@ test('constants, original sprites and font equal pinned upstream', () => {
   const upstream = upstreamAt();
   assert.deepEqual({...C,EGG_MS:upstream.C.EGG_MS}, plain(upstream.C));
   assert.equal(C.EGG_MS,90000);
-  assert.deepEqual(classicSprites, plain(upstream.SP));
+  const originals=structuredClone(classicSprites);
+  for(const frames of Object.values(originals)){delete frames.lookLeft;delete frames.lookRight;}
+  assert.deepEqual(originals, plain(upstream.SP));
   assert.deepEqual(PF, plain(upstream.PF));
 });
 

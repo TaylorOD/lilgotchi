@@ -365,7 +365,7 @@ export class TamagotchiApp extends PetSimulation {
   startGame(){
     if(this.state.vacationAt>0||this.state.isDead)return;
     applyWellbeingAction(this.state,'play',clockNow());
-    this.gameId=(this.gameId||0)+1;
+    this.cancelGame();
     this.gameActive=true; this.gameRound=0; this.gameWins=0;
     this.gamePhase='waiting';
     this.nextGameRound();
@@ -399,14 +399,19 @@ export class TamagotchiApp extends PetSimulation {
     document.getElementById('game-score').textContent=`Round ${this.gameRound+1}/5 | Wins: ${this.gameWins}`;
     const sp=SP[this.state.character];
     if(sp){
-      const frame=won?'happy':'sad';
+      const frame=this.gameDir===0?'lookLeft':'lookRight';
       this.renderer.renderToCanvas(document.getElementById('game-pet-canvas'),sp[frame]||sp.idle1);
     }
     this.sound[won?'happy':'sad']();
     this.gameRound++;
     const gameId=this.gameId;
-    setTimeout(()=>{
-      if(!this.gameActive || this.gameId!==gameId) return;
+    const current=()=>this.gameActive&&this.gameId===gameId&&!this.state.isDead&&!this.state.vacationAt;
+    this.gameReactionTimer=setTimeout(()=>{
+      if(!current())return;
+      if(sp)this.renderer.renderToCanvas(document.getElementById('game-pet-canvas'),sp[won?'happy':'sad']||sp.idle1);
+    },700);
+    this.gameRoundTimer=setTimeout(()=>{
+      if(!current()) return;
       if(this.gameRound>=5) this.finishGame();
       else this.nextGameRound();
     },1200);
@@ -429,7 +434,7 @@ export class TamagotchiApp extends PetSimulation {
     document.getElementById('guess-right').classList.add('disabled');
     this.state.save();
     const gameId=this.gameId;
-    setTimeout(()=>{if(this.gameId===gameId){this.closeOverlay('game-overlay'); this.updateButtons();}},2500);
+    this.gameCloseTimer=setTimeout(()=>{if(this.gameId===gameId){this.closeOverlay('game-overlay'); this.updateButtons();}},2500);
   }
 
   // -- RENDERING --
@@ -524,7 +529,9 @@ export class TamagotchiApp extends PetSimulation {
 
   motionDisabled(){return this.state.vacationAt>0||this.eink||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;}
 
-  cancelGame(){this.gameActive=false;this.gamePhase='idle';this.gameId=(this.gameId||0)+1;}
+  cancelGame(){
+    clearTimeout(this.gameReactionTimer);clearTimeout(this.gameRoundTimer);clearTimeout(this.gameCloseTimer);
+    this.gameActive=false;this.gamePhase='idle';this.gameId=(this.gameId||0)+1;}
 
   renderAnim(R,st){
     const sp=SP[st.character];
@@ -568,6 +575,7 @@ export class TamagotchiApp extends PetSimulation {
     overlayControls(overlay)[0]?.focus();
   }
   closeOverlay(id){
+    if(id==='game-overlay')this.cancelGame();
     const overlay=document.getElementById(id);
     if(!overlay?.classList.contains?.('show'))return;
     overlay.classList.remove('show');

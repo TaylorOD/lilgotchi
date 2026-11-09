@@ -9,7 +9,7 @@ test('Slice supplies immutable complete frames with distinct silhouettes and sta
   const silhouettes=new Set();
   for(const [name,frames] of Object.entries(sliceSprites)){
     assert.ok(sliceNames[name]);
-    const expected=name==='egg'?['idle1','idle2']:['idle1','idle2','happy','sad','eat','sleep'];
+    const expected=name==='egg'?['idle1','idle2']:['idle1','idle2','happy','sad','eat','sleep','lookLeft','lookRight'];
     assert.deepEqual(Object.keys(frames),expected);
     for(const pixels of Object.values(frames)){
       assert.ok(Object.isFrozen(pixels)&&pixels.every(Object.isFrozen));
