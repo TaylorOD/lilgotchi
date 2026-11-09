@@ -37,3 +37,7 @@ Progress stays in this browser on this website. Clearing site data removes it. U
 If another tab has your pet open, close that tab and choose **Try again**. If storage is blocked, progress may last only for the current visit.
 
 Remembered pets keeps a small local history of pets that passed away. Exported saves contain the active pet, not that history.
+
+## Keep a pet inactive
+
+Pick the pet, open Settings and choose Make inactive. Its progress stays saved, but it stops growing and sending notifications. It stays in the selector. Choose Start pet when you want to return.
