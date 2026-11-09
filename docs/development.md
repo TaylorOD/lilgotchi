@@ -58,10 +58,16 @@ Closing the drawer saves and stops drawing and sound. Care continues until the p
 
 ## Check and release
 
-Run `npm test`, then look at the changed screens on desktop and mobile. `/qa/` has fixed states and busy scenes. `/design/evolution/` shows every family and expression. Read the [sprite rules](frame-contract.md) before changing art.
+Run `npm test`, then look at the changed screens on desktop and mobile. `/qa/` has fixed states and busy scenes. `/design/evolution/` shows every family and expression. `/qa/directions.html` compares every left and right pose. `/qa/guess.html?pet=pizza` runs the guessing game without saving. Add `direction=right` for a repeatable first answer or `hold=1` for a frozen reveal screenshot. Read the [sprite rules](frame-contract.md) before changing art.
 
 `npm run build` creates the static folder. `npm pack` creates the installable package. On Windows, `scripts/package-release.ps1` makes a zip from a clean, committed checkout.
 
 Publish the built zip and package with a GitHub tag. Keep published version folders unchanged. Check the hosted install after deployment.
 
 Current testing gaps are in the [release notes](release-review.md).
+
+## Pull request previews
+
+Once the preview workflow is merged, same repository PRs into `main` get a preview link in a comment. It updates on each push and disappears when the PR closes. Forks do not publish previews.
+
+Previews keep their own pet saves. They leave the live demo and your pets alone. Sample pages are excluded because they use shared test saves.

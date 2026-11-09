@@ -7,7 +7,7 @@ import { lilgotchiSprites, lilgotchiPalette } from '../pets/lilgotchi-sprites.js
 const shellColors={
   classic:{edge:'#c9a882',face:'#e8d5c4',screen:'#c4cfa1'},
   eink:{edge:'#d8d8d8',face:'#f5f5f5',screen:'#f0f0f0'},
-  pizza:{edge:'#302820',face:'#594632',screen:'#29231c'},
+  pizza:{edge:'#526f70',face:'#839c98',screen:'#648e97'},
   cyberpunk:{edge:'#172c36',face:'#304e59',screen:'#0b1c24'},
   lilgotchi:{edge:'#e7c88d',face:'#fff0cc',screen:'#20281d'},
 };
@@ -46,10 +46,10 @@ export function savedCare(state) {
   return needs.length?`Needs ${needs.join(', ')}`:'';
 }
 export function launcherIcon(family,state,{shell=true,eink=false}={}) {
-  if(!shell)return `${launcherArt(family,state)}<span class="launcher-label">lilgotchi</span>`;
+  if(!shell)return `${launcherArt(family,state,{fit:true})}<span class="launcher-label">lilgotchi</span>`;
   const skin=getCharacter(family)?.skin||'classic';
   const colors=shellColors[skin==='classic'&&eink?'eink':skin]||shellColors.classic;
-  let pet=launcherArt(family,state).replace('<svg ', '<svg x="5" y="8" width="14" height="14" ');
+  let pet=launcherArt(family,state,{fit:true}).replace('<svg ', '<svg x="5" y="8" width="14" height="14" ');
   if(skin==='classic')pet=pet.replaceAll('#b4ce83',eink?'#111':'#0f380f');
   return `<svg aria-hidden="true" viewBox="0 0 24 28" shape-rendering="crispEdges"><path fill="${colors.edge}" d="M9 1h6v2h3v3h2v4h2v10h-2v4h-4v2H8v-2H4v-4H2V10h2V6h2V3h3z"/><path fill="${colors.face}" d="M9 3h5v2h3v4h2v10h-2v4H8v-2H5V10h2V6h2z"/><path fill="${colors.screen}" d="M6 8h12v14H6z"/>${pet}</svg>`;
 }

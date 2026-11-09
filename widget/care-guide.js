@@ -12,7 +12,7 @@ const steps=Object.freeze([
     'Use medicine when your pet is sick. Use discipline when it is misbehaving, rather than whenever it refuses something. Eggs need time to hatch. Later stages grow through care. A named starting character begins a fresh life at the stage shown, so an adult can be zero days old.'
   ]},
   {title:'Come back when you can', paragraphs:[
-    'While you are away, progress catches up for up to eight hours. Vacation pauses care and growth when you need a longer break. After you first open a pet, its launcher follows live care while this page remains active. Before that, it shows the last saved state. Closing the drawer keeps the pet active. Close the browser tab or page to release it for another window.',
+    'While you are away, progress catches up for up to eight hours. Vacation pauses care and growth when you need a longer break. The launcher counts care needs across your started pets while this page is active. Open the needs list to see who needs what. A pet active elsewhere may show its last saved needs. Closing the drawer keeps the pet active. Close the browser tab or page to release it for another window.',
     'Your pet saves in this browser on this website. Use Export save in Settings for a backup or to move it elsewhere. Import previews a replacement first. Clearing browser data can remove progress. If storage is unavailable, progress may last only for this visit.'
   ]}
 ]);
