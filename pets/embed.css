@@ -100,3 +100,8 @@ html[data-embedded="true"] .overlay > * { flex-shrink:0; }
 #settings-overlay .settings-info { max-width:280px; width:100%; margin:0 0 6px; text-align:left; }
 #settings-overlay #reset-game-btn { margin:8px 0 0; max-width:100%; }
 @media(forced-colors:active) { .overlay,.overlay-btn,.overlay-close { forced-color-adjust:auto; } .toggle { border:2px solid ButtonText; } }
+
+/* Full size guessing pets keep their own pixels and leave room for both arrows. */
+#game-overlay .game-area { gap:8px; max-width:100%; }
+#game-overlay .game-pet { width:128px; height:128px; flex:none; }
+#game-overlay .game-arrow { width:48px; height:48px; flex:none; font-size:28px; }
