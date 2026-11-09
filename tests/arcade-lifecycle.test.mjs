@@ -174,3 +174,13 @@ test('every arcade game offers replay after a win or loss',()=>{
   arcade.start();assert.equal(arcade.model.snapshot().result,null,id);
  }
 });
+
+
+test('evolving during a round returns to the picker before mismatched head contact',()=>{
+ const {arcade,app,counts}=setup();arcade.select('heading');arcade.start();const old=arcade.model;
+ app.state.character='oyajitchi';arcade.paint();
+ assert.equal(old.snapshot().result,'quit');assert.equal(arcade.model,null);
+ assert.equal(arcade.selection,null);assert.match(arcade.q('.arcade-instruction').textContent,/grew/);
+ assert.equal(counts().wins,0);arcade.select('heading');arcade.start();
+ assert.equal(arcade.runCharacter,'oyajitchi');assert.ok(arcade.model);
+});
