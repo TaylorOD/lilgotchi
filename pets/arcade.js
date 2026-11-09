@@ -144,7 +144,7 @@ export class Arcade {
     this.q(".arcade-announcement").textContent = "";
     this.announcementKey=null;
     this.q(".arcade-options span").textContent =
-      id === "sprint" ? " Steady running" : " Slower cues";
+      id === "sprint" ? " Steady running" : ["bump","heading"].includes(id) ? " Slower pace" : " Slower cues";
     this.showRun(true);
     this.q(".overlay-title").textContent = games[id].name;
     this.q(".arcade-instruction").textContent = games[id].instruction + (id === "sprint" ? " You: upper lane. Opponent: lower lane." : "");
@@ -152,6 +152,8 @@ export class Arcade {
     this.q(".arcade-start").hidden = false;
     this.q(".arcade-options").hidden = ![
       "memory",
+      "bump",
+      "heading",
       "flag",
       "sprint",
       "hoops",

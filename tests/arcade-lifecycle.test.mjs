@@ -136,3 +136,14 @@ test('returning to the picker or another game clears old score announcements',()
  arcade.select('get');arcade.start();assert.match(arcade.q('.arcade-announcement').textContent,/lives/);
  arcade.select('sprint');assert.equal(arcade.q('.arcade-announcement').textContent,'');
 });
+
+
+test('Bump and Heading offer Slower pace before a run',()=>{
+ for(const id of ['bump','heading']){
+  const {arcade}=setup();arcade.select(id);
+  assert.equal(arcade.q('.arcade-options').hidden,false);
+  assert.equal(arcade.q('.arcade-options span').textContent,' Slower pace');
+  arcade.q('input').checked=true;arcade.start();
+  assert.ok(arcade.model);assert.equal(arcade.q('.arcade-options').hidden,true);
+ }
+});

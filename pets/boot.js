@@ -1,5 +1,5 @@
 import { TamagotchiApp } from './game.js';
-import { overlayControls } from './focus.js';
+import { trapOverlayTab } from './focus.js';
 import { overlayContentHeight } from './overlay-size.js';
 import { petType, validState, configureStorage } from './storage.js';
 import { configurationActionId } from '../widget/settings.js';
@@ -133,12 +133,7 @@ document.addEventListener('keydown',event=>{
     } else if(channel) channel.postMessage({type:'close'});
     else if(overlay?.id==='arcade-overlay')window.app.closeOverlay(overlay.id);
   }
-  if(event.key==='Tab' && overlay) {
-    const controls=overlayControls(overlay);
-    const first=controls[0],last=controls.at(-1);
-    if(event.shiftKey && document.activeElement===first) {event.preventDefault();last?.focus();}
-    else if(!event.shiftKey && document.activeElement===last) {event.preventDefault();first?.focus();}
-  }
+  if(overlay)trapOverlayTab(event,overlay);
 });
 
 // Frames cannot naturally chain a gesture to their containing drawer.
