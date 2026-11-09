@@ -21,6 +21,6 @@ test('all six care branches resolve to the reviewed custom adults',()=>{
  }
 });
 test('Sentinel and Binary Seed retain their original expressions',()=>{
- assert.deepEqual(cyberpunkSprites.ginjirotchi,originalCypunk.mametchi);
+ for(const [expression,frame] of Object.entries(originalCypunk.mametchi))assert.deepEqual(cyberpunkSprites.ginjirotchi[expression],frame);
  assert.deepEqual(cyberpunkSprites.egg,originalCypunk.egg);
 });

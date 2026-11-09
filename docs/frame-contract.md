@@ -23,3 +23,7 @@ Keep positions on whole pixels. The hatch bar uses rows 12 through 14, so eggs s
 Run `npm test`. The bounds tests check every pet, expression and reaction, including a screen full of waste, sickness and attention marks.
 
 Then open `/qa/` and `/design/evolution/` in the browser. Look at the animation on desktop and mobile. Passing bounds tests doesn’t replace looking at the artwork.
+
+## Guessing game poses
+
+Every hatched character provides `lookLeft` and `lookRight`. Directions use the viewer's point of view. The face turns without flipping markings or moving the whole sprite. These frames fit within the 16 by 16 game canvas and work with reduced motion.
