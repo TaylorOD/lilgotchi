@@ -130,7 +130,7 @@ export class TamagotchiApp extends PetSimulation {
 
     // Visibility change
     document.addEventListener('visibilitychange',()=>{
-      if(document.hidden) { this.arcade?.pause(); this.state.save(); }
+      if(document.hidden) { this.arcade?.pause(); this.interruptGuess(); this.state.save(); }
       else { this.processMissedTime(); this.updateButtons(); }
     });
 
@@ -368,9 +368,12 @@ export class TamagotchiApp extends PetSimulation {
 
   // -- MINI-GAME --
   startGame(){
-    if(this.state.vacationAt>0||this.state.isDead||this.arcade?.unavailable())return;
+    const reason=this.arcade?.unavailable();
+    if(reason){document.getElementById('game-result').textContent=reason;document.getElementById('guess-replay').disabled=true;return;}
+    if(this.state.vacationAt>0||this.state.isDead)return;
     document.getElementById('guess-actions').hidden=false;
     document.getElementById('guess-replay').hidden=true;
+    document.getElementById('guess-replay').disabled=false;
     applyWellbeingAction(this.state,'play',clockNow());
     this.cancelGame();
     this.gameActive=true; this.gameRound=0; this.gameWins=0;
@@ -442,8 +445,17 @@ export class TamagotchiApp extends PetSimulation {
     this.state.save();
     document.getElementById('guess-actions').hidden=true;
     document.getElementById('guess-replay').hidden=false;
+    document.getElementById('guess-replay').disabled=!!this.arcade?.unavailable();
     document.getElementById('guess-replay').focus();
     this.updateButtons();
+  }
+
+  interruptGuess(){
+    if(!this.gameActive)return;
+    this.cancelGame();
+    document.getElementById('guess-actions').hidden=true;
+    document.getElementById('guess-replay').hidden=false;
+    document.getElementById('game-result').textContent='Round stopped while you were away. Play again when ready.';
   }
 
   // -- RENDERING --
