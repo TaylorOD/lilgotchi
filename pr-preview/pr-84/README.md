@@ -26,16 +26,16 @@ Feed, play, clean up and settle down for a nap. Progress stays in your browser, 
 ## Put one on your website
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.2.0/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/2.0.0/embed.js"></script>
 ```
 
 That’s it. No account, backend or dependencies.
 
 Use the [setup tool](https://www.taylordorsett.com/lilgotchi/) to pick your pets and placement. The [install guide](docs/install.md) covers hosting your own copy.
 
-## Coming in 2.0
+## Eight ways to play
 
-Seven more games, from catching notes to shooting hoops. The existing guessing game stays too. These are in development and are not in the hosted install yet. [See the game plans](design/games/README.md).
+Catch notes, bump an opponent, head a ball, repeat arrows, follow flags, race and shoot hoops. Or play the original guessing game. [See the games](design/games/README.md).
 
 ## Work on it
 

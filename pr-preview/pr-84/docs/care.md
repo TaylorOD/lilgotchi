@@ -7,7 +7,7 @@ Eggs hatch in 90 seconds. Then it’s time for food, play and sleep.
 | Control | Use it for |
 | --- | --- |
 | Feed | Meals for hunger. Snacks help happiness, but don’t overdo them |
-| Play | A five round guessing game to cheer your pet up |
+| Play | Pick one of eight games to cheer your pet up |
 | Clean, Sleep or Wake | The third button changes with what your pet needs |
 | More care | Medicine, discipline, lights and detailed stats |
 | Settings | Help, Vacation, sound, backups and remembered pets |
@@ -16,9 +16,9 @@ Use medicine when your pet is sick. It may need more than one dose. Discipline i
 
 Turning the light off only darkens the screen. Sleep gives your pet a rest. The game also follows each character’s sleep schedule.
 
-## New games preview
+## Games
 
-The 2.0 work adds Get, Bump, Heading, Memory, Flag, Sprint and Hoops alongside the guessing game. It is not released yet. The [game guide](../design/games/README.md) covers the controls and goals.
+Choose Get, Bump, Heading, Memory, Flag, Sprint or Hoops alongside the guessing game. The [game guide](../design/games/README.md) covers the controls and goals.
 
 ## Needs and growth
 
