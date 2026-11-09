@@ -9,6 +9,11 @@ This preview is not merged or released. Model tests are only part of the review.
 ## 1.2
 
 Inactive pets keep their progress without growing or sending notifications. Slice has a lighter shell and display. The launcher is a little smaller, with an inset care badge.
+## 1.2.1 preview
+
+The guessing game now shows the answer with a left or right pose before the result reaction. Every hatched pet has both poses. Round timing, odds and rewards stay the same. Closing or restarting a game cancels its pending reactions.
+
+Checked all four families in the browser and both answer directions at desktop and mobile sizes. The 156 automated checks pass. This patch is awaiting review and has not been released.
 
 ## 1.1
 
