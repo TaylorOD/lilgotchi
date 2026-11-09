@@ -5,7 +5,7 @@ import { launcherArt, launcherIcon } from '../widget/launcher.js';
 test('launcher shells distinguish the four families while retaining saved pet art',()=>{
   const families=[
     ['default','#e8d5c4','#c4cfa1'],
-    ['slice','#594632','#29231c'],
+    ['slice','#839c98','#648e97'],
     ['cyberpunk','#304e59','#0b1c24'],
     ['lilgotchi','#fff0cc','#20281d'],
   ];
@@ -32,3 +32,4 @@ test('without a shell the launcher shows the pet and its label',()=>{
   assert.equal(launcherIcon('slice',state,{shell:false}),`${launcherArt('slice',state,{fit:true})}<span class="launcher-label">lilgotchi</span>`);
   assert.ok(!launcherArt('slice',state).includes('<path'));
 });
+
