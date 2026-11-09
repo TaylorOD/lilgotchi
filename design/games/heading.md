@@ -19,3 +19,5 @@ Reserve room above the tallest pet for the ball and jump. Use a compact game pos
 ## Check it
 
 Test edge headers, misses, movement during jumps, repeat input and pause midair. One contact gives one point. Collision results must match at slow and fast frame rates. Review jump timing on touch without requiring simultaneous tiny button presses.
+
+Slower pace runs movement at 60% speed and allows 75 seconds. The countdown and jump slow down with the ball. Scoring stays the same.

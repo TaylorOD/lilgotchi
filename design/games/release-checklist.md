@@ -31,8 +31,16 @@ Record remaining gaps honestly before calling 2.0 ready. The wider device catalo
 
 ## Current review
 
-The integrated suite passes 211 tests. The build checks local imports and assets in the package. All 44 compact identities are tested across game scenes and both motion modes.
+The integrated suite passes 231 tests. The build checks local imports and assets in the package. All 44 compact identities are tested across game scenes and both motion modes.
 
 Mobile browser checks exercised all seven games through start, controls, pause and return. Desktop review covered the picker, Bump, Memory and Sprint. The final Sprint screenshot includes lane labels and steady running feedback.
 
 Still needed before release: physical phone playtesting, human screen reader and sound checks, longer balance sessions and short timing recordings. Browser control checks do not prove every game feels balanced on a real phone. Nothing is merged or published.
+
+## Followup checks
+
+Ran 3,000 seeded model sessions with delayed observations and limited input rates. These are simulated players, not human playtests. Uneven Sprint taps exposed a dropped input problem. One buffered tap fixes it without beating the steady running speed cap. Bump and Heading now offer a slower pace.
+
+Keyboard checks covered Tab, Shift Tab, arrow input, Escape, closing and reopening a paused round. Starting a game exposed a focus trap gap, now fixed and tested. Audio tests cover cue frequencies, duration, gain, mute, suspension, delayed notes and unavailable audio hardware.
+
+No physical phone was connected. Audio listening and a human screen reader session remain unverified. The browser tools do not expose video recording. The timing simulations and screenshots are not substitutes for those checks.

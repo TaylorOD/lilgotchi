@@ -17,3 +17,5 @@ Draw compact running poses on two lanes. Put race progress below the display. Ke
 ## Check it
 
 Test touch, keyboard and hold mode against the same finish threshold. Pause must stop both runners. Check ties explicitly and award a tied finish as a win. Never require uncomfortable tapping speed to finish.
+
+An early tap can queue one step at the next half second boundary. Extra taps cannot stack or beat steady running.
