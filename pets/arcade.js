@@ -96,6 +96,8 @@ export class Arcade {
   }
   open() {
     this.cancel();
+    this.q(".arcade-announcement").textContent = "";
+    this.announcementKey=null;
     this.selection = null;
     this.app.openOverlay("arcade-overlay");
     this.q(".overlay-title").textContent = "Choose a game";
@@ -140,11 +142,12 @@ export class Arcade {
   select(id) {
     this.selection = id;
     this.q(".arcade-announcement").textContent = "";
+    this.announcementKey=null;
     this.q(".arcade-options span").textContent =
       id === "sprint" ? " Steady running" : " Slower cues";
     this.showRun(true);
     this.q(".overlay-title").textContent = games[id].name;
-    this.q(".arcade-instruction").textContent = games[id].instruction;
+    this.q(".arcade-instruction").textContent = games[id].instruction + (id === "sprint" ? " You: upper lane. Opponent: lower lane." : "");
     this.q(".arcade-start").disabled = !!this.unavailable();
     this.q(".arcade-start").hidden = false;
     this.q(".arcade-options").hidden = ![
@@ -204,7 +207,7 @@ export class Arcade {
       b.className = "overlay-btn";
       b.textContent =
         action === "run" && this.q("input").checked
-          ? "Steady run"
+          ? "Run steadily"
           : action[0].toUpperCase() + action.slice(1);
       b.onclick = () => this.input(action);
       if (
@@ -269,6 +272,10 @@ export class Arcade {
   }
   paint() {
     const s = this.model.snapshot();
+    if(s.id === "sprint" && s.hold){
+      const run=this.q(".arcade-actions").children[0];
+      if(run){run.textContent=s.holding?"Stop running":"Run steadily";run.setAttribute("aria-pressed",String(s.holding));}
+    }
     this.drawPet();
     this.q(".arcade-pause").textContent = s.paused ? "Resume" : "Pause";
     const score = s.result
@@ -349,6 +356,6 @@ export function arcadeCue(s) {
   if(s.id==="hoops")return s.phase==="ready"?"Press Shoot when ready":s.phase==="aim"?"Stop in the target":s.made?"Basket!":"Missed the basket";
   if(s.id==="get")return "Catch notes. Dodge poop.";
   if(s.id==="heading")return "Jump to meet the ball";
-  if(s.id==="sprint")return "Keep running!";
+  if(s.id==="sprint")return s.hold?(s.holding?"Running steadily":"Press Run steadily to go"):"Keep running!";
   return "";
 }

@@ -7,10 +7,10 @@ function setup() {
   setSimulationTime(100000);
   const listeners={},frames=[];
   function node() {
-    const children=[],queries=new Map(),classes=new Set(['show']);
+    const children=[],queries=new Map(),classes=new Set(['show']),attributes=new Map();
     return {children,hidden:false,checked:false,textContent:'',className:'',style:{},addEventListener(){},
       classList:{contains:x=>classes.has(x),add:x=>classes.add(x),remove:x=>classes.delete(x)},
-      setAttribute(){},focus(){},append(...items){children.push(...items);},replaceChildren(...items){children.splice(0,children.length,...items);},
+      setAttribute:(name,value)=>attributes.set(name,value),getAttribute:name=>attributes.get(name)??null,focus(){},append(...items){children.push(...items);},replaceChildren(...items){children.splice(0,children.length,...items);},
       querySelector(key){if(!queries.has(key))queries.set(key,node());return queries.get(key);},
       getContext(){return {fillStyle:'',fillRect(){},clearRect(){}};}};
   }
@@ -115,4 +115,24 @@ test('clock countdown changes do not repeatedly announce score status',()=>{
  arcade.model.advance(1000);arcade.paint();
  assert.equal(arcade.q('.arcade-announcement').textContent,first);
  assert.doesNotMatch(first,/seconds|30s/);
+});
+
+
+test('Sprint identifies lanes and reports steady running as a real toggle',()=>{
+ const {arcade}=setup();arcade.select('sprint');
+ assert.match(arcade.q('.arcade-instruction').textContent,/You: upper lane. Opponent: lower lane./);
+ arcade.q('input').checked=true;arcade.start();const button=arcade.q('.arcade-actions').children[0];
+ assert.equal(button.textContent,'Run steadily');assert.equal(button.getAttribute('aria-pressed'),'false');
+ arcade.model.advance(3000);arcade.input('run');
+ assert.equal(button.textContent,'Stop running');assert.equal(button.getAttribute('aria-pressed'),'true');
+ arcade.input('run');assert.equal(button.textContent,'Run steadily');assert.equal(button.getAttribute('aria-pressed'),'false');
+ arcade.open();arcade.select('sprint');arcade.q('input').checked=false;arcade.start();
+ assert.equal(arcade.q('.arcade-actions').children[0].getAttribute('aria-pressed'),null);
+});
+test('returning to the picker or another game clears old score announcements',()=>{
+ const {arcade}=setup();arcade.select('bump');arcade.start();
+ assert.match(arcade.q('.arcade-announcement').textContent,/Bout/);
+ arcade.open();assert.equal(arcade.q('.arcade-announcement').textContent,'');
+ arcade.select('get');arcade.start();assert.match(arcade.q('.arcade-announcement').textContent,/lives/);
+ arcade.select('sprint');assert.equal(arcade.q('.arcade-announcement').textContent,'');
 });
