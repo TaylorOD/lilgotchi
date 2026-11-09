@@ -104,6 +104,8 @@ export class TamagotchiApp extends PetSimulation {
     // Game arrows
     document.getElementById('guess-left').addEventListener('click',()=>this.gameGuess(0));
     document.getElementById('guess-right').addEventListener('click',()=>this.gameGuess(1));
+    document.getElementById('guess-replay').addEventListener('click',()=>this.startGame());
+    document.getElementById('guess-exit').addEventListener('click',()=>{this.closeOverlay('game-overlay');this.arcade.open();});
 
     document.getElementById('settings-btn').addEventListener('click',()=>this.openOverlay('settings-overlay'));
     document.getElementById('eink-toggle').addEventListener('click',()=>{
@@ -366,7 +368,9 @@ export class TamagotchiApp extends PetSimulation {
 
   // -- MINI-GAME --
   startGame(){
-    if(this.state.vacationAt>0||this.state.isDead)return;
+    if(this.state.vacationAt>0||this.state.isDead||this.arcade?.unavailable())return;
+    document.getElementById('guess-actions').hidden=false;
+    document.getElementById('guess-replay').hidden=true;
     applyWellbeingAction(this.state,'play',clockNow());
     this.cancelGame();
     this.gameActive=true; this.gameRound=0; this.gameWins=0;
@@ -385,7 +389,7 @@ export class TamagotchiApp extends PetSimulation {
     document.getElementById('guess-left').classList.remove('disabled');
     document.getElementById('guess-right').classList.remove('disabled');
     const sp=SP[this.state.character];
-    if(sp) this.renderer.renderToCanvas(document.getElementById('game-pet-canvas'),sp.idle1,8);
+    if(sp) this.renderer.renderToCanvas(document.getElementById('game-pet-canvas'),sp.idle1,8,{field:true});
   }
 
   gameGuess(dir){
@@ -403,7 +407,7 @@ export class TamagotchiApp extends PetSimulation {
     const sp=SP[this.state.character];
     if(sp){
       const frame=this.gameDir===0?'lookLeft':'lookRight';
-      this.renderer.renderToCanvas(document.getElementById('game-pet-canvas'),sp[frame]||sp.idle1,8);
+      this.renderer.renderToCanvas(document.getElementById('game-pet-canvas'),sp[frame]||sp.idle1,8,{field:true});
     }
     this.sound[won?'happy':'sad']();
     this.gameRound++;
@@ -411,7 +415,7 @@ export class TamagotchiApp extends PetSimulation {
     const current=()=>this.gameActive&&this.gameId===gameId&&!this.state.isDead&&!this.state.vacationAt;
     this.gameReactionTimer=setTimeout(()=>{
       if(!current())return;
-      if(sp)this.renderer.renderToCanvas(document.getElementById('game-pet-canvas'),sp[won?'happy':'sad']||sp.idle1,8);
+      if(sp)this.renderer.renderToCanvas(document.getElementById('game-pet-canvas'),sp[won?'happy':'sad']||sp.idle1,8,{field:true});
     },700);
     this.gameRoundTimer=setTimeout(()=>{
       if(!current()) return;
@@ -421,7 +425,7 @@ export class TamagotchiApp extends PetSimulation {
   }
 
   finishGame(){
-    if(this.state.vacationAt>0||this.state.isDead)return;
+    if(!this.gameActive||this.state.vacationAt>0||this.state.isDead)return;
     this.gameActive=false;
     const won=this.gameWins>=3;
     if(won){
@@ -436,8 +440,10 @@ export class TamagotchiApp extends PetSimulation {
     document.getElementById('guess-left').classList.add('disabled');
     document.getElementById('guess-right').classList.add('disabled');
     this.state.save();
-    const gameId=this.gameId;
-    this.gameCloseTimer=setTimeout(()=>{if(this.gameId===gameId){this.closeOverlay('game-overlay'); this.updateButtons();}},2500);
+    document.getElementById('guess-actions').hidden=true;
+    document.getElementById('guess-replay').hidden=false;
+    document.getElementById('guess-replay').focus();
+    this.updateButtons();
   }
 
   // -- RENDERING --

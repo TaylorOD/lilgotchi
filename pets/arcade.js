@@ -22,7 +22,7 @@ export class Arcade {
     this.root.setAttribute("aria-modal", "true");
     this.root.setAttribute("aria-labelledby", "arcade-title");
     this.root.innerHTML =
-      '<h2 class="overlay-title" id="arcade-title">Play</h2><div class="arcade-picker"></div><p class="arcade-instruction"></p><label class="arcade-options"><input type="checkbox"><span> Slower cues</span></label><button class="overlay-btn arcade-start">Start</button><canvas class="arcade-pet" aria-label="Your pet"></canvas><div class="arcade-cue" aria-live="polite"></div><canvas class="arcade-field" width="32" height="16" aria-label="Game field"></canvas><div class="arcade-meter"><span></span><i></i></div><p class="arcade-score" aria-live="off"></p><span class="arcade-announcement" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)" role="status" aria-atomic="true"></span><div class="arcade-actions"></div><button class="overlay-btn arcade-pause">Pause</button><button class="overlay-close arcade-exit">Back to games</button>';
+      '<h2 class="overlay-title" id="arcade-title">Play</h2><div class="arcade-picker"></div><p class="arcade-instruction"></p><label class="arcade-options"><input type="checkbox"><span> Slower cues</span></label><canvas class="arcade-pet" aria-label="Your pet"></canvas><div class="arcade-cue" aria-live="polite"></div><canvas class="arcade-field" width="32" height="24" aria-label="Game field"></canvas><div class="arcade-meter"><span></span><i></i></div><p class="arcade-score" aria-live="off"></p><span class="arcade-announcement" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)" role="status" aria-atomic="true"></span><button class="overlay-btn arcade-start">Start</button><div class="arcade-actions"></div><button class="overlay-btn arcade-pause">Pause</button><button class="overlay-close arcade-exit">Back to games</button>';
     document.body.append(this.root);
     this.q = (selector) => this.root.querySelector(selector);
     this.q(".arcade-start").onclick = () => this.start();
@@ -120,6 +120,7 @@ export class Arcade {
       this.q(".arcade-picker").append(b);
     }
     this.showRun(false);
+    this.q(".arcade-instruction").hidden = false;
     this.q(".arcade-instruction").textContent = this.unavailable() || "Pick something to play.";
     this.q(".arcade-exit").textContent = "Close";
     this.q(".arcade-picker button")?.focus();
@@ -147,7 +148,9 @@ export class Arcade {
       id === "sprint" ? " Steady running" : ["bump","heading"].includes(id) ? " Slower pace" : " Slower cues";
     this.showRun(true);
     this.q(".overlay-title").textContent = games[id].name;
+    this.q(".arcade-instruction").hidden = false;
     this.q(".arcade-instruction").textContent = games[id].instruction + (id === "sprint" ? " You: upper lane. Opponent: lower lane." : "");
+    this.q(".arcade-start").textContent = "Start";
     this.q(".arcade-start").disabled = !!this.unavailable();
     this.q(".arcade-start").hidden = false;
     this.q(".arcade-options").hidden = ![
@@ -191,6 +194,7 @@ export class Arcade {
     this.cueSoundKey=null;
     this.announcementKey=null;
     this.model = games[this.selection].create({
+      sprite: SP[st.character]?.idle1,
       slow: this.q("input").checked,
       hold: this.q("input").checked,
     });
@@ -199,10 +203,12 @@ export class Arcade {
     applyWellbeingAction(st, "play", now());
     st.save();
     this.q(".arcade-start").hidden = true;
+    this.q(".arcade-instruction").hidden = true;
     this.q(".arcade-options").hidden = true;
     this.q(".arcade-field").hidden = false;
     this.q(".arcade-pet").hidden = true;
     this.q(".arcade-pause").hidden = false;
+    this.q(".arcade-actions").hidden = false;
     this.q(".arcade-actions").replaceChildren();
     for (const action of games[this.selection].actions) {
       const b = document.createElement("button");
@@ -279,6 +285,8 @@ export class Arcade {
       if(run){run.textContent=s.holding?"Stop running":"Run steadily";run.setAttribute("aria-pressed",String(s.holding));}
     }
     this.drawPet();
+    const accepting=!s.paused&&!s.result&&(s.id!=="memory"||s.phase==="answer")&&(s.id!=="flag"||s.phase==="cue");
+    for(const button of this.q(".arcade-actions").children)button.disabled=!accepting;
     this.q(".arcade-pause").textContent = s.paused ? "Resume" : "Pause";
     const score = s.result
       ? s.result === "win"
@@ -323,8 +331,9 @@ export class Arcade {
       s,
       arcadeSprite(petType, this.app.state.character),
       palette,
-      {reducedMotion:!!this.app.motionDisabled?.()},
+      {reducedMotion:!!this.app.motionDisabled?.(), frames:SP[this.app.state.character], foreground:this.app.renderer.fg, background:this.app.renderer.bg},
     );
+    if(s.result)this.q(".arcade-meter").hidden = true;
     if (
       s.result &&
       !this.settled &&
@@ -339,7 +348,13 @@ export class Arcade {
       this.app.state.save();
       this.app.updateButtons();
       this.q(".arcade-pause").hidden = true;
-      this.q(".arcade-exit").focus();
+      this.held = null;
+      this.q(".arcade-actions").hidden = true;
+      this.q(".arcade-meter").hidden = true;
+      this.q(".arcade-start").textContent = "Play again";
+      this.q(".arcade-start").hidden = false;
+      this.q(".arcade-start").disabled = !!this.unavailable();
+      this.q(".arcade-start").focus();
       for (const b of this.q(".arcade-actions").children) b.disabled = true;
     }
   }
@@ -348,8 +363,10 @@ export class Arcade {
 export function arcadeCue(s) {
   if(s.paused)return "Paused";
   if(s.result)return s.result==="win"?"Nice work!":"Try another round";
+  if(s.id==="memory"&&s.phase==="between")return "Nice! Next round…";
   if(s.id==="memory")return s.cue?`Watch: ${{left:"← Left",up:"↑ Up",right:"→ Right"}[s.cue]}`:s.phase==="answer"?"Your turn":"Watch";
   if(s.id==="flag"){
+    if(s.phase==="prepare")return "Get ready for the next flag";
     if(s.phase==="rest")return s.correct?"Correct!":"Missed that one";
     return `Round ${s.round}: ${s.cue==="fake"?"Fake! Wait":s.cue?.toUpperCase()||"Wait"}`;
   }

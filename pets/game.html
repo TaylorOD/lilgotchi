@@ -95,15 +95,17 @@
 </div>
 
 <!-- Game overlay -->
-<div role="dialog" aria-modal="true" class="overlay" id="game-overlay">
-  <div class="overlay-title">GUESS LEFT OR RIGHT!</div>
-  <div class="game-score" id="game-score">Round 1/5 | Wins: 0</div>
-  <div class="game-area">
-    <button class="game-arrow" id="guess-left" aria-label="Guess left">&#9664;</button>
-    <div class="game-pet"><canvas id="game-pet-canvas" width="16" height="16"></canvas></div>
-    <button class="game-arrow" id="guess-right" aria-label="Guess right">&#9654;</button>
+<div role="dialog" aria-modal="true" class="overlay" id="game-overlay" aria-labelledby="guess-title">
+  <h2 class="overlay-title" id="guess-title">Left and right</h2>
+  <p class="game-result" id="game-result" role="status">Guess which way your pet will look.</p>
+  <canvas class="guess-field" id="game-pet-canvas" width="256" height="192" aria-label="Your pet guessing game"></canvas>
+  <p class="game-score" id="game-score">Round 1/5 · Wins: 0</p>
+  <div class="game-area" id="guess-actions">
+    <button class="overlay-btn game-arrow" id="guess-left" aria-label="Guess left">← Left</button>
+    <button class="overlay-btn game-arrow" id="guess-right" aria-label="Guess right">Right →</button>
   </div>
-  <div class="game-result" id="game-result" role="status">&nbsp;</div>
+  <button class="overlay-btn" id="guess-replay" hidden>Play again</button>
+  <button class="overlay-close" id="guess-exit">Back to games</button>
 </div>
 
 <!-- Settings overlay -->
