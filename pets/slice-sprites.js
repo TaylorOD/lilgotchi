@@ -13,14 +13,14 @@ const drawings=[
  ['tarakotchi','Pineapple','adult',[4,5],['005555555500','052222222250','05188C188150','05188C188150','005133133500','005333333500','0053333C1500','000531885000','00005C850000','000053150000','000005500000','000055055000']],
  ['oyajitchi','Spoiled Slice','adult',[4,5],['005555555500','052222222250','051166111150','005166611500','005111111500','005111111500','000511115000','000516615000','000051150000','000051150000','000005155000','000055055000']],
 ];
-const faces={idle1:['505','000','050'],idle2:['505','000','555'],happy:['050','505','555'],sad:['000','505','050'],eat:['505','050','555'],sleep:['000','505','000'],lookLeft:['550','500','050'],lookRight:['055','005','050']};
+const faces={idle1:['505','000','050'],idle2:['505','000','555'],happy:['050','505','555'],sad:['000','505','050'],eat:['505','050','555'],sleep:['000','505','000'],lookLeft:['550','500','050'],lookRight:['055','005','050'],lookUp:['505','000','050']};
 function canvas(rows){
  if(rows.length>12||rows.some(row=>row.length>12))throw new Error('Slice proposal exceeds its display');
  return [...Array(12-rows.length).fill(''),...rows].map(row=>[...row.padEnd(12,'0')].map(value=>parseInt(value,16)));
 }
 function pose(rows,face,expression){
  const pixels=canvas(rows);
- if(expression)faces[expression].forEach((row,dy)=>[...row].forEach((value,dx)=>{if(value!=='0')pixels[face[1]+dy][face[0]+dx]=Number(value);}));
+ if(expression)faces[expression].forEach((row,dy)=>[...row].forEach((value,dx)=>{if(value!=='0')pixels[face[1]+dy-(expression==='lookUp'?1:0)][face[0]+dx]=Number(value);}));
  if(expression==='idle2'){
   const foot=pixels[11].findIndex(value=>value===5);
   if(foot>0){pixels[11][foot]=0;pixels[11][foot-1]=5;}
