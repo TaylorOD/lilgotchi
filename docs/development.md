@@ -17,6 +17,7 @@ Open [localhost:4176](http://localhost:4176). The build goes in `dist`. Keep tha
 | Widget and drawer | `lilgotchi.js`, `widget/shell.css` |
 | Hosted script | `embed.js` |
 | Saves and backups | `widget/save-store.js`, `pets/storage.js` |
+| New game models | `pets/minigames/` |
 | Game rules | `pets/engine.js`, `pets/constants.js`, `pets/game.js` |
 | Time and wellbeing | `pets/clock.js`, `pets/away.js`, `pets/wellbeing.js` |
 | Drawing and movement | `pets/renderer.js`, `pets/layout.js`, `pets/presentation.js` |
@@ -65,3 +66,11 @@ Run `npm test`, then look at the changed screens on desktop and mobile. `/qa/` h
 Publish the built zip and package with a GitHub tag. Keep published version folders unchanged. Check the hosted install after deployment.
 
 Current testing gaps are in the [release notes](release-review.md).
+
+## New games
+
+The 2.0 preview keeps game models separate from the screen. Each factory returns `input(action)`, `advance(milliseconds)`, `snapshot()`, `pause()`, `resume()` and `quit()`. Models own their score and timing. They do not touch saves, DOM nodes or pet care.
+
+Snapshots expose the game ID, phase, pause state and result. Results are `win`, `loss`, `quit` or `null`. The host owns input, drawing and reward settlement. Calling advance while paused or after a result must not change the run.
+
+Use injected randomness for repeatable tests. Check boundary inputs, duplicate rewards, pause and large time steps. Run the complete test suite before reviewing the games in desktop and mobile browsers. The [release checklist](../design/games/release-checklist.md) tracks integration evidence. Do not publish 2.0 until that review is complete.

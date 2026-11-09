@@ -1,5 +1,15 @@
 # Release notes
 
+## 2.0 preview
+
+Seven new games are in development: Get, Bump, Heading, Memory, Flag, Sprint and Hoops. The guessing game stays, with its directional sprite fix reviewed as a separate patch first.
+
+This preview is not merged or released. Model tests are only part of the review. Shared controls, care rewards, save ownership and the actual screens still need integration checks. See the [review checklist](../design/games/release-checklist.md).
+
+## 1.2
+
+Inactive pets keep their progress without growing or sending notifications. Slice has a lighter shell and display. The launcher is a little smaller, with an inset care badge.
+
 ## 1.1
 
 A bigger pet button, a logo option and care counts across your started pets. Open the needs list to jump to the pet that needs you. Notifications can be turned off in the setup tool.

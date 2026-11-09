@@ -1,6 +1,6 @@
 # Bump
 
-Todo for minor 1.1.0. Follow the [shared game rules](README.md).
+Part of the 2.0 preview. Not released yet. Follow the [shared game rules](README.md).
 
 Time a power meter to bump another pet over. The [Connection manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf) describes timing the press for maximum power.
 

@@ -1,33 +1,26 @@
 # More games for lilgotchi
 
-Todo only. Nothing here is implemented or released. Timing, scoring and controls below are proposed lilgotchi rules, not claims about the original hardware.
+The 2.0 preview adds seven games. Nothing here is released yet. The timing and scores are our rules, not a claim of exact hardware behavior.
 
-## Patch first: 1.0.3
+## First, fix the guessing game
 
-[Make the pet look left and right](left-right.md) in the existing guessing game. Ship this on its own before adding games. Keep the current rules and rewards.
+[Left and right](left-right.md) is a separate patch. The pet needs a visible turn in both directions, including symmetrical characters. Keep the existing rules and rewards.
 
-## Next minor: 1.1.0
+## The 2.0 lineup
 
-| Game | Plan |
+| Game | What you do |
 | --- | --- |
 | [Get](get.md) | Catch notes and dodge poop |
 | [Bump](bump.md) | Stop a power meter and bump an opponent |
 | [Heading](heading.md) | Move under a ball and head it upward |
 | [Memory](memory.md) | Repeat a growing arrow sequence |
-
-These four are the requested first batch. Each gets its own implementation branch and PR when work starts.
-
-## Other Connection games
-
-The 2024 Connection manual lists seven solo games. The other three have draft designs too. Decide whether they join 1.1.0 or a later minor before implementation.
-
-| Game | Plan |
-| --- | --- |
-| [Flag](flag.md) | Follow real flag cues and ignore fake ones |
-| [Sprint](sprint.md) | Race to the finish |
+| [Flag](flag.md) | Follow real cues and ignore fake ones |
+| [Sprint](sprint.md) | Tap or hold to race |
 | [Hoops](hoops.md) | Time basketball shots |
 
-The longer goal is to cover the wider Tamagotchi game catalog. That is not the same as these seven. See [the research list](catalog.md) before calling any release complete.
+The existing guessing game stays. Each new game has its own model and tests. Review them together before approving 2.0.
+
+This is the seven game Connection set, not every game from every Tamagotchi. The [catalog](catalog.md) keeps the wider research backlog separate.
 
 ## Keep the widget small
 
@@ -39,7 +32,7 @@ Use the current pet and evolution. Draw new poses when needed. A symmetrical spr
 
 ## Shared game rules
 
-Proposed for the minor release:
+The 2.0 contract:
 
 1. Keep the existing play restrictions for eggs, sleeping, sick, dead or vacation pets. Explain unavailable games beside their names. No new stage locks in the first batch.
 2. Pause the round when the drawer closes or the page hides. On return, offer Resume or Quit. No hidden timers, free points or automatic losses. Care time follows the existing game rules.

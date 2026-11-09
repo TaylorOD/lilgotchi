@@ -33,6 +33,10 @@ That’s it. No account, backend or dependencies.
 
 Use the [setup tool](https://www.taylordorsett.com/lilgotchi/) to pick your pets and placement. The [install guide](docs/install.md) covers hosting your own copy.
 
+## Coming in 2.0
+
+Seven more games, from catching notes to shooting hoops. The existing guessing game stays too. These are in development and are not in the hosted install yet. [See the game plans](design/games/README.md).
+
 ## Work on it
 
 ```sh

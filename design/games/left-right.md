@@ -1,6 +1,6 @@
 # Left and right
 
-Todo for patch 1.0.3. Fix the existing game before the new game menu ships.
+Separate patch before 2.0. Fix the existing game before the new game menu ships.
 
 ## What is wrong
 

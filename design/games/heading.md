@@ -1,6 +1,6 @@
 # Heading
 
-Todo for minor 1.1.0. Follow the [shared game rules](README.md).
+Part of the 2.0 preview. Not released yet. Follow the [shared game rules](README.md).
 
 Move under the ball and jump to head it back up. This follows the [Connection manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf).
 

@@ -1,6 +1,6 @@
 # Flag
 
-Draft todo. Candidate for 1.1.0 or a later minor. Follow the [shared game rules](README.md).
+Part of the 2.0 preview. Not released yet. Follow the [shared game rules](README.md).
 
 The [Connection manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf) has the pet raise flags to match arrows while ignoring imitation cues.
 
@@ -8,7 +8,7 @@ The [Connection manual](https://tamagotchi-official.com/manual/toy/connection/co
 
 Left and Right raise the matching flag. A Both button handles paired cues on touch. Keyboard players can use Space for Both. A fake cue requires no input. Mark fake cues with a different shape, not color alone.
 
-Play 15 cues. Get 12 right to win. Allow 1.5 seconds per cue, with a short rest between cues. No repeated tapping for extra points.
+Play 15 cues. Get 12 right to win. Allow 1.5 seconds per cue, with a half second rest between cues. Slower mode gives three seconds per cue. No repeated tapping for extra points.
 
 ## Screen and art
 

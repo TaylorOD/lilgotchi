@@ -1,12 +1,12 @@
 # Hoops
 
-Draft todo. Candidate for 1.1.0 or a later minor. Follow the [shared game rules](README.md).
+Part of the 2.0 preview. Not released yet. Follow the [shared game rules](README.md).
 
 Time a shot into a basketball hoop, as described in the [Connection manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf).
 
 ## Our version
 
-Shoot or Space stops an aim meter. Make the basket when the marker lands in its visible target. Play five shots and score three to win. Narrow the target slightly after each successful shot. Give time to read the next shot before starting the meter.
+Shoot or Space stops an aim meter. Make the basket when the marker lands in its visible target. Play five shots and score three to win. Narrow the target slightly after each successful shot. Each shot waits for Ready before starting the meter. The meter travels out and back in 2.4 seconds, or four seconds in slower mode. The ball takes 900 ms to land. Target edges count as a hit.
 
 ## Screen and art
 
