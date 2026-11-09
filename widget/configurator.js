@@ -1,5 +1,5 @@
 import { catalog } from '../pets/catalog.js';
-import { installSnippet } from './install-snippet.js';
+import { installSnippet } from './install-snippet.js?v=2.0.0';
 const form=document.querySelector('#setup');
 const list=form.querySelector('.character-options');
 for(const choice of catalog){
