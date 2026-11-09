@@ -73,6 +73,7 @@ export class Arcade {
     });
     const loop = (time) => {
       if (this.model) {
+        if(this.petChanged()){this.last=time;requestAnimationFrame(loop);return;}
         if (app.state.isDead || app.state.vacationAt > 0) {
           this.cancel();
           this.last = time;
@@ -193,6 +194,7 @@ export class Arcade {
     }
     this.cueSoundKey=null;
     this.announcementKey=null;
+    this.runCharacter = st.character;
     this.model = games[this.selection].create({
       sprite: SP[st.character]?.idle1,
       slow: this.q("input").checked,
@@ -235,6 +237,7 @@ export class Arcade {
     this.root.focus();
   }
   input(action) {
+    if(this.petChanged())return;
     if (this.app.state.isDead || this.app.state.vacationAt > 0) {
       this.cancel();
       return;
@@ -268,7 +271,14 @@ export class Arcade {
       this.paint();
     } else this.pause();
   }
+  petChanged() {
+    if(!this.model||!this.runCharacter||this.runCharacter===this.app.state.character)return false;
+    this.open();
+    this.q(".arcade-instruction").textContent="Your pet grew! Pick a game for your new look.";
+    return true;
+  }
   cancel() {
+    this.runCharacter = null;
     this.held = null;
     this.model?.quit();
     this.model = null;
@@ -279,6 +289,7 @@ export class Arcade {
     if (sp) this.app.renderer.renderToCanvas(this.q(".arcade-pet"), sp.idle1);
   }
   paint() {
+    if(this.petChanged())return;
     const s = this.model.snapshot();
     if(s.id === "sprint" && s.hold){
       const run=this.q(".arcade-actions").children[0];

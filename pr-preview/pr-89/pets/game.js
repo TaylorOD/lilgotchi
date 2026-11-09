@@ -376,6 +376,7 @@ export class TamagotchiApp extends PetSimulation {
     document.getElementById('guess-replay').disabled=false;
     applyWellbeingAction(this.state,'play',clockNow());
     this.cancelGame();
+    this.gameCharacter=this.state.character;
     this.gameActive=true; this.gameRound=0; this.gameWins=0;
     this.gamePhase='waiting';
     this.nextGameRound();
@@ -415,7 +416,7 @@ export class TamagotchiApp extends PetSimulation {
     this.sound[won?'happy':'sad']();
     this.gameRound++;
     const gameId=this.gameId;
-    const current=()=>this.gameActive&&this.gameId===gameId&&!this.state.isDead&&!this.state.vacationAt;
+    const current=()=>this.gameActive&&this.gameId===gameId&&this.gameCharacter===this.state.character&&!this.state.isDead&&!this.state.vacationAt;
     this.gameReactionTimer=setTimeout(()=>{
       if(!current())return;
       if(sp)this.renderer.renderToCanvas(document.getElementById('game-pet-canvas'),sp[won?'happy':'sad']||sp.idle1,8,{field:true});
@@ -460,6 +461,10 @@ export class TamagotchiApp extends PetSimulation {
 
   // -- RENDERING --
   render(){
+    if(this.gameActive&&this.gameCharacter!==this.state.character){
+      this.interruptGuess();
+      document.getElementById('game-result').textContent='Your pet grew! Play again with your new look.';
+    }
     const R=this.renderer, st=this.state;
     R.clear();
     const still=this.motionDisabled();
