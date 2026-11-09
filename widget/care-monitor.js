@@ -1,3 +1,4 @@
+import { inactiveSince } from './inactive.js';
 import { PetSimulation } from '../pets/simulation.js';
 
 export function careNeeds(state, memorialSeen) {
@@ -27,7 +28,7 @@ export async function refreshCare(store, families, activeFamily, advance = advan
     let acquired = false;
     try {
       // Never reload an active writer's revision or simulate its state twice.
-      if (family === activeFamily) continue;
+      if (family === activeFamily || inactiveSince(store,family)) continue;
       const raw = store.raw(family);
       if (!raw) continue;
       const recent=JSON.parse(raw)?.state;
