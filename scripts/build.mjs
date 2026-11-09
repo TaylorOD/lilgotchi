@@ -17,6 +17,7 @@ for(const folder of ['widget','pets']){
 }
 await cp(resolve(root,'pets/minigames'),resolve(out,'pets/minigames'),{recursive:true});
 await cp(resolve(root,'docs'),resolve(out,'docs'),{recursive:true});
+await cp(resolve(root,'design/games'),resolve(out,'design/games'),{recursive:true});
 await cp(resolve(root,'examples'),resolve(out,'examples'),{recursive:true});
 await mkdir(resolve(out,'reference'));
 await copyFile(resolve(root,'reference/source.json'),resolve(out,'reference/source.json'));

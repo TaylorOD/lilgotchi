@@ -1,6 +1,6 @@
 # Memory
 
-Part of the 2.0 preview. Not released yet. Follow the [shared game rules](README.md).
+Included in 2.0. Follow the [shared game rules](README.md).
 
 Watch arrows and repeat their order. The [Connection manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf) uses left, up and right.
 

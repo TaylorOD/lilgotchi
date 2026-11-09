@@ -1,6 +1,6 @@
 # Sprint
 
-Part of the 2.0 preview. Not released yet. Follow the [shared game rules](README.md).
+Included in 2.0. Follow the [shared game rules](README.md).
 
 The [Connection manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf) describes repeated button presses to race toward the finish.
 

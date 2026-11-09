@@ -1,10 +1,10 @@
 # More games for lilgotchi
 
-The 2.0 preview adds seven games. Nothing here is released yet. The timing and scores are our rules, not a claim of exact hardware behavior.
+2.0 adds seven games. The timing and scores are our rules, not a claim of exact hardware behavior.
 
-## First, fix the guessing game
+## The guessing game
 
-[Left and right](left-right.md) is a separate patch. The pet needs a visible turn in both directions, including symmetrical characters. Keep the existing rules and rewards.
+[Left and right](left-right.md) now shows a visible turn in both directions, including symmetrical characters. Its rules and rewards stay the same.
 
 ## The 2.0 lineup
 
@@ -18,7 +18,7 @@ The 2.0 preview adds seven games. Nothing here is released yet. The timing and s
 | [Sprint](sprint.md) | Tap or hold to race |
 | [Hoops](hoops.md) | Time basketball shots |
 
-The existing guessing game stays. Each new game has its own model and tests. Review them together before approving 2.0.
+The existing guessing game stays. Each new game has its own model and tests. They share controls, pause behavior and care rewards.
 
 This is the seven game Connection set, not every game from every Tamagotchi. The [catalog](catalog.md) keeps the wider research backlog separate.
 
@@ -41,9 +41,9 @@ The 2.0 contract:
 5. Keep an unfinished run in memory only. Reloading ends it without a reward. High scores are outside the first batch.
 6. Keep sound optional. Every sound cue needs a visible cue. Reduced motion removes decoration, not essential game feedback. Pause stays available. Announce instructions, results and discrete cues without reading every animation frame.
 
-## Still under review
+## Review notes
 
-The models, game screens and compact character art are implemented. Automated checks and browser control checks pass. Physical phone playtesting, audio and screen reader checks, and longer balance sessions remain before release. See the [review checklist](release-checklist.md).
+The models, game screens and compact character art are implemented. Automated checks and browser control checks pass. Taylor approved the release. Physical phone playtesting, audio listening, human screen reader checks and longer balance sessions remain unverified. See the [review checklist](release-checklist.md).
 
 ## Before shipping
 

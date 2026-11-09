@@ -13,6 +13,7 @@ test('release rebuild removes stale files and contains all local runtime imports
   assert.equal(output.some(file=>/[/\\](qa|tests|server-example)[/\\]|\.test\.|[/\\](panel|widget)\.(js|css)$|stale\.txt$/.test(file)),false);
   const version=JSON.parse(await readFile(resolve(dist,'version.json')));assert.equal(version.version,JSON.parse(await readFile(resolve(root,'package.json'))).version);
   await access(resolve(dist,'LICENSE.md'));await access(resolve(dist,'examples/install.html'));
+  for(const guide of ['README','get','bump','heading','memory','flag','sprint','hoops','release-checklist'])await access(resolve(dist,`design/games/${guide}.md`));
   for(const file of output.filter(name=>/\.(js|css|html)$/.test(name))){
     const text=await readFile(file,'utf8');
     const paths=[...text.matchAll(/(?:from\s*|import\s*|import\(|new URL\(|asset\()\s*['"](\.[^'"]+)['"]|(?:src|href)=["']([^"'#]+)["']|url\(['"]?([^)'"\s]+)['"]?\)/g)];

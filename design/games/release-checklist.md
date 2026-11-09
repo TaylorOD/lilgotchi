@@ -5,7 +5,7 @@
 1. 1.2.1 fixes looking left and right in the guessing game. Keep its rules and rewards.
 2. 2.0 adds Get, Bump, Heading, Memory, Flag, Sprint and Hoops, alongside the guessing game.
 
-Both need review. Nothing is merged, tagged or published without Taylor saying so.
+Taylor approved both releases on November 9, 2026. Merge the patch first, then release 2.0.
 
 ## Review each game
 
@@ -35,7 +35,7 @@ The integrated suite passes 233 tests. The build checks local imports and assets
 
 Mobile browser checks exercised all seven games through start, controls, pause and return. Desktop review covered the picker, Bump, Memory and Sprint. The final Sprint screenshot includes lane labels and steady running feedback.
 
-Still needed before release: physical phone playtesting, human screen reader and sound checks, longer balance sessions and short timing recordings. Browser control checks do not prove every game feels balanced on a real phone. Nothing is merged or published.
+Unverified checks: physical phone playtesting, human screen reader and sound checks, longer balance sessions and short timing recordings. Browser control checks do not prove every game feels balanced on a real phone. Taylor approved release with these gaps recorded.
 
 ## Followup checks
 
