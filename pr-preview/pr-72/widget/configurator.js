@@ -13,7 +13,7 @@ function update(){
   const chosen=all?catalog:catalog.filter(choice=>list.querySelector(`input[value="${choice.id}"]`).checked);
   const previous=first.value||'slice';first.replaceChildren(...chosen.map(choice=>new Option(choice.name,choice.id)));
   first.value=chosen.some(c=>c.id===previous)?previous:chosen[0]?.id||'';
-  try{code.textContent=installSnippet({characters:all?'all':chosen.map(c=>c.id).join(','),character:first.value,placement:form.elements.placement.value,appearance:form.elements.appearance.value});copy.disabled=false;status.textContent='';}
+  try{code.textContent=installSnippet({characters:all?'all':chosen.map(c=>c.id).join(','),character:first.value,placement:form.elements.placement.value,appearance:form.elements.appearance.value,launcher:form.elements.launcher.value,notifications:form.elements.notifications.value});copy.disabled=false;status.textContent='';}
   catch{code.textContent='Choose at least one character.';copy.disabled=true;status.textContent='Choose at least one character to make your snippet.';}
 }
 form.addEventListener('change',update);

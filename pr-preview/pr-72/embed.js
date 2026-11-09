@@ -2,7 +2,7 @@
   const script = document.currentScript;
   if (!script) return;
   const loader = new URL('./lilgotchi.js', script.src).href;
-  const settings = ['character', 'characters', 'placement', 'appearance', 'storage-key', 'mode', 'muted', 'launcher'];
+  const settings = ['character', 'characters', 'placement', 'appearance', 'storage-key', 'mode', 'muted', 'launcher', 'notifications'];
   const attributes = settings.filter(name => script.hasAttribute(`data-${name}`))
     .map(name => [name, script.getAttribute(`data-${name}`)]);
   const ready = document.readyState === 'loading'

@@ -6,7 +6,7 @@ A little pixel pet for your website. Feed it, play with it, and watch it grow.
 
 <p align="center">
   <a href="https://www.taylordorsett.com/lilgotchi/">
-    <img src="https://raw.githubusercontent.com/TaylorOD/lilgotchi/main/pr-screenshots/adult-slice-readme.jpg" alt="Adult Slice in the lilgotchi widget" width="320">
+    <img src="https://raw.githubusercontent.com/TaylorOD/lilgotchi/main/pr-screenshots/adult-margherita-readme.jpg" alt="Adult Margherita in the lilgotchi widget" width="320">
   </a>
 </p>
 
@@ -26,7 +26,7 @@ Feed, play, clean up and settle down for a nap. Progress stays in your browser, 
 ## Put one on your website
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.0.2/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/1.2.0/embed.js"></script>
 ```
 
 That’s it. No account, backend or dependencies.
