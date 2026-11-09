@@ -27,12 +27,11 @@ Then open `/qa/` and `/design/evolution/` in the browser. Look at the animation 
 ## Guessing game poses
 
 Every hatched character provides `lookLeft` and `lookRight`. Directions use the viewer's point of view. The face turns without flipping markings or moving the whole sprite. These frames fit within the 16 by 16 game canvas and work with reduced motion.
-<<<<<<< HEAD
 
 ## Small game portraits
 
 `pets/arcade-sprites.js` has separate 8 by 6 portraits for every hatched identity. These use each family's existing palette. They are drawn for the playfield, not scaled down at runtime.
 
 Get and Heading place the portrait at `x = center - 4`, `y = 10 - jump`. That leaves the top ten rows for falling objects. Keep collision coordinates aligned with those positions. `/qa/compact.html` shows all 44 portraits.
-=======
->>>>>>> origin/main
+
+The guessing game draws its full poses at eight screen pixels per sprite pixel. Other previews keep the default scale of four. The pet gets a 128 by 128 area, with smaller arrow buttons beside it so the layout fits narrow screens.
