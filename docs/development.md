@@ -65,3 +65,9 @@ Run `npm test`, then look at the changed screens on desktop and mobile. `/qa/` h
 Publish the built zip and package with a GitHub tag. Keep published version folders unchanged. Check the hosted install after deployment.
 
 Current testing gaps are in the [release notes](release-review.md).
+
+## Pull request previews
+
+Once the preview workflow is merged, same repository PRs into `main` get a preview link in a comment. It updates on each push and disappears when the PR closes. Forks do not publish previews.
+
+Previews keep their own pet saves. They leave the live demo and your pets alone. Sample pages are excluded because they use shared test saves.
