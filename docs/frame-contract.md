@@ -33,3 +33,4 @@ Every hatched character provides `lookLeft` and `lookRight`. Directions use the 
 `pets/arcade-sprites.js` has separate 8 by 6 portraits for every hatched identity. These use each family's existing palette. They are drawn for the playfield, not scaled down at runtime.
 
 Get and Heading place the portrait at `x = center - 4`, `y = 10 - jump`. That leaves the top ten rows for falling objects. Keep collision coordinates aligned with those positions. `/qa/compact.html` shows all 44 portraits.
+The guessing game draws its full poses at eight screen pixels per sprite pixel. Other previews keep the default scale of four. The pet gets a 128 by 128 area, with smaller arrow buttons beside it so the layout fits narrow screens.

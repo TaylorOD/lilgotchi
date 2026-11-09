@@ -104,3 +104,7 @@ html[data-embedded="true"] .overlay > * { flex-shrink:0; }
 .arcade-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%}.arcade-instruction,.arcade-score{margin:0;text-align:center;max-width:30ch}.arcade-actions{display:flex;gap:8px;width:100%}.arcade-actions button{flex:1}.arcade-field{width:100%;max-width:320px;image-rendering:pixelated;aspect-ratio:2}.arcade-pet{width:64px;height:64px;object-fit:contain;image-rendering:pixelated}.arcade-cue{min-height:28px;font-size:20px;text-align:center}.arcade-options{font-size:13px}
 
 .arcade-meter{height:24px;width:90%;position:relative;background:#283b45;border:1px solid #96aaa4}.arcade-meter span{position:absolute;inset-block:0;background:#5e9c70}.arcade-meter i{position:absolute;top:0;bottom:0;width:3px;background:white}.arcade-actions button{touch-action:none}
+/* Full size guessing pets keep their own pixels and leave room for both arrows. */
+#game-overlay .game-area { gap:8px; max-width:100%; }
+#game-overlay .game-pet { width:128px; height:128px; flex:none; }
+#game-overlay .game-arrow { width:48px; height:48px; flex:none; font-size:28px; }

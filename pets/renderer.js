@@ -80,10 +80,11 @@ export class Renderer {
           this.ctx.fillRect(x*s+gap,y*s+gap,s-gap,s-gap);
         }
   }
-  renderToCanvas(canvas,sp){
+  renderToCanvas(canvas,sp,scale=4){
     frameInfo(sp);
     const ctx=canvas.getContext('2d');
-    const s=4;
+    if(!Number.isSafeInteger(scale)||scale<1)throw new RangeError("Sprite scale must be a positive integer");
+    const s=scale;
     canvas.width=sp[0].length*s;
     canvas.height=sp.length*s;
     ctx.fillStyle=this.bg;
