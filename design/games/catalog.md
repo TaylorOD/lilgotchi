@@ -4,7 +4,7 @@ Research todo. This is not a complete list of every Tamagotchi game.
 
 ## Confirmed Connection set
 
-The [2024 Bandai manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf) lists Get, Bump, Flag, Heading, Memory, Sprint and Hoops. It also has connected play using Gotchi points and items. Those multiplayer activities need a separate design if we add them.
+The [2024 Bandai manual](https://www.bandai.com/amfile/file/download/file/242/product/1304058/) lists Get, Bump, Flag, Heading, Memory, Sprint and Hoops. It also has connected play using Gotchi points and items. Those multiplayer activities need a separate design if we add them.
 
 ## Older versions add more
 

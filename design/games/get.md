@@ -2,7 +2,7 @@
 
 Included in 2.0. Follow the [shared game rules](README.md).
 
-Catch falling notes. Avoid poop. This is the objective in the [Connection manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf).
+Catch falling notes. Avoid poop. This is the objective in the [Connection manual](https://www.bandai.com/amfile/file/download/file/242/product/1304058/).
 
 ## Our version
 
