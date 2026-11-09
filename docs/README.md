@@ -8,6 +8,7 @@
 
 [Work on the code](development.md) or [make new sprites](frame-contract.md).
 
+[Game guides](../design/games/README.md): controls, rules and the games still on our list.
 [Launcher plan](https://github.com/TaylorOD/lilgotchi/blob/main/design/launcher.md): bigger icons, the logo option and care counts.
 
 [Release notes](release-review.md) · [Credits](credits.md)
