@@ -41,6 +41,10 @@ The 2.0 contract:
 5. Keep an unfinished run in memory only. Reloading ends it without a reward. High scores are outside the first batch.
 6. Keep sound optional. Every sound cue needs a visible cue. Reduced motion removes decoration, not essential game feedback. Pause stays available. Announce instructions, results and discrete cues without reading every animation frame.
 
+## Still under review
+
+The models are implemented and have deterministic tests. Compact character poses, complete game screens and browser playtesting still need review. The art sections below are acceptance requirements, not a claim that every pose is finished.
+
 ## Before shipping
 
 Verify input, collisions, scoring, pause, exit, repeat rewards and family switching. Test every hatched sprite against screen bounds. Review the actual games in desktop and mobile browsers, including touch targets, keyboard focus and muted play. Capture screenshots in each PR. For timing games, also review a short recording.

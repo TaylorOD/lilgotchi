@@ -8,7 +8,7 @@ Move under the ball and jump to head it back up. This follows the [Connection ma
 
 Use Left, Jump and Right below the display. Arrow keys move and Space jumps. The pet can move while a jump is in progress, but cannot jump again until it lands.
 
-A successful header adds one point and sends the ball upward. Ten headers win. Three missed balls end the run. After a miss, give a countdown before the next ball. Slightly increase speed after every third header. Cap the run at 45 seconds.
+A successful header adds one point and sends the ball upward. Ten headers win. Three missed balls end the run. After a miss, give a one second countdown before the next ball. Slightly increase speed after every third header. Cap the run at 45 seconds.
 
 ## Screen and art
 

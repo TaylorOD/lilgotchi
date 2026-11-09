@@ -6,9 +6,9 @@ Time a power meter to bump another pet over. The [Connection manual](https://tam
 
 ## Our version
 
-One Bump button stops a meter that moves up and down. Space does the same. Give a visible countdown before the meter starts. Do not reward repeated tapping.
+One Bump button stops a meter that moves up and down. Space does the same. Give a 1.5 second countdown before the meter starts. The meter times out after six seconds, losing that bout. Do not reward repeated tapping.
 
-Play three bouts. Each has a clearly marked target region. Stopping inside it wins the bout. Win two bouts to win the run. Make the target narrower in later bouts. This is a timing challenge with no hidden random loss after a successful stop.
+Play three bouts. Each has a clearly marked target region. Stopping inside it wins the bout. Win two bouts to win the run. The inclusive target ranges are 60 to 85, 63 to 82 and 66 to 79 on the 0 to 100 meter. This is a timing challenge with no hidden random loss after a successful stop.
 
 ## Screen and art
 
