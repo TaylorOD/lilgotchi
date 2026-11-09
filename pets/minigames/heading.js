@@ -1,12 +1,14 @@
 import { model, clamp } from "./model.js";
-export function createHeading({ random = Math.random } = {}) {
+export function createHeading({ random = Math.random, slow = false } = {}) {
+  const duration = slow ? 75000 : 45000;
+  const speed = slow ? 0.6 : 1;
   const s = {
     id: "heading",
     phase: "countdown",
     result: null,
     paused: false,
     elapsed: 0,
-    remaining: 45000,
+    remaining: duration,
     score: 0,
     misses: 0,
     x: 16,
@@ -28,7 +30,8 @@ export function createHeading({ random = Math.random } = {}) {
     s,
     (dt) => {
       s.elapsed += dt;
-      s.remaining = Math.max(0, 45000 - s.elapsed);
+      s.remaining = Math.max(0, duration - s.elapsed);
+      dt *= speed;
       s.phaseTime += dt;
       if (jumpTime >= 0) {
         jumpTime += dt;

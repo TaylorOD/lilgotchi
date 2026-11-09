@@ -1,5 +1,6 @@
 import { model } from "./model.js";
-export function createBump() {
+export function createBump({ slow = false } = {}) {
+  const period = slow ? 3200 : 1600;
   const s = {
     id: "bump",
     phase: "countdown",
@@ -26,8 +27,8 @@ export function createBump() {
         s.phase = "meter";
         s.phaseTime = 0;
       } else if (s.phase === "meter") {
-        const t = s.phaseTime % 1600;
-        s.meter = t <= 800 ? t / 8 : (1600 - t) / 8;
+        const t = s.phaseTime % period;
+        s.meter = t <= period / 2 ? (t / period) * 200 : ((period - t) / period) * 200;
         if (s.phaseTime >= 6000) settle(false);
       } else if (s.phase === "reveal" && s.phaseTime >= 1200) {
         if (s.bout === 3) {

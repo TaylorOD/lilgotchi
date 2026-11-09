@@ -11,7 +11,8 @@ export function createSprint({ hold = false, slow = false } = {}) {
     progress = 0,
     lastTap = -tapInterval,
     holding = false,
-    nextHold = 0;
+    nextHold = 0,
+    queuedTap = false;
   function settle() {
     if (progress >= finish) {
       progress = finish;
@@ -32,10 +33,13 @@ export function createSprint({ hold = false, slow = false } = {}) {
       }
       if (!hold && action === "run" && elapsed - lastTap >= tapInterval) {
         lastTap = elapsed;
+        queuedTap = false;
         progress++;
         settle();
         return true;
       }
+      // Keep one early tap for the next step, never a burst of queued steps.
+      if (!hold && action === "run") queuedTap = true;
       return false;
     },
     advance(ms) {
@@ -48,6 +52,13 @@ export function createSprint({ hold = false, slow = false } = {}) {
       }
       if (phase !== "race") return;
       const end = Math.min(opponentDuration, elapsed + ms);
+      if (!hold && queuedTap && lastTap + tapInterval <= end) {
+        elapsed = lastTap + tapInterval;
+        lastTap = elapsed;
+        queuedTap = false;
+        progress++;
+        settle();
+      }
       while (hold && holding && nextHold <= end && !result) {
         elapsed = nextHold;
         progress++;
