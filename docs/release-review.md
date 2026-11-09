@@ -1,10 +1,19 @@
 # Release notes
 
-## 1.2.1 preview
+## 2.0
+
+Seven new games: Get, Bump, Heading, Memory, Flag, Sprint and Hoops. The guessing game stays and now shows clear left and right poses.
+
+Release approved by Taylor on November 9, 2026. Automated checks cover the game rules, rewards, cancellation and pixel bounds. All seven games were exercised in a mobile browser, with a separate desktop review of the picker, Bump, Memory and Sprint. Physical device, screen reader, audio listening and longer balance sessions are still needed. See the [review checklist](../design/games/release-checklist.md).
+
+## 1.2
+
+Inactive pets keep their progress without growing or sending notifications. Slice has a lighter shell and display. The launcher is a little smaller, with an inset care badge.
+## 1.2.1
 
 The guessing game now shows the answer with a left or right pose before the result reaction. Every hatched pet has both poses. Round timing, odds and rewards stay the same. Closing or restarting a game cancels its pending reactions.
 
-Checked all four families in the browser and both answer directions at desktop and mobile sizes. The 156 automated checks pass. This patch is awaiting review and has not been released.
+Checked all four families in the browser and both answer directions at desktop and mobile sizes. The 156 automated checks pass. This patch was approved for release before 2.0.
 
 ## 1.1
 

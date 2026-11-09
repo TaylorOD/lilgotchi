@@ -15,7 +15,9 @@ for(const folder of ['widget','pets']){
     if(item.isFile() && /\.(js|css|html|md|svg)$/.test(item.name) && !['widget.js','widget.css','panel.js'].includes(item.name))await copyFile(resolve(root,folder,item.name),resolve(out,folder,item.name));
   }
 }
+await cp(resolve(root,'pets/minigames'),resolve(out,'pets/minigames'),{recursive:true});
 await cp(resolve(root,'docs'),resolve(out,'docs'),{recursive:true});
+await cp(resolve(root,'design/games'),resolve(out,'design/games'),{recursive:true});
 await cp(resolve(root,'examples'),resolve(out,'examples'),{recursive:true});
 await mkdir(resolve(out,'reference'));
 await copyFile(resolve(root,'reference/source.json'),resolve(out,'reference/source.json'));

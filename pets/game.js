@@ -1,3 +1,4 @@
+import { Arcade } from './arcade.js';
 import { now as clockNow, setSimulationTime } from './clock.js';
 // Adapted from plateaukao/tamagochi at 74c7a45. See NOTICE.md.
 import { C } from './constants.js';
@@ -41,6 +42,7 @@ export class TamagotchiApp extends PetSimulation {
     this.scanlines=options.scanlines===true;
     this.onScanlinesChange=options.onScanlinesChange||(()=>{});
     this.init();
+    this.arcade=new Arcade(this);
   }
 
   applyTheme(){
@@ -126,7 +128,7 @@ export class TamagotchiApp extends PetSimulation {
 
     // Visibility change
     document.addEventListener('visibilitychange',()=>{
-      if(document.hidden) this.state.save();
+      if(document.hidden) { this.arcade?.pause(); this.state.save(); }
       else { this.processMissedTime(); this.updateButtons(); }
     });
 
@@ -201,6 +203,7 @@ export class TamagotchiApp extends PetSimulation {
       this.processMissedTime();
       if(st.isDead)return;
       st.vacationAt=now;
+      this.arcade?.cancel();this.closeOverlay('arcade-overlay');
       this.gameActive=false;this.gameId=(this.gameId||0)+1;this.animState=null;
       this.closeOverlay('game-overlay');this.closeOverlay('feed-overlay');
       this.toast('Vacation on. Care and growth are paused.');
@@ -257,7 +260,7 @@ export class TamagotchiApp extends PetSimulation {
         if(st.isSleeping){ this.toast('Shh... sleeping!'); this.sound.denied(); return; }
         if(st.isSick){ this.toast('Too sick to play!'); this.sound.denied(); return; }
         if(st.hunger===0){ this.toast('Too hungry to play! Feed first.'); this.sound.denied(); return; }
-        this.startGame();
+        this.arcade.open();
         break;
 
       case 'medicine':
@@ -530,8 +533,10 @@ export class TamagotchiApp extends PetSimulation {
   motionDisabled(){return this.state.vacationAt>0||this.eink||globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;}
 
   cancelGame(){
+    this.arcade?.cancel();
     clearTimeout(this.gameReactionTimer);clearTimeout(this.gameRoundTimer);clearTimeout(this.gameCloseTimer);
     this.gameActive=false;this.gamePhase='idle';this.gameId=(this.gameId||0)+1;}
+
 
   renderAnim(R,st){
     const sp=SP[st.character];
@@ -576,6 +581,7 @@ export class TamagotchiApp extends PetSimulation {
   }
   closeOverlay(id){
     if(id==='game-overlay')this.cancelGame();
+    if(id==='arcade-overlay')this.arcade?.cancel();
     const overlay=document.getElementById(id);
     if(!overlay?.classList.contains?.('show'))return;
     overlay.classList.remove('show');

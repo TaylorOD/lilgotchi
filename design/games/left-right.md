@@ -1,10 +1,10 @@
 # Left and right
 
-Todo for patch 1.0.3. Fix the existing game before the new game menu ships.
+Added in the patch before 2.0.
 
-## What is wrong
+## The fix
 
-The game chooses a direction, but only writes LEFT or RIGHT and shows a happy or sad sprite. The pet never visibly looks toward its answer. See `nextGameRound()` and `gameGuess()` in `pets/game.js`.
+The pet turns toward its answer before showing the happy or sad reaction. Direction text stays visible for the full reveal.
 
 ## What should happen
 

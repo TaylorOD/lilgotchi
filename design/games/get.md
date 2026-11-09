@@ -1,6 +1,6 @@
 # Get
 
-Todo for minor 1.1.0. Follow the [shared game rules](README.md).
+Included in 2.0. Follow the [shared game rules](README.md).
 
 Catch falling notes. Avoid poop. This is the objective in the [Connection manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf).
 

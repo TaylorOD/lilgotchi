@@ -1,33 +1,26 @@
 # More games for lilgotchi
 
-Todo only. Nothing here is implemented or released. Timing, scoring and controls below are proposed lilgotchi rules, not claims about the original hardware.
+2.0 adds seven games. The timing and scores are our rules, not a claim of exact hardware behavior.
 
-## Patch first: 1.0.3
+## The guessing game
 
-[Make the pet look left and right](left-right.md) in the existing guessing game. Ship this on its own before adding games. Keep the current rules and rewards.
+[Left and right](left-right.md) now shows a visible turn in both directions, including symmetrical characters. Its rules and rewards stay the same.
 
-## Next minor: 1.1.0
+## The 2.0 lineup
 
-| Game | Plan |
+| Game | What you do |
 | --- | --- |
 | [Get](get.md) | Catch notes and dodge poop |
 | [Bump](bump.md) | Stop a power meter and bump an opponent |
 | [Heading](heading.md) | Move under a ball and head it upward |
 | [Memory](memory.md) | Repeat a growing arrow sequence |
-
-These four are the requested first batch. Each gets its own implementation branch and PR when work starts.
-
-## Other Connection games
-
-The 2024 Connection manual lists seven solo games. The other three have draft designs too. Decide whether they join 1.1.0 or a later minor before implementation.
-
-| Game | Plan |
-| --- | --- |
-| [Flag](flag.md) | Follow real flag cues and ignore fake ones |
-| [Sprint](sprint.md) | Race to the finish |
+| [Flag](flag.md) | Follow real cues and ignore fake ones |
+| [Sprint](sprint.md) | Tap or hold to race |
 | [Hoops](hoops.md) | Time basketball shots |
 
-The longer goal is to cover the wider Tamagotchi game catalog. That is not the same as these seven. See [the research list](catalog.md) before calling any release complete.
+The existing guessing game stays. Each new game has its own model and tests. They share controls, pause behavior and care rewards.
+
+This is the seven game Connection set, not every game from every Tamagotchi. The [catalog](catalog.md) keeps the wider research backlog separate.
 
 ## Keep the widget small
 
@@ -39,7 +32,7 @@ Use the current pet and evolution. Draw new poses when needed. A symmetrical spr
 
 ## Shared game rules
 
-Proposed for the minor release:
+The 2.0 contract:
 
 1. Keep the existing play restrictions for eggs, sleeping, sick, dead or vacation pets. Explain unavailable games beside their names. No new stage locks in the first batch.
 2. Pause the round when the drawer closes or the page hides. On return, offer Resume or Quit. No hidden timers, free points or automatic losses. Care time follows the existing game rules.
@@ -47,6 +40,10 @@ Proposed for the minor release:
 4. A win gives one happiness heart, capped at four, once per finished run. A loss or quit gives none. No coins, betting, inventory, new evolution rules or extra weight changes in this first batch. Settle the existing energy effect once per started run, not per tap.
 5. Keep an unfinished run in memory only. Reloading ends it without a reward. High scores are outside the first batch.
 6. Keep sound optional. Every sound cue needs a visible cue. Reduced motion removes decoration, not essential game feedback. Pause stays available. Announce instructions, results and discrete cues without reading every animation frame.
+
+## Review notes
+
+The models, game screens and compact character art are implemented. Automated checks and browser control checks pass. Taylor approved the release. Physical phone playtesting, audio listening, human screen reader checks and longer balance sessions remain unverified. See the [review checklist](release-checklist.md).
 
 ## Before shipping
 
