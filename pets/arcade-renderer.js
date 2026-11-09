@@ -109,6 +109,6 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
   rect(30,3,1,6);rect(29,3,1,4);
   rect(24,9,7,1,'#ad5a35');
   rect(25,10,1,2);rect(29,10,1,2);rect(26,12,1,2);rect(28,12,1,2);rect(26,13,3,1);
-  if(s.ball)rect(s.ball.x,s.ball.y,2,2,'#b96836');
+  if(s.ball){rect(s.ball.x,s.ball.y,2,2,'#f6a64b');rect(s.ball.x,s.ball.y+1,1,1,'#8a4726');}
  }
 }

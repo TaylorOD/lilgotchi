@@ -285,7 +285,7 @@ export class Arcade {
       if(run){run.textContent=s.holding?"Stop running":"Run steadily";run.setAttribute("aria-pressed",String(s.holding));}
     }
     this.drawPet();
-    const accepting=!s.paused&&!s.result&&(s.id!=="memory"||s.phase==="answer")&&(s.id!=="flag"||s.phase==="cue");
+    const accepting=!s.paused&&!s.result&&(s.id!=="memory"||s.phase==="answer")&&(s.id!=="flag"||(s.phase==="cue"&&s.response===null))&&(s.id!=="hoops"||["ready","aim"].includes(s.phase))&&(s.id!=="bump"||s.phase==="meter")&&(s.id!=="sprint"||s.phase==="race");
     for(const button of this.q(".arcade-actions").children)button.disabled=!accepting;
     this.q(".arcade-pause").textContent = s.paused ? "Resume" : "Pause";
     const score = s.result
@@ -370,9 +370,9 @@ export function arcadeCue(s) {
     if(s.phase==="rest")return s.correct?"Correct!":"Missed that one";
     return `Round ${s.round}: ${s.cue==="fake"?"Fake! Wait":s.cue?.toUpperCase()||"Wait"}`;
   }
-  if(s.phase==="countdown")return "Ready…";
+  if(s.phase==="countdown")return s.id==="sprint"?"Wait for green":"Ready…";
   if(s.id==="bump")return s.phase==="meter"?"Stop in the target":s.boutWon?"You won the bout!":"Opponent wins this bout";
-  if(s.id==="hoops")return s.phase==="ready"?"Press Shoot when ready":s.phase==="aim"?"Stop in the target":s.made?"Basket!":"Missed the basket";
+  if(s.id==="hoops")return s.phase==="ready"?"Press Shoot when ready":s.phase==="aim"?"Stop in the target":s.arcProgress<0.72?"In the air…":s.made?"Basket!":"Missed the basket";
   if(s.id==="get")return "Catch notes. Dodge poop.";
   if(s.id==="heading")return "Jump to meet the ball";
   if(s.id==="sprint")return s.hold?(s.holding?"Running steadily":"Press Run steadily to go"):"Keep running!";

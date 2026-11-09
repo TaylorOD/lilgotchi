@@ -28,13 +28,13 @@ export const games = {
   memory: {
     name: "Memory",
     create: createMemory,
-    instruction: "Watch the arrows, then repeat them. Complete five rounds.",
+    instruction: "Watch your pet follow the arrows. Then repeat those directions. Complete five rounds.",
     actions: ["left", "up", "right"],
   },
   flag: {
     name: "Flag",
     create: createFlag,
-    instruction: "Follow the flags. Ignore fake cues. Get 12 of 15 right.",
+    instruction: "Match the arrow: Left, Right or Both. When you see X, wait without pressing. Get 12 of 15 right.",
     actions: ["left", "both", "right"],
   },
   sprint: {
@@ -46,7 +46,7 @@ export const games = {
   hoops: {
     name: "Hoops",
     create: createHoops,
-    instruction: "Stop the marker inside the target. Make three of five shots.",
+    instruction: "Tap Shoot to start the meter. Tap again inside the target. Make three of five baskets.",
     actions: ["shoot"],
   },
 };
