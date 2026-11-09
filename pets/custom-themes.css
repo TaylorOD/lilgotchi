@@ -70,3 +70,11 @@ button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 
 :root[data-pet="lilgotchi"] { --device-bg:linear-gradient(145deg,#fff0cc,#e7c88d); --lcd-bg:#20281d; --lcd-fg:#fff0cc; --accent:#e7c88d; --stat-hearts:#e7c88d; }
 :root[data-pet="lilgotchi"] #pet-clock { color:#3d4937; }
+
+/* Cool daylight keeps the warm pizza pixels separate from their surroundings. */
+:root[data-pet="pizza"] { --device-bg:linear-gradient(145deg,#839c98,#526f70); --screen-frame:#38545a; }
+:root[data-pet="pizza"][data-scene="morning"] { --scene-top:#a1c1be; --lcd-bg:#779c9e; }
+:root[data-pet="pizza"][data-scene="afternoon"] { --scene-top:#8db8bc; --lcd-bg:#648e97; }
+:root[data-pet="pizza"][data-scene="evening"] { --scene-top:#939eb7; --lcd-bg:#657e97; }
+:root[data-pet="pizza"][data-scene="night"] { --scene-top:#596d88; --lcd-bg:#344d68; }
+:root[data-pet="pizza"][data-scene="sleep"],:root[data-pet="pizza"][data-scene="dark"] { --scene-top:#34475a; --lcd-bg:#192a3a; }

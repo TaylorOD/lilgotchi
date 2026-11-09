@@ -7,7 +7,7 @@ import { lilgotchiSprites, lilgotchiPalette } from '../pets/lilgotchi-sprites.js
 const shellColors={
   classic:{edge:'#c9a882',face:'#e8d5c4',screen:'#c4cfa1'},
   eink:{edge:'#d8d8d8',face:'#f5f5f5',screen:'#f0f0f0'},
-  pizza:{edge:'#302820',face:'#594632',screen:'#29231c'},
+  pizza:{edge:'#526f70',face:'#839c98',screen:'#648e97'},
   cyberpunk:{edge:'#172c36',face:'#304e59',screen:'#0b1c24'},
   lilgotchi:{edge:'#e7c88d',face:'#fff0cc',screen:'#20281d'},
 };
