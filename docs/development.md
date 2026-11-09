@@ -74,3 +74,8 @@ The games keep game models separate from the screen. Each factory returns `input
 Snapshots expose the game ID, phase, pause state and result. Results are `win`, `loss`, `quit` or `null`. The host owns input, drawing and reward settlement. Calling advance while paused or after a result must not change the run.
 
 Use injected randomness for repeatable tests. Check boundary inputs, duplicate rewards, pause and large time steps. Run the complete test suite before reviewing the games in desktop and mobile browsers. The [release checklist](../design/games/release-checklist.md) tracks integration evidence. Keep any unverified checks listed when preparing a release.
+## Pull request previews
+
+Same repository PRs into `main` get a preview link in a comment. It updates on each push and disappears when the PR closes. Forks do not publish previews.
+
+Previews keep their own pet saves. They leave the live demo and your pets alone. Sample pages are excluded because they use shared test saves.
