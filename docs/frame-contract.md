@@ -27,3 +27,5 @@ Then open `/qa/` and `/design/evolution/` in the browser. Look at the animation 
 ## Guessing game poses
 
 Every hatched character provides `lookLeft` and `lookRight`. Directions use the viewer's point of view. The face turns without flipping markings or moving the whole sprite. These frames fit within the 16 by 16 game canvas and work with reduced motion.
+
+The guessing game draws its full poses at eight screen pixels per sprite pixel. Other previews keep the default scale of four. The pet gets a 128 by 128 area, with smaller arrow buttons beside it so the layout fits narrow screens.
