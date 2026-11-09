@@ -22,7 +22,7 @@ export class Arcade {
     this.root.setAttribute("aria-modal", "true");
     this.root.setAttribute("aria-labelledby", "arcade-title");
     this.root.innerHTML =
-      '<h2 class="overlay-title" id="arcade-title">Play</h2><div class="arcade-picker"></div><p class="arcade-instruction"></p><label class="arcade-options"><input type="checkbox"><span> Slower cues</span></label><button class="overlay-btn arcade-start">Start</button><canvas class="arcade-pet" aria-label="Your pet"></canvas><div class="arcade-cue" aria-live="polite"></div><canvas class="arcade-field" width="32" height="16" aria-label="Game field"></canvas><div class="arcade-meter"><span></span><i></i></div><p class="arcade-score" role="status"></p><div class="arcade-actions"></div><button class="overlay-btn arcade-pause">Pause</button><button class="overlay-close arcade-exit">Back to games</button>';
+      '<h2 class="overlay-title" id="arcade-title">Play</h2><div class="arcade-picker"></div><p class="arcade-instruction"></p><label class="arcade-options"><input type="checkbox"><span> Slower cues</span></label><button class="overlay-btn arcade-start">Start</button><canvas class="arcade-pet" aria-label="Your pet"></canvas><div class="arcade-cue" aria-live="polite"></div><canvas class="arcade-field" width="32" height="16" aria-label="Game field"></canvas><div class="arcade-meter"><span></span><i></i></div><p class="arcade-score" aria-live="off"></p><span class="arcade-announcement" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)" role="status" aria-atomic="true"></span><div class="arcade-actions"></div><button class="overlay-btn arcade-pause">Pause</button><button class="overlay-close arcade-exit">Back to games</button>';
     document.body.append(this.root);
     this.q = (selector) => this.root.querySelector(selector);
     this.q(".arcade-start").onclick = () => this.start();
@@ -44,7 +44,7 @@ export class Arcade {
       const action = {
         ArrowLeft: "left",
         ArrowRight: "right",
-        ArrowUp: "up",
+        ArrowUp: this.selection === "heading" ? "jump" : "up",
         " ":
           games[this.selection].actions.length === 1
             ? games[this.selection].actions[0]
@@ -109,6 +109,8 @@ export class Arcade {
       b.textContent = name;
       b.onclick = () => {
         if (id === "guess") {
+          const reason=this.unavailable();
+          if(reason){this.q(".arcade-instruction").textContent=reason;this.q(".arcade-announcement").textContent=reason;return;}
           this.app.closeOverlay("arcade-overlay");
           this.app.startGame();
         } else this.select(id);
@@ -116,7 +118,7 @@ export class Arcade {
       this.q(".arcade-picker").append(b);
     }
     this.showRun(false);
-    this.q(".arcade-instruction").textContent = "Pick something to play.";
+    this.q(".arcade-instruction").textContent = this.unavailable() || "Pick something to play.";
     this.q(".arcade-exit").textContent = "Close";
     this.q(".arcade-picker button")?.focus();
   }
@@ -137,11 +139,13 @@ export class Arcade {
   }
   select(id) {
     this.selection = id;
+    this.q(".arcade-announcement").textContent = "";
     this.q(".arcade-options span").textContent =
       id === "sprint" ? " Steady running" : " Slower cues";
     this.showRun(true);
     this.q(".overlay-title").textContent = games[id].name;
     this.q(".arcade-instruction").textContent = games[id].instruction;
+    this.q(".arcade-start").disabled = !!this.unavailable();
     this.q(".arcade-start").hidden = false;
     this.q(".arcade-options").hidden = ![
       "memory",
@@ -157,21 +161,30 @@ export class Arcade {
     this.q(".arcade-actions").replaceChildren();
     this.q(".arcade-exit").textContent = "Back to games";
     this.drawPet();
-    this.q(".arcade-start").focus();
+    if (this.unavailable()) this.q(".arcade-instruction").textContent = this.unavailable();
+    this.q(this.unavailable()?".arcade-exit":".arcade-start").focus();
+  }
+  unavailable() {
+    const st=this.app.state;
+    if(st.isDead)return "Start a new pet before playing.";
+    if(st.vacationAt>0)return "Turn Vacation off before playing.";
+    if(st.stage==="egg")return "Your pet can play after hatching.";
+    if(st.isSleeping)return "Wake your pet before playing.";
+    if(st.isSick)return "Your pet needs medicine before playing.";
+    if(st.hunger===0)return "Feed your pet before playing.";
+    return "";
   }
   start() {
     const st = this.app.state;
-    if (
-      (this.model && !this.model.snapshot().result) ||
-      !this.selection ||
-      st.isDead ||
-      st.vacationAt > 0 ||
-      st.stage === "egg" ||
-      st.isSleeping ||
-      st.isSick ||
-      st.hunger === 0
-    )
+    if ((this.model && !this.model.snapshot().result) || !this.selection) return;
+    const reason=this.unavailable();
+    if(reason){
+      this.q(".arcade-instruction").textContent=reason;
+      this.q(".arcade-announcement").textContent=reason;
       return;
+    }
+    this.cueSoundKey=null;
+    this.announcementKey=null;
     this.model = games[this.selection].create({
       slow: this.q("input").checked,
       hold: this.q("input").checked,
@@ -216,7 +229,9 @@ export class Arcade {
       return;
     }
     if (!this.model) return;
+    if(document.hidden || this.app.panelVisible===false){this.pause();return;}
     const s = this.model.snapshot();
+    if(s.paused || s.result)return;
     if (this.selection === "sprint" && s.hold && action === "run")
       action = "hold";
     this.model.input(action);
@@ -224,6 +239,7 @@ export class Arcade {
   }
   pause() {
     this.held = null;
+    this.cueSoundKey=null;
     if (this.model && !this.model.snapshot().result) {
       this.model.pause();
       this.q(".arcade-pause").textContent = "Resume";
@@ -232,6 +248,8 @@ export class Arcade {
   }
   togglePause() {
     if (!this.model) return;
+    if(this.app.state.isDead || this.app.state.vacationAt>0){this.cancel();return;}
+    if(document.hidden || this.app.panelVisible===false)return;
     if (this.model.snapshot().paused) {
       this.model.resume();
       this.last = 0;
@@ -272,30 +290,31 @@ export class Arcade {
                   : `Shot ${s.shot}/5 · ${s.score} baskets`;
     if (this.q(".arcade-score").textContent !== score)
       this.q(".arcade-score").textContent = score;
-    const cue = s.paused
-      ? "Paused"
-      : s.id === "memory"
-        ? s.cue
-          ? s.cue.toUpperCase()
-          : s.phase === "answer"
-            ? "Your turn"
-            : "Watch"
-        : s.id === "flag"
-          ? s.cue === "fake"
-            ? "Fake! Wait"
-            : s.cue || "Wait"
-          : s.phase === "countdown"
-            ? "Ready…"
-            : s.id === "hoops" && s.phase === "ready"
-              ? "Press Shoot when ready"
-              : s.phase;
+    const cue = arcadeCue(s);
     if (this.q(".arcade-cue").textContent !== cue)
       this.q(".arcade-cue").textContent = cue;
+    // Announce outcomes and care changes, not the clock on every second.
+    const announcementKey=JSON.stringify([s.result,s.score,s.lives,s.misses,s.round,s.bout,s.shot]);
+    if(announcementKey!==this.announcementKey){
+      this.announcementKey=announcementKey;
+      this.q(".arcade-announcement").textContent=s.id==="get"&&!s.result
+        ? `${s.score} notes. ${s.lives} lives.`
+        : s.id==="heading"&&!s.result
+          ? `${s.score} headers. ${s.misses} misses.` : score;
+    }
+    if(s.id==="memory" && s.phase==="watch" && s.cue && !s.paused){
+      const key=`${s.round}:${s.cueIndex}`;
+      if(this.cueSoundKey!==key){
+        this.cueSoundKey=key;
+        this.app.sound.beep?.({left:440,up:660,right:880}[s.cue],100);
+      }
+    }
     drawArcade(
       this.q,
       s,
       arcadeSprite(petType, this.app.state.character),
       palette,
+      {reducedMotion:!!this.app.motionDisabled?.()},
     );
     if (
       s.result &&
@@ -315,4 +334,21 @@ export class Arcade {
       for (const b of this.q(".arcade-actions").children) b.disabled = true;
     }
   }
+}
+
+export function arcadeCue(s) {
+  if(s.paused)return "Paused";
+  if(s.result)return s.result==="win"?"Nice work!":"Try another round";
+  if(s.id==="memory")return s.cue?s.cue.toUpperCase():s.phase==="answer"?"Your turn":"Watch";
+  if(s.id==="flag"){
+    if(s.phase==="rest")return s.correct?"Correct!":"Missed that one";
+    return `Round ${s.round}: ${s.cue==="fake"?"Fake! Wait":s.cue?.toUpperCase()||"Wait"}`;
+  }
+  if(s.phase==="countdown")return "Ready�";
+  if(s.id==="bump")return s.phase==="meter"?"Stop in the target":s.boutWon?"You won the bout!":"Opponent wins this bout";
+  if(s.id==="hoops")return s.phase==="ready"?"Press Shoot when ready":s.phase==="aim"?"Stop in the target":s.made?"Basket!":"Missed the basket";
+  if(s.id==="get")return "Catch notes. Dodge poop.";
+  if(s.id==="heading")return "Jump to meet the ball";
+  if(s.id==="sprint")return "Keep running!";
+  return "";
 }

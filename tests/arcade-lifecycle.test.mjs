@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {Arcade} from '../pets/arcade.js';
+import {Arcade,arcadeCue} from '../pets/arcade.js';
 import {setSimulationTime} from '../pets/clock.js';
 
 function setup() {
@@ -79,4 +79,40 @@ test('a death before an input cancels the run without a final reward',()=>{
 test('back to the picker cancels the run and keeps quitting reward free',()=>{
  const {arcade,counts}=setup();arcade.select('get');arcade.start();const model=arcade.model;
  arcade.open();assert.equal(model.snapshot().result,'quit');assert.equal(arcade.model,null);assert.equal(counts().wins,0);
+});
+
+
+test('Heading accepts ArrowUp as jump and refuses input while hidden',()=>{
+ const {arcade,listeners,app}=setup();arcade.select('heading');arcade.start();
+ const actions=[];arcade.model.input=action=>actions.push(action);
+ listeners.keydown({target:{tagName:'DIV'},key:'ArrowUp',repeat:false,preventDefault(){}});
+ assert.deepEqual(actions,['jump']);
+ app.panelVisible=false;arcade.input('left');assert.deepEqual(actions,['jump']);
+ assert.equal(arcade.model.snapshot().paused,true);arcade.togglePause();assert.equal(arcade.model.snapshot().paused,true);
+});
+test('unavailable games explain why Start will not run',()=>{
+ const {arcade,app}=setup();app.state.isSleeping=true;arcade.select('get');arcade.start();
+ assert.equal(arcade.q('.arcade-start').disabled,true);
+ assert.match(arcade.q('.arcade-instruction').textContent,/Wake/);
+ assert.equal(arcade.model,null);
+});
+test('visible cue text explains phases and repeated Flag cues identify the new round',()=>{
+ assert.equal(arcadeCue({id:'bump',phase:'meter'}),'Stop in the target');
+ assert.equal(arcadeCue({id:'hoops',phase:'arc',made:true}),'Basket!');
+ assert.equal(arcadeCue({id:'get',phase:'done',result:'loss'}),'Try another round');
+ assert.notEqual(arcadeCue({id:'flag',phase:'cue',cue:'left',round:1}),arcadeCue({id:'flag',phase:'cue',cue:'left',round:2}));
+});
+test('Memory plays one paired tone per visible cue and replays after pause',()=>{
+ const {arcade,app}=setup();const tones=[];app.sound.beep=(...args)=>tones.push(args);
+ arcade.select('memory');arcade.start();assert.equal(tones.length,1);
+ arcade.paint();arcade.paint();assert.equal(tones.length,1);
+ arcade.pause();arcade.togglePause();assert.equal(tones.length,2);
+ assert.ok([440,660,880].includes(tones[0][0]));
+});
+test('clock countdown changes do not repeatedly announce score status',()=>{
+ const {arcade}=setup();arcade.select('get');arcade.start();
+ const first=arcade.q('.arcade-announcement').textContent;
+ arcade.model.advance(1000);arcade.paint();
+ assert.equal(arcade.q('.arcade-announcement').textContent,first);
+ assert.doesNotMatch(first,/seconds|30s/);
 });
