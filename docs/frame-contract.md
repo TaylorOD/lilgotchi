@@ -26,7 +26,7 @@ Then open `/qa/` and `/design/evolution/` in the browser. Look at the animation 
 
 ## Guessing game poses
 
-Every hatched character provides `lookLeft` and `lookRight`. Directions use the viewer’s point of view. The face turns without flipping markings or moving the whole sprite. These frames fit within the 16 by 16 game canvas and work with reduced motion.
+Every hatched character provides `lookLeft` and `lookRight`. Directions use the viewer's point of view. The face turns without flipping markings or moving the whole sprite. These frames fit within the 16 by 16 game canvas and work with reduced motion.
 
 ## Small game portraits
 
