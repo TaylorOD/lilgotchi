@@ -90,17 +90,18 @@ if(embedded) {
         if(id){document.getElementById(id)?.click();publishConfiguration();}
       }
       if(message.type==='snapshot' && Number.isSafeInteger(message.id) && window.app) {
-        if(message.closing){window.app.gameActive=false;window.app.gameId=(window.app.gameId||0)+1;}
+        if(message.closing){window.app.arcade?.pause();window.app.gameActive=false;window.app.gameId=(window.app.gameId||0)+1;}
         channel.postMessage({type:'snapshot',id:message.id,state:JSON.parse(JSON.stringify(window.app.state))});
       }
       if(message.type==='visibility' && typeof message.visible==='boolean' && window.app){
         window.app.panelVisible=message.visible;
+        if(!message.visible)window.app.arcade?.pause();
         window.app.sound.suspended=!message.visible;
         if(message.visible){window.app.processMissedTime();window.app.updateButtons();}
         else {
           window.app.gameActive=false;window.app.gameId=(window.app.gameId||0)+1;
           const overlay=document.querySelector('.overlay.show');
-          if(overlay && overlay.id!=='death-overlay')window.app.closeOverlay(overlay.id);
+          if(overlay && overlay.id!=='death-overlay' && overlay.id!=='arcade-overlay')window.app.closeOverlay(overlay.id);
           window.app.state.save();
         }
       }
@@ -126,7 +127,7 @@ document.addEventListener('keydown',event=>{
   const overlay=document.querySelector('.overlay.show');
   if(event.key==='Escape') {
     event.preventDefault();
-    if(overlay && overlay.id!=='death-overlay') {
+    if(overlay && overlay.id!=='death-overlay' && overlay.id!=='arcade-overlay') {
       window.app.gameActive=false; window.app.closeOverlay(overlay.id);
     } else if(channel) channel.postMessage({type:'close'});
   }
