@@ -77,3 +77,22 @@ for(const factory of [createFlag,createSprint,createHoops]) {
 test('Hoops pauses its ball arc without duplicate rewards',()=>{
   const game=createHoops();game.input('ready');game.advance(600);game.input('shoot');game.advance(400);game.pause();game.advance(900);assert.equal(game.snapshot().score,0);game.resume();game.advance(500);assert.equal(game.snapshot().score,1);game.advance(900);assert.equal(game.snapshot().score,1);
 });
+
+test('Models ignore invalid elapsed time and returned snapshots cannot mutate runs',()=>{
+  for(const factory of [createFlag,createSprint,createHoops]) {
+    const game=factory(), before=game.snapshot();
+    for(const dt of [NaN,Infinity,-1,0]) game.advance(dt);
+    assert.deepEqual(game.snapshot(),before);
+    const copy=game.snapshot();copy.score=999;if(copy.target&&typeof copy.target==='object')copy.target.min=-1;
+    assert.deepEqual(game.snapshot(),before);
+  }
+});
+
+test('Flag and Sprint produce the same outcome with small or large time steps',()=>{
+  for(const factory of [()=>createFlag({random:()=>0.99}),()=>createSprint({hold:true})]) {
+    const a=factory(),b=factory();
+    if(a.snapshot().id==='sprint'){a.advance(3000);b.advance(3000);a.input('hold');b.input('hold');}
+    a.advance(30000);for(let t=0;t<30000;t+=10)b.advance(10);
+    assert.deepEqual(a.snapshot(),b.snapshot());
+  }
+});
