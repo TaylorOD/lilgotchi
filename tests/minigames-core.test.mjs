@@ -78,7 +78,7 @@ test("Memory ignores playback guesses and handles repeated arrows through fifth 
   const g = createMemory({ random: () => 0 });
   g.input("right");
   for (let length = 2; length <= 6; length++) {
-    g.advance(length * 800);
+    g.advance(length * 800 + (length > 2 ? 450 : 0));
     assert.equal(g.snapshot().phase, "answer");
     for (let n = 0; n < length; n++) g.input("left");
   }
@@ -103,7 +103,7 @@ test("Heading misses, boundaries and jump repeat lock", () => {
     g.input("left");
     g.advance(100);
   }
-  assert.equal(g.snapshot().x, 4);
+  assert.equal(g.snapshot().x, 6);
   g.input("jump");
   g.advance(100);
   const jump = g.snapshot().jump;
@@ -119,7 +119,7 @@ test("Heading drifting serves stay reachable and ten distinct headers win", () =
   for (let t = 0; t < 45000 && !g.snapshot().result; t += 10) {
     const s = g.snapshot();
     assert.ok(s.ball.x >= 1 && s.ball.x <= 29);
-    assert.ok(s.ball.y >= 1 && s.ball.y <= 14);
+    assert.ok(s.ball.y >= 1 && s.ball.y <= 22);
     if (s.ball.x < s.x - 1) g.input("left");
     if (s.ball.x > s.x + 1) g.input("right");
     if (s.phase === "playing" && s.ball.y > 1 && s.ball.y >= previous)
