@@ -4,7 +4,7 @@
 
 Seven new games are in development: Get, Bump, Heading, Memory, Flag, Sprint and Hoops. The guessing game stays, with its directional sprite fix reviewed as a separate patch first.
 
-This preview is not merged or released. Model tests are only part of the review. Shared controls, care rewards, save ownership and the actual screens still need integration checks. See the [review checklist](../design/games/release-checklist.md).
+This preview is not merged or released. Automated checks cover the game rules, rewards, cancellation and pixel bounds. All seven games were exercised in a mobile browser, with a separate desktop review of the picker, Bump, Memory and Sprint. Physical device, screen reader, audio listening and longer balance sessions are still needed. See the [review checklist](../design/games/release-checklist.md).
 
 ## 1.2
 

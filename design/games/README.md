@@ -43,7 +43,7 @@ The 2.0 contract:
 
 ## Still under review
 
-The models are implemented and have deterministic tests. Compact character poses, complete game screens and browser playtesting still need review. The art sections below are acceptance requirements, not a claim that every pose is finished.
+The models, game screens and compact character art are implemented. Automated checks and browser control checks pass. Physical phone playtesting, audio and screen reader checks, and longer balance sessions remain before release. See the [review checklist](release-checklist.md).
 
 ## Before shipping
 

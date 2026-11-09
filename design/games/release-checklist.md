@@ -28,3 +28,11 @@ Eggs, sleeping, sick, dead, hungry and vacation pets follow the existing play re
 Each implementation PR needs passing tests and screenshots of its actual changed screens. Timing games also need a short browser recording. Run the full suite and build after integration. Check the built package includes every game module.
 
 Record remaining gaps honestly before calling 2.0 ready. The wider device catalog stays in the research backlog.
+
+## Current review
+
+The integrated suite passes 211 tests. The build checks local imports and assets in the package. All 44 compact identities are tested across game scenes and both motion modes.
+
+Mobile browser checks exercised all seven games through start, controls, pause and return. Desktop review covered the picker, Bump, Memory and Sprint. The final Sprint screenshot includes lane labels and steady running feedback.
+
+Still needed before release: physical phone playtesting, human screen reader and sound checks, longer balance sessions and short timing recordings. Browser control checks do not prove every game feels balanced on a real phone. Nothing is merged or published.
