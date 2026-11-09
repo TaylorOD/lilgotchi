@@ -119,6 +119,7 @@ if(embedded) {
 window.addEventListener('pagehide',()=>window.app?.state.save());
 window.restorePetSession=data=>{
   if(!window.app || !validState(data)) return;
+  window.app.cancelGame();
   window.app.state.vacationAt=data.vacationAt||0;
   for(const key of Object.keys(window.app.state)) if(Object.hasOwn(data,key)) window.app.state[key]=data[key];
   window.app.processMissedTime(); window.app.updateButtons();
@@ -130,6 +131,7 @@ document.addEventListener('keydown',event=>{
     if(overlay && overlay.id!=='death-overlay' && overlay.id!=='arcade-overlay') {
       window.app.gameActive=false; window.app.closeOverlay(overlay.id);
     } else if(channel) channel.postMessage({type:'close'});
+    else if(overlay?.id==='arcade-overlay')window.app.closeOverlay(overlay.id);
   }
   if(event.key==='Tab' && overlay) {
     const controls=overlayControls(overlay);
