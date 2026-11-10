@@ -11,6 +11,8 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
  const reducedMotion = options.reducedMotion ?? globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
  const frames = options.frames || {idle1:sprite};
  const idle = frames.idle1 || sprite;
+ const opponent = options.opponent;
+ const rivalFrames = opponent?.frames || classicSprites.mametchi;
  const foreground = options.foreground || '#0f380f';
  const background = options.background || '#c4cfa1';
  const field = q('.arcade-field');
@@ -26,7 +28,7 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
   const top=Math.max(0,Math.min(FIELD_HEIGHT-height,Math.round(bottom-height)));
   for(let row=0;row<frame.length;row++)for(let col=0;col<frame[row].length;col++){
    const pixel=frame[row][col];if(!pixel)continue;
-   rect(left+(fallen?frame.length-1-row:col),top+(fallen?col:row),1,1,rival?foreground:palette[pixel]||foreground);
+   rect(left+(fallen?frame.length-1-row:col),top+(fallen?col:row),1,1,rival?(opponent?.palette[pixel]||foreground):palette[pixel]||foreground);
   }
  };
  const centered = (frame,bottom=24) => pet(frame,(FIELD_WIDTH-frame[0].length)/2,bottom);
@@ -59,7 +61,7 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
   const playerLoses=s.boutWon===false;
   const player=frames.lookRight||idle;
   pet(player,contact&&!playerLoses?5:1,24,{fallen:fallen&&playerLoses});
-  pet(classicSprites.mametchi.lookLeft,contact&&playerLoses?17:21,24,{rival:true,fallen:fallen&&!playerLoses});
+  pet(rivalFrames.lookLeft||rivalFrames.idle1,contact&&playerLoses?17:21,24,{rival:true,fallen:fallen&&!playerLoses});
   if(reveal)reaction(playerLoses?6:25,5,false);
  }
  if(s.id==='memory'){
@@ -95,7 +97,7 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
   const player=frames.lookRight||idle;
   const end=30-player[0].length;
   pet(player,Math.min(end,s.progress/s.finish*end),12);
-  const rival=classicSprites.mametchi.lookRight;
+  const rival=rivalFrames.lookRight||rivalFrames.idle1;
   pet(rival,Math.min(30-rival[0].length,s.opponent/s.finish*(30-rival[0].length)),24,{rival:true});
   if(s.phase==='countdown'||(s.phase==='race'&&s.elapsed<1000)){
    const active=s.phase==='race'?2:s.countdown>1500?0:1;
