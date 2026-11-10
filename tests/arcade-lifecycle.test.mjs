@@ -162,3 +162,25 @@ test('finished arcade runs hide controls and replay starts a fresh run',()=>{
  assert.equal(arcade.q('.arcade-actions').hidden,false);
  assert.equal(arcade.q('.arcade-start').hidden,true);assert.equal(app.state.energy,energy-5);
 });
+
+
+test('every arcade game offers replay after a win or loss',()=>{
+ for(const id of ['get','bump','heading','memory','flag','sprint','hoops'])for(const result of ['win','loss']){
+  const {arcade}=setup();arcade.select(id);arcade.start();const snapshot=arcade.model.snapshot();
+  arcade.model={snapshot:()=>({...snapshot,result,phase:'done'})};arcade.paint();
+  assert.equal(arcade.q('.arcade-actions').hidden,true,id);
+  assert.equal(arcade.q('.arcade-pause').hidden,true,id);
+  assert.equal(arcade.q('.arcade-start').hidden,false,id);
+  arcade.start();assert.equal(arcade.model.snapshot().result,null,id);
+ }
+});
+
+
+test('evolving during a round returns to the picker before mismatched head contact',()=>{
+ const {arcade,app,counts}=setup();arcade.select('heading');arcade.start();const old=arcade.model;
+ app.state.character='oyajitchi';arcade.paint();
+ assert.equal(old.snapshot().result,'quit');assert.equal(arcade.model,null);
+ assert.equal(arcade.selection,null);assert.match(arcade.q('.arcade-instruction').textContent,/grew/);
+ assert.equal(counts().wins,0);arcade.select('heading');arcade.start();
+ assert.equal(arcade.runCharacter,'oyajitchi');assert.ok(arcade.model);
+});

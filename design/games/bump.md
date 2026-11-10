@@ -2,7 +2,7 @@
 
 Included in 2.0. Follow the [shared game rules](README.md).
 
-Time a power meter to bump another pet over. The [Connection manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf) describes timing the press for maximum power.
+Time a power meter to bump another pet over. The [Connection manual](https://www.bandai.com/amfile/file/download/file/242/product/1304058/) describes timing the press for maximum power.
 
 ## Our version
 

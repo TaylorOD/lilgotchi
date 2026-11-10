@@ -73,6 +73,7 @@ export class Arcade {
     });
     const loop = (time) => {
       if (this.model) {
+        if(this.petChanged()){this.last=time;requestAnimationFrame(loop);return;}
         if (app.state.isDead || app.state.vacationAt > 0) {
           this.cancel();
           this.last = time;
@@ -193,6 +194,7 @@ export class Arcade {
     }
     this.cueSoundKey=null;
     this.announcementKey=null;
+    this.runCharacter = st.character;
     this.model = games[this.selection].create({
       sprite: SP[st.character]?.idle1,
       slow: this.q("input").checked,
@@ -235,6 +237,7 @@ export class Arcade {
     this.root.focus();
   }
   input(action) {
+    if(this.petChanged())return;
     if (this.app.state.isDead || this.app.state.vacationAt > 0) {
       this.cancel();
       return;
@@ -268,7 +271,14 @@ export class Arcade {
       this.paint();
     } else this.pause();
   }
+  petChanged() {
+    if(!this.model||!this.runCharacter||this.runCharacter===this.app.state.character)return false;
+    this.open();
+    this.q(".arcade-instruction").textContent="Your pet grew! Pick a game for your new look.";
+    return true;
+  }
   cancel() {
+    this.runCharacter = null;
     this.held = null;
     this.model?.quit();
     this.model = null;
@@ -279,13 +289,14 @@ export class Arcade {
     if (sp) this.app.renderer.renderToCanvas(this.q(".arcade-pet"), sp.idle1);
   }
   paint() {
+    if(this.petChanged())return;
     const s = this.model.snapshot();
     if(s.id === "sprint" && s.hold){
       const run=this.q(".arcade-actions").children[0];
       if(run){run.textContent=s.holding?"Stop running":"Run steadily";run.setAttribute("aria-pressed",String(s.holding));}
     }
     this.drawPet();
-    const accepting=!s.paused&&!s.result&&(s.id!=="memory"||s.phase==="answer")&&(s.id!=="flag"||s.phase==="cue");
+    const accepting=!s.paused&&!s.result&&(s.id!=="memory"||s.phase==="answer")&&(s.id!=="flag"||(s.phase==="cue"&&s.response===null))&&(s.id!=="hoops"||["ready","aim"].includes(s.phase))&&(s.id!=="bump"||s.phase==="meter")&&(s.id!=="sprint"||s.phase==="race");
     for(const button of this.q(".arcade-actions").children)button.disabled=!accepting;
     this.q(".arcade-pause").textContent = s.paused ? "Resume" : "Pause";
     const score = s.result
@@ -370,9 +381,9 @@ export function arcadeCue(s) {
     if(s.phase==="rest")return s.correct?"Correct!":"Missed that one";
     return `Round ${s.round}: ${s.cue==="fake"?"Fake! Wait":s.cue?.toUpperCase()||"Wait"}`;
   }
-  if(s.phase==="countdown")return "Ready…";
+  if(s.phase==="countdown")return s.id==="sprint"?"Wait for green":"Ready…";
   if(s.id==="bump")return s.phase==="meter"?"Stop in the target":s.boutWon?"You won the bout!":"Opponent wins this bout";
-  if(s.id==="hoops")return s.phase==="ready"?"Press Shoot when ready":s.phase==="aim"?"Stop in the target":s.made?"Basket!":"Missed the basket";
+  if(s.id==="hoops")return s.phase==="ready"?"Press Shoot when ready":s.phase==="aim"?"Stop in the target":s.arcProgress<0.72?"In the air…":s.made?"Basket!":"Missed the basket";
   if(s.id==="get")return "Catch notes. Dodge poop.";
   if(s.id==="heading")return "Jump to meet the ball";
   if(s.id==="sprint")return s.hold?(s.holding?"Running steadily":"Press Run steadily to go"):"Keep running!";

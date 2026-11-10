@@ -4,7 +4,7 @@ const expressions = {
   idle1:['101','000','010'], idle2:['101','000','111'],
   happy:['101','000','101'], sad:['000','101','010'],
   eat:['101','010','111'], sleep:['000','101','000'],
-  lookLeft:['110','100','010'],lookRight:['011','001','010'],
+  lookLeft:['110','100','010'],lookRight:['011','001','010'],lookUp:['101','000','010'],
 };
 const drawings = [
   {id:'egg',name:'Binary Seed',stage:'egg',rows:['000033330000','000322223000','003212122300','032112122230','032212112230','032212122230','032111122230','003222222300','000333333000','000000000000']},
@@ -30,6 +30,7 @@ function draw(definition,expression) {
     if(!expression.startsWith('look'))return originalCypunk.mametchi[expression];
     const frame=originalCypunk.mametchi.idle1.map(row=>[...row]);
     for(let y=3;y<=5;y++)for(let x=3;x<=8;x++)frame[y][x]=2;
+    if(expression==='lookUp'){frame[2][4]=3;frame[2][7]=3;frame[4][5]=1;return frame;}
     const left=expression==='lookLeft',x=left?3:6;
     frame[3][x]=3;frame[3][x+2]=3;
     frame[4][left?3:8]=3;frame[5][left?4:7]=1;
@@ -37,8 +38,8 @@ function draw(definition,expression) {
   }
   const pixels=canvas(definition.rows);
   if(definition.face){
-    const [x,y]=definition.face;
-    const wide={idle1:['10001','00000','00100'],idle2:['10001','00000','01110'],happy:['01010','10001','01110'],sad:['00000','10001','01110'],eat:['10001','00100','01110'],sleep:['00000','11011','00000'],lookLeft:['10100','10000','01000'],lookRight:['00101','00001','00010']};
+    const [x,faceY]=definition.face,y=faceY-(expression==='lookUp'?1:0);
+    const wide={idle1:['10001','00000','00100'],idle2:['10001','00000','01110'],happy:['01010','10001','01110'],sad:['00000','10001','01110'],eat:['10001','00100','01110'],sleep:['00000','11011','00000'],lookLeft:['10100','10000','01000'],lookRight:['00101','00001','00010'],lookUp:['10001','00000','00100']};
     const face=definition.faceWidth===5?wide[expression]:expressions[expression];
     face.forEach((row,dy)=>[...row].forEach((pixel,dx)=>{
       pixels[y+dy][x+dx]=pixel==='1'?(definition.ink||1):(definition.background||2);

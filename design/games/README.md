@@ -26,7 +26,7 @@ This is the seven game Connection set, not every game from every Tamagotchi. The
 
 Play opens a game picker. Game names, instructions, score, progress, pause and exit sit outside the pixel display. Show one short instruction before Start. The display is for the pet and playfield.
 
-Use the existing 32 by 16 display and integer pixels. Give each game up to three large touch controls below it, with matching keyboard controls. Do not put a tiny menu or text over the pet. Keep the same layout for all four families.
+Use a 32 by 24 game field and integer pixels. Give each game up to three large touch controls below it, with matching keyboard controls. Do not put a tiny menu or text over the pet. Keep the same layout for all four families.
 
 Use the current pet and evolution. Draw new poses when needed. A symmetrical sprite flipped horizontally is not a visible turn. Keep eyes, toppings, antennae, cracks and readable symbols recognizable. Check the largest adult and elder forms before approving the layout.
 
@@ -43,10 +43,10 @@ The 2.0 contract:
 
 ## Review notes
 
-The models, game screens and compact character art are implemented. Automated checks and browser control checks pass. Taylor approved the release. Physical phone playtesting, audio listening, human screen reader checks and longer balance sessions remain unverified. See the [review checklist](release-checklist.md).
+2.0 is released. The next polish pass keeps the full current pet in each game, adds room around the controls and makes the cues easier to follow. That pass is still in review. Physical phone playtesting, audio listening, human screen reader checks and longer balance sessions remain unverified. See the [review checklist](release-checklist.md).
 
 ## Before shipping
 
 Verify input, collisions, scoring, pause, exit, repeat rewards and family switching. Test every hatched sprite against screen bounds. Review the actual games in desktop and mobile browsers, including touch targets, keyboard focus and muted play. Capture screenshots in each PR. For timing games, also review a short recording.
 
-Source for the seven Connection games: [Bandai's manual](https://tamagotchi-official.com/manual/toy/connection/connection_web_manual_IS_EN.pdf). Their controls and objectives are references. The durations and win conditions in these docs are our starting balance choices.
+Source for the seven Connection games: [Bandai's manual](https://www.bandai.com/amfile/file/download/file/242/product/1304058/). Their controls and objectives are references. The durations and win conditions in these docs are our starting balance choices.

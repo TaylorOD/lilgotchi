@@ -1,7 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { drawArcade } from "../pets/arcade-renderer.js";
-import { arcadeSprites } from "../pets/arcade-sprites.js";
+import { classicSprites } from '../pets/classic-sprites.js';
+import { sliceSprites, slicePalette } from '../pets/slice-sprites.js';
+import { cyberpunkSprites, cyberpunkPalette } from '../pets/cyberpunk-sprites.js';
+import { lilgotchiSprites, lilgotchiPalette } from '../pets/lilgotchi-sprites.js';
+import { headingPose } from '../pets/arcade-geometry.js';
+const families={classic:classicSprites,pizza:sliceSprites,cyberpunk:cyberpunkSprites,lilgotchi:lilgotchiSprites};
 function capture(state, sprite, options = {}) {
   const pixels = [];
   const context = {
@@ -21,7 +26,7 @@ function capture(state, sprite, options = {}) {
       );
     return nodes.get(key);
   };
-  drawArcade(q, state, sprite, [], options);
+  drawArcade(q, state, sprite, options.palette||[], options);
   return { pixels, nodes };
 }
 const states = [
@@ -69,34 +74,35 @@ const states = [
     ball: { x: 29, y: 1 },
   },
 ];
-test("every compact identity stays entirely inside the field in every arena state", () => {
+test("every full identity stays entirely inside the field in every arena state", () => {
   let identities = 0;
-  for (const pets of Object.values(arcadeSprites))
-    for (const sprite of Object.values(pets)) {
+  for (const pets of Object.values(families))
+    for (const [id,frames] of Object.entries(pets).filter(([id,frames])=>id!=="egg"&&frames.idle1)) {
+      const sprite=frames.idle1;
       identities++;
       for (const state of states)
         for (const reducedMotion of [false, true])
-          for (const p of capture(state, sprite, { reducedMotion }).pixels) {
+          for (const p of capture(state, sprite, { reducedMotion,frames }).pixels) {
             assert.ok(Number.isInteger(p.x) && Number.isInteger(p.y));
             assert.ok(
-              p.x >= 0 && p.y >= 0 && p.x + p.w <= 32 && p.y + p.h <= 16,
+              p.x >= 0 && p.y >= 0 && p.x + p.w <= 32 && p.y + p.h <= 24,
               `${state.id}: ${JSON.stringify(p)}`,
             );
           }
     }
   assert.equal(identities, 44);
 });
-const pet = arcadeSprites.classic.mametchi;
+const pet = classicSprites.mametchi.idle1;
 test("Flag visibly raises each requested flag independently and marks fake cues", () => {
   const view = (response) =>
     capture({ id: "flag", phase: "cue", response, cue: "left" }, pet).pixels;
   const raised = (pixels, color) =>
-    pixels.some((p) => p.color === color && p.y === 5 && p.w === 3);
-  assert.ok(raised(view("left"), "#a1f1dc"));
-  assert.ok(!raised(view("left"), "#ed997d"));
-  assert.ok(raised(view("right"), "#ed997d"));
-  assert.ok(!raised(view("right"), "#a1f1dc"));
-  assert.ok(raised(view("both"), "#a1f1dc") && raised(view("both"), "#ed997d"));
+    pixels.some((p) => p.color === color && p.y === 10 && p.w === 3);
+  assert.ok(raised(view("left"), "#365f54"));
+  assert.ok(!raised(view("left"), "#934d42"));
+  assert.ok(raised(view("right"), "#934d42"));
+  assert.ok(!raised(view("right"), "#365f54"));
+  assert.ok(raised(view("both"), "#365f54") && raised(view("both"), "#934d42"));
   assert.notDeepEqual(
     capture({ id: "flag", phase: "cue", cue: "fake" }, pet).pixels,
     view(null),
@@ -115,7 +121,7 @@ test("Bump holds, knocks the loser over, then returns upright with a distinct ri
     after = capture({ ...base, phaseTime: 1100 }, pet).pixels;
   assert.notDeepEqual(fall, before);
   assert.deepEqual(after, before);
-  assert.ok(fall.some((p) => p.color === "#a8c8f3"));
+  assert.ok(fall.some((p) => p.color === "#0f380f"));
   assert.notDeepEqual(
     capture({ ...base, phaseTime: 600 }, pet, { reducedMotion: true }).pixels,
     fall,
@@ -127,8 +133,77 @@ test("Sprint keeps the checkered finish visible beside both racers", () => {
     pet,
   ).pixels;
   assert.equal(
-    p.filter((p) => p.x === 30 && p.w === 2 && p.h === 1).length,
-    16,
+    p.filter((p) => p.x === 31 && p.w === 1 && p.h === 1).length,
+    24,
   );
-  assert.ok(p.some((p) => p.color === "#a8c8f3"));
+  assert.ok(p.some((p) => p.color === "#0f380f"));
 });
+
+
+test('Memory draws the actual current identity and authored direction frames',()=>{
+ for(const [family,pets] of Object.entries(families))for(const [id,frames] of Object.entries(pets).filter(([id,f])=>id!=='egg'&&f.idle1)){
+  const palette={pizza:slicePalette,cyberpunk:cyberpunkPalette,lilgotchi:lilgotchiPalette}[family]||[];
+  for(const direction of ['left','right','up']){
+   const frame=frames[{left:'lookLeft',right:'lookRight',up:'lookUp'}[direction]];
+   const actual=capture({id:'memory',phase:'watch',cue:direction},frames.idle1,{frames,palette,foreground:'#123456'}).pixels;
+   const left=Math.round((32-frame[0].length)/2),top=24-frame.length;
+   for(let y=0;y<frame.length;y++)for(let x=0;x<frame[y].length;x++)if(frame[y][x])
+    assert.ok(actual.some(p=>p.x===left+x&&p.y===top+y&&p.color===(palette[frame[y][x]]||'#123456')),`${family}/${id}/${direction}`);
+  }
+ }
+});
+
+test('Original uses the real LCD colors instead of the old yellow fallback',()=>{
+ const result=capture({id:'memory'},pet,{foreground:'#234567',background:'#abcdef'}).pixels;
+ assert.equal(result[0].color,'#abcdef');assert.ok(result.slice(1).every(p=>p.color==='#234567'));
+});
+
+test('upward glances preserve the lower body of every identity',()=>{
+ for(const pets of Object.values(families))for(const [id,f] of Object.entries(pets).filter(([id,f])=>id!=='egg'&&f.idle1)){
+  assert.notDeepEqual(f.lookUp,f.idle1,id);
+  assert.equal(f.lookUp.length,f.idle1.length);
+  assert.deepEqual(f.lookUp.slice(-1),f.idle1.slice(-1),id);
+ }
+});
+
+test('Heading geometry uses the exact painted head pixels at both screen edges',()=>{
+ for(const pets of Object.values(families))for(const f of Object.values(pets).filter(f=>f.idle1)){
+  for(const center of [4,16,27])for(const jump of [0,1.4,3]){
+   const pose=headingPose(f.idle1,center,jump);
+   const actual=capture({id:'heading',x:center,jump,ball:{x:30,y:0}},f.idle1).pixels;
+   for(const point of pose.head)assert.ok(actual.some(p=>p.x===point.x&&p.y===point.y&&p.w===1&&p.h===1));
+  }
+ }
+});
+
+test('Sprint presents red then yellow then green signals',()=>{
+ for(const [state,color] of [[{phase:'countdown',countdown:2500},'#ef7971'],[{phase:'countdown',countdown:500},'#f5d56e'],[{phase:'race',elapsed:0},'#83da9c']]){
+  const actual=capture({id:'sprint',progress:0,opponent:0,finish:30,...state},pet).pixels;
+  assert.ok(actual.some(p=>p.color===color&&p.w===3&&p.h===2));
+ }
+});
+
+test('Hoops includes a backboard, rim and open net around the model target',()=>{
+ const actual=capture({id:'hoops',target:{min:.3,max:.7},marker:.5,ball:{x:26,y:8}},pet).pixels;
+ assert.ok(actual.some(p=>p.x===30&&p.y===3&&p.h===20));
+ assert.ok(actual.some(p=>p.x===27&&p.y===23&&p.w===5));
+ assert.ok(actual.some(p=>p.x===24&&p.y===9&&p.w===7));
+ assert.ok(actual.some(p=>p.x===26&&p.y===13&&p.w===3));
+});
+
+test('Get catches objects at the visible head of every pet', () => {
+  for (const family of Object.values(families)) for (const [name, frames] of Object.entries(family)) {
+    if (name === 'egg' || !frames.idle1) continue;
+    const idle = frames.idle1;
+    const top = 24 - idle.length + idle.findIndex(row => row.some(Boolean));
+    const {pixels} = capture({id:'get', lane:1, object:{lane:1, kind:'note', y:10}}, idle, {frames});
+    const note = pixels.slice(-2);
+    assert.equal(note[0].y + 2, top, name);
+  }
+});
+
+test('Heading head collision excludes feet only columns', () => {
+  const sprite = [[0,1,1,0],[0,1,1,0],[0,1,1,0],[1,0,0,1]];
+  assert.deepEqual(headingPose(sprite, 16).head, [{x:15,y:20},{x:16,y:20}]);
+});
+

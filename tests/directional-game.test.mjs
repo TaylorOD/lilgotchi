@@ -73,3 +73,18 @@ test('a finished guessing game keeps replay and back available without duplicate
  app.startGame();assert.equal(app.gameActive,true);assert.equal(app.gameRound,0);
  assert.equal(nodes.get('guess-actions').hidden,false);assert.equal(nodes.get('guess-replay').hidden,true);
 });
+
+
+test('hiding a guessing run stops timers without a reward and allows replay',()=>{
+ const {app,timers,nodes}=game();app.gameGuess(app.gameDir);const stale=[...timers],happy=app.state.happiness;
+ app.interruptGuess();stale.forEach(t=>t.fn());assert.equal(app.gameActive,false);
+ assert.equal(app.state.happiness,happy);assert.equal(nodes.get('guess-actions').hidden,true);
+ assert.equal(nodes.get('guess-replay').hidden,false);app.startGame();assert.equal(app.gameActive,true);
+});
+
+test('unavailable replay explains care instead of starting another round',()=>{
+ const {app,nodes}=game();app.gameWins=3;app.finishGame();
+ app.arcade={unavailable:()=> 'Feed your pet before playing.'};app.startGame();
+ assert.equal(app.gameActive,false);assert.equal(nodes.get('game-result').textContent,'Feed your pet before playing.');
+ assert.equal(nodes.get('guess-replay').disabled,true);
+});

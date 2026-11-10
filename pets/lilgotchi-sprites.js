@@ -1,5 +1,5 @@
 const palette=['','#fff0cc','#e7c88d','#435345','#c7dfcf','#dac9a5','#735443','#638b82','#fffbea'];
-const expressions=['idle1','idle2','happy','sad','eat','sleep','lookLeft','lookRight'];
+const expressions=['idle1','idle2','happy','sad','eat','sleep','lookLeft','lookRight','lookUp'];
 const designs=[
   {id:'egg',name:'Little Egg',stage:'egg',widths:[2,4,6,6,4],fill:1,edge:2},
   {id:'babytchi',name:'Peep Egg',stage:'baby',widths:[2,4,6,8,8,6,4],fill:1,edge:2,face:8},
@@ -26,7 +26,7 @@ function draw(design,expression){
     if(expression==='idle2'){frame[8][5]=8;frame[8][6]=8;}
     return frame;
   }
-  const y=design.face,ink=design.ink||3;
+  const y=design.face-(expression==='lookUp'?1:0),ink=design.ink||3;
   const pixel=(x,dy,color=ink)=>{if(frame[y+dy]?.[x])frame[y+dy][x]=color;};
   if(expression==='lookLeft'||expression==='lookRight'){
     const left=expression==='lookLeft';

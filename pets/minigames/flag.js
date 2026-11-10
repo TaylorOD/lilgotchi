@@ -1,11 +1,11 @@
 // Flag cues are settled once, including fake cues where waiting is the answer.
 export function createFlag({ random = Math.random, slow = false } = {}) {
   const types = ["left", "right", "both", "fake"];
-  const duration = slow ? 3000 : 1500;
-  let phase = "cue",
+  const duration = slow ? 4000 : 2400;
+  let phase = "prepare",
     result = null,
     paused = false,
-    remaining = duration;
+    remaining = 900;
   let round = 1,
     score = 0,
     response = null,
@@ -15,7 +15,7 @@ export function createFlag({ random = Math.random, slow = false } = {}) {
     correct = cue === "fake" ? response === null : response === cue;
     if (correct) score++;
     phase = "rest";
-    remaining = 500;
+    remaining = 900;
   }
   return {
     input(action) {
@@ -37,7 +37,10 @@ export function createFlag({ random = Math.random, slow = false } = {}) {
         ms -= step;
         remaining -= step;
         if (remaining > 0) break;
-        if (phase === "cue") settle();
+        if (phase === "prepare") {
+          phase = "cue";
+          remaining = duration;
+        } else if (phase === "cue") settle();
         else if (round === 15) {
           phase = "done";
           result = score >= 12 ? "win" : "loss";

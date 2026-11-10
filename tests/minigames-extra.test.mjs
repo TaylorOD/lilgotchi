@@ -6,23 +6,23 @@ import {createHoops} from '../pets/minigames/hoops.js';
 
 test('Flag scores each real cue once and fake cues only when ignored', () => {
   for (const [random, action] of [[0,'left'],[0.26,'right'],[0.51,'both'],[0.99,null]]) {
-    const game=createFlag({random:()=>random});
+    const game=createFlag({random:()=>random});game.advance(900);
     for(let i=0;i<15;i++) {
       if(action) { assert.equal(game.input(action),true); assert.equal(game.input(action),false); }
-      game.advance(2000);
+      game.advance(3300);
     }
     assert.equal(game.snapshot().score,15); assert.equal(game.snapshot().result,'win');
   }
-  const fake=createFlag({random:()=>0.99});fake.input('left');fake.advance(2000);
+  const fake=createFlag({random:()=>0.99});fake.advance(900);fake.input('left');fake.advance(3300);
   assert.equal(fake.snapshot().score,0);
 });
 
 test('Flag timeout cannot accept a late response and slow mode extends its window', () => {
-  const game=createFlag({random:()=>0});game.advance(1500);
+  const game=createFlag({random:()=>0});game.advance(3300);
   assert.equal(game.input('left'),false);assert.equal(game.snapshot().correct,false);
-  const slow=createFlag({random:()=>0,slow:true});slow.advance(1500);
-  assert.equal(slow.input('left'),true);slow.advance(1500);assert.equal(slow.snapshot().score,1);
-  game.advance(30000);assert.equal(game.snapshot().result,'loss');
+  const slow=createFlag({random:()=>0,slow:true});slow.advance(3300);
+  assert.equal(slow.input('left'),true);slow.advance(1600);assert.equal(slow.snapshot().score,1);
+  game.advance(60000);assert.equal(game.snapshot().result,'loss');
 });
 
 test('Sprint ignores early input, caps tap rate and gives hold the same progress', () => {
@@ -62,7 +62,7 @@ test('Hoops target edges count, misses stay bounded and ready requires input', (
   const game=createHoops();game.advance(100000);assert.equal(game.snapshot().phase,'ready');
   for(let i=0;i<5;i++) {
     game.input('ready');game.input('shoot');assert.equal(game.snapshot().made,false);
-    for(let t=0;t<9;t++){game.advance(100);const {x,y}=game.snapshot().ball;assert.ok(x>=0&&x<32&&y>=0&&y<16);}
+    for(let t=0;t<9;t++){game.advance(100);const {x,y}=game.snapshot().ball;assert.ok(x>=0&&x<=30&&y>=0&&y<=22);}
   }
   assert.equal(game.snapshot().result,'loss');
 });
