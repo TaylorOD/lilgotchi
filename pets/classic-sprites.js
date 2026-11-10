@@ -660,3 +660,13 @@ for(const [id,[x,y,width,background]] of Object.entries(glanceFaces)){
     classicSprites[id][name]=frame;
   }
 }
+
+// An upward glance moves the same authored eyes, without shifting the body.
+for(const [id,[x,y,width,background]] of Object.entries(glanceFaces)){
+  const frame=classicSprites[id].idle1.map(row=>[...row]);
+  for(let dx=0;dx<width;dx++){frame[y][x+dx]=background;frame[y+1][x+dx]=background;}
+  const eye=x+Math.floor((width-3)/2);
+  frame[y-1][eye]=1-background;frame[y-1][eye+2]=1-background;
+  frame[y][eye+1]=1-background;
+  classicSprites[id].lookUp=frame;
+}

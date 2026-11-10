@@ -64,7 +64,17 @@ export function createHoops({ slow = false } = {}) {
       }
     },
     snapshot() {
-      const t = arcElapsed / 900;
+      const t = ["arc", "done"].includes(phase) ? arcElapsed / 900 : 0;
+      // A made shot reaches the rim on its way down, then drops through the net.
+      const rimTime = 0.72;
+      const flight = Math.min(1, t / rimTime);
+      const endX = made ? 26 : marker < 0.5 ? 21 : 29;
+      const ball = t <= rimTime
+        ? {
+            x: 10 + (endX - 10) * flight,
+            y: 16 - 8 * flight - 9 * Math.sin(Math.PI * flight),
+          }
+        : { x: endX, y: 8 + 7 * ((t - rimTime) / (1 - rimTime)) };
       return {
         id: "hoops",
         phase,
@@ -78,10 +88,8 @@ export function createHoops({ slow = false } = {}) {
         target: target(),
         made,
         arcProgress: t,
-        ball: {
-          x: Math.round(8 + 18 * t),
-          y: Math.round(11 - 8 * Math.sin(Math.PI * t) - (made ? 5 * t : 0)),
-        },
+        hoop: { centerX: 27, rimY: 9, left: 24, right: 30 },
+        ball: { x: Math.round(ball.x), y: Math.round(ball.y) },
       };
     },
   };

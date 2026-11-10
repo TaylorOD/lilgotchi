@@ -11,7 +11,7 @@ Taylor approved both releases on November 9, 2026. Merge the patch first, then r
 
 Check the instructions, controls, score, win, loss, quit and replay. Test the same timing with different frame sizes. Repeated input cannot score twice. A finished or abandoned run cannot change a later run.
 
-Look at all four families, from baby through elder. Direction changes must be visible. Keep the whole pet, ball, opponent and effects inside the display. Use compact art where a full sprite would crowd the game.
+Look at all four families, from baby through elder. Direction changes must be visible. Keep the whole pet, ball, opponent and effects inside the display. Use the full current pet, with enough room for the game around it.
 
 Check touch and keyboard controls on mobile and desktop. Keep buttons large. Show sound cues visually. Check reduced motion, focus, spoken instructions and paused playback.
 
@@ -29,7 +29,7 @@ Each implementation PR needs passing tests and screenshots of its actual changed
 
 Record remaining gaps honestly before calling 2.0 ready. The wider device catalog stays in the research backlog.
 
-## Current review
+## 2.0 review
 
 The integrated suite passes 233 tests. The build checks local imports and assets in the package. All 44 compact identities are tested across game scenes and both motion modes.
 
@@ -44,3 +44,9 @@ Ran 3,000 seeded model sessions with delayed observations and limited input rate
 Keyboard checks covered Tab, Shift Tab, arrow input, Escape, closing and reopening a paused round. Starting a game exposed a focus trap gap, now fixed and tested. Audio tests cover cue frequencies, duration, gain, mute, suspension, delayed notes and unavailable audio hardware.
 
 No physical phone was connected. Audio listening and a human screen reader session remain unverified. The browser tools do not expose video recording. The timing simulations and screenshots are not substitutes for those checks.
+
+## Game polish in review
+
+Check full pet art in the 32 by 24 game field, clear Flag waiting cues, Memory answer feedback and Hoops shots through the rim. Heading must contact the visible head rather than a generic box. Replay must start a fresh run and reward it only once.
+
+The model checks cover every current pet sprite in Heading, moving head collisions, Flag timing, paused Memory answers and Hoops rim crossings. Browser review of the integrated changes is still required. Do not treat model tests as a playtest.

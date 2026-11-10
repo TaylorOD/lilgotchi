@@ -14,6 +14,8 @@ export function createMemory({ random = Math.random, slow = false } = {}) {
     cue: sequence[0],
     cueIndex: 0,
     entered: 0,
+    lastInput: null,
+    inputRemaining: 0,
     phaseTime: 0,
   };
   const duration = slow ? 1000 : 600,
@@ -28,8 +30,14 @@ export function createMemory({ random = Math.random, slow = false } = {}) {
   return model(
     s,
     (dt) => {
+      s.inputRemaining = Math.max(0, s.inputRemaining - dt);
+      if (!s.inputRemaining) s.lastInput = null;
       if (s.phase === "answer") return;
       s.phaseTime += dt;
+      if (s.phase === "between" && s.phaseTime >= 450) {
+        restart();
+        return;
+      }
       if (s.phase === "watch" && s.phaseTime >= duration) {
         s.cue = null;
         s.phase = "gap";
@@ -47,6 +55,8 @@ export function createMemory({ random = Math.random, slow = false } = {}) {
     (action) => {
       if (s.phase !== "answer" || !["left", "up", "right"].includes(action))
         return;
+      s.lastInput = action;
+      s.inputRemaining = 450;
       if (action !== sequence[s.entered]) {
         s.result = "loss";
         s.phase = "done";
@@ -59,7 +69,8 @@ export function createMemory({ random = Math.random, slow = false } = {}) {
         } else {
           s.round++;
           s.length++;
-          restart();
+          s.phase = "between";
+          s.phaseTime = 0;
         }
       }
     },
