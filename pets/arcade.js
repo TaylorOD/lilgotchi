@@ -1,3 +1,4 @@
+import { chooseOpponent } from './arcade-opponents.js';
 import { drawArcade } from "./arcade-renderer.js";
 import { games } from "./arcade-catalog.js";
 import { arcadeSprite } from "./arcade-sprites.js";
@@ -195,6 +196,7 @@ export class Arcade {
     this.cueSoundKey=null;
     this.announcementKey=null;
     this.runCharacter = st.character;
+    this.opponent = ['bump','sprint'].includes(this.selection) ? chooseOpponent(petType) : null;
     this.model = games[this.selection].create({
       sprite: SP[st.character]?.idle1,
       slow: this.q("input").checked,
@@ -342,7 +344,7 @@ export class Arcade {
       s,
       arcadeSprite(petType, this.app.state.character),
       palette,
-      {reducedMotion:!!this.app.motionDisabled?.(), frames:SP[this.app.state.character], foreground:this.app.renderer.fg, background:this.app.renderer.bg},
+      {opponent:this.opponent, reducedMotion:!!this.app.motionDisabled?.(), frames:SP[this.app.state.character], foreground:this.app.renderer.fg, background:this.app.renderer.bg},
     );
     if(s.result)this.q(".arcade-meter").hidden = true;
     if (
