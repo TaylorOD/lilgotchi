@@ -26,7 +26,7 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
   const top=Math.max(0,Math.min(FIELD_HEIGHT-height,Math.round(bottom-height)));
   for(let row=0;row<frame.length;row++)for(let col=0;col<frame[row].length;col++){
    const pixel=frame[row][col];if(!pixel)continue;
-   rect(left+(fallen?frame.length-1-row:col),top+(fallen?col:row),1,1,rival?'#577cba':palette[pixel]||foreground);
+   rect(left+(fallen?frame.length-1-row:col),top+(fallen?col:row),1,1,rival?foreground:palette[pixel]||foreground);
   }
  };
  const centered = (frame,bottom=24) => pet(frame,(FIELD_WIDTH-frame[0].length)/2,bottom);
@@ -106,7 +106,7 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
  if(s.id==='hoops'){
   const frame=s.phase==='arc'?frames.eat||idle:frames.lookRight||idle;
   pet(frame,0,24);
-  rect(30,3,1,6);rect(29,3,1,4);
+  rect(30,3,1,20);rect(29,3,1,4);rect(27,23,5,1);
   rect(24,9,7,1,'#ad5a35');
   rect(25,10,1,2);rect(29,10,1,2);rect(26,12,1,2);rect(28,12,1,2);rect(26,13,3,1);
   if(s.ball){rect(s.ball.x,s.ball.y,2,2,'#f6a64b');rect(s.ball.x,s.ball.y+1,1,1,'#8a4726');}

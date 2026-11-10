@@ -121,7 +121,7 @@ test("Bump holds, knocks the loser over, then returns upright with a distinct ri
     after = capture({ ...base, phaseTime: 1100 }, pet).pixels;
   assert.notDeepEqual(fall, before);
   assert.deepEqual(after, before);
-  assert.ok(fall.some((p) => p.color === "#577cba"));
+  assert.ok(fall.some((p) => p.color === "#0f380f"));
   assert.notDeepEqual(
     capture({ ...base, phaseTime: 600 }, pet, { reducedMotion: true }).pixels,
     fall,
@@ -136,7 +136,7 @@ test("Sprint keeps the checkered finish visible beside both racers", () => {
     p.filter((p) => p.x === 31 && p.w === 1 && p.h === 1).length,
     24,
   );
-  assert.ok(p.some((p) => p.color === "#577cba"));
+  assert.ok(p.some((p) => p.color === "#0f380f"));
 });
 
 
@@ -185,7 +185,8 @@ test('Sprint presents red then yellow then green signals',()=>{
 
 test('Hoops includes a backboard, rim and open net around the model target',()=>{
  const actual=capture({id:'hoops',target:{min:.3,max:.7},marker:.5,ball:{x:26,y:8}},pet).pixels;
- assert.ok(actual.some(p=>p.x===30&&p.y===3&&p.h===6));
+ assert.ok(actual.some(p=>p.x===30&&p.y===3&&p.h===20));
+ assert.ok(actual.some(p=>p.x===27&&p.y===23&&p.w===5));
  assert.ok(actual.some(p=>p.x===24&&p.y===9&&p.w===7));
  assert.ok(actual.some(p=>p.x===26&&p.y===13&&p.w===3));
 });
