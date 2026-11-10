@@ -80,19 +80,21 @@ export class Renderer {
           this.ctx.fillRect(x*s+gap,y*s+gap,s-gap,s-gap);
         }
   }
-  renderToCanvas(canvas,sp,scale=4){
+  renderToCanvas(canvas,sp,scale=4,{field=false}={}){
     frameInfo(sp);
     const ctx=canvas.getContext('2d');
     if(!Number.isSafeInteger(scale)||scale<1)throw new RangeError("Sprite scale must be a positive integer");
     const s=scale;
-    canvas.width=sp[0].length*s;
-    canvas.height=sp.length*s;
+    canvas.width=(field?32:sp[0].length)*s;
+    canvas.height=(field?24:sp.length)*s;
+    const offsetX=field?Math.floor((32-sp[0].length)/2)*s:0;
+    const offsetY=field?Math.floor((24-sp.length)/2)*s:0;
     ctx.fillStyle=this.bg;
     ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle=this.fg;
     for(let y=0;y<sp.length;y++)
       for(let x=0;x<sp[y].length;x++)
-        if(sp[y][x]) { ctx.fillStyle=palette[sp[y][x]] || this.fg; ctx.fillRect(x*s,y*s,s,s); }
+        if(sp[y][x]) { ctx.fillStyle=palette[sp[y][x]] || this.fg; ctx.fillRect(offsetX+x*s,offsetY+y*s,s,s); }
   }
 }
 

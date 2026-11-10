@@ -24,3 +24,16 @@ test('other canvas previews retain their original default scale',()=>{
  assert.equal(output.width,48);assert.equal(output.height,48);
  for(const scale of [0,-1,1.5,NaN])assert.throws(()=>renderer.renderToCanvas(output,sliceSprites.mametchi.idle1,scale),RangeError);
 });
+
+
+test('guessing field centers every full pet with visible space on each side',()=>{
+ for(const sprites of [classicSprites,sliceSprites,cyberpunkSprites,lilgotchiSprites])for(const frames of Object.values(sprites)){
+  if(!frames.lookLeft)continue;
+  for(const name of ['idle1','lookLeft','lookRight']){
+   const output=canvas(),frame=frames[name];renderer.renderToCanvas(output,frame,8,{field:true});
+   assert.equal(output.width,256);assert.equal(output.height,192);
+   assert.equal(output.calls.length-1,frame.flat().filter(Boolean).length);
+   for(const [x,y,w,h] of output.calls.slice(1)){assert.ok(x>=0&&y>=0&&x+w<=256&&y+h<=192);}
+  }
+ }
+});

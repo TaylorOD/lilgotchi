@@ -147,3 +147,18 @@ test('Bump and Heading offer Slower pace before a run',()=>{
   assert.ok(arcade.model);assert.equal(arcade.q('.arcade-options').hidden,true);
  }
 });
+
+
+test('finished arcade runs hide controls and replay starts a fresh run',()=>{
+ const {arcade,app,counts}=setup();arcade.select('get');arcade.start();
+ arcade.model.advance(60000);arcade.paint();
+ assert.ok(arcade.model.snapshot().result);
+ assert.equal(arcade.q('.arcade-actions').hidden,true);
+ assert.equal(arcade.q('.arcade-start').textContent,'Play again');
+ assert.equal(arcade.q('.arcade-start').hidden,false);
+ assert.equal(arcade.q('.arcade-pause').hidden,true);
+ const energy=app.state.energy,settled=counts();arcade.paint();assert.deepEqual(counts(),settled);
+ arcade.start();assert.equal(arcade.model.snapshot().result,null);
+ assert.equal(arcade.q('.arcade-actions').hidden,false);
+ assert.equal(arcade.q('.arcade-start').hidden,true);assert.equal(app.state.energy,energy-5);
+});

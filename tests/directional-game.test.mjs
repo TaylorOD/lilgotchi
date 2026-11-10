@@ -12,7 +12,7 @@ afterEach(()=>mock.restoreAll());
 function game(){
  const nodes=new Map(),drawn=[],timers=[];
  globalThis.document={getElementById:id=>{
-  if(!nodes.has(id))nodes.set(id,{textContent:'',classList:{add(){},remove(){},contains:()=>false}});
+  if(!nodes.has(id))nodes.set(id,{textContent:'',focus(){},classList:{add(){},remove(){},contains:()=>false}});
   return nodes.get(id);
  }};
  globalThis.localStorage={getItem:()=>null,setItem(){}};
@@ -65,7 +65,11 @@ test('close, restart, death, vacation and frame cancellation invalidate pending 
   assert.equal(drawn.length,count,stop);assert.equal(app.gameRound,round,stop);assert.equal(app.state.happiness,happy,stop);
  }
 });
-test('a previous game over timer cannot close a new run',()=>{
- const {app,timers}=game();app.gameRound=5;app.gameWins=3;app.finishGame();
- const old=timers.at(-1);app.startGame();old.fn();assert.equal(app.gameActive,true);
+test('a finished guessing game keeps replay and back available without duplicate rewards',()=>{
+ const {app,timers,nodes}=game();app.gameRound=5;app.gameWins=3;app.finishGame();
+ assert.equal(timers.length,0);assert.equal(nodes.get('guess-actions').hidden,true);
+ assert.equal(nodes.get('guess-replay').hidden,false);const happiness=app.state.happiness;
+ app.finishGame();assert.equal(app.state.happiness,happiness);
+ app.startGame();assert.equal(app.gameActive,true);assert.equal(app.gameRound,0);
+ assert.equal(nodes.get('guess-actions').hidden,false);assert.equal(nodes.get('guess-replay').hidden,true);
 });
