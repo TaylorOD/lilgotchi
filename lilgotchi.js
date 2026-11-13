@@ -7,7 +7,7 @@ import { validState } from './pets/valid-state.js';
 import { PetHistory } from './widget/pet-history.js';
 import { mountCareGuide } from './widget/care-guide.js';
 import { mountSettings } from './widget/settings.js';
-import { inactiveSince, resumeInactive } from './widget/inactive.js';
+import { inactiveSince, resumeInactive, hasActivePets } from './widget/inactive.js';
 import { careNeeds, refreshCare } from './widget/care-monitor.js';
 import { petLabel } from './widget/pet-label.js';
 
@@ -97,7 +97,8 @@ class LilGotchi extends HTMLElement {
     this.shadowRoot.querySelector('.game-options').hidden=!!inactive;
     if(state)this.careStates.set(this.family,{state,stale:!this.ready});
     const button=this.shadowRoot.querySelector('.launcher');
-    const brand=this.getAttribute('launcher')==='brand';
+    const brand=this.getAttribute('launcher')==='brand'||!hasActivePets(this.store,this.allowed,this.careStates);
+    button.classList.toggle('brand-launcher',brand);
     button.innerHTML=brand?`<img class="brand-egg" src="${asset('./widget/egg.svg')}" alt=""><span class="launcher-label">lilgotchi</span>`:launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family),{shell:this.getAttribute('launcher')!=='pet',eink:this.store.preference('eink')==='true'});
     const rows=this.allowed.flatMap(family=>{
       if(inactiveSince(this.store,family))return [];
