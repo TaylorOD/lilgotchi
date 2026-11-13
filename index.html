@@ -43,6 +43,11 @@
     #setup .character-options label { display:flex; align-items:center; min-height:44px; }
     .character-options[hidden] { display:none; }
     #setup pre { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .pet-colors { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; border:1px solid #343c48; border-radius:12px; padding:18px; min-width:0; }
+    .pet-colors input[type=color] { width:100%; height:46px; padding:4px; background:#202832; border:1px solid #667486; border-radius:8px; box-sizing:border-box; }
+    .pet-colors .reset-colors { grid-column:1/3; align-self:center; }
+    .color-preview { display:flex; justify-content:center; }.color-preview svg { width:60px; height:70px; }
+    @media(max-width:700px) { .pet-colors { grid-template-columns:minmax(0,1fr); }.pet-colors .reset-colors { grid-column:auto; } }
     .copy-status { min-height:24px; margin:0; } #setup button:disabled { opacity:.6; }
     @media(max-width:700px) { #setup { grid-template-columns:minmax(0,1fr); padding:20px; gap:16px; } }
     @media(max-width:500px) { .hero .gallery { grid-template-columns:repeat(2,minmax(0,1fr)); } body { padding:24px 20px 100px; } main { margin:4vh auto; } }
@@ -78,6 +83,7 @@
       <label>Launcher <select name="launcher"><option value="shell">Pet in an egg</option><option value="pet">Pet and name</option><option value="brand">Logo and lilgotchi</option></select></label>
       <label>Care notifications <select name="notifications"><option value="on">On</option><option value="off">Off</option></select></label>
       <label>Outer widget <select name="appearance"><option value="dark">Dark</option><option value="light">Light</option></select></label>
+      <fieldset class="pet-colors"><legend>Pet colors</legend><label>Family <select name="colorFamily"></select></label><label>Handheld color <input type="color" name="shellColor"></label><label>Screen color <input type="color" name="screenColor"></label><button type="button" class="reset-colors">Return to default colors</button><div class="color-preview" aria-label="Color preview"></div></fieldset>
       <p>Choose how lilgotchi will look on your site, then copy the code below.</p>
       <pre><code></code></pre><button type="button" class="copy">Copy install code</button><p class="copy-status" role="status"></p>
     </form>

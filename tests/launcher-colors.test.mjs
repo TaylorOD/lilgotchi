@@ -2,9 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { launcherArt, launcherIcon } from '../widget/launcher.js';
 
-test('launcher shells distinguish the four families while retaining saved pet art',()=>{
+test('launcher shells distinguish the five families while retaining saved pet art',()=>{
   const families=[
-    ['default','#e8d5c4','#c4cfa1'],
+    ['default','#cf6579','#cbdca6'],
+    ['original2','#7f94d8','#c0dce6'],
     ['slice','#839c98','#648e97'],
     ['cyberpunk','#304e59','#0b1c24'],
     ['lilgotchi','#fff0cc','#20281d'],
@@ -15,13 +16,13 @@ test('launcher shells distinguish the four families while retaining saved pet ar
     assert.ok(icon.includes(`<path fill="${screen}" d="M6 8h12v14H6z"`),`${family} screen`);
     assert.notEqual(icon,launcherIcon(family,{character:'mametchi'}));
   }
-  assert.ok(launcherIcon('mametchi').includes('fill="#e8d5c4"'));
+  assert.ok(launcherIcon('mametchi').includes('fill="#cf6579"'));
   assert.equal(launcherIcon('unknown'),launcherIcon('default'));
 });
 
-test('original launchers match the active LCD and e ink colors',()=>{
+test('Gen 1 launchers match the active LCD and e ink colors',()=>{
   const original=launcherIcon('mametchi');
-  assert.ok(original.includes('fill="#0f380f"'));
+  assert.ok(original.includes('fill="#142019"'));
   const eink=launcherIcon('mametchi',null,{eink:true});
   for(const color of ['#d8d8d8','#f5f5f5','#f0f0f0','#111'])assert.ok(eink.includes(`fill="${color}"`));
   assert.equal(launcherIcon('slice',null,{eink:true}),launcherIcon('slice'));

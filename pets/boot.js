@@ -1,3 +1,5 @@
+import { applyPetColors, cleanColors } from './colors.js';
+import { selectedCharacter } from './storage.js';
 import { TamagotchiApp } from './game.js';
 import { trapOverlayTab } from './focus.js';
 import { overlayContentHeight } from './overlay-size.js';
@@ -11,6 +13,8 @@ let saved=null;
 let saveId=0;
 let lastConfiguration='';
 let configurationReady=false;
+let customColors={};
+const applyColors=()=>{applyPetColors(document.documentElement,selectedCharacter.id,customColors);window.app?.renderer.updateColors();window.app?.render();};
 function publishConfiguration(){
   if(!channel||!window.app||!configurationReady)return;
   const configuration={vacation:window.app.state.vacationAt>0,scanlines:document.documentElement.classList.contains('scanlines'),eink:window.app.eink,muted:window.app.sound.muted,classic:petType==='classic'};
@@ -33,6 +37,7 @@ function start(initial, muted=true, eink=false,scanlines=false) {
     title.id=`${overlay.id}-title`;overlay.setAttribute('aria-labelledby',title.id);
   }
   saved=initial;
+  applyColors();
   if(embedded) configureStorage({load:()=>saved,save:state=>{
     saved=state;
     channel.postMessage({type:'save',id:++saveId,state});
@@ -42,9 +47,11 @@ function start(initial, muted=true, eink=false,scanlines=false) {
     if(channel){channel.postMessage({type:'preference',name:'scanlines',value});publishConfiguration();}
     else try{localStorage.setItem('lilgotchi:scanlines',String(value));}catch{}
   },eink:petType==='classic'&&eink,onThemeChange:value=>{
+    applyColors();
     if(channel){channel.postMessage({type:'preference',name:'eink',value});publishConfiguration();}
     else try{localStorage.setItem('lilgotchi:eink',String(value));}catch{}
   }});
+  applyColors();
   if(!muted) window.app.handleAction('mute');
   document.getElementById('mute-btn').addEventListener('click',()=>{channel?.postMessage({type:'preference',name:'muted',value:window.app.sound.muted});publishConfiguration();});
   window.app.state.save();
@@ -85,6 +92,7 @@ if(embedded) {
     channel.onmessage=event=>{
       const message=event.data;
       if(!message || typeof message.type!=='string') return;
+      if(message.type==='colors'){customColors=cleanColors(message.colors);applyColors();}
       if(message.type==='configure' && window.app){
         const id=configurationActionId(message.action,petType==='classic');
         if(id){document.getElementById(id)?.click();publishConfiguration();}
@@ -107,6 +115,7 @@ if(embedded) {
       }
       if(message.type==='save-status') document.getElementById('save-status').textContent=String(message.text||'').slice(0,160);
     };
+    customColors=cleanColors(event.data.colors);
     const initial=event.data.state;
     start(validState(initial)?initial:null,event.data.muted!==false,event.data.eink===true,event.data.scanlines===true);
   };
