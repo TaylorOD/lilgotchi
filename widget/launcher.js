@@ -2,6 +2,8 @@ import { getCharacter } from '../pets/catalog.js';
 import { sliceSprites, slicePalette } from '../pets/slice-sprites.js';
 import { cyberpunkSprites, cyberpunkPalette } from '../pets/cyberpunk-sprites.js';
 import { classicSprites } from '../pets/classic-sprites.js';
+import { originalSprites } from '../pets/original-sprites.js';
+const originals={...classicSprites,...originalSprites};
 import { lilgotchiSprites, lilgotchiPalette } from '../pets/lilgotchi-sprites.js';
 
 const shellColors={
@@ -13,7 +15,7 @@ const shellColors={
 };
 
 export function launcherArt(family, state, { fit = false } = {}) {
-  const sprites=family==='lilgotchi'?lilgotchiSprites:family==='slice'?sliceSprites:family==='cyberpunk'?cyberpunkSprites:classicSprites;
+  const sprites=family==='lilgotchi'?lilgotchiSprites:family==='slice'?sliceSprites:family==='cyberpunk'?cyberpunkSprites:originals;
   const palette=family==='lilgotchi'?lilgotchiPalette:family==='slice'?slicePalette:family==='cyberpunk'?cyberpunkPalette:['','#b4ce83'];
   const preview=family==='slice'||family==='cyberpunk'?'tamatchi':getCharacter(family)?.character||'egg';
   const identity=state?.character && Object.hasOwn(sprites,state.character)?state.character:preview;
