@@ -1,3 +1,4 @@
+import {FALLING_FIELD_HEIGHT} from '../pets/arcade-geometry.js';
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createGet } from "../pets/minigames/get.js";
@@ -119,7 +120,7 @@ test("Heading drifting serves stay reachable and ten distinct headers win", () =
   for (let t = 0; t < 45000 && !g.snapshot().result; t += 10) {
     const s = g.snapshot();
     assert.ok(s.ball.x >= 1 && s.ball.x <= 29);
-    assert.ok(s.ball.y >= 1 && s.ball.y <= 22);
+    assert.ok(s.ball.y >= 1 && s.ball.y <= FALLING_FIELD_HEIGHT - 2);
     if (s.ball.x < s.x - 1) g.input("left");
     if (s.ball.x > s.x + 1) g.input("right");
     if (s.phase === "playing" && s.ball.y > 1 && s.ball.y >= previous)
