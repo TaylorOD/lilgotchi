@@ -1,6 +1,7 @@
 import { mkdir, copyFile, readdir, cp, rm, lstat, writeFile, readFile } from 'node:fs/promises';
 import { resolve, dirname, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { withSiteVersion } from './site-version.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const out=resolve(root,'dist');
 if(relative(root,out)!=='dist' || !out.startsWith(root+sep))throw new Error('Unsafe output directory');
@@ -23,5 +24,9 @@ await cp(resolve(root,'examples'),resolve(out,'examples'),{recursive:true});
 await mkdir(resolve(out,'reference'));
 await copyFile(resolve(root,'reference/source.json'),resolve(out,'reference/source.json'));
 const {name,version}=JSON.parse(await readFile(resolve(root,'package.json'),'utf8'));
+for(const file of ['index.html','widget/install-snippet.js','widget/configurator.js','README.md']) {
+  const path=resolve(out,file);
+  await writeFile(path,withSiteVersion(await readFile(path,'utf8'),version));
+}
 await writeFile(resolve(out,'version.json'),JSON.stringify({name,version,schema:1},null,2)+'\n');
 console.log(`Static ${name} ${version} ready in dist. Copy the whole folder to your site.`);
