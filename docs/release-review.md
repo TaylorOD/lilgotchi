@@ -1,5 +1,9 @@
 # Release notes
 
+## 3.0.6
+
+Adds space below the care meters, groups Settings into smaller sections and fixes touch scrolling. The homepage starts with the egg logo and lilgotchi name, shows the current version and updates automatically after merges. Includes the social preview artwork.
+
 ## 3.0.5
 
 Redraws the custom adults with more body detail and a clearer growth progression. Quail Egg stays small. Get and Heading have taller fields, Get drops more slowly and uses music notes, Sprint gives each racer a separate full height lane, and Hoops changes its target between shots. Care information is easier to scan and the Settings switches are grouped below Sound. A GitHub link sits beside Credits at the bottom of Settings.
