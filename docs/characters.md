@@ -1,6 +1,6 @@
 # Meet the pets
 
-Pick a family and raise it from an egg. Slice stays pizza, Cypunk stays digital, Lilgotchi stays an egg. Original and Original 2 follow separate P1 and P2 character paths.
+Pick a family and raise it from an egg. Slice stays pizza, Cypunk stays digital, Lilgotchi stays an egg. Gen 1 and Gen 2 follow separate P1 and P2 character paths.
 
 Each family has its own saved pet. Switching families doesn’t replace your progress.
 
@@ -9,8 +9,8 @@ Each family has its own saved pet. Switching families doesn’t replace your pro
 | Slice | Dough | `slice` |
 | Cypunk | Binary Seed | `cyberpunk` |
 | Lilgotchi | Little Egg | `lilgotchi` |
-| Original | Original Egg | `default` |
-| Original 2 | Original Egg | `original2` |
+| Gen 1 | Egg | `default` |
+| Gen 2 | Egg | `original2` |
 
 ## The full lineups
 
@@ -28,11 +28,11 @@ Each image shows the stages, adult branches and special elder. Open it to see th
 
 ![Lilgotchi stages and evolution paths](images/lilgotchi-family.jpg)
 
-### Original
+### Gen 1
 
 Babytchi grows into Marutchi, then Tamatchi or Kuchitamatchi. Adults include Mametchi, Ginjirotchi, Maskutchi, Kuchipatchi, Nyorotchi and Tarakotchi. Maskutchi can become Oyajitchi or Bill.
 
-### Original 2
+### Gen 2
 
 Shirobabytchi grows into Tonmarutchi, then Tongaritchi or Hashitamatchi. Adults include Mimitchi, Pochitchi, Nyatchi, Zuccitchi, Hashizoutchi, Kusatchi and Takotchi. Zuccitchi can become Sekitoritchi, Charitchi or Zatchi.
 
@@ -42,9 +42,9 @@ Both original families use source pixels from [DemiumAjare's P1 and P2 sheets](h
 
 Eggs hatch in 90 seconds. Babies become children, then teens and adults. Care mistakes and discipline decide the path. All five families use the same care timing.
 
-The special elder path starts from BBQ Chicken, Matrix, Goose Egg, Maskutchi or Zuccitchi. At age 10 or older with full discipline, the pet has a 5% chance each eligible tick to become its elder. Original chooses Oyajitchi or Bill equally. Original 2 chooses Sekitoritchi, Charitchi or Zatchi equally. Other adults don’t take that path.
+The special elder path starts from BBQ Chicken, Matrix, Goose Egg, Maskutchi or Zuccitchi. At age 10 or older with full discipline, the pet has a 5% chance each eligible tick to become its elder. Gen 1 chooses Oyajitchi or Bill equally. Gen 2 chooses Sekitoritchi, Charitchi or Zatchi equally. Other adults don’t take that path.
 
-Original 2 uses the same care thresholds as Original. Tongaritchi takes the Mametchi equivalent path to Mimitchi, the Ginjirotchi equivalent path to Pochitchi or Nyatchi with equal chances, and the Maskutchi equivalent path to Zuccitchi. The remaining paths lead to Hashizoutchi, Kusatchi or Takotchi in place of Kuchipatchi, Nyorotchi or Tarakotchi.
+Gen 2 uses the same care thresholds as Gen 1. Tongaritchi takes the Mametchi equivalent path to Mimitchi, the Ginjirotchi equivalent path to Pochitchi or Nyatchi with equal chances, and the Maskutchi equivalent path to Zuccitchi. The remaining paths lead to Hashizoutchi, Kusatchi or Takotchi in place of Kuchipatchi, Nyorotchi or Tarakotchi.
 
 Spoiled Slice and Cracked Elder are special older forms. They don’t mean you neglected your pet.
 

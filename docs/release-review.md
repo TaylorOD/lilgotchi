@@ -2,7 +2,7 @@
 
 ## 3.0 preview
 
-Original now uses the P1 source sprites. Original 2 adds the P2 family with its own save. All 26 characters from the source collection are included, with regional and hidden forms using adapted growth paths.
+Gen 1 now uses the P1 source sprites. Gen 2 adds the P2 family with its own save. All 26 characters from the source collection are included, with regional and hidden forms using adapted growth paths.
 
 The 259 automated checks pass, including family saves, growth paths and sprite bounds. Browser review covered the character guide, hatching, feeding, family switching, a guessing game, the phone layout and a crowded adult screen. This version is prepared for review and has not been released.
 

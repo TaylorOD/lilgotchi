@@ -17,10 +17,10 @@ A little pixel pet for your website. Feed it, play with it, and watch it grow.
 | Slice | A ball of dough |
 | Cypunk | A binary egg |
 | Lilgotchi | Our little logo egg |
-| Original | The classic egg |
-| Original 2 | The second generation egg |
+| Gen 1 | The classic egg |
+| Gen 2 | The second generation egg |
 
-Every family starts small and follows its own growth paths. Each keeps a separate save. Original and Original 2 include 26 P1 and P2 characters, with source pixel artwork and regional hidden forms.
+Every family starts small and follows its own growth paths. Each keeps a separate save. Gen 1 and Gen 2 include 26 P1 and P2 characters, with source pixel artwork and regional hidden forms.
 
 Feed, play, clean up and settle down for a nap. Progress stays in your browser, with file backups in Settings.
 
