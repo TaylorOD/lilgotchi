@@ -10,9 +10,7 @@ That’s it. Slice opens first, all pets are available and sound starts off. You
 
 Want to pick the pets, colors or corner? Use the [setup tool](https://www.taylordorsett.com/lilgotchi/).
 
-Choose a family under **Pet colors** to set its handheld and screen colors. The preview shows your choices and the install code includes them. **Return to default colors** resets that family.
-
-Visitors can also change each pet's colors in **Settings**. Those choices stay in their browser. Gen 1 starts with a rose handheld and green screen. Gen 2 starts with a blue handheld and pale blue screen. The E ink theme keeps its black and white look.
+Change each pet's handheld and screen colors inside its **Settings**. Switch to another family to customize that pet separately. **Return to default colors** resets the selected family's colors. These choices stay in your browser. The E ink theme keeps its black and white look.
 
 ## Host your own copy
 
