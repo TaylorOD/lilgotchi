@@ -49,3 +49,9 @@ Pick the pet, open Settings and choose Make inactive. Its progress stays saved, 
 ## Make it yours
 
 Open **Settings** to choose the selected pet's **Handheld color** and **Screen color**. Switch families to set each pet separately. **Return to default colors** resets just that family. Gen 1 starts with a sage handheld and green screen. Gen 2 has its own blue palette. Colors stay in your browser and do not change the website around the game.
+
+## The corner button
+
+In **Settings**, turn on **Always show lilgotchi logo** to keep the logo egg and name on the corner button, even while pets are active. Turn it off to show the pet again. When all pets are inactive, the logo still appears.
+
+**Show care notifications** controls the count badge and needs list. Turn it off to hide them, or on to show them when a pet needs attention. Both choices apply across your pets and stay in this browser on this website. They work before you start a pet too.
