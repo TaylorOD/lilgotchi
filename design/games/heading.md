@@ -12,9 +12,9 @@ A successful header adds one point and sends the ball upward. Ten headers win. T
 
 ## Screen and art
 
-Show a small ball, the pet and a ground line. Score and misses sit below the display. Contact follows the occupied pixels in the upper half of the current pet. A rising head can meet a falling ball between frames.
+Show a small ball above the pet. Score and misses sit below the display. Contact follows the occupied pixels in the upper half of the current pet. A rising head can meet a falling ball between frames.
 
-Use the full current pet in a 32 by 24 game field, with room for the ball and jump. Keep a bounded arc so the ball never clips at the top. New serves must be reachable from the pet's current position.
+Use the full current pet in a 32 by 40 game field, with room for the ball and jump. Keep a bounded arc so the ball never clips at the top. New serves must be reachable from the pet's current position.
 
 ## Check it
 

@@ -6,11 +6,11 @@ Time a shot into a basketball hoop, as described in the [Connection manual](http
 
 ## Our version
 
-Shoot or Space stops an aim meter. Make the basket when the marker lands in its visible target. Play five shots and score three to win. Narrow the target slightly after each successful shot. Press Shoot once to start the meter, then again to take the shot. The meter travels out and back in 2.4 seconds, or four seconds in slower mode. The ball takes 900 ms to land. Target edges count as a hit.
+Shoot or Space stops an aim meter. Make the basket when the marker lands in its visible target. Play five shots and score three to win. The first target is centered. After each shot it changes sides with a varied position, then stays still while aiming. Narrow the target slightly after each successful shot. Press Shoot once to start the meter, then again to take the shot. The meter travels out and back in 2.4 seconds, or four seconds in slower mode. The ball takes 900 ms to land. Target edges count as a hit.
 
 ## Screen and art
 
-Pet on the left, hoop on the right, ball between them. Put the meter and shot count below the display. Keep the full current pet visible. A made shot crosses the rim from above, then drops through the net. Early shots fall short and late shots go past the rim. Keep misses inside the canvas too.
+Pet on the left, hoop on the right, ball between them. Put the meter and shot count below the display. Keep the full current pet visible. A made shot crosses the rim from above, then drops through the net. Stops below the current target fall short. Stops above it go past the rim. Keep misses inside the canvas too.
 
 ## Check it
 
