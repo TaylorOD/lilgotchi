@@ -41,11 +41,10 @@ class LilGotchi extends HTMLElement {
       <label class="chooser"><span class="pet-summary"><span class="pet-identity"></span><span class="pet-care" hidden></span></span><select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
       <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-tour">Quick tour</button> <button class="welcome-close">Got it</button></aside>
       <details class="care-needs" hidden><summary></summary><div class="needs-list"></div></details><p class="return-summary" hidden></p><div class="frame"></div>
-      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="guide-host"></div><div class="game-options"></div><div class="launcher-options"></div><div class="color-options"></div><div class="inactive-option setting-row"><div class="setting-copy"><strong>Take a break from this pet</strong><p>Keep your progress. No growth, care or notifications until you start it again.</p></div><button class="make-inactive">Make inactive</button></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
+      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="guide-host"></div><details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details><details class="settings-group"><summary>Display and sound</summary><div class="game-options"></div><div class="launcher-options"></div><div class="color-options"></div></details><details class="settings-group"><summary>Pause or restart</summary><div class="pause-options"></div><div class="inactive-option setting-row"><div class="setting-copy"><strong>Take a break from this pet</strong><p>Keep your progress. No growth, care or notifications until you start it again.</p></div><button class="make-inactive">Make inactive</button></div></details><details class="settings-group"><summary>Save backups</summary><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
-      <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
-      <footer>Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed. <a href="${asset('./docs/credits.md')}" target="_blank" rel="noopener">Credits</a></footer><button class="settings-close">Close settings</button></details>
+      <p class="backup-help">Progress stays in this browser on this website. Clearing site data removes it. Export a backup to move it or keep it safe. No account or automatic sync is needed.</p></details><footer><a href="https://github.com/TaylorOD/lilgotchi" target="_blank" rel="noopener">GitHub</a></footer><button class="settings-close">Close settings</button></details>
       </${this.inline?'section':'dialog'}>`;
     this.panel=this.shadowRoot.querySelector(this.inline?'section':'dialog');
     this.select=this.shadowRoot.querySelector('select');
@@ -72,8 +71,7 @@ class LilGotchi extends HTMLElement {
       });
     this.settings=mountSettings(this.shadowRoot.querySelector('.game-options'),action=>{
       if(this.ready)this.port?.postMessage({type:'configure',action});
-    });
-    this.shadowRoot.querySelector('.launcher-options').after(this.shadowRoot.querySelector('.settings-reset'));
+    },this.shadowRoot.querySelector('.pause-options'));
     this.bind('.settings-close','click',()=>{const details=this.shadowRoot.querySelector('.save-help');details.open=false;details.querySelector('summary').focus();});
     this.colorControls=mountColorControls(this.shadowRoot.querySelector('.color-options'),colors=>{
       this.store.preference('colors-'+this.family,JSON.stringify(cleanColors(colors)));

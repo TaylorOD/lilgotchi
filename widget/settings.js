@@ -5,7 +5,7 @@ export function configurationActionId(action,classic=true){
 export function validConfiguration(value){
   return !!value && ['vacation','scanlines','eink','muted','classic'].every(key=>typeof value[key]==='boolean');
 }
-export function mountSettings(container,sendCommand){
+export function mountSettings(container,sendCommand,pauseContainer=container){
   const doc=container.ownerDocument;
   const rows=new Map();
   const specs=[
@@ -25,13 +25,13 @@ export function mountSettings(container,sendCommand){
     const state=doc.createElement('span');state.setAttribute('aria-hidden','true');state.textContent='Off';button.append(state);
     button.disabled=true;
     button.addEventListener('click',()=>{if(ready&&configuration&&configurationActionId(action,configuration.classic))sendCommand(action);});
-    row.append(copy,button);container.append(row);rows.set(action,{row,button,state});
+    row.append(copy,button);(action==='vacation'?pauseContainer:container).append(row);rows.set(action,{row,button,state});
   }
   const reset=doc.createElement('div');reset.className='settings-reset';
   const hint=doc.createElement('p');hint.textContent='Start fresh with this pet. You will be asked to confirm.';
   const restart=doc.createElement('button');restart.type='button';restart.textContent='Start again';restart.disabled=true;
   restart.addEventListener('click',()=>{if(ready&&configuration)sendCommand('reset');});
-  reset.append(hint,restart);container.append(reset);
+  reset.append(hint,restart);pauseContainer.append(reset);
   function render(){
     for(const [action,{row,button,state}] of rows){
       row.hidden=action==='eink'&&!configuration?.classic;
