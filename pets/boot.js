@@ -152,10 +152,15 @@ document.addEventListener('wheel',event=>{
   event.preventDefault();
   scrollHost(event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1));
 },{passive:false});
+// Screen coordinates stay stable when scrolling moves the iframe under a finger.
 let touchY=null;
-document.addEventListener('touchstart',event=>{touchY=event.touches.length===1?event.touches[0].clientY:null;},{passive:true});
+document.addEventListener('touchstart',event=>{touchY=event.touches.length===1?event.touches[0].screenY:null;},{passive:true});
 document.addEventListener('touchmove',event=>{
   if(!channel || touchY===null || event.touches.length!==1)return;
-  const next=event.touches[0].clientY;
+  const next=event.touches[0].screenY;
   event.preventDefault();scrollHost(touchY-next);touchY=next;
 },{passive:false});
+
+const endTouch=()=>{touchY=null;};
+document.addEventListener('touchend',endTouch,{passive:true});
+document.addEventListener('touchcancel',endTouch,{passive:true});
