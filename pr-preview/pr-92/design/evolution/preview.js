@@ -4,8 +4,8 @@ import {proposal as lilgotchi} from './lilgotchi.js';
 import {classicSprites} from '../../pets/classic-sprites.js';
 import {originalSprites} from '../../pets/original-sprites.js';
 import {p1Stages,p2Stages} from '../../pets/original-roster.js';
-const original={type:'Original',palette:['','#b4ce83']};
-const original2={type:'Original 2',palette:['','#b4ce83']};
+const original={type:'Gen 1',palette:['','#b4ce83']};
+const original2={type:'Gen 2',palette:['','#b4ce83']};
 const proposals={original,original2,slice,cypunk,lilgotchi};
 let selected=new URLSearchParams(location.search).get('family')||'slice';
 if(!proposals[selected])selected='slice';
@@ -29,7 +29,7 @@ function render(){
     const stages=selected==='original'?p1Stages:p2Stages;
     const hidden=selected==='original'?['oyajitchi','bill']:['sekitoritchi','charitchi','zatchi'];
     const sections=[['growing up',[...stages.egg,...stages.baby,...stages.child,...stages.teen]],['adults',stages.adult.filter(id=>!hidden.includes(id))],['hidden',hidden]];
-    document.querySelector('#review').innerHTML=`<h2>${type}: the full lineup</h2><p class="note">Original P1 and P2 pixels, including regional characters. Both families use lilgotchi care timing and adapted growth paths.</p>`+sections.map(([stage,ids])=>`<h2>${stage[0].toUpperCase()+stage.slice(1)}</h2><div class="grid adults">${ids.map(id=>{
+    document.querySelector('#review').innerHTML=`<h2>${type}: the full lineup</h2><p class="note">Gen 1 and Gen 2 source pixels, including regional characters. Both families use lilgotchi care timing and adapted growth paths.</p>`+sections.map(([stage,ids])=>`<h2>${stage[0].toUpperCase()+stage.slice(1)}</h2><div class="grid adults">${ids.map(id=>{
       const pet={id,name:id==='egg'?'Egg':id[0].toUpperCase()+id.slice(1),frames:originalSprites[id]||classicSprites[id]};
       return `<article><span class="stage">${Object.entries(stages).find(([,ids])=>ids.includes(id))[0]}</span>${sprite(pet,palette,expression)}<h3>${pet.name}</h3><span class="original">${id}</span></article>`;
     }).join('')}</div>`).join('');

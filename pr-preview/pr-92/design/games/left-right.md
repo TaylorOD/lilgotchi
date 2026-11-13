@@ -16,7 +16,7 @@ Left and right mean the viewer's left and right. The pet turns toward its answer
 
 Add explicit `lookLeft` and `lookRight` frames for every hatched identity in all four families. Give front facing pets an obvious eye, face or body turn. Keep markings such as 404 readable. A small move across the screen or a flipped symmetrical sprite does not count.
 
-Fit both poses in the existing 16 by 16 game canvas. Keep the whole pet visible. Review Original, Slice, Cypunk and Lilgotchi from baby through elder.
+Fit both poses in the existing 16 by 16 game canvas. Keep the whole pet visible. Review Gen 1, Gen 2, Slice, Cypunk and Lilgotchi from baby through elder.
 
 ## Done when
 

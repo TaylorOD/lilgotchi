@@ -10,7 +10,7 @@ Custom pets need an egg and all 11 character identities. Eggs use `idle1` and `i
 
 Use a consistent canvas and foot position across expressions. Custom bodies are 12 by 12 pixels. Eggs are 12 by 10. The renderer allows bodies up to 16 by 12, but shared care effects need room too.
 
-The source P1 and P2 bodies may use up to 16 by 16 pixels. Keep their original pixels intact. Their full care scenes are covered by the same collision and clipping checks. Other families retain their existing size limits.
+The Gen 1 and Gen 2 source bodies may use up to 16 by 16 pixels. Keep their original pixels intact. Their full care scenes are covered by the same collision and clipping checks. Other families retain their existing size limits.
 
 Never crop a row or column to make movement fit.
 
