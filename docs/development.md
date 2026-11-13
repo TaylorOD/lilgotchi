@@ -63,11 +63,11 @@ Run `npm test`, then look at the changed screens on desktop and mobile. `/qa/` h
 
 `npm run build` creates the static folder. `npm pack` creates the installable package. On Windows, `scripts/package-release.ps1` makes a zip from a clean, committed checkout.
 
-Publish the built zip and package with a GitHub tag. Keep published version folders unchanged. Check the hosted install after deployment.
+Keep published version folders unchanged. Check the hosted install after deployment.
 
 The website workflow tests and builds the latest `main` after every merge, then updates the `demo` publishing branch and requests a GitHub Pages build. It preserves existing release folders and PR previews. New package versions get their own install folder. Check the website workflow and Pages deployment before calling a release live. The workflow can also be run manually from Actions if a deployment needs another try.
 
-The header version, release links and generated install code use `package.json` during the build and local preview. Bump that version for an app release. npm publishing and the GitHub release still follow the steps below.
+The header version, release links and generated install code use `package.json` during the build and local preview. Bump that version for an app release. Merging the bump publishes it to npm and GitHub, as described below.
 
 Current testing gaps are in the [release notes](release-review.md).
 
@@ -84,8 +84,12 @@ Same repository PRs into `main` get a preview link in a comment. It updates on e
 
 Previews keep their own pet saves. They leave the live demo and your pets alone. Sample pages are excluded because they use shared test saves.
 
-## Publish to npm
+## Publish a release
 
-Update the package version, current install snippets and release notes together. Build and test, inspect `npm pack --dry-run`, then install the packed archive into a temporary project and check its complete `dist` folder.
+A release PR bumps the `package.json` version, updates the install snippets and adds a `## <version>` section to the [release notes](release-review.md). Before merging, run `npm test` and `npm pack --dry-run`, and install the packed archive into a temporary project to check its complete `dist` folder.
 
-After the source PR is merged, publish the reviewed archive with `npm publish <archive.tgz> --access public`. npm may ask you to approve the publish in your browser. Verify `npm view lilgotchi version`, install that version from the registry, and check the package page before deploying its npm link. Publish the same archive and versioned static files with the GitHub release. Never replace an existing version.
+Merging it does the rest. The release workflow sees a version npm doesn't have yet, runs the tests and publishes the package to npm. Then it makes the `v<version>` GitHub release with the package, the site zip and that version's notes. Merges that keep the same version publish nothing.
+
+npm trusts `.github/workflows/release.yml` on `TaylorOD/lilgotchi` as a trusted publisher, so the workflow needs no npm token and npm adds provenance to each version. Renaming the workflow file breaks that until it is updated on npm too.
+
+If a run fails, fix the cause and rerun it from Actions. It skips whatever already went out, so a release missing only its GitHub page just gets that. Never replace an existing version. After a release, check `npm view lilgotchi version` and the hosted install.
