@@ -1,5 +1,9 @@
 # Release notes
 
+## 3.0.4
+
+Setup choices preview immediately in the corner button without starting new pets or replacing saves. Dropdown arrows share the close button's center line across the website. The readme shows all three custom families with their chains.
+
 ## 3.0.3
 
 Adds remembered switches for the logo launcher and care notifications in game Settings. The design page dropdown now has the same arrow spacing as the homepage and widget.
