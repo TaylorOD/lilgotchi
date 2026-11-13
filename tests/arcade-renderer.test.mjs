@@ -197,8 +197,9 @@ test('Get catches objects at the visible head of every pet', () => {
     const idle = frames.idle1;
     const top = FALLING_FIELD_HEIGHT - idle.length + idle.findIndex(row => row.some(Boolean));
     const {pixels} = capture({id:'get', lane:1, object:{lane:1, kind:'note', y:10}}, idle, {frames});
-    const note = pixels.slice(-2);
-    assert.equal(note[0].y + 2, top, name);
+    const note = pixels.slice(-3);
+    assert.equal(note[2].y + 1, top, name);
+    assert.deepEqual(note.map(p=>[p.w,p.h]),[[1,4],[1,1],[2,2]]);
   }
 });
 

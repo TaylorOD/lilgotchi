@@ -46,9 +46,10 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
   pet(frame,s.lane*10+5-frame[0].length/2,fieldHeight);
   if(s.object){
    const occupiedTop=idle.findIndex(row=>row.some(Boolean));
-   const catchY=fieldHeight-idle.length+Math.max(0,occupiedTop)-2;
+   const note=s.object.kind==='note';
+   const catchY=fieldHeight-idle.length+Math.max(0,occupiedTop)-(note?4:2);
    const x=s.object.lane*10+4,y=s.object.y/10*catchY;
-   if(s.object.kind==='note'){rect(x+2,y,1,3);rect(x,y+2,3,1);}
+   if(note){rect(x+2,y,1,4);rect(x+3,y+1,1,1);rect(x,y+3,2,2);}
    else {rect(x+1,y,1,1,'#825b41');rect(x,y+1,3,2,'#825b41');}
   }
  }
