@@ -62,7 +62,7 @@ html[data-embedded="true"] #settings-btn { top:5px; right:23%; width:44px; heigh
 #care-panel { width:100%; padding:12px 8px 0; box-sizing:border-box; color:#e7e5df; font:12px/1.5 system-ui,sans-serif; }
 #pet-identity { text-align:center; font-weight:600; font-size:13px; margin-bottom:8px; text-transform:capitalize; }
 #pet-needs { width:100%; color:inherit; font:12px/1.5 system-ui,sans-serif; min-height:0; }
-#care-meters { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 16px; }
+#care-meters { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 16px; padding-bottom:12px; }
 .need { display:flex; justify-content:space-between; gap:6px; }
 .need strong { font-variant-numeric:tabular-nums; }
 .care-grade { grid-column:1/-1; text-align:center; font-size:11px; color:#bac7bc; margin-top:3px; }
