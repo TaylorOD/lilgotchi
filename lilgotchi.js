@@ -64,8 +64,11 @@ class LilGotchi extends HTMLElement {
     });
     this.refreshNotifications();
     this.launcherSettings=mountLauncherSettings(this.shadowRoot.querySelector('.launcher-options'),
-      ()=>launcherPreferences(this.store,this.getAttribute('launcher'),this.getAttribute('notifications')),
-      (key,on)=>{this.store.preference(key==='brand'?'brand-launcher':'notifications',on);this.updateLauncher();});
+      ()=>this.launcherPreferences(),
+      (key,on)=>{
+        if(this.previewOptions)this.previewOptions[key==='brand'?'launcher':'notifications']=key==='brand'?(on?'brand':'shell'):(on?'on':'off');
+        this.store.preference(key==='brand'?'brand-launcher':'notifications',on);this.updateLauncher();
+      });
     this.settings=mountSettings(this.shadowRoot.querySelector('.game-options'),action=>{
       if(this.ready)this.port?.postMessage({type:'configure',action});
     });
@@ -101,6 +104,28 @@ class LilGotchi extends HTMLElement {
     this.bind('.confirm-import','click',()=>this.confirmImport());
     if(this.inline){this.shadowRoot.querySelector('.launcher').hidden=true;this.shadowRoot.querySelector('.close').hidden=true;this.open();}
   }
+  launcherPreferences(){
+    return this.previewOptions
+      ? {brand:this.previewOptions.launcher==='brand',notifications:this.previewOptions.notifications!=='off'}
+      : launcherPreferences(this.store,this.getAttribute('launcher'),this.getAttribute('notifications'));
+  }
+  // The setup page previews choices without starting pets or replacing saves.
+  preview(options){
+    const allowed=allowedCharacters(options.characters);
+    requireAllowed(options.character,allowed);
+    return this.serial(async()=>{
+      const changed=this.family!==options.character;
+      if(changed)await this.unload();
+      this.previewOptions={...options};
+      for(const name of ['placement','appearance','launcher','notifications'])this.setAttribute(name,options[name]);
+      this.allowed=allowed;
+      this.family=options.character;
+      this.select.replaceChildren(...allowed.map(id=>new Option(catalog.find(choice=>choice.id===id).name,id)));
+      this.select.value=this.family;
+      this.updateLauncher();
+      if(changed&&(this.inline||this.panel.open))await this.mount();
+    });
+  }
   colorsFor(family){
     const saved=this.store.preference('colors-'+family);
     if(saved!==null&&saved!==undefined&&saved!==''){
@@ -118,9 +143,9 @@ class LilGotchi extends HTMLElement {
     this.shadowRoot.querySelector('.export').disabled=!state;
     if(state)this.careStates.set(this.family,{state,stale:!this.ready});
     const button=this.shadowRoot.querySelector('.launcher');
-    const preferences=launcherPreferences(this.store,this.getAttribute('launcher'),this.getAttribute('notifications'));
+    const preferences=this.launcherPreferences();
     this.launcherSettings?.update();
-    const brand=preferences.brand||!hasActivePets(this.store,this.allowed,this.careStates);
+    const brand=preferences.brand||(!this.previewOptions&&!hasActivePets(this.store,this.allowed,this.careStates));
     button.classList.toggle('brand-launcher',brand);
     button.innerHTML=brand?`<img class="brand-egg" src="${asset('./widget/egg.svg')}" alt=""><span class="launcher-label">lilgotchi</span>`:launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family),{shell:this.getAttribute('launcher')!=='pet',eink:this.store.preference('eink')==='true',colors:this.colorsFor(this.family)});
     const rows=this.allowed.flatMap(family=>{

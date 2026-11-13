@@ -8,7 +8,7 @@ Paste this into your HTML:
 
 That’s it. Slice opens first, all pets are available and sound starts off. Choose **Start pet** to begin. Browsing families does not start them. Your site needs to allow custom JavaScript.
 
-Want to pick the pets, launcher or corner? Use the [setup tool](https://www.taylordorsett.com/lilgotchi/).
+Want to pick the pets, launcher or corner? Use the [setup tool](https://www.taylordorsett.com/lilgotchi/). Choices update the corner preview and install code right away, including appearance and care notifications. Previewing a new family does not start it or replace your saves. The preview can show its egg before you choose **Start pet**.
 
 Change each pet's handheld and screen colors inside its **Settings**. Switch to another family to customize that pet separately. **Return to default colors** resets the selected family's colors. These choices stay in your browser. The E ink theme keeps its black and white look.
 
