@@ -56,3 +56,4 @@ iframe{background:#121619;color-scheme:dark}
 .care-needs{margin-top:0;border-top:0}.care-needs summary{font-size:13px}.needs-list{display:grid;gap:6px;padding-bottom:10px}.needs-list button{text-align:left;font-size:12px}
 
 .inactive-card{text-align:center;padding:32px 16px}.inactive-card h3{font-size:18px}.inactive-card p{color:#bdc8be;line-height:1.6}.make-inactive{flex:none;font-size:12px}.inactive-option{margin-bottom:12px}:host([appearance=light]) .inactive-card p{color:#354736}
+.color-options{padding:16px 0;border-top:1px solid #343c48}.color-options p{font-size:12px;margin:8px 0;color:#bdc8be}.color-choice{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0;font-size:13px}.color-choice input{width:64px;height:44px;padding:4px;border:1px solid #667486;border-radius:8px;background:transparent}.color-options>button{margin-top:8px}
