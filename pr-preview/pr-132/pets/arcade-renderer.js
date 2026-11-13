@@ -1,5 +1,5 @@
 import { classicSprites } from './classic-sprites.js';
-import { FIELD_WIDTH, FIELD_HEIGHT, headingPose } from './arcade-geometry.js';
+import { FIELD_WIDTH, FIELD_HEIGHT, FALLING_FIELD_HEIGHT, headingPose } from './arcade-geometry.js';
 
 const arrowPixels = {
  left:[[2,0],[1,1],[0,2],[1,3],[2,4],[1,2],[2,2],[3,2],[4,2]],
@@ -16,16 +16,19 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
  const foreground = options.foreground || '#0f380f';
  const background = options.background || '#c4cfa1';
  const field = q('.arcade-field');
- field.width = FIELD_WIDTH; field.height = FIELD_HEIGHT;
+ // Two complete 16 pixel pets need separate lanes and a visible gap.
+ const fieldHeight=s.id==='sprint'?34:['get','heading'].includes(s.id)?FALLING_FIELD_HEIGHT:FIELD_HEIGHT;
+ field.width = FIELD_WIDTH; field.height = fieldHeight;
+ if(field.style)field.style.aspectRatio=`${FIELD_WIDTH}/${fieldHeight}`;
  const ctx = field.getContext('2d');
- ctx.fillStyle = background; ctx.fillRect(0,0,FIELD_WIDTH,FIELD_HEIGHT);
+ ctx.fillStyle = background; ctx.fillRect(0,0,FIELD_WIDTH,fieldHeight);
  const rect = (x,y,w,h,color=foreground) => {ctx.fillStyle=color;ctx.fillRect(Math.round(x),Math.round(y),w,h);};
  const pose = direction => frames[{left:'lookLeft',right:'lookRight',up:'lookUp'}[direction]] || idle;
  const pet = (frame, x, bottom, {rival=false,fallen=false}={}) => {
   const width = fallen ? frame.length : Math.max(...frame.map(row=>row.length));
   const height = fallen ? Math.max(...frame.map(row=>row.length)) : frame.length;
   const left=Math.max(0,Math.min(FIELD_WIDTH-width,Math.round(x)));
-  const top=Math.max(0,Math.min(FIELD_HEIGHT-height,Math.round(bottom-height)));
+  const top=Math.max(0,Math.min(fieldHeight-height,Math.round(bottom-height)));
   for(let row=0;row<frame.length;row++)for(let col=0;col<frame[row].length;col++){
    const pixel=frame[row][col];if(!pixel)continue;
    rect(left+(fallen?frame.length-1-row:col),top+(fallen?col:row),1,1,rival?(opponent?.palette[pixel]||foreground):palette[pixel]||foreground);
@@ -40,12 +43,13 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
 
  if(s.id==='get'){
   const frame=s.reaction==='happy'?frames.happy||idle:s.reaction==='startled'?frames.sad||idle:idle;
-  pet(frame,s.lane*10+5-frame[0].length/2,24);
+  pet(frame,s.lane*10+5-frame[0].length/2,fieldHeight);
   if(s.object){
    const occupiedTop=idle.findIndex(row=>row.some(Boolean));
-   const catchY=FIELD_HEIGHT-idle.length+Math.max(0,occupiedTop)-2;
+   const note=s.object.kind==='note';
+   const catchY=fieldHeight-idle.length+Math.max(0,occupiedTop)-(note?4:2);
    const x=s.object.lane*10+4,y=s.object.y/10*catchY;
-   if(s.object.kind==='note'){rect(x+2,y,1,3);rect(x,y+2,3,1);}
+   if(note){rect(x+2,y,1,4);rect(x+3,y+1,1,1);rect(x,y+3,2,2);}
    else {rect(x+1,y,1,1,'#825b41');rect(x,y+1,3,2,'#825b41');}
   }
  }
@@ -93,12 +97,12 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
   q('.arcade-meter i').style.left=`${s.id==='bump'?s.meter:s.marker*100}%`;
  }
  if(s.id==='sprint'){
-  for(let y=0;y<FIELD_HEIGHT;y++)rect(31,y,1,1,y%2?background:foreground);
+  for(let y=0;y<fieldHeight;y++)rect(31,y,1,1,y%2?background:foreground);
   const player=frames.lookRight||idle;
   const end=30-player[0].length;
-  pet(player,Math.min(end,s.progress/s.finish*end),12);
+  pet(player,Math.min(end,s.progress/s.finish*end),16);
   const rival=rivalFrames.lookRight||rivalFrames.idle1;
-  pet(rival,Math.min(30-rival[0].length,s.opponent/s.finish*(30-rival[0].length)),24,{rival:true});
+  pet(rival,Math.min(30-rival[0].length,s.opponent/s.finish*(30-rival[0].length)),34,{rival:true});
   if(s.phase==='countdown'||(s.phase==='race'&&s.elapsed<1000)){
    const active=s.phase==='race'?2:s.countdown>1500?0:1;
    rect(23,1,5,11,'#17282e');

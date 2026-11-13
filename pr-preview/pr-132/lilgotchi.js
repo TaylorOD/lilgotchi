@@ -13,6 +13,7 @@ import { mountSettings } from './widget/settings.js';
 import { inactiveSince, resumeInactive, hasActivePets } from './widget/inactive.js';
 import { careNeeds, refreshCare } from './widget/care-monitor.js';
 import { petLabel } from './widget/pet-label.js';
+import { careGrade } from './pets/wellbeing.js';
 
 const asset = path => new URL(path,import.meta.url).href;
 class LilGotchi extends HTMLElement {
@@ -37,7 +38,7 @@ class LilGotchi extends HTMLElement {
       <button class="launcher" part="launcher" aria-label="Open lilgotchi" aria-haspopup="dialog">${launcherArt(this.family)}</button>
       <${this.inline?'section class="inline"':'dialog'} aria-label="lilgotchi">
       <header><h2><img src="${asset('./widget/egg.svg')}" width="20" height="24" alt="" style="vertical-align:middle"> lilgotchi</h2><button class="close" aria-label="Close lilgotchi">×</button>
-      <label class="chooser"><span class="pet-identity"></span><select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
+      <label class="chooser"><span class="pet-summary"><span class="pet-identity"></span><span class="pet-care" hidden></span></span><select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
       <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-tour">Quick tour</button> <button class="welcome-close">Got it</button></aside>
       <details class="care-needs" hidden><summary></summary><div class="needs-list"></div></details><p class="return-summary" hidden></p><div class="frame"></div>
       <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="guide-host"></div><div class="game-options"></div><div class="launcher-options"></div><div class="color-options"></div><div class="inactive-option setting-row"><div class="setting-copy"><strong>Take a break from this pet</strong><p>Keep your progress. No growth, care or notifications until you start it again.</p></div><button class="make-inactive">Make inactive</button></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
@@ -139,6 +140,9 @@ class LilGotchi extends HTMLElement {
     if(!state){try{state=this.store.load(this.family)?.state;}catch{ /* Recovery stays in the normal open flow. */ }}
     const inactive=inactiveSince(this.store,this.family);
     this.shadowRoot.querySelector('.pet-identity').textContent=inactive?`${catalog.find(choice=>choice.id===this.family).name} · Inactive`:state?petLabel(this.family,state):`${catalog.find(choice=>choice.id===this.family).name} · Not started`;
+    const care=this.shadowRoot.querySelector('.pet-care');
+    care.hidden=!state;
+    care.textContent=state?`Care: ${inactive||state.vacationAt>0?'Paused':state.isDead?'Remembered':careGrade(state).label}`:'';
     const pause=this.shadowRoot.querySelector('.inactive-option');if(pause)pause.hidden=!!inactive||!state;
     this.shadowRoot.querySelector('.game-options').hidden=!!inactive||!state;
     const reset=this.shadowRoot.querySelector('.settings-reset');if(reset)reset.hidden=!!inactive||!state;
