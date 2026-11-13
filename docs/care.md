@@ -1,6 +1,6 @@
 # A little care goes a long way
 
-Eggs hatch in 90 seconds. Then it’s time for food, play and sleep.
+Choose a family and click Start pet when you’re ready. Opening the toggle or browsing families does not start a new pet. Eggs hatch in 90 seconds after you start them. Then it’s time for food, play and sleep.
 
 ## The basics
 

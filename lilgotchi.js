@@ -92,9 +92,10 @@ class LilGotchi extends HTMLElement {
   updateLauncher(state){
     if(!state){try{state=this.store.load(this.family)?.state;}catch{ /* Recovery stays in the normal open flow. */ }}
     const inactive=inactiveSince(this.store,this.family);
-    this.shadowRoot.querySelector('.pet-identity').textContent=inactive?`${catalog.find(choice=>choice.id===this.family).name} · Inactive`:petLabel(this.family,state);
-    const pause=this.shadowRoot.querySelector('.inactive-option');if(pause)pause.hidden=!!inactive;
-    this.shadowRoot.querySelector('.game-options').hidden=!!inactive;
+    this.shadowRoot.querySelector('.pet-identity').textContent=inactive?`${catalog.find(choice=>choice.id===this.family).name} · Inactive`:state?petLabel(this.family,state):`${catalog.find(choice=>choice.id===this.family).name} · Not started`;
+    const pause=this.shadowRoot.querySelector('.inactive-option');if(pause)pause.hidden=!!inactive||!state;
+    this.shadowRoot.querySelector('.game-options').hidden=!!inactive||!state;
+    this.shadowRoot.querySelector('.export').disabled=!state;
     if(state)this.careStates.set(this.family,{state,stale:!this.ready});
     const button=this.shadowRoot.querySelector('.launcher');
     const brand=this.getAttribute('launcher')==='brand'||!hasActivePets(this.store,this.allowed,this.careStates);
@@ -236,7 +237,16 @@ class LilGotchi extends HTMLElement {
     }finally{this.store.release(family);}
     await this.mount();this.updateLauncher();this.select.focus();
   });}
-  async mount(){
+  startPet(){
+    const family=this.family;
+    return this.serial(async()=>{
+      if(this.family!==family)return;
+      await this.unload();
+      await this.mount(true);
+      this.updateLauncher();this.select.focus();
+    });
+  }
+  async mount(startNew=false){
     const container=this.shadowRoot.querySelector('.frame');
     container.textContent='';
     if(inactiveSince(this.store,this.family)){
@@ -267,6 +277,17 @@ class LilGotchi extends HTMLElement {
       this.shadowRoot.querySelector('.return-summary').hidden=true;
     } catch(error){this.store.release(this.family);this.fail(error);return;}
     if(!this.isConnected){this.store.release(this.family);return;}
+    if(!saved&&!startNew){
+      this.store.release(this.family);
+      container.classList.remove('is-loading');container.removeAttribute('aria-busy');container.style.minHeight='';
+      const card=document.createElement('div');card.className='inactive-card';
+      const title=document.createElement('h3');title.textContent=`Meet ${catalog.find(choice=>choice.id===this.family).name}`;
+      const text=document.createElement('p');text.textContent='Start your pet when you’re ready. Until then, there’s no countdown or care to keep up with.';
+      const button=document.createElement('button');button.textContent='Start pet';button.addEventListener('click',()=>this.startPet());
+      card.append(title,text,button);container.append(card);
+      this.status('Not started');this.shadowRoot.querySelector('.retry').hidden=true;
+      this.updateLauncher();return;
+    }
     const frame=document.createElement('iframe');
     this.frame=frame;
     frame.style.height='340px';
