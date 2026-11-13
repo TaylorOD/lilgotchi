@@ -85,7 +85,7 @@ test("every full identity stays entirely inside the field in every arena state",
           for (const p of capture(state, sprite, { reducedMotion,frames }).pixels) {
             assert.ok(Number.isInteger(p.x) && Number.isInteger(p.y));
             assert.ok(
-              p.x >= 0 && p.y >= 0 && p.x + p.w <= 32 && p.y + p.h <= 24,
+              p.x >= 0 && p.y >= 0 && p.x + p.w <= 32 && p.y + p.h <= (state.id === "sprint" ? 34 : 24),
               `${state.id}: ${JSON.stringify(p)}`,
             );
           }
@@ -134,7 +134,7 @@ test("Sprint keeps the checkered finish visible beside both racers", () => {
   ).pixels;
   assert.equal(
     p.filter((p) => p.x === 31 && p.w === 1 && p.h === 1).length,
-    24,
+    34,
   );
   assert.ok(p.some((p) => p.color === "#0f380f"));
 });
@@ -207,3 +207,19 @@ test('Heading head collision excludes feet only columns', () => {
   assert.deepEqual(headingPose(sprite, 16).head, [{x:15,y:20},{x:16,y:20}]);
 });
 
+
+
+test('Sprint keeps full size racers in separate lanes for every pairing', async () => {
+ const {originalSprites}=await import('../pets/original-sprites.js');
+ const racers=[...Object.values(families).flatMap(pets=>Object.entries(pets)),...Object.entries(originalSprites)]
+  .filter(([id,frames])=>id!=='egg'&&frames.lookRight).map(([,frames])=>frames);
+ for(const frames of racers)for(const rival of racers)for(const progress of [0,15,30]) {
+  const palette=Array(256).fill('#player'),opponent={frames:rival,palette:Array(256).fill('#rival')};
+  const {pixels}=capture({id:'sprint',phase:'race',elapsed:2000,progress,opponent:progress,finish:30},frames.idle1,{frames,palette,opponent});
+  const playerPixels=pixels.filter(p=>p.color==='#player'),rivalPixels=pixels.filter(p=>p.color==='#rival');
+  assert.equal(playerPixels.length,frames.lookRight.flat().filter(Boolean).length);
+  assert.equal(rivalPixels.length,rival.lookRight.flat().filter(Boolean).length);
+  assert.ok(Math.max(...playerPixels.map(p=>p.y))+2<Math.min(...rivalPixels.map(p=>p.y)));
+  for(const p of [...playerPixels,...rivalPixels])assert.ok(p.x>=0&&p.x<31&&p.y>=0&&p.y<34);
+ }
+});
