@@ -1,7 +1,7 @@
 name: preview
 on:
   pull_request:
-    branches: [main, codex/original-p1-p2, codex/wider-homepage, codex/pet-colors]
+    branches: [main, codex/original-p1-p2, codex/inactive-launcher, codex/wider-homepage, codex/pet-colors]
     types: [opened, reopened, synchronize, closed]
 permissions:
   contents: read

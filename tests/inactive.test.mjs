@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { inactiveSince, resumeInactive } from '../widget/inactive.js';
+import { inactiveSince, resumeInactive, hasActivePets } from '../widget/inactive.js';
 import { refreshCare } from '../widget/care-monitor.js';
 import { GameState } from '../pets/engine.js';
 import { SaveStore } from '../widget/save-store.js';
@@ -32,4 +32,23 @@ test('inactive families retain their saves and are never simulated by the monito
   assert.deepEqual(result,[]);assert.equal(store.raw('default'),before);
   store.preference('inactive-default',0);assert.equal(inactiveSince(store,'default'),0);
   store.dispose();
+});
+
+
+test('launcher falls back only when no allowed pet is active',()=>{
+  const paused=new Set(),saves=new Map(),states=new Map();
+  const store={preference:key=>paused.has(key)?1000:0,load:family=>saves.get(family)};
+  const families=['default','slice'];
+  assert.equal(hasActivePets(store,families,states),false);
+  saves.set('default',{state:{character:'egg'}});
+  assert.equal(hasActivePets(store,families,states),true);
+  paused.add('inactive-default');
+  assert.equal(hasActivePets(store,families,states),false);
+  states.set('slice',{state:{character:'mametchi'}});
+  assert.equal(hasActivePets(store,families,states),true);
+  paused.add('inactive-slice');
+  assert.equal(hasActivePets(store,families,states),false);
+  paused.delete('inactive-default');
+  assert.equal(hasActivePets(store,families,states),true);
+  assert.equal(hasActivePets(store,['lilgotchi'],states),false);
 });
