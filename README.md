@@ -10,7 +10,7 @@ A little pixel pet for your website. Feed it, play with it, and watch it grow.
   </a>
 </p>
 
-## Five little families
+## Five lil families
 
 | Family | Starts as |
 | --- | --- |
@@ -25,6 +25,8 @@ Every family starts small and follows its own growth paths. Each keeps a separat
 Choose **Start pet** when you are ready. Opening the drawer or switching families does not start a new pet. Each family has its own handheld and screen colors in **Settings**, with a button to return to its defaults.
 
 Feed, play, clean up and settle down for a nap. Progress stays in your browser, with file backups in Settings.
+
+Catch music notes, bump an opponent, head a ball, repeat arrows, follow flags, race and shoot hoops. Or play the original guessing game. [See the games](https://github.com/TaylorOD/lilgotchi/blob/main/design/games/README.md).
 
 ## Put one on your website
 
@@ -45,10 +47,6 @@ npm install lilgotchi
 Copy the whole `node_modules/lilgotchi/dist` folder into your site's public assets, then load its `embed.js`. Keep the game pages, scripts and styles together. Installing the package alone does not add the widget to your page.
 
 [View on npm](https://www.npmjs.com/package/lilgotchi)
-
-## Eight games to play with your lilgotchi
-
-Catch music notes, bump an opponent, head a ball, repeat arrows, follow flags, race and shoot hoops. Or play the original guessing game. [See the games](https://github.com/TaylorOD/lilgotchi/blob/main/design/games/README.md).
 
 ## Work on it
 
