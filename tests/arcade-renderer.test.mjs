@@ -5,7 +5,7 @@ import { classicSprites } from '../pets/classic-sprites.js';
 import { sliceSprites, slicePalette } from '../pets/slice-sprites.js';
 import { cyberpunkSprites, cyberpunkPalette } from '../pets/cyberpunk-sprites.js';
 import { lilgotchiSprites, lilgotchiPalette } from '../pets/lilgotchi-sprites.js';
-import { headingPose } from '../pets/arcade-geometry.js';
+import { headingPose, FALLING_FIELD_HEIGHT } from '../pets/arcade-geometry.js';
 const families={classic:classicSprites,pizza:sliceSprites,cyberpunk:cyberpunkSprites,lilgotchi:lilgotchiSprites};
 function capture(state, sprite, options = {}) {
   const pixels = [];
@@ -85,7 +85,7 @@ test("every full identity stays entirely inside the field in every arena state",
           for (const p of capture(state, sprite, { reducedMotion,frames }).pixels) {
             assert.ok(Number.isInteger(p.x) && Number.isInteger(p.y));
             assert.ok(
-              p.x >= 0 && p.y >= 0 && p.x + p.w <= 32 && p.y + p.h <= (state.id === "sprint" ? 34 : 24),
+              p.x >= 0 && p.y >= 0 && p.x + p.w <= 32 && p.y + p.h <= (state.id === "sprint" ? 34 : ["get","heading"].includes(state.id) ? FALLING_FIELD_HEIGHT : 24),
               `${state.id}: ${JSON.stringify(p)}`,
             );
           }
@@ -195,16 +195,17 @@ test('Get catches objects at the visible head of every pet', () => {
   for (const family of Object.values(families)) for (const [name, frames] of Object.entries(family)) {
     if (name === 'egg' || !frames.idle1) continue;
     const idle = frames.idle1;
-    const top = 24 - idle.length + idle.findIndex(row => row.some(Boolean));
+    const top = FALLING_FIELD_HEIGHT - idle.length + idle.findIndex(row => row.some(Boolean));
     const {pixels} = capture({id:'get', lane:1, object:{lane:1, kind:'note', y:10}}, idle, {frames});
-    const note = pixels.slice(-2);
-    assert.equal(note[0].y + 2, top, name);
+    const note = pixels.slice(-3);
+    assert.equal(note[2].y + 1, top, name);
+    assert.deepEqual(note.map(p=>[p.w,p.h]),[[1,4],[1,1],[2,2]]);
   }
 });
 
 test('Heading head collision excludes feet only columns', () => {
   const sprite = [[0,1,1,0],[0,1,1,0],[0,1,1,0],[1,0,0,1]];
-  assert.deepEqual(headingPose(sprite, 16).head, [{x:15,y:20},{x:16,y:20}]);
+  assert.deepEqual(headingPose(sprite, 16).head, [{x:15,y:36},{x:16,y:36}]);
 });
 
 

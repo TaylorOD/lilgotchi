@@ -1,5 +1,5 @@
 import { classicSprites } from './classic-sprites.js';
-import { FIELD_WIDTH, FIELD_HEIGHT, headingPose } from './arcade-geometry.js';
+import { FIELD_WIDTH, FIELD_HEIGHT, FALLING_FIELD_HEIGHT, headingPose } from './arcade-geometry.js';
 
 const arrowPixels = {
  left:[[2,0],[1,1],[0,2],[1,3],[2,4],[1,2],[2,2],[3,2],[4,2]],
@@ -17,7 +17,7 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
  const background = options.background || '#c4cfa1';
  const field = q('.arcade-field');
  // Two complete 16 pixel pets need separate lanes and a visible gap.
- const fieldHeight=s.id==='sprint'?34:FIELD_HEIGHT;
+ const fieldHeight=s.id==='sprint'?34:['get','heading'].includes(s.id)?FALLING_FIELD_HEIGHT:FIELD_HEIGHT;
  field.width = FIELD_WIDTH; field.height = fieldHeight;
  if(field.style)field.style.aspectRatio=`${FIELD_WIDTH}/${fieldHeight}`;
  const ctx = field.getContext('2d');
@@ -43,12 +43,13 @@ export function drawArcade(q, s, sprite, palette = [], options = {}) {
 
  if(s.id==='get'){
   const frame=s.reaction==='happy'?frames.happy||idle:s.reaction==='startled'?frames.sad||idle:idle;
-  pet(frame,s.lane*10+5-frame[0].length/2,24);
+  pet(frame,s.lane*10+5-frame[0].length/2,fieldHeight);
   if(s.object){
    const occupiedTop=idle.findIndex(row=>row.some(Boolean));
-   const catchY=FIELD_HEIGHT-idle.length+Math.max(0,occupiedTop)-2;
+   const note=s.object.kind==='note';
+   const catchY=fieldHeight-idle.length+Math.max(0,occupiedTop)-(note?4:2);
    const x=s.object.lane*10+4,y=s.object.y/10*catchY;
-   if(s.object.kind==='note'){rect(x+2,y,1,3);rect(x,y+2,3,1);}
+   if(note){rect(x+2,y,1,4);rect(x+3,y+1,1,1);rect(x,y+3,2,2);}
    else {rect(x+1,y,1,1,'#825b41');rect(x,y+1,3,2,'#825b41');}
   }
  }

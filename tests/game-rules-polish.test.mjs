@@ -100,3 +100,37 @@ test('Heading is playable with every complete current pet sprite',()=>{
     }
   }
 });
+
+
+test('Heading leaves reaction time above even the tallest original and custom pets', async()=>{
+ const {originalSprites}=await import('../pets/original-sprites.js');
+ for(const sprites of [originalSprites,sliceSprites,cyberpunkSprites,lilgotchiSprites])for(const [id,frames] of Object.entries(sprites)){
+  if(id==='egg')continue;
+  for(const slow of [false,true]){
+   const game=createHeading({sprite:frames.idle1,random:()=>0,slow});
+   game.advance(1000);
+   const headTop=Math.min(...headingPose(frames.idle1,16).head.map(p=>p.y));
+   let flight=0;
+   while(game.snapshot().ball.y+2<headTop&&flight<5000){game.advance(10);flight+=10;}
+   assert.ok(flight>=1200,`${id} needs time to react: ${flight}ms`);
+   assert.ok(flight<5000,`${id} must still receive the ball`);
+  }
+ }
+});
+
+test('Get gives time to change lanes throughout the round and remains winnable', async()=>{
+ const {createGet}=await import('../pets/minigames/get.js');
+ const game=createGet({random:()=>0});
+ game.input('left');
+ let previous=false,spawn=0,falls=[];
+ for(let t=0;t<30000;t+=10){
+  game.advance(10);const s=game.snapshot();
+  if(s.object&&!previous)spawn=s.elapsed;
+  if(!s.object&&previous)falls.push(s.elapsed-spawn);
+  previous=!!s.object;
+ }
+ assert.ok(falls.length>=12);
+ assert.ok(falls.every(ms=>ms>=1250),JSON.stringify(falls));
+ assert.ok(falls[0]>=1660);
+ assert.equal(game.snapshot().result,'win');
+});

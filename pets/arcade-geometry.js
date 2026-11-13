@@ -1,10 +1,11 @@
 export const FIELD_WIDTH = 32;
 export const FIELD_HEIGHT = 24;
+export const FALLING_FIELD_HEIGHT = 40;
 
 export function headingPose(sprite, center, jump = 0) {
   const width = Math.max(...sprite.map(row => row.length));
   const left = Math.max(0, Math.min(FIELD_WIDTH - width, Math.round(center - width / 2)));
-  const top = Math.round(FIELD_HEIGHT - sprite.length - jump);
+  const top = Math.round(FALLING_FIELD_HEIGHT - sprite.length - jump);
   const occupiedRows = sprite.flatMap((row, index) => row.some(Boolean) ? [index] : []);
   const highest = Math.min(...occupiedRows);
   const lowest = Math.max(...occupiedRows);

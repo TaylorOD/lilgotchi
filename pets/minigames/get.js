@@ -21,8 +21,9 @@ export function createGet({ random = Math.random } = {}) {
       s.elapsed += dt;
       s.remaining = Math.max(0, 30000 - s.elapsed);
       if (s.object) {
+        // Progress is normalized, so a taller field also needs a slower fall.
         s.object.y +=
-          dt * (s.elapsed < 10000 ? 0.009 : s.elapsed < 20000 ? 0.011 : 0.013);
+          dt * (s.elapsed < 10000 ? 0.006 : s.elapsed < 20000 ? 0.007 : 0.008);
         if (s.object.y >= 10) {
           if (s.object.lane === s.lane) {
             if (s.object.kind === "note") {
