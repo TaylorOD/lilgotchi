@@ -16,12 +16,17 @@
     .github { display:grid; place-items:center; width:48px; height:48px; flex:none; color:#ececf4; border-radius:12px; }
     .github:hover { background:#202832; }
     footer { text-align:center; }
-    footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #343c48; color: #b7bbce; font-size: 14px; }
+    footer { margin-top: 48px; padding-top: 24px; color: #b7bbce; font-size: 14px; }
     .label { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: #9de4ce; }
     pre { background:#171c24; padding:18px; border:1px solid #343c48; border-radius:12px; overflow:auto; font-size:12px; line-height:1.8; }
     .try { cursor:pointer; font:inherit; color:#101219; background:#d9bc83; border:0; border-radius:12px; padding:14px 22px; min-height:48px; margin:12px 0 36px; }
     h2 { font-size:21px; letter-spacing:-.03em; }
     button:focus-visible,a:focus-visible { outline:2px solid #9de4ce; outline-offset:5px; }
+    .hero { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:56px; align-items:center; margin-bottom:48px; }
+    .hero > section { min-width:0; }
+    .hero .gallery { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .hero .try { margin-bottom:0; }
+    @media(max-width:900px) { .hero { grid-template-columns:minmax(0,1fr); gap:32px; } }
     .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:12px; margin:24px 0 20px; }
     .gallery button { display:flex; flex-direction:column; align-items:center; justify-content:end; gap:12px; min-height:160px; padding:18px 10px; font:inherit; color:inherit; background:#171c24; border:1px solid #343c48; border-radius:12px; cursor:pointer; }
     .gallery button:hover { border-color:#9de4ce; background:#202832; }
@@ -39,11 +44,13 @@
     #setup pre { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; }
     .copy-status { min-height:24px; margin:0; } #setup button:disabled { opacity:.6; }
     @media(max-width:700px) { #setup { grid-template-columns:minmax(0,1fr); padding:20px; gap:16px; } }
-    @media(max-width:500px) { .gallery { grid-template-columns:repeat(2,minmax(0,1fr)); } body { padding:24px 20px 100px; } main { margin:4vh auto; } }
+    @media(max-width:500px) { .hero .gallery { grid-template-columns:repeat(2,minmax(0,1fr)); } body { padding:24px 20px 100px; } main { margin:4vh auto; } }
   </style>
 </head>
 <body>
   <main>
+    <div class="hero">
+    <section aria-label="About lilgotchi">
     <p class="label">A little company for your corner of the internet</p>
     <div class="title-row">
       <h1><img src="./widget/egg.svg" width="46" height="54" alt=""> lilgotchi</h1>
@@ -52,13 +59,16 @@
     <p>Feed it, play with it, and see who it grows into.</p>
     <p>Raise a Gen 1 or Gen 2 pet, or meet Slice, Cypunk, and Lilgotchi. Every choice impacts who your lilgotchi will grow into.</p>
     <button class="try" type="button">Meet your lilgotchi</button>
-    <h2>Meet the lineup</h2>
+    </section>
+    <section aria-labelledby="lineup-title">
+    <h2 id="lineup-title">Meet the lineup</h2>
     <p>Meet an adult from each family. Start small and see who yours becomes.</p>
     <div class="gallery" aria-label="Choose your pet"></div>
     <p><a href="./design/evolution/?family=original">Meet all 26 Gen 1 and Gen 2 characters</a></p>
+    </section>
+    </div>
     <h2>You had me at hello… world.</h2>
     <p>Paste one line into your website. No upload, account or build needed.</p>
-    <p>Open source software, with credited third party character art. Prefer your own hosting? <a href="https://github.com/TaylorOD/lilgotchi/releases/tag/v3.0.0">Download the package</a>.</p>
     <form id="setup" onsubmit="return false">
       <label>Pet families <select name="roster"><option value="all">All five families</option><option value="selected">Only my favorites</option></select></label>
       <div class="character-options" aria-label="Available families" hidden></div>
@@ -70,6 +80,7 @@
       <p>Each pet keeps its own game colors. These settings generate your install code and leave your demo pets alone.</p>
       <pre><code></code></pre><button type="button" class="copy">Copy install code</button><p class="copy-status" role="status"></p>
     </form>
+    <p>Open source software, with credited third party character art. Prefer your own hosting? <a href="https://github.com/TaylorOD/lilgotchi/releases/tag/v3.0.0">Download the package</a>.</p>
     <footer>A <a href="https://www.taylordorsett.com/">Taylor Dorsett</a> production</footer>
   </main>
   <script type="module" src="./lilgotchi.js"></script>
