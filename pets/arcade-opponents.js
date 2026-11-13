@@ -7,7 +7,7 @@ const opponents = [
  {family:'pizza',name:'Slice',frames:sliceSprites.mametchi,palette:slicePalette},
  {family:'cyberpunk',name:'Cypunk',frames:cyberpunkSprites.ginjirotchi,palette:cyberpunkPalette},
  {family:'lilgotchi',name:'Lilgotchi',frames:lilgotchiSprites.mametchi,palette:lilgotchiPalette},
- {family:'classic',name:'Original',frames:originalSprites.mametchi,palette:[null,'#c4cfa1']},
+ {family:'classic',name:'Gen 1',frames:originalSprites.mametchi,palette:[null,'#c4cfa1']},
 ];
 
 export function chooseOpponent(family, random = Math.random) {

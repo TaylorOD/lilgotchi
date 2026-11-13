@@ -1,6 +1,6 @@
 # Meet the pets
 
-Pick a family and raise it from an egg. Slice stays pizza, Cypunk stays digital, Lilgotchi stays an egg. Gen 1 and Gen 2 follow separate P1 and P2 character paths.
+Pick a family and raise it from an egg. Slice stays pizza, Cypunk stays digital, Lilgotchi stays an egg. Gen 1 and Gen 2 follow separate character paths.
 
 Each family has its own saved pet. Switching families doesn’t replace your progress.
 
@@ -36,7 +36,7 @@ Babytchi grows into Marutchi, then Tamatchi or Kuchitamatchi. Adults include Mam
 
 Shirobabytchi grows into Tonmarutchi, then Tongaritchi or Hashitamatchi. Adults include Mimitchi, Pochitchi, Nyatchi, Zuccitchi, Hashizoutchi, Kusatchi and Takotchi. Zuccitchi can become Sekitoritchi, Charitchi or Zatchi.
 
-Both original families use source pixels from [DemiumAjare's P1 and P2 sheets](https://www.spriters-resource.com/lcd_handhelds/tamagotchioriginalp1p2/). Regional variants are included together. These are adapted lilgotchi growth paths, not exact hardware emulation.
+Both generations use source pixels from [DemiumAjare's P1 and P2 sheets](https://www.spriters-resource.com/lcd_handhelds/tamagotchioriginalp1p2/). Regional variants are included together. These are adapted lilgotchi growth paths, not exact hardware emulation.
 
 ## How they grow
 

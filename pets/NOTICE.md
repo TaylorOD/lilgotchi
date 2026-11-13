@@ -1,6 +1,6 @@
 # Pocket pets
 
-## Original P1 and P2 sprites
+## Gen 1 and Gen 2 sprites
 
 The Gen 1 and Gen 2 character artwork comes from DemiumAjare's sheets on [The Spriters Resource](https://www.spriters-resource.com/lcd_handhelds/tamagotchioriginalp1p2/), retrieved November 12, 2026. Tamagotchi characters and artwork belong to their respective owners, including Bandai. These third party assets are not covered by the MIT software license below. Retained source sheets, contributor credits and frame mappings are in `reference/original-sprites/`. The project is not affiliated with Bandai.
 
