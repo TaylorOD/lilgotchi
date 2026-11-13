@@ -26,7 +26,7 @@ This is the seven game Connection set, not every game from every Tamagotchi. The
 
 Play opens a game picker. Game names, instructions, score, progress, pause and exit sit outside the pixel display. Show one short instruction before Start. The display is for the pet and playfield.
 
-Use a 32 by 24 game field and integer pixels. Give each game up to three large touch controls below it, with matching keyboard controls. Do not put a tiny menu or text over the pet. Keep the same layout for all four families.
+Use integer pixels in a 32 pixel wide game field. Get and Heading are 40 pixels tall, Sprint is 34, and the other games are 24. Give each game up to three large touch controls below it, with matching keyboard controls. Do not put a tiny menu or text over the pet. Keep the same controls for all five families.
 
 Use the current pet and evolution. Draw new poses when needed. A symmetrical sprite flipped horizontally is not a visible turn. Keep eyes, toppings, antennae, cracks and readable symbols recognizable. Check the largest adult and elder forms before approving the layout.
 
@@ -43,7 +43,7 @@ The 2.0 contract:
 
 ## Review notes
 
-2.0 is released. The next polish pass keeps the full current pet in each game, adds room around the controls and makes the cues easier to follow. That pass is still in review. Physical phone playtesting, audio listening, human screen reader checks and longer balance sessions remain unverified. See the [review checklist](release-checklist.md).
+The games use each current pet in full, with taller fields for falling objects and separate Sprint lanes. Get has music note shapes and slower drops. Hoops moves its target between shots. These changes are merged into main after 3.0.4. Physical phone playtesting, audio listening, human screen reader checks and longer balance sessions remain unverified. See the [review checklist](release-checklist.md).
 
 ## Before shipping
 
