@@ -17,7 +17,7 @@ These are catalog leads from the community's [V4 page](https://tamagotchi.fandom
 
 ## The full catalog pass
 
-Work through Original P1 and P2, Connection V1 through V6 including V4.5 and V5.5, Japanese releases, later color devices, Nano releases and downloadable games. Track school, work, item and connected activities separately. Console, mobile and TamaTown games need an explicit scope decision before treating them as widget games.
+Work through Gen 1 and Gen 2 (P1 and P2), Connection V1 through V6 including V4.5 and V5.5, Japanese releases, later color devices, Nano releases and downloadable games. Track school, work, item and connected activities separately. Console, mobile and TamaTown games need an explicit scope decision before treating them as widget games.
 
 For each entry, record its device, region, game name, controls, objective and source. Mark reused mechanics so we do not add the same game twice under different names. Separate verified rules from our proposed timing, rewards and screen layout.
 
