@@ -6,8 +6,8 @@ import { GameState, Evo } from '../pets/engine.js';
 import { C } from '../pets/constants.js';
 import { SaveStore, saveKey, parseImport } from '../widget/save-store.js';
 
-test('catalog exposes only four egg families and validates frame identity pairs',()=>{
-  assert.deepEqual(families,['slice','cyberpunk','lilgotchi','default']);
+test('catalog exposes five egg families and validates frame identity pairs',()=>{
+  assert.deepEqual(families,['slice','cyberpunk','lilgotchi','default','original2']);
   assert.ok(catalog.every(choice=>choice.character==='egg'&&choice.stage==='egg'));
   for(const choice of catalog){
     assert.ok(classicSprites[choice.character].idle1);

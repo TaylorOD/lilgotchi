@@ -3,7 +3,8 @@ export const catalog=Object.freeze([
   {id:'slice',name:'Slice',skin:'pizza',character:'egg',stage:'egg'},
   {id:'cyberpunk',name:'Cypunk',skin:'cyberpunk',character:'egg',stage:'egg'},
   {id:'lilgotchi',name:'Lilgotchi',skin:'lilgotchi',character:'egg',stage:'egg'},
-  {id:'default',name:'Original',skin:'classic',character:'egg',stage:'egg'},
+  {id:'default',name:'Gen 1',skin:'classic',character:'egg',stage:'egg'},
+  {id:'original2',name:'Gen 2',skin:'classic',character:'egg',stage:'egg'},
 ].map(Object.freeze));
 export const families=Object.freeze(catalog.map(choice=>choice.id));
 export const legacyFamily=Object.freeze(Object.fromEntries(catalog.map(choice=>[choice.id,choice.skin])));
