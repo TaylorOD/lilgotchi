@@ -6,7 +6,7 @@ A little pixel pet for your website. Feed it, play with it, and watch it grow.
 
 <p align="center">
   <a href="https://www.taylordorsett.com/lilgotchi/">
-    <img src="https://raw.githubusercontent.com/TaylorOD/lilgotchi/main/pr-screenshots/adult-margherita-readme.jpg" alt="Adult Margherita in the lilgotchi widget" width="320">
+    <img src="https://raw.githubusercontent.com/TaylorOD/lilgotchi/main/pr-screenshots/readme-three-characters.png" alt="Slice, Cypunk and Lilgotchi in their handhelds with keychains" width="1000">
   </a>
 </p>
 
@@ -46,7 +46,7 @@ Copy the whole `node_modules/lilgotchi/dist` folder into your site's public asse
 
 [View on npm](https://www.npmjs.com/package/lilgotchi)
 
-## Eight ways to play
+## Eight games to play with your lilgotchi
 
 Catch notes, bump an opponent, head a ball, repeat arrows, follow flags, race and shoot hoops. Or play the original guessing game. [See the games](https://github.com/TaylorOD/lilgotchi/blob/main/design/games/README.md).
 
