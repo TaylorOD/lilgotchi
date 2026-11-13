@@ -7,6 +7,6 @@ export const stageLabel = stage => stage[0].toUpperCase()+stage.slice(1);
 export function petLabel(family,state) {
   const choice=getCharacter(family);
   const character=state?.character||choice.character,stage=state?.stage||choice.stage;
-  const name=family==='slice'?sliceNames[character]:family==='cyberpunk'?cyberpunkNames[character]:family==='lilgotchi'?lilgotchiNames[character]:character==='egg'?'Original':stageLabel(character);
+  const name=family==='slice'?sliceNames[character]:family==='cyberpunk'?cyberpunkNames[character]:family==='lilgotchi'?lilgotchiNames[character]:character==='egg'?choice.name:stageLabel(character);
   return `${name} · ${stageLabel(stage)}${state?.vacationAt?' · Paused':''}`;
 }

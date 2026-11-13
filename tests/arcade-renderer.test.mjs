@@ -153,7 +153,7 @@ test('Memory draws the actual current identity and authored direction frames',()
  }
 });
 
-test('Original uses the real LCD colors instead of the old yellow fallback',()=>{
+test('Gen 1 uses the real LCD colors instead of the old yellow fallback',()=>{
  const result=capture({id:'memory'},pet,{foreground:'#234567',background:'#abcdef'}).pixels;
  assert.equal(result[0].color,'#abcdef');assert.ok(result.slice(1).every(p=>p.color==='#234567'));
 });

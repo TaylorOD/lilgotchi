@@ -1,6 +1,7 @@
 import { now as clockNow, setSimulationTime } from './clock.js';
 import { C } from './constants.js';
 import { Evo } from './evolution.js';
+import { elderFor } from './original-roster.js';
 import { advanceWellbeing, sleepDecision } from './wellbeing.js';
 import { limitAbsence } from './away.js';
 
@@ -87,9 +88,11 @@ export class PetSimulation {
         st.save();
         this.sound.death(); this.showDeath();
       }
-      if(!st.isDead&&Evo.checkOyajitchi(st)&&st.character!=='oyajitchi'&&Math.random()<.05){
+      if(!st.isDead&&['maskutchi','zuccitchi'].includes(st.character)&&st.discipline>=100&&st.age>=10&&Math.random()<.05){
+        const elder=elderFor(st);
+        if(!elder)return;
         const previous={...st};
-        st.character='oyajitchi';
+        st.character=elder;
         this.sound.hatch();
         this.animState='evolve'; this.animTimer=clockNow();
         if(!this.catchingUp){this.growth?.observe(previous,st);this.landingAt=clockNow()+2000;}

@@ -1,7 +1,9 @@
 import { now as clockNow } from './clock.js';
 import { C } from './constants.js';
+import { isP2, evolveP2 } from './original-roster.js';
 export const Evo = {
   evolve(st){
+    if(isP2(st))return evolveP2(st);
     switch(st.stage){
       case 'egg': return {stage:'baby',character:'babytchi',weight:C.BASE_WT.baby};
       case 'baby': return {stage:'child',character:'marutchi',weight:C.BASE_WT.child};

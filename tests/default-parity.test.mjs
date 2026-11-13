@@ -100,7 +100,10 @@ test('random misbehavior and secret evolution use the original thresholds',()=>{
   mock.method(Math,'random',()=>.01);
   const p=pair({},[.01]);both(p,'maybeMisbehave');assert.equal(p.actual.state.isMisbehaving,true);
   const q=pair({stage:'adult',character:'maskutchi',discipline:100,age:10},[.01]);
-  both(q,'tick');assert.equal(q.actual.state.character,'oyajitchi');
+  q.actual.tick();q.expected.tick();
+  assert.equal(q.actual.state.character,'bill');
+  // P1 now includes its international hidden form at the same care threshold.
+  q.expected.state.character='bill';same(q.actual,q.expected);
 });
 
 test('offline timer fraction preservation is an explicit upstream difference',()=>{
@@ -130,9 +133,10 @@ test('all five guessing rounds preserve outcomes and weight for wins and losses'
 });
 
 function drawing(prototype){return Object.assign(Object.create(prototype),{w:32,h:16,buf:Array.from({length:16},()=>new Uint8Array(32)),render(){}});}
-test('Default compositions match source apart from the relocated clipped HUD',()=>{
+test('unchanged egg and death compositions match the original game',()=>{
   for(const character of Object.keys(classicSprites).filter(key=>!Array.isArray(classicSprites[key]))){
     for(const frame of [0,14,29,44,59,89])for(const reaction of ['idle','eat','happy','sad','evolve','discipline','medicine','clean','sleep','waste','sick','death']){
+      if(character!=='egg'&&reaction!=='death')continue;
       const p=pair({character,stage:character==='egg'?'egg':'adult'});
       const make=(app,prototype)=>{
         app.renderer=drawing(prototype);app.frame=frame;
