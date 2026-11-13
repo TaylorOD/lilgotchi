@@ -5,6 +5,15 @@ export function inactiveSince(store,family) {
   return Number.isFinite(value)&&value>0?value:0;
 }
 
+export function hasActivePets(store,families,states=new Map()) {
+  return families.some(family=>{
+    if(inactiveSince(store,family))return false;
+    if(states.get(family)?.state)return true;
+    try{return !!store.load(family)?.state;}
+    catch{return false;}
+  });
+}
+
 export function resumeInactive(state,since,now=Date.now()) {
   const next=structuredClone(state);
   const elapsed=now-since;

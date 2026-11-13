@@ -1,3 +1,5 @@
+import { readColorMap, cleanColors } from './pets/colors.js';
+import { mountColorControls } from './widget/color-controls.js';
 import { catalog, allowedCharacters, requireAllowed, initialCharacter } from './pets/catalog.js';
 import { visibleControl } from './widget/focus.js';
 import { lockPage, unlockPage } from './widget/scroll-lock.js';
@@ -7,7 +9,7 @@ import { validState } from './pets/valid-state.js';
 import { PetHistory } from './widget/pet-history.js';
 import { mountCareGuide } from './widget/care-guide.js';
 import { mountSettings } from './widget/settings.js';
-import { inactiveSince, resumeInactive } from './widget/inactive.js';
+import { inactiveSince, resumeInactive, hasActivePets } from './widget/inactive.js';
 import { careNeeds, refreshCare } from './widget/care-monitor.js';
 import { petLabel } from './widget/pet-label.js';
 
@@ -37,7 +39,7 @@ class LilGotchi extends HTMLElement {
       <label class="chooser"><span class="pet-identity"></span><select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
       <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-tour">Quick tour</button> <button class="welcome-close">Got it</button></aside>
       <details class="care-needs" hidden><summary></summary><div class="needs-list"></div></details><p class="return-summary" hidden></p><div class="frame"></div>
-      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="guide-host"></div><div class="game-options"></div><div class="inactive-option setting-row"><div class="setting-copy"><strong>Take a break from this pet</strong><p>Keep your progress. No growth, care or notifications until you start it again.</p></div><button class="make-inactive">Make inactive</button></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
+      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="guide-host"></div><div class="game-options"></div><div class="color-options"></div><div class="inactive-option setting-row"><div class="setting-copy"><strong>Take a break from this pet</strong><p>Keep your progress. No growth, care or notifications until you start it again.</p></div><button class="make-inactive">Make inactive</button></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
       <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
@@ -64,6 +66,12 @@ class LilGotchi extends HTMLElement {
       if(this.ready)this.port?.postMessage({type:'configure',action});
     });
     this.bind('.settings-close','click',()=>{const details=this.shadowRoot.querySelector('.save-help');details.open=false;details.querySelector('summary').focus();});
+    this.colorControls=mountColorControls(this.shadowRoot.querySelector('.color-options'),colors=>{
+      this.store.preference('colors-'+this.family,JSON.stringify(cleanColors(colors)));
+      this.port?.postMessage({type:'colors',colors:this.colorsFor(this.family)});
+      this.updateLauncher();
+    });
+    this.colorControls.update(this.family,this.colorsFor(this.family));
     this.careGuide=mountCareGuide(this.shadowRoot.querySelector('.guide-host'));
     this.bind('.welcome-tour','click',()=>{
       this.shadowRoot.querySelector('.welcome').hidden=true;this.store.preference('introduced',true);
@@ -89,16 +97,26 @@ class LilGotchi extends HTMLElement {
     this.bind('.confirm-import','click',()=>this.confirmImport());
     if(this.inline){this.shadowRoot.querySelector('.launcher').hidden=true;this.shadowRoot.querySelector('.close').hidden=true;this.open();}
   }
+  colorsFor(family){
+    const saved=this.store.preference('colors-'+family);
+    if(saved!==null&&saved!==undefined&&saved!==''){
+      try{return cleanColors(JSON.parse(saved));}catch{}
+    }
+    return readColorMap(this.getAttribute('colors'))[family]||{};
+  }
   updateLauncher(state){
+    this.colorControls?.update(this.family,this.colorsFor(this.family));
     if(!state){try{state=this.store.load(this.family)?.state;}catch{ /* Recovery stays in the normal open flow. */ }}
     const inactive=inactiveSince(this.store,this.family);
-    this.shadowRoot.querySelector('.pet-identity').textContent=inactive?`${catalog.find(choice=>choice.id===this.family).name} · Inactive`:petLabel(this.family,state);
-    const pause=this.shadowRoot.querySelector('.inactive-option');if(pause)pause.hidden=!!inactive;
-    this.shadowRoot.querySelector('.game-options').hidden=!!inactive;
+    this.shadowRoot.querySelector('.pet-identity').textContent=inactive?`${catalog.find(choice=>choice.id===this.family).name} · Inactive`:state?petLabel(this.family,state):`${catalog.find(choice=>choice.id===this.family).name} · Not started`;
+    const pause=this.shadowRoot.querySelector('.inactive-option');if(pause)pause.hidden=!!inactive||!state;
+    this.shadowRoot.querySelector('.game-options').hidden=!!inactive||!state;
+    this.shadowRoot.querySelector('.export').disabled=!state;
     if(state)this.careStates.set(this.family,{state,stale:!this.ready});
     const button=this.shadowRoot.querySelector('.launcher');
-    const brand=this.getAttribute('launcher')==='brand';
-    button.innerHTML=brand?`<img class="brand-egg" src="${asset('./widget/egg.svg')}" alt=""><span class="launcher-label">lilgotchi</span>`:launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family),{shell:this.getAttribute('launcher')!=='pet',eink:this.store.preference('eink')==='true'});
+    const brand=this.getAttribute('launcher')==='brand'||!hasActivePets(this.store,this.allowed,this.careStates);
+    button.classList.toggle('brand-launcher',brand);
+    button.innerHTML=brand?`<img class="brand-egg" src="${asset('./widget/egg.svg')}" alt=""><span class="launcher-label">lilgotchi</span>`:launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family),{shell:this.getAttribute('launcher')!=='pet',eink:this.store.preference('eink')==='true',colors:this.colorsFor(this.family)});
     const rows=this.allowed.flatMap(family=>{
       if(inactiveSince(this.store,family))return [];
       const entry=this.careStates.get(family);
@@ -235,7 +253,16 @@ class LilGotchi extends HTMLElement {
     }finally{this.store.release(family);}
     await this.mount();this.updateLauncher();this.select.focus();
   });}
-  async mount(){
+  startPet(){
+    const family=this.family;
+    return this.serial(async()=>{
+      if(this.family!==family)return;
+      await this.unload();
+      await this.mount(true);
+      this.updateLauncher();this.select.focus();
+    });
+  }
+  async mount(startNew=false){
     const container=this.shadowRoot.querySelector('.frame');
     container.textContent='';
     if(inactiveSince(this.store,this.family)){
@@ -266,6 +293,17 @@ class LilGotchi extends HTMLElement {
       this.shadowRoot.querySelector('.return-summary').hidden=true;
     } catch(error){this.store.release(this.family);this.fail(error);return;}
     if(!this.isConnected){this.store.release(this.family);return;}
+    if(!saved&&!startNew){
+      this.store.release(this.family);
+      container.classList.remove('is-loading');container.removeAttribute('aria-busy');container.style.minHeight='';
+      const card=document.createElement('div');card.className='inactive-card';
+      const title=document.createElement('h3');title.textContent=`Meet ${catalog.find(choice=>choice.id===this.family).name}`;
+      const text=document.createElement('p');text.textContent='Start your pet when you’re ready. Until then, there’s no countdown or care to keep up with.';
+      const button=document.createElement('button');button.textContent='Start pet';button.addEventListener('click',()=>this.startPet());
+      card.append(title,text,button);container.append(card);
+      this.status('Not started');this.shadowRoot.querySelector('.retry').hidden=true;
+      this.updateLauncher();return;
+    }
     const frame=document.createElement('iframe');
     this.frame=frame;
     frame.style.height='340px';
@@ -280,7 +318,7 @@ class LilGotchi extends HTMLElement {
     this.port.onmessage=event=>{if(this.frame===frame)this.receive(event.data,activeFamily);};
     frame.addEventListener('load',()=>{
       if(this.frame!==frame)return;
-      frame.contentWindow.postMessage({type:'lilgotchi:connect',nonce,state:saved?.state||null,muted:this.hasAttribute('muted') || this.store.preference('muted')!=='false',eink:this.store.preference('eink')==='true',scanlines:this.store.preference('scanlines')==='true'},url.origin,[channel.port2]);
+      frame.contentWindow.postMessage({type:'lilgotchi:connect',nonce,state:saved?.state||null,muted:this.hasAttribute('muted') || this.store.preference('muted')!=='false',eink:this.store.preference('eink')==='true',scanlines:this.store.preference('scanlines')==='true',colors:this.colorsFor(activeFamily)},url.origin,[channel.port2]);
     },{once:true});
     frame.src=url.href;container.append(frame);
     this.loadTimeout=setTimeout(()=>{if(this.frame===frame && !this.ready)this.fail(new Error('The game did not load. Check that all widget files are available.'));},12000);

@@ -9,7 +9,7 @@ const open=async id=>{
 for(const choice of catalog){
   const button=document.createElement('button');
   button.type='button';
-  button.innerHTML=`${launcherArt(choice.id,{character:choice.id==='default'?'kuchipatchi':choice.id==='cyberpunk'?'ginjirotchi':'mametchi'},{fit:true})}<strong>${choice.name}</strong><span>${choice.id==='slice'?'Starts as dough':choice.id==='cyberpunk'?'Starts as a binary seed':'Starts as an egg'}</span>`;
+  button.innerHTML=`${launcherArt(choice.id,{character:choice.id==='original2'?'mimitchi':choice.id==='default'?'kuchipatchi':choice.id==='cyberpunk'?'ginjirotchi':'mametchi'},{fit:true})}<strong>${choice.name}</strong><span>${choice.id==='slice'?'Starts as dough':choice.id==='cyberpunk'?'Starts as a binary seed':'Starts as an egg'}</span>`;
   button.addEventListener('click',async()=>{
     await open(choice.id);
   });

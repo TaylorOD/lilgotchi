@@ -1,4 +1,5 @@
 import { validState } from '../pets/valid-state.js';
+import { stagesForFamily } from '../pets/original-roster.js';
 
 import { families, legacyFamily, requireAllowed } from '../pets/catalog.js';
 export { families, legacyFamily } from '../pets/catalog.js';
@@ -15,11 +16,12 @@ export function validEnvelope(data, instance, family) {
   if (family !== undefined && data.family !== family) return false;
   if (!Number.isSafeInteger(data.revision) || data.revision < 0 || !Number.isFinite(data.savedAt) || data.savedAt < 0 || !validState(data.state)) return false;
   const state=data.state;
-  const identities={egg:['egg'],baby:['babytchi'],child:['marutchi'],teen:['tamatchi','kuchitamatchi'],adult:['mametchi','ginjirotchi','maskutchi','kuchipatchi','nyorotchi','tarakotchi','oyajitchi']};
+  const identities=stagesForFamily(data.family);
+  if(!Object.values(identities).flat().includes(state.character))return false;
   if(state.stage!=='dead' && !identities[state.stage]?.includes(state.character))return false;
   if(state.isDead !== (state.stage==='dead') || state.weight>99 || state.age>1000000)return false;
   for(const key of ['age','weight','careMistakes','snacksInWindow','medDoses','sickCount']) if(!Number.isSafeInteger(state[key]))return false;
-  return [null,'tamatchi','kuchitamatchi'].includes(state.prevTeen) && [null,'hungry','sad','misbehave','sick'].includes(state.attentionReason) && (state.attentionCallTime===null || state.attentionCallTime>=0);
+  return [null,...identities.teen].includes(state.prevTeen) && [null,'hungry','sad','misbehave','sick'].includes(state.attentionReason) && (state.attentionCallTime===null || state.attentionCallTime>=0);
 }
 
 export function parseImport(text, allowed=families) {

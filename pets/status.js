@@ -2,6 +2,7 @@ import { C } from './constants.js';
 import { now } from './clock.js';
 import { petType } from './storage.js';
 import { characterName } from './skins.js';
+import { isP2 } from './original-roster.js';
 
 export function updateStatus(state) {
   const status = document.getElementById('pet-status');
@@ -20,7 +21,7 @@ export function updateStatus(state) {
     const hearts=count=>'♥'.repeat(count)+'♡'.repeat(4-count);
     needs.textContent=state.stage==='egg'?`${characterName('egg').toUpperCase()} · ${text.split('.')[0]}`:state.isDead?'Rest in peace':`Food ${hearts(state.hunger)} ${state.hunger}/4 · Happy ${hearts(state.happiness)} ${state.happiness}/4`;
   }
-  const familyName={classic:'Original',pizza:'Slice',cyberpunk:'Cypunk',lilgotchi:'Lilgotchi'}[petType]||petType;
+  const familyName={classic:isP2(state)?'Gen 2':'Gen 1',pizza:'Slice',cyberpunk:'Cypunk',lilgotchi:'Lilgotchi'}[petType]||petType;
   document.getElementById('lcd').setAttribute('aria-label', `${familyName} pet. ${text}`);
 }
 
