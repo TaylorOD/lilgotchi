@@ -1,4 +1,4 @@
-# 🥚 lilgotchi
+# <img src="widget/egg.svg" width="24" height="28" alt=""> lilgotchi
 
 A little pixel pet for your website. Feed it, play with it, and watch it grow.
 
