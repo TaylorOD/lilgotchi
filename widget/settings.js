@@ -10,9 +10,9 @@ export function mountSettings(container,sendCommand){
   const rows=new Map();
   const specs=[
     ['vacation','Vacation','Pause care and growth until you return.'],
-    ['scanlines','LCD scanlines','Faint lines for an old LCD look.'],
     ['eink','E ink theme','A simple black and white screen.'],
     ['mute','Sound','Little sounds while you play.'],
+    ['scanlines','LCD scanlines','Faint lines for an old LCD look.'],
   ];
   let ready=false,configuration=null;
   for(const [action,label,description] of specs){

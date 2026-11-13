@@ -29,7 +29,7 @@ Feed, play, clean up and settle down for a nap. Progress stays in your browser, 
 ## Put one on your website
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.4/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.5/embed.js"></script>
 ```
 
 That’s it. No account, backend or dependencies.
@@ -48,7 +48,7 @@ Copy the whole `node_modules/lilgotchi/dist` folder into your site's public asse
 
 ## Eight games to play with your lilgotchi
 
-Catch notes, bump an opponent, head a ball, repeat arrows, follow flags, race and shoot hoops. Or play the original guessing game. [See the games](https://github.com/TaylorOD/lilgotchi/blob/main/design/games/README.md).
+Catch music notes, bump an opponent, head a ball, repeat arrows, follow flags, race and shoot hoops. Or play the original guessing game. [See the games](https://github.com/TaylorOD/lilgotchi/blob/main/design/games/README.md).
 
 ## Work on it
 

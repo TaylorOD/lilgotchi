@@ -1,5 +1,5 @@
 import { model, clamp } from "./model.js";
-import { headingPose, FIELD_HEIGHT, FIELD_WIDTH } from "../arcade-geometry.js";
+import { headingPose, FALLING_FIELD_HEIGHT, FIELD_WIDTH } from "../arcade-geometry.js";
 
 const defaultSprite = Array.from({ length: 12 }, () => Array(12).fill(1));
 
@@ -89,11 +89,11 @@ export function createHeading({
             s.result = "win";
             s.phase = "done";
           }
-        } else if (s.ball.y >= FIELD_HEIGHT - 2) {
+        } else if (s.ball.y >= FALLING_FIELD_HEIGHT - 2) {
           s.misses++;
           s.phase = "countdown";
           s.phaseTime = 0;
-          s.ball.y = FIELD_HEIGHT - 2;
+          s.ball.y = FALLING_FIELD_HEIGHT - 2;
         }
       }
       if (!s.result && (s.misses >= 3 || !s.remaining)) {

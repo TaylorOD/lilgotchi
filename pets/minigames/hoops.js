@@ -1,4 +1,4 @@
-export function createHoops({ slow = false } = {}) {
+export function createHoops({ slow = false, random = Math.random } = {}) {
   const period = slow ? 4000 : 2400;
   let phase = "ready",
     result = null,
@@ -8,10 +8,12 @@ export function createHoops({ slow = false } = {}) {
   let elapsed = 0,
     arcElapsed = 0,
     made = null,
-    marker = 0;
+    marker = 0,
+    targetCenter = 0.5,
+    missedShort = false;
   const target = () => ({
-    min: 0.5 - Math.max(0.08, 0.18 - score * 0.02),
-    max: 0.5 + Math.max(0.08, 0.18 - score * 0.02),
+    min: targetCenter - Math.max(0.08, 0.18 - score * 0.02),
+    max: targetCenter + Math.max(0.08, 0.18 - score * 0.02),
   });
   return {
     input(action) {
@@ -27,6 +29,7 @@ export function createHoops({ slow = false } = {}) {
       made =
         marker + Number.EPSILON >= bounds.min &&
         marker - Number.EPSILON <= bounds.max;
+      missedShort = marker < bounds.min;
       phase = "arc";
       arcElapsed = 0;
       return true;
@@ -46,6 +49,8 @@ export function createHoops({ slow = false } = {}) {
             result = score >= 3 ? "win" : "loss";
           } else {
             shot++;
+            // Change sides between shots, then hold still while the player aims.
+            targetCenter = (targetCenter >= 0.5 ? 0.24 : 0.64) + random() * 0.12;
             phase = "ready";
           }
         }
@@ -68,7 +73,7 @@ export function createHoops({ slow = false } = {}) {
       // A made shot reaches the rim on its way down, then drops through the net.
       const rimTime = 0.72;
       const flight = Math.min(1, t / rimTime);
-      const endX = made ? 26 : marker < 0.5 ? 21 : 29;
+      const endX = made ? 26 : missedShort ? 21 : 29;
       const ball = t <= rimTime
         ? {
             x: 10 + (endX - 10) * flight,
