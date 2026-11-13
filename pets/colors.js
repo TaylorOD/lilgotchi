@@ -1,5 +1,5 @@
 export const petColors=Object.freeze({
-  default:{shell:'#b94f63',screen:'#cbdca6'},
+  default:{shell:'#8b9d82',screen:'#cbdca6'},
   original2:{shell:'#697ec2',screen:'#c0dce6'},
   slice:{shell:'#839c98',screen:'#648e97'},
   cyberpunk:{shell:'#304e59',screen:'#0b1c24'},

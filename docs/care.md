@@ -45,3 +45,7 @@ Remembered pets keeps a small local history of pets that passed away. Exported s
 ## Keep a pet inactive
 
 Pick the pet, open Settings and choose Make inactive. Its progress stays saved, but it stops growing and sending notifications. It stays in the selector. Choose Start pet when you want to return.
+
+## Make it yours
+
+Open **Settings** to choose the selected pet's **Handheld color** and **Screen color**. Switch families to set each pet separately. **Return to default colors** resets just that family. Gen 1 starts with a sage handheld and green screen. Gen 2 has its own blue palette. Colors stay in your browser and do not change the website around the game.
