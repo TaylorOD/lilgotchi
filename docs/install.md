@@ -34,6 +34,8 @@ Copy the entire `node_modules/lilgotchi/dist` folder to your site as `/assets/li
 
 For an exact version, use `npm install lilgotchi@3.0.2`. The GitHub release also includes the same npm tarball.
 
+Visitors can override the launcher and notification defaults in the game's **Settings**. **Always show lilgotchi logo** keeps the logo on the corner button. **Show care notifications** shows or hides the count badge and needs list. Choices are remembered for this widget in their browser.
+
 ## Saves
 
 Pets save in the visitor’s browser on your website. Settings has **Export save** and **Import save** for backups. There’s no account or automatic sync.

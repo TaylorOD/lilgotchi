@@ -8,6 +8,7 @@ import { SaveStore, legacyFamily, parseImport } from './widget/save-store.js';
 import { validState } from './pets/valid-state.js';
 import { PetHistory } from './widget/pet-history.js';
 import { mountCareGuide } from './widget/care-guide.js';
+import { launcherPreferences, mountLauncherSettings } from './widget/launcher-settings.js';
 import { mountSettings } from './widget/settings.js';
 import { inactiveSince, resumeInactive, hasActivePets } from './widget/inactive.js';
 import { careNeeds, refreshCare } from './widget/care-monitor.js';
@@ -39,7 +40,7 @@ class LilGotchi extends HTMLElement {
       <label class="chooser"><span class="pet-identity"></span><select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
       <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-tour">Quick tour</button> <button class="welcome-close">Got it</button></aside>
       <details class="care-needs" hidden><summary></summary><div class="needs-list"></div></details><p class="return-summary" hidden></p><div class="frame"></div>
-      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="guide-host"></div><div class="game-options"></div><div class="color-options"></div><div class="inactive-option setting-row"><div class="setting-copy"><strong>Take a break from this pet</strong><p>Keep your progress. No growth, care or notifications until you start it again.</p></div><button class="make-inactive">Make inactive</button></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
+      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="guide-host"></div><div class="launcher-options"></div><div class="game-options"></div><div class="color-options"></div><div class="inactive-option setting-row"><div class="setting-copy"><strong>Take a break from this pet</strong><p>Keep your progress. No growth, care or notifications until you start it again.</p></div><button class="make-inactive">Make inactive</button></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
       <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
@@ -62,6 +63,9 @@ class LilGotchi extends HTMLElement {
       this.updateLauncher();
     });
     this.refreshNotifications();
+    this.launcherSettings=mountLauncherSettings(this.shadowRoot.querySelector('.launcher-options'),
+      ()=>launcherPreferences(this.store,this.getAttribute('launcher'),this.getAttribute('notifications')),
+      (key,on)=>{this.store.preference(key==='brand'?'brand-launcher':'notifications',on);this.updateLauncher();});
     this.settings=mountSettings(this.shadowRoot.querySelector('.game-options'),action=>{
       if(this.ready)this.port?.postMessage({type:'configure',action});
     });
@@ -114,7 +118,9 @@ class LilGotchi extends HTMLElement {
     this.shadowRoot.querySelector('.export').disabled=!state;
     if(state)this.careStates.set(this.family,{state,stale:!this.ready});
     const button=this.shadowRoot.querySelector('.launcher');
-    const brand=this.getAttribute('launcher')==='brand'||!hasActivePets(this.store,this.allowed,this.careStates);
+    const preferences=launcherPreferences(this.store,this.getAttribute('launcher'),this.getAttribute('notifications'));
+    this.launcherSettings?.update();
+    const brand=preferences.brand||!hasActivePets(this.store,this.allowed,this.careStates);
     button.classList.toggle('brand-launcher',brand);
     button.innerHTML=brand?`<img class="brand-egg" src="${asset('./widget/egg.svg')}" alt=""><span class="launcher-label">lilgotchi</span>`:launcherArt(this.family,state||catalog.find(choice=>choice.id===this.family),{shell:this.getAttribute('launcher')!=='pet',eink:this.store.preference('eink')==='true',colors:this.colorsFor(this.family)});
     const rows=this.allowed.flatMap(family=>{
@@ -124,7 +130,7 @@ class LilGotchi extends HTMLElement {
       return needs.length?[{family,needs,stale:entry.stale}]:[];
     });
     const count=rows.reduce((sum,row)=>sum+row.needs.length,0);
-    const enabled=this.getAttribute('notifications')!=='off';
+    const enabled=preferences.notifications;
     if(enabled&&count)button.insertAdjacentHTML('beforeend',`<span class="care-badge" aria-hidden="true">${count>99?'99+':count}</span>`);
     const label=`Open lilgotchi${enabled&&count?`, ${count} ${count===1?'notification':'notifications'}`:''}`;
     button.setAttribute('aria-label',label);button.title=label;
