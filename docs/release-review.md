@@ -1,5 +1,9 @@
 # Release notes
 
+## 3.0.7
+
+Adds Website and GitHub links on opposite sides of the Settings footer with tighter spacing. The homepage puts our custom families first, adds a shorter gold character guide button and simplifies the setup copy. The package link points to npm. Removes the bottom divider and extra space below the copy button. The readme now groups games under Five lil families.
+
 ## 3.0.6
 
 Adds space below the care meters, groups Settings into smaller indented sections and fixes touch scrolling. The homepage starts with the egg logo and lilgotchi name, shows the current version and updates automatically after merges. Includes the social preview artwork.

@@ -31,7 +31,7 @@ Catch music notes, bump an opponent, head a ball, repeat arrows, follow flags, r
 ## Put one on your website
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.6/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.7/embed.js"></script>
 ```
 
 That’s it. No account, backend or dependencies.
