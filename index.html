@@ -20,6 +20,8 @@
     .label { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: #9de4ce; }
     pre { background:#171c24; padding:18px; border:1px solid #343c48; border-radius:12px; overflow:auto; font-size:12px; line-height:1.8; }
     .try { cursor:pointer; font:inherit; color:#101219; background:#d9bc83; border:0; border-radius:12px; padding:14px 22px; min-height:48px; margin:12px 0 36px; }
+    .brand-name { white-space:nowrap; }
+    .brand-name img { height:1em; width:auto; vertical-align:-.12em; image-rendering:pixelated; }
     h2 { font-size:21px; letter-spacing:-.03em; }
     button:focus-visible,a:focus-visible { outline:2px solid #9de4ce; outline-offset:5px; }
     .hero { display:grid; grid-template-columns:minmax(0,1fr); gap:32px; margin-bottom:48px; }
@@ -70,7 +72,7 @@
     </section>
     </div>
     <form id="setup" onsubmit="return false">
-      <div class="setup-intro"><h2>Set up your lilgotchi</h2><p>Paste one line into your website. No upload, account or build needed.</p></div>
+      <div class="setup-intro"><h2>Set up your <span class="brand-name"><img src="./widget/egg.svg" width="20" height="24" alt=""> lilgotchi</span></h2><p>Paste one line into your website. No upload, account or build needed.</p></div>
       <label>Pet families <select name="roster"><option value="all">All five families</option><option value="selected">Only my favorites</option></select></label>
       <div class="character-options" aria-label="Available families" hidden></div>
       <label>Starting pet <select name="first"></select></label>
