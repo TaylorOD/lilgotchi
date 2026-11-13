@@ -1,10 +1,14 @@
 # Release notes
 
-## 3.0 preview
+## 3.0.1
+
+The homepage uses one full width column, with setup instructions inside the settings box. Pet colors live in the game Settings and can be changed separately for each family. Gen 1 now starts with a sage handheld. Dropdown arrows have more room, and the Try again button is centered with space above the divider.
+
+## 3.0
 
 Gen 1 now uses the P1 source sprites. Gen 2 adds the P2 family with its own save. All 26 characters from the source collection are included, with regional and hidden forms using adapted growth paths.
 
-The 259 automated checks pass, including family saves, growth paths and sprite bounds. Browser review covered the character guide, hatching, feeding, family switching, a guessing game, the phone layout and a crowded adult screen. This version is prepared for review and has not been released.
+The 267 automated checks pass, including family saves, growth paths and sprite bounds. Browser review covered the character guide, hatching, feeding, family switching, a guessing game, the phone layout and a crowded adult screen. Version 3.0.0 was released with explicit Start pet controls, separate family colors and the curved keychain.
 
 ## 2.0
 

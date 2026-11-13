@@ -22,12 +22,14 @@ A little pixel pet for your website. Feed it, play with it, and watch it grow.
 
 Every family starts small and follows its own growth paths. Each keeps a separate save. Gen 1 and Gen 2 include 26 characters across both generations, with source pixel artwork and regional hidden forms.
 
+Choose **Start pet** when you are ready. Opening the drawer or switching families does not start a new pet. Each family has its own handheld and screen colors in **Settings**, with a button to return to its defaults.
+
 Feed, play, clean up and settle down for a nap. Progress stays in your browser, with file backups in Settings.
 
 ## Put one on your website
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.0/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.1/embed.js"></script>
 ```
 
 That’s it. No account, backend or dependencies.
