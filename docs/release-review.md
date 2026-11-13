@@ -1,5 +1,11 @@
 # Release notes
 
+## Unreleased
+
+Redraws the custom adults with more body detail and a clearer growth progression. Quail Egg stays small. Get and Heading have taller fields, Get drops more slowly and uses music notes, Sprint gives each racer a separate full height lane, and Hoops changes its target between shots. Care information is easier to scan and the Settings switches are grouped below Sound.
+
+Browser checks covered the artwork, game layouts and Settings. Automated checks cover sprite bounds, race lane separation, falling game timing and Hoops targets. Physical phone testing and longer human balance sessions remain unverified.
+
 ## 3.0.4
 
 Setup choices preview immediately in the corner button without starting new pets or replacing saves. Dropdown arrows share the close button's center line across the website. The readme shows all three custom families with their chains.

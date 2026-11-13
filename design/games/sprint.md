@@ -12,7 +12,7 @@ Start with a three second countdown. The course has 30 steps. Accept at most two
 
 ## Screen and art
 
-Use the current pet in the upper lane and a distinct opponent in the lower lane. Put race progress below the display. Keep the screen still and move the runners, with a visible finish marker. Reduced motion uses fewer pose changes and no scrolling scenery.
+Use a 32 by 34 field with two 16 pixel lanes and a two pixel gap. Use the current pet in the upper lane and a distinct opponent in the lower lane. Put race progress below the display. Keep the screen still and move the runners, with a visible finish marker. Reduced motion uses fewer pose changes and no scrolling scenery.
 
 ## Check it
 
