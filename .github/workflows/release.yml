@@ -1,0 +1,70 @@
+name: release
+# Publishes a new package.json version to npm and GitHub after it merges to main.
+# npm trusts this exact file name, so rename it there too if it ever changes.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: lilgotchi-release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Find what still needs publishing
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [ -n "$(npm view "lilgotchi@$version" version 2>/dev/null)" ]; then
+            echo "npm already has $version"
+            echo "npm=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "npm=true" >> "$GITHUB_OUTPUT"
+          fi
+          if gh release view "v$version" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "GitHub already has v$version"
+            echo "github=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "github=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Test and pack
+        if: steps.plan.outputs.npm == 'true' || steps.plan.outputs.github == 'true'
+        env:
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          npm test
+          node scripts/release-notes.mjs "$VERSION" > release-notes.md
+          npm pack
+          (cd dist && zip -qr "../lilgotchi-$VERSION.zip" .)
+      - name: Publish to npm
+        if: steps.plan.outputs.npm == 'true'
+        env:
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          npm --version
+          npm publish "lilgotchi-$VERSION.tgz" --access public
+      - name: Create GitHub release
+        if: steps.plan.outputs.github == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          gh release create "v$VERSION" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "lilgotchi $VERSION" --notes-file release-notes.md \
+            "lilgotchi-$VERSION.tgz" "lilgotchi-$VERSION.zip"
