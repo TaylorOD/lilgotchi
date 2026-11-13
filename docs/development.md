@@ -79,3 +79,9 @@ Use injected randomness for repeatable tests. Check boundary inputs, duplicate r
 Same repository PRs into `main` get a preview link in a comment. It updates on each push and disappears when the PR closes. Forks do not publish previews.
 
 Previews keep their own pet saves. They leave the live demo and your pets alone. Sample pages are excluded because they use shared test saves.
+
+## Publish to npm
+
+Update the package version, current install snippets and release notes together. Build and test, inspect `npm pack --dry-run`, then install the packed archive into a temporary project and check its complete `dist` folder.
+
+After the source PR is merged, publish the reviewed archive with `npm publish <archive.tgz> --access public`. npm may ask you to approve the publish in your browser. Verify `npm view lilgotchi version`, install that version from the registry, and check the package page before deploying its npm link. Publish the same archive and versioned static files with the GitHub release. Never replace an existing version.
