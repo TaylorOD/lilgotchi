@@ -36,7 +36,7 @@ iframe{background:#121619;color-scheme:dark}
 :host([appearance=light]) .chooser select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='m2 3 5 5 5-5' fill='none' stroke='%23202921' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 .retry{display:block;margin:0 auto 20px}
 
-.game-options{padding:0 0 14px}
+.game-options{padding:0}
 .setting-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0;border-bottom:1px solid #343d3d}
 .setting-copy strong{font-size:13px;font-weight:600}.setting-copy p,.settings-reset p{font-size:12px;line-height:1.5;color:#bdc8be;margin:4px 0 0}
 .setting-toggle{flex:none;min-width:58px;font-size:12px;font-weight:600}.setting-toggle[aria-checked=true]{background:#314a40;border-color:#8ab49b;color:#effff5}

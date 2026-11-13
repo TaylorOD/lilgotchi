@@ -26,9 +26,9 @@ test('settings wait for ready configuration and show actual state without optimi
   controls.update(configuration);assert.ok(buttons.every(button=>!button.disabled));
   buttons[0].handlers.click();assert.deepEqual(sent,['vacation']);assert.equal(buttons[0].attrs['aria-checked'],'false');
   controls.update({...configuration,vacation:true,muted:false});
-  assert.equal(buttons[0].attrs['aria-checked'],'true');assert.equal(buttons[3].attrs['aria-checked'],'true');
-  assert.equal(buttons[3].children[0].textContent,'On');
-  buttons[3].handlers.click();buttons[4].handlers.click();assert.deepEqual(sent,['vacation','mute','reset']);
+  assert.equal(buttons[0].attrs['aria-checked'],'true');assert.equal(buttons[2].attrs['aria-checked'],'true');
+  assert.equal(buttons[2].children[0].textContent,'On');
+  buttons[2].handlers.click();buttons[4].handlers.click();assert.deepEqual(sent,['vacation','mute','reset']);
 });
 
 test('changing pets clears settings and rejects malformed or unavailable controls',()=>{
@@ -36,8 +36,8 @@ test('changing pets clears settings and rejects malformed or unavailable control
   controls.setReady(true);controls.update(configuration);
   controls.setReady(false);assert.ok(buttons.every(button=>button.disabled));buttons[0].handlers.click();assert.deepEqual(sent,[]);
   controls.setReady(true);assert.ok(buttons.every(button=>button.disabled));
-  controls.update({...configuration,classic:false});assert.equal(rows[2].hidden,true);
-  buttons[2].handlers.click();assert.deepEqual(sent,[]);
+  controls.update({...configuration,classic:false});assert.equal(rows[1].hidden,true);
+  buttons[1].handlers.click();assert.deepEqual(sent,[]);
   controls.update({...configuration,vacation:'yes'});assert.equal(buttons[0].attrs['aria-checked'],'false');
   assert.equal(validConfiguration(null),false);assert.equal(validConfiguration({}),false);assert.equal(validConfiguration(configuration),true);
 });
