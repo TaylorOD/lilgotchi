@@ -10,5 +10,5 @@ export function installSnippet({characters='all',character='slice',placement='bo
   const colorMap=cleanColorMap(colors);
   const colorSetting=Object.keys(colorMap).length?" data-colors='"+JSON.stringify(colorMap)+"'":'';
   const setting=` data-placement="${placement}"`;
-  return `<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.4/embed.js" data-characters="${characters==='all'?'all':allowed.join(',')}" data-character="${character}"${setting} data-appearance="${appearance}" data-launcher="${launcher}" data-notifications="${notifications}"${colorSetting} data-storage-key="my-pets"></script>`;
+  return `<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.5/embed.js" data-characters="${characters==='all'?'all':allowed.join(',')}" data-character="${character}"${setting} data-appearance="${appearance}" data-launcher="${launcher}" data-notifications="${notifications}"${colorSetting} data-storage-key="my-pets"></script>`;
 }
