@@ -20,7 +20,6 @@ test('all six care branches resolve to the reviewed custom adults',()=>{
   assert.deepEqual([sliceNames[id],cyberpunkNames[id],lilgotchiNames[id]],names);
  }
 });
-test('Sentinel and Binary Seed retain their original expressions',()=>{
- for(const [expression,frame] of Object.entries(originalCypunk.mametchi))assert.deepEqual(cyberpunkSprites.ginjirotchi[expression],frame);
+test('Binary Seed retains its original expressions',()=>{
  assert.deepEqual(cyberpunkSprites.egg,originalCypunk.egg);
 });

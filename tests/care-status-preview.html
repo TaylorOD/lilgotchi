@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><title>Care status review</title>
+<style>body{background:#121619;color:#eee;font:14px system-ui;margin:16px}main{display:grid;grid-template-columns:repeat(3,288px);gap:20px}h2{font-size:16px}lil-gotchi{width:288px;display:block}</style>
+<main></main>
+<script type="module">
+import {GameState} from '../pets/engine.js';
+import {getCharacter} from '../pets/catalog.js';
+import {SaveStore} from '../widget/save-store.js';
+import '../lilgotchi.js';
+const cases=[['Getting started',0],['Perfect',95],['Good',80],['Normal',60],['Bad',30],['Paused',95,{vacationAt:Date.now()}],['Remembered',95,{isDead:true,stage:"dead"}],['Inactive',95,{},true],['Not started',null]];
+for(const [label,score,extra={},inactive=false] of cases){
+ const family='slice',key='care-review-'+label+'-'+Date.now(),store=new SaveStore(key);
+ if(score!==null){
+ await store.acquire(family);store.load(family);
+ const state=new GameState(getCharacter(family));
+ Object.assign(state,{stage:'adult',character:'maskutchi',age:5,careTotal:score*3600000,careDuration:score?3600000:0,hunger:4,happiness:4,discipline:100,sleepOverride:'wake',sleepOverrideUntil:Date.now()+7200000,...extra});
+ if(state.vacationAt)state.vacationAt=state.lastProcessed; store.save(family,state);store.release(family);await store.pendingReleases.get(family);
+ }
+ if(inactive)store.preference('inactive-'+family,Date.now());
+ store.preference('introduced',true);
+ const section=document.createElement('section'),title=document.createElement('h2');title.textContent=label;section.append(title);
+ const pet=document.createElement('lil-gotchi');pet.setAttribute('character',family);pet.setAttribute('storage-key',key);pet.setAttribute('mode','inline');pet.setAttribute('muted','');section.append(pet);document.querySelector('main').append(section);
+}
+</script>

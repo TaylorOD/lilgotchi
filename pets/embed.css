@@ -1,6 +1,7 @@
 /* The source stylesheet stays intact. These are embedding and access exceptions. */
 [hidden] { display:none!important; }
 html[data-embedded="true"] #settings-btn { display:none; }
+html[data-embedded="true"] #pet-identity { display:none; }
 button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 .overlay-close { background:transparent; font-family:inherit; }
 .overlay { overflow:auto; }
