@@ -4,7 +4,7 @@ import { launcherArt, launcherIcon } from '../widget/launcher.js';
 
 test('launcher shells distinguish the five families while retaining saved pet art',()=>{
   const families=[
-    ['default','#cf6579','#cbdca6'],
+    ['default','#a1b398','#cbdca6'],
     ['original2','#7f94d8','#c0dce6'],
     ['slice','#839c98','#648e97'],
     ['cyberpunk','#304e59','#0b1c24'],
@@ -16,7 +16,7 @@ test('launcher shells distinguish the five families while retaining saved pet ar
     assert.ok(icon.includes(`<path fill="${screen}" d="M6 8h12v14H6z"`),`${family} screen`);
     assert.notEqual(icon,launcherIcon(family,{character:'mametchi'}));
   }
-  assert.ok(launcherIcon('mametchi').includes('fill="#cf6579"'));
+  assert.ok(launcherIcon('mametchi').includes('fill="#a1b398"'));
   assert.equal(launcherIcon('unknown'),launcherIcon('default'));
 });
 
