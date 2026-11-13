@@ -67,4 +67,3 @@ Open [localhost:4176](http://localhost:4176). The build goes in `dist`.
 [MIT](https://github.com/TaylorOD/lilgotchi/blob/main/LICENSE.md) for the software. The Gen 1 and Gen 2 character artwork is third party material with separate ownership. Keep the license and [required notices](https://github.com/TaylorOD/lilgotchi/blob/main/pets/NOTICE.md) with redistributed copies.
 
 [Credits](https://github.com/TaylorOD/lilgotchi/blob/main/docs/credits.md)
-
