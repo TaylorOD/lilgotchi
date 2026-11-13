@@ -18,16 +18,17 @@
     @media(max-width:480px) { .title-row { flex-wrap:wrap; } }
     .github { display:grid; place-items:center; width:48px; height:48px; flex:none; color:#ececf4; border-radius:12px; }
     .github:hover { background:#202832; }
-    footer { text-align:center; border-top:1px solid #343c48; }
+    footer { text-align:center; }
     footer { margin-top: 48px; padding-top: 24px; color: #b7bbce; font-size: 14px; }
     .label { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: #9de4ce; }
     pre { background:#171c24; padding:18px; border:1px solid #343c48; border-radius:12px; overflow:auto; font-size:12px; line-height:1.8; }
     .try { cursor:pointer; font:inherit; color:#101219; background:#d9bc83; border:0; border-radius:12px; padding:14px 22px; min-height:48px; margin:12px 0 36px; }
+    .family-guide { display:inline-block; color:#101219; background:#d9bc83; border-radius:10px; padding:8px 16px; font-size:14px; line-height:20px; text-decoration:none; }
     .brand-name { white-space:nowrap; }
     .brand-name img { height:1em; width:auto; vertical-align:-.12em; image-rendering:pixelated; }
     h2 { font-size:21px; letter-spacing:-.03em; }
     button:focus-visible,a:focus-visible { outline:2px solid #9de4ce; outline-offset:5px; }
-    .hero { display:grid; grid-template-columns:minmax(0,1fr); gap:32px; margin-bottom:48px; }
+    .hero { display:grid; grid-template-columns:minmax(0,1fr); gap:32px; margin-bottom:24px; }
     .hero > section { min-width:0; }
     .hero .gallery { grid-template-columns:repeat(5,minmax(0,1fr)); }
     .hero .try { margin-bottom:0; }
@@ -49,7 +50,7 @@
     #setup .character-options label { display:flex; align-items:center; min-height:44px; }
     .character-options[hidden] { display:none; }
     #setup pre { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; }
-    .copy-status { min-height:24px; margin:0; } #setup button:disabled { opacity:.6; }
+    .copy-status { margin:0; } .copy-status:empty { display:none; } #setup button:disabled { opacity:.6; }
     @media(max-width:700px) { #setup { grid-template-columns:minmax(0,1fr); padding:20px; gap:16px; } }
     @media(max-width:500px) { .hero .gallery { grid-template-columns:repeat(2,minmax(0,1fr)); } body { padding:24px 20px 100px; } main { margin:4vh auto; } }
   </style>
@@ -64,18 +65,18 @@
       <nav class="project-links" aria-label="Project links">
       <a class="github" href="https://www.npmjs.com/package/lilgotchi" aria-label="lilgotchi on npm" title="npm"><svg width="34" height="24" viewBox="0 0 780 250" fill="currentColor" aria-hidden="true"><path d="M240,250h100v-50h100V0H240V250z M340,50h50v100h-50V50z M480,0v200h100V50h50v150h50V50h50v150h50V0H480z M0,200h100V50h50v150h50V0H0V200z"/></svg></a>
       <a class="github" href="https://github.com/TaylorOD/lilgotchi" aria-label="lilgotchi on GitHub"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 5.1 18.3 5.4 18.3 5.4c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z"/></svg></a>
-      <a class="project-version" href="https://github.com/TaylorOD/lilgotchi/releases/tag/v3.0.6" aria-label="Release v3.0.6">v3.0.6</a>
+      <a class="project-version" href="https://github.com/TaylorOD/lilgotchi/releases/tag/v3.0.7" aria-label="Release v3.0.7">v3.0.7</a>
       </nav>
     </div>
     <p>Feed it, play with it, and see who it grows into.</p>
-    <p>Raise a Gen 1 or Gen 2 pet, or meet Slice, Cypunk, and Lilgotchi. Every choice impacts who your lilgotchi will grow into.</p>
+    <p>Meet Slice, Cypunk, and Lilgotchi, or raise a Gen 1 or Gen 2 pet. Every choice impacts who your lilgotchi will grow into.</p>
     <button class="try" type="button">Meet your lilgotchi</button>
     </section>
     <section aria-labelledby="lineup-title">
     <h2 id="lineup-title">Meet the lineup</h2>
     <p>Meet an adult from each family. Start small and see who yours becomes.</p>
     <div class="gallery" aria-label="Choose your pet"></div>
-    <p><a href="./design/evolution/?family=original">Meet all 26 Gen 1 and Gen 2 characters</a></p>
+    <p><a class="family-guide" href="./design/evolution/">See the full character families</a></p>
     </section>
     </div>
     <form id="setup" onsubmit="return false">
@@ -87,10 +88,9 @@
       <label>Launcher <select name="launcher"><option value="shell">Pet in an egg</option><option value="pet">Pet and name</option><option value="brand" selected>Logo and lilgotchi</option></select></label>
       <label>Care notifications <select name="notifications"><option value="on">On</option><option value="off">Off</option></select></label>
       <label>Outer widget <select name="appearance"><option value="dark">Dark</option><option value="light">Light</option></select></label>
-      <p>Try your choices in the corner preview, then copy the code below. Your pets keep their progress.</p>
+      <p>Try your choices in the corner preview, then copy the code below. Prefer your own hosting? <a href="https://www.npmjs.com/package/lilgotchi">Download the package</a>.</p>
       <pre><code></code></pre><button type="button" class="copy">Copy install code</button><p class="copy-status" role="status"></p>
     </form>
-    <p>Open source software, with credited third party character art. Prefer your own hosting? <a href="https://github.com/TaylorOD/lilgotchi/releases/tag/v3.0.6">Download the package</a>.</p>
     <footer>a <a href="https://www.taylordorsett.com/">taylor dorsett</a> production</footer>
   </main>
   <script type="module" src="./lilgotchi.js"></script>
