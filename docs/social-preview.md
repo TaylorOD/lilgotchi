@@ -12,6 +12,7 @@ Created with the built in image generator using `pr-screenshots/readme-three-cha
 
 Create a polished landscape social preview for lilgotchi. Use a near black background, white lowercase title and mint subtitle. Show the mint gray Slice handheld, dark teal Cypunk handheld and buttery yellow Lilgotchi handheld with their recognizable pixel characters. Keep the layout spacious and all content inside a 40 pixel margin.
 
-Text: “lilgotchi”, “A little pixel pet for your website.”, “Feed. Play. Grow.” and “github.com/TaylorOD/lilgotchi”.
+Text: “lilgotchi”, “A little pixel pet for your website.”, “github.com/TaylorOD/lilgotchi”.
 
-Keep the three original families. Leave out care panels, stats and third party characters.
+Use small white GitHub and npm logos in the lower left. Keep the background plain and the handheld shells matte. Keep the three original families. Leave out care panels, stats and third party characters.
+
