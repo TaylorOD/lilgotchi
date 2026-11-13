@@ -1,4 +1,5 @@
-export const characters = ['egg','babytchi','marutchi','tamatchi','kuchitamatchi','mametchi','ginjirotchi','maskutchi','kuchipatchi','nyorotchi','tarakotchi','oyajitchi'];
+import { p1Stages, p2Stages } from './original-roster.js';
+export const characters = [...new Set([...Object.values(p1Stages).flat(),...Object.values(p2Stages).flat()])];
 const stages = ['egg','baby','child','teen','adult','dead'];
 
 export function validState(data) {

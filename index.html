@@ -22,7 +22,7 @@
     .try { cursor:pointer; font:inherit; color:#101219; background:#d9bc83; border:0; border-radius:12px; padding:14px 22px; min-height:48px; margin:12px 0 36px; }
     h2 { font-size:21px; letter-spacing:-.03em; }
     button:focus-visible,a:focus-visible { outline:2px solid #9de4ce; outline-offset:5px; }
-    .gallery { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:24px 0 20px; }
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:12px; margin:24px 0 20px; }
     .gallery button { display:flex; flex-direction:column; align-items:center; justify-content:end; gap:12px; min-height:160px; padding:18px 10px; font:inherit; color:inherit; background:#171c24; border:1px solid #343c48; border-radius:12px; cursor:pointer; }
     .gallery button:hover { border-color:#9de4ce; background:#202832; }
     .gallery svg { width:64px; height:64px; overflow:visible; }
@@ -48,16 +48,17 @@
       <a class="github" href="https://github.com/TaylorOD/lilgotchi" aria-label="lilgotchi on GitHub"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 5.1 18.3 5.4 18.3 5.4c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z"/></svg></a>
     </div>
     <p>Feed it, play with it, and see who it grows into.</p>
-    <p>Start with the original character, or meet Slice, Cypunk, and Lilgotchi. Every choice impacts who your lilgotchi will grow into.</p>
+    <p>Raise a P1 or P2 original, or meet Slice, Cypunk, and Lilgotchi. Every choice impacts who your lilgotchi will grow into.</p>
     <button class="try" type="button">Meet your lilgotchi</button>
     <h2>Meet the lineup</h2>
     <p>Meet an adult from each family. Start small and see who yours becomes.</p>
     <div class="gallery" aria-label="Choose your pet"></div>
+    <p><a href="./design/evolution/?family=original">Meet all 26 original characters</a></p>
     <h2>You had me at hello… world.</h2>
     <p>Paste one line into your website. No upload, account or build needed.</p>
-    <p>Free and open source under the MIT license. Prefer your own hosting? <a href="https://github.com/TaylorOD/lilgotchi/releases/tag/v2.0.1">Download the package</a>.</p>
+    <p>Open source software, with credited third party character art. Prefer your own hosting? <a href="https://github.com/TaylorOD/lilgotchi/releases/tag/v3.0.0">Download the package</a>.</p>
     <form id="setup" onsubmit="return false">
-      <label>Pet families <select name="roster"><option value="all">All four families</option><option value="selected">Only my favorites</option></select></label>
+      <label>Pet families <select name="roster"><option value="all">All five families</option><option value="selected">Only my favorites</option></select></label>
       <div class="character-options" aria-label="Available families" hidden></div>
       <label>Starting pet <select name="first"></select></label>
       <label>Placement <select name="placement"><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="top-right">Top right</option><option value="top-left">Top left</option></select></label>
