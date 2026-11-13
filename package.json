@@ -1,13 +1,26 @@
 {
   "name": "lilgotchi",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "license": "MIT",
   "author": "Taylor Dorsett",
-  "repository": { "type": "git", "url": "https://github.com/TaylorOD/lilgotchi.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TaylorOD/lilgotchi.git"
+  },
   "homepage": "https://www.taylordorsett.com/lilgotchi/",
-  "files": ["dist", "LICENSE.md", "README.md"],
-  "exports": { ".": "./dist/lilgotchi.js", "./embed.js": "./dist/embed.js", "./dist/*": "./dist/*" },
-  "publishConfig": { "access": "public" },
+  "files": [
+    "dist",
+    "LICENSE.md",
+    "README.md"
+  ],
+  "exports": {
+    ".": "./dist/lilgotchi.js",
+    "./embed.js": "./dist/embed.js",
+    "./dist/*": "./dist/*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "description": "A little pixel pet for your website",
   "scripts": {
@@ -16,5 +29,15 @@
     "inventory": "node scripts/inventory.mjs",
     "build": "node scripts/build.mjs",
     "prepack": "npm run build"
+  },
+  "keywords": [
+    "virtual-pet",
+    "tamagotchi",
+    "web-component",
+    "pixel-art",
+    "website-widget"
+  ],
+  "bugs": {
+    "url": "https://github.com/TaylorOD/lilgotchi/issues"
   }
 }

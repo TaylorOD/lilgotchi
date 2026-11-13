@@ -1,5 +1,9 @@
 # Release notes
 
+## 3.0.2
+
+Adds the public npm package and a package link beside GitHub. The character guide has a separate back link and logo, with Gen 1 and Gen 2 at the end of the family list.
+
 ## 3.0.1
 
 The homepage uses one full width column, with setup instructions inside the settings box. Pet colors live in the game Settings and can be changed separately for each family. Gen 1 now starts with a sage handheld. Dropdown arrows have more room, and the Try again button is centered with space above the divider.
