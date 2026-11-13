@@ -1,5 +1,9 @@
 # Release notes
 
+## 3.0.5
+
+Moves care below the pet name, places the care hint above the meters and puts the display and notification switches below Sound. Includes the latest merged sprite and game updates.
+
 ## 3.0.4
 
 Setup choices preview immediately in the corner button without starting new pets or replacing saves. Dropdown arrows share the close button's center line across the website. The readme shows all three custom families with their chains.

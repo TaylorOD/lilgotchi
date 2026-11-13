@@ -3,7 +3,7 @@
 Paste this into your HTML:
 
 ```html
-<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.4/embed.js"></script>
+<script defer src="https://www.taylordorsett.com/lilgotchi/releases/3.0.5/embed.js"></script>
 ```
 
 That’s it. Slice opens first, all pets are available and sound starts off. Choose **Start pet** to begin. Browsing families does not start them. Your site needs to allow custom JavaScript.
@@ -14,7 +14,7 @@ Change each pet's handheld and screen colors inside its **Settings**. Switch to 
 
 ## Host your own copy
 
-[Download the zip](https://github.com/TaylorOD/lilgotchi/releases/download/v3.0.4/lilgotchi-3.0.4.zip), extract the whole folder into your site, then point the script at it:
+[Download the zip](https://github.com/TaylorOD/lilgotchi/releases/download/v3.0.5/lilgotchi-3.0.5.zip), extract the whole folder into your site, then point the script at it:
 
 ```html
 <script defer src="/assets/lilgotchi/embed.js"></script>
@@ -32,7 +32,7 @@ npm install lilgotchi
 
 Copy the entire `node_modules/lilgotchi/dist` folder to your site as `/assets/lilgotchi`, then use the self hosted script above. The widget needs the game HTML, scripts and styles together. Installing the package alone does not add it to your page.
 
-For an exact version, use `npm install lilgotchi@3.0.4`. The GitHub release also includes the same npm tarball.
+The GitHub release includes an npm tarball for this exact website version. Download it and run `npm install ./lilgotchi-3.0.5.tgz`.
 
 Visitors can override the launcher and notification defaults in the game's **Settings**. **Always show lilgotchi logo** keeps the logo on the corner button. **Show care notifications** shows or hides the count badge and needs list. Choices are remembered for this widget in their browser.
 
