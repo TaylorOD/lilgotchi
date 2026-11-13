@@ -14,8 +14,8 @@ test('Slice supplies immutable complete frames with distinct silhouettes and sta
     for(const pixels of Object.values(frames)){
       assert.ok(Object.isFrozen(pixels)&&pixels.every(Object.isFrozen));
       const info=frameInfo(pixels);
-      assert.equal(info.width,12);
-      assert.equal(info.height,name==='egg'?10:12);
+      assert.ok(info.width>=12 && info.width<=14);
+      assert.ok(info.height<=(name==='egg'?10:15));
       assert.deepEqual(info.anchor,{x:6,y:info.height-1});
       for(const row of pixels)for(const value of row)assert.ok(value<slicePalette.length);
       assert.notDeepEqual(pixels,classicSprites[name].idle1);

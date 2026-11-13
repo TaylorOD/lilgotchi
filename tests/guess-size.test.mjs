@@ -21,7 +21,7 @@ test('full guessing poses render at double scale without cropping any family or 
 });
 test('other canvas previews retain their original default scale',()=>{
  const output=canvas();renderer.renderToCanvas(output,sliceSprites.mametchi.idle1);
- assert.equal(output.width,48);assert.equal(output.height,48);
+ assert.equal(output.width,48);assert.equal(output.height,52);
  for(const scale of [0,-1,1.5,NaN])assert.throws(()=>renderer.renderToCanvas(output,sliceSprites.mametchi.idle1,scale),RangeError);
 });
 

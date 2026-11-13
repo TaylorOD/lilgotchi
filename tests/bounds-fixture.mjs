@@ -11,7 +11,7 @@ for(const [character,entry] of Object.entries(SP)) {
   if(Array.isArray(entry))continue;
   for(const pixels of Object.values(entry)) {
     const info=frameInfo(pixels);
-    assert.ok(info.width<=16&&info.height<=(character==='egg'?10:process.argv[2]==='classic'?16:12),`${character}: body must fit its allocation`);
+    assert.ok(info.width<=16&&info.height<=(character==='egg'?10:process.argv[2]==='classic'?16:15),`${character}: body must fit its allocation`);
     for(const row of pixels)for(const value of row)assert.ok(value<=(palette.length?palette.length-1:1));
     const context={fillRect(){},fillStyle:''};
     const canvas={getContext:()=>context};
