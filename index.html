@@ -42,7 +42,7 @@
     .setup-intro h2 { margin:0 0 8px; }.setup-intro p { margin:0; }
     #setup label { display:grid; gap:8px; font-size:14px; }
     #setup select,#setup button { font:inherit; padding:12px; min-height:44px; color:#ececf4; background:#202832; border:1px solid #667486; border-radius:8px; }
-    #setup select { appearance:none; padding-right:44px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='m2 3 5 5 5-5' fill='none' stroke='%23ececf4' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 16px center; }
+    #setup select { appearance:none; padding-right:44px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='m2 3 5 5 5-5' fill='none' stroke='%23ececf4' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; }
     #setup select:focus-visible,#setup input:focus-visible { outline:2px solid #9de4ce; outline-offset:3px; }
     .character-options { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:6px; }
     #setup .character-options label { display:flex; align-items:center; min-height:44px; }
@@ -85,15 +85,15 @@
       <label>Launcher <select name="launcher"><option value="shell">Pet in an egg</option><option value="pet">Pet and name</option><option value="brand">Logo and lilgotchi</option></select></label>
       <label>Care notifications <select name="notifications"><option value="on">On</option><option value="off">Off</option></select></label>
       <label>Outer widget <select name="appearance"><option value="dark">Dark</option><option value="light">Light</option></select></label>
-      <p>Choose how lilgotchi will look on your site, then copy the code below.</p>
+      <p>Try your choices in the corner preview, then copy the code below. Your pets keep their progress.</p>
       <pre><code></code></pre><button type="button" class="copy">Copy install code</button><p class="copy-status" role="status"></p>
     </form>
-    <p>Open source software, with credited third party character art. Prefer your own hosting? <a href="https://github.com/TaylorOD/lilgotchi/releases/tag/v3.0.3">Download the package</a>.</p>
+    <p>Open source software, with credited third party character art. Prefer your own hosting? <a href="https://github.com/TaylorOD/lilgotchi/releases/tag/v3.0.4">Download the package</a>.</p>
     <footer>a <a href="https://www.taylordorsett.com/">taylor dorsett</a> production</footer>
   </main>
-  <script type="module" src="./releases/3.0.3/lilgotchi.js"></script>
-  <script type="module" src="./releases/3.0.3/widget/gallery.js"></script>
-  <script type="module" src="./releases/3.0.3/widget/configurator.js"></script>
+  <script type="module" src="./releases/3.0.4/lilgotchi.js"></script>
+  <script type="module" src="./releases/3.0.4/widget/gallery.js"></script>
+
   <lil-gotchi character="slice" storage-key="demo"></lil-gotchi>
 <script>document.querySelector(".try").addEventListener("click",()=>document.querySelector("lil-gotchi").open());</script>
 </body>
