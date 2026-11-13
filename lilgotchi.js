@@ -40,7 +40,7 @@ class LilGotchi extends HTMLElement {
       <label class="chooser"><span class="pet-identity"></span><select aria-label="Character">${this.allowed.map(id=>`<option value="${id}">${catalog.find(choice=>choice.id===id).name}</option>`).join('')}</select></label></header>
       <aside class="welcome"><p>Meet your little roommate. Feed and play together, then use Care when something needs attention. Growth happens over time, even while you are away.</p><button class="welcome-tour">Quick tour</button> <button class="welcome-close">Got it</button></aside>
       <details class="care-needs" hidden><summary></summary><div class="needs-list"></div></details><p class="return-summary" hidden></p><div class="frame"></div>
-      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="guide-host"></div><div class="launcher-options"></div><div class="game-options"></div><div class="color-options"></div><div class="inactive-option setting-row"><div class="setting-copy"><strong>Take a break from this pet</strong><p>Keep your progress. No growth, care or notifications until you start it again.</p></div><button class="make-inactive">Make inactive</button></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
+      <button class="retry" hidden>Try again</button><details class="save-help"><summary><span class="save-label">Settings</span><span class="status" role="status"></span></summary><div class="guide-host"></div><div class="game-options"></div><div class="launcher-options"></div><div class="color-options"></div><div class="inactive-option setting-row"><div class="setting-copy"><strong>Take a break from this pet</strong><p>Keep your progress. No growth, care or notifications until you start it again.</p></div><button class="make-inactive">Make inactive</button></div><div class="tools"><button class="export">Export save</button><button class="import-button">Import save</button></div>
       <input class="file" type="file" accept="application/json,.json" hidden>
       <div class="import" hidden><p></p><button class="confirm-import">Replace this pet</button> <button class="cancel-import">Cancel</button></div>
       <details class="pet-history"><summary>Remembered pets</summary><p class="history-status"></p><ol class="history-list"></ol></details>
@@ -72,6 +72,7 @@ class LilGotchi extends HTMLElement {
     this.settings=mountSettings(this.shadowRoot.querySelector('.game-options'),action=>{
       if(this.ready)this.port?.postMessage({type:'configure',action});
     });
+    this.shadowRoot.querySelector('.launcher-options').after(this.shadowRoot.querySelector('.settings-reset'));
     this.bind('.settings-close','click',()=>{const details=this.shadowRoot.querySelector('.save-help');details.open=false;details.querySelector('summary').focus();});
     this.colorControls=mountColorControls(this.shadowRoot.querySelector('.color-options'),colors=>{
       this.store.preference('colors-'+this.family,JSON.stringify(cleanColors(colors)));
@@ -140,6 +141,7 @@ class LilGotchi extends HTMLElement {
     this.shadowRoot.querySelector('.pet-identity').textContent=inactive?`${catalog.find(choice=>choice.id===this.family).name} · Inactive`:state?petLabel(this.family,state):`${catalog.find(choice=>choice.id===this.family).name} · Not started`;
     const pause=this.shadowRoot.querySelector('.inactive-option');if(pause)pause.hidden=!!inactive||!state;
     this.shadowRoot.querySelector('.game-options').hidden=!!inactive||!state;
+    const reset=this.shadowRoot.querySelector('.settings-reset');if(reset)reset.hidden=!!inactive||!state;
     this.shadowRoot.querySelector('.export').disabled=!state;
     if(state)this.careStates.set(this.family,{state,stale:!this.ready});
     const button=this.shadowRoot.querySelector('.launcher');
