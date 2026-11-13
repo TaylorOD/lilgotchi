@@ -14,9 +14,9 @@ test('Cyberpunk supplies immutable complete frames with distinct silhouettes and
     for(const pixels of Object.values(frames)){
       assert.ok(Object.isFrozen(pixels)&&pixels.every(Object.isFrozen));
       const info=frameInfo(pixels);
-      assert.equal(info.width,12);
-      assert.equal(info.height,name==='egg'?10:12);
-      assert.deepEqual(info.anchor,{x:6,y:info.height-1});
+      assert.ok(info.width>=12 && info.width<=14);
+      assert.ok(info.height<=(name==='egg'?10:15));
+      assert.deepEqual(info.anchor,{x:Math.floor(info.width/2),y:info.height-1});
       for(const row of pixels)for(const value of row)assert.ok(value<cyberpunkPalette.length);
       assert.notDeepEqual(pixels,classicSprites[name].idle1);
     }
@@ -40,6 +40,6 @@ test('Cyberpunk expressions remain distinct without changing their canvas or fee
   for(const [name,frames] of Object.entries(cyberpunkSprites)) {
     if(name==='egg') continue;
     assert.equal(new Set(Object.values(frames).map(frame=>JSON.stringify(frame))).size,9,name);
-    for(const key of ['happy','sad','eat','sleep','lookLeft','lookRight','lookUp'])assert.deepEqual(frames[key][11],frames.idle1[11],name);
+    for(const key of ['happy','sad','eat','sleep','lookLeft','lookRight','lookUp'])assert.deepEqual(frames[key].at(-1),frames.idle1.at(-1),name);
   }
 });

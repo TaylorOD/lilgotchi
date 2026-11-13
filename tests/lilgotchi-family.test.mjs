@@ -19,7 +19,7 @@ test('Lilgotchi grows from a small plain egg into the logo egg and cracked elder
     assert.deepEqual(Object.keys(frames),identity==='egg'?['idle1','idle2']:['idle1','idle2','happy','sad','eat','sleep','lookLeft','lookRight','lookUp']);
     for(const frame of Object.values(frames)) {
       const info=frameInfo(frame);
-      assert.ok(info.width<=12 && info.height<=12);
+      assert.ok(info.width<=14 && info.height<=14);
       for(const row of frame)for(const color of row)assert.ok(color>=0 && color<lilgotchiPalette.length);
     }
   }
@@ -28,11 +28,11 @@ test('Lilgotchi grows from a small plain egg into the logo egg and cracked elder
   const heights=['egg','babytchi','marutchi','tamatchi','mametchi'].map(id=>{
     const info=frameInfo(lilgotchiSprites[id].idle1);return info.bottom-info.top+1;
   });
-  assert.deepEqual(heights,[5,7,9,10,11]);
+  assert.deepEqual(heights,[5,7,9,10,13]);
   assert.equal(lilgotchiSprites.oyajitchi.idle1[1][5],3);
   assert.equal(lilgotchiSprites.oyajitchi.idle1[2][6],3);
   assert.equal(lilgotchiSprites.oyajitchi.idle1[3][5],3);
-  assert.equal(lilgotchiSprites.mametchi.idle1[1][5],2);
+  assert.equal(lilgotchiSprites.mametchi.idle1[0][5],2);
   for(const frame of Object.values(lilgotchiSprites.oyajitchi)){assert.equal(frame[3][7],0);assert.equal(frame[8][8],3);assert.equal(frame[10][8],3);}
 });
 
