@@ -1,5 +1,9 @@
 # Release notes
 
+## 3.0.3
+
+Adds remembered switches for the logo launcher and care notifications in game Settings. The design page dropdown now has the same arrow spacing as the homepage and widget.
+
 ## 3.0.2
 
 Adds the public npm package and a package link beside GitHub. The character guide has a separate back link and logo, with Gen 1 and Gen 2 at the end of the family list.
