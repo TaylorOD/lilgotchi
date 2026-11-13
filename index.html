@@ -82,7 +82,7 @@
       <div class="character-options" aria-label="Available families" hidden></div>
       <label>Starting pet <select name="first"></select></label>
       <label>Placement <select name="placement"><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="top-right">Top right</option><option value="top-left">Top left</option></select></label>
-      <label>Launcher <select name="launcher"><option value="shell">Pet in an egg</option><option value="pet">Pet and name</option><option value="brand">Logo and lilgotchi</option></select></label>
+      <label>Launcher <select name="launcher"><option value="shell">Pet in an egg</option><option value="pet">Pet and name</option><option value="brand" selected>Logo and lilgotchi</option></select></label>
       <label>Care notifications <select name="notifications"><option value="on">On</option><option value="off">Off</option></select></label>
       <label>Outer widget <select name="appearance"><option value="dark">Dark</option><option value="light">Light</option></select></label>
       <p>Try your choices in the corner preview, then copy the code below. Your pets keep their progress.</p>
@@ -94,7 +94,7 @@
   <script type="module" src="./lilgotchi.js"></script>
   <script type="module" src="./widget/gallery.js"></script>
 
-  <lil-gotchi character="slice" storage-key="demo"></lil-gotchi>
+  <lil-gotchi launcher="brand" character="slice" storage-key="demo"></lil-gotchi>
 <script>document.querySelector(".try").addEventListener("click",()=>document.querySelector("lil-gotchi").open());</script>
 </body>
 </html>
