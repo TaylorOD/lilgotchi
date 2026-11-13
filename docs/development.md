@@ -65,6 +65,10 @@ Run `npm test`, then look at the changed screens on desktop and mobile. `/qa/` h
 
 Publish the built zip and package with a GitHub tag. Keep published version folders unchanged. Check the hosted install after deployment.
 
+The website workflow tests and builds the latest `main` after every merge, then updates the `demo` publishing branch and requests a GitHub Pages build. It preserves existing release folders and PR previews. New package versions get their own install folder. Check the website workflow and Pages deployment before calling a release live. The workflow can also be run manually from Actions if a deployment needs another try.
+
+The header version, release links and generated install code use `package.json` during the build and local preview. Bump that version for an app release. npm publishing and the GitHub release still follow the steps below.
+
 Current testing gaps are in the [release notes](release-review.md).
 
 ## New games
