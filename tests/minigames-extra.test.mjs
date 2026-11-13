@@ -50,7 +50,8 @@ test('Hoops scores five shots once with progressively narrower targets', () => {
   for(let i=0;i<5;i++) {
     const snapshot=game.snapshot();assert.ok(snapshot.target.max-snapshot.target.min<width);
     width=snapshot.target.max-snapshot.target.min;
-    game.input('ready');game.advance(600);assert.equal(game.snapshot().marker,0.5);
+    const center=(snapshot.target.min+snapshot.target.max)/2;
+    game.input('ready');game.advance(center*1200);assert.ok(Math.abs(game.snapshot().marker-center)<1e-12);
     assert.equal(game.input('shoot'),true);assert.equal(game.input('shoot'),false);
     game.advance(900);assert.equal(game.snapshot().score,i+1);
   }
@@ -95,4 +96,31 @@ test('Flag and Sprint produce the same outcome with small or large time steps',(
     a.advance(30000);for(let t=0;t<30000;t+=10)b.advance(10);
     assert.deepEqual(a.snapshot(),b.snapshot());
   }
+});
+
+
+test('Hoops shifts its target after every shot and holds it still while aiming',()=>{
+ for(const value of [0,0.5,1])for(const slow of [false,true]){
+  const game=createHoops({random:()=>value,slow});let previous=0.5;
+  for(let shot=1;shot<=5;shot++){
+   const target=game.snapshot().target,center=(target.min+target.max)/2;
+   assert.ok(target.min>=0&&target.max<=1);
+   if(shot>1)assert.ok(Math.abs(center-previous)>=0.14);
+   game.input('ready');game.advance(100);assert.deepEqual(game.snapshot().target,target);
+   game.pause();game.advance(1000);game.resume();assert.deepEqual(game.snapshot().target,target);
+   game.advance(center*(slow?2000:1200)-100);game.input('shoot');
+   assert.equal(game.snapshot().made,true);
+   game.advance(899);assert.deepEqual(game.snapshot().target,target);
+   game.advance(1);previous=center;
+  }
+  assert.equal(game.snapshot().score,5);
+ }
+});
+
+test('Hoops misses follow the shifted target instead of the meter midpoint',()=>{
+ const game=createHoops({random:()=>0});game.input('ready');game.input('shoot');game.advance(900);
+ const target=game.snapshot().target;
+ assert.ok(target.max<0.5);
+ game.input('ready');game.advance((target.max+0.01)*1200);game.input('shoot');game.advance(648);
+ assert.equal(game.snapshot().made,false);assert.equal(game.snapshot().ball.x,29);
 });
